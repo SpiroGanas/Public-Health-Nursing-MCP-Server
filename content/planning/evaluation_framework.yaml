@@ -1,0 +1,632 @@
+# CDC Program Evaluation Framework content and RE-AIM lens for build_evaluation_plan (PLAN-05).
+#
+# REVIEW STATUS: pending. Steps, cross-cutting actions, standards, evaluation types, methods,
+# data quality dimensions, and the example evaluation questions are from CDC's 2024 framework and
+# Action Guide (fetched 2026-11-12). RE-AIM dimension definitions are paraphrased from an open
+# access 2019 review. The indicator and data source suggestions, role names, timeline shares, and
+# question templates for items the CDC tables do not cover are this project's own defaults.
+# Schema: content/schemas/planning_evaluation_framework.schema.json
+meta:
+  id: planning-evaluation-framework
+  title: CDC Program Evaluation Framework (2024) steps, evaluation types, methods, question bank, and RE-AIM lens
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2024-09-26
+  source:
+    title: "CDC Program Evaluation Framework, 2024 (MMWR Recommendations and Reports 2024;73(RR-6):1-37)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm
+  related_sources:
+    - title: CDC Program Evaluation Framework Action Guide (PDF, December 2025)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/evaluation/media/pdfs/2025/12/CDC-Program-Evaluation-Framework-Action-Guide.pdf
+    - title: RE-AIM Planning and Evaluation Framework, adapting to new science and practice with a 20-year review (Frontiers in Public Health 2019)
+      publisher: Frontiers Media
+      url: https://doi.org/10.3389/fpubh.2019.00064
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The six steps and their key products, the three cross-cutting actions, the five evaluation
+    standards, the evaluation type table (formative, process, outcome, impact, economic), the
+    experimental, quasi-experimental, and observational designs, the data collection methods,
+    the data quality dimensions, the characteristics of good evaluation questions, the example
+    process and outcome questions (MMWR Table 5), and the evaluation matrix columns (Action Guide
+    Worksheet 4H) were read on the CDC pages and the Action Guide PDF on 2026-11-12 and are
+    quoted or closely paraphrased (high confidence). CDC replaced its 1999 framework (engage
+    stakeholders, describe the program, focus the evaluation design, gather credible evidence,
+    justify conclusions, ensure use and share lessons learned; utility, feasibility, propriety,
+    accuracy) with this 2024 version; the tool follows the 2024 version and CDC's term "interest
+    holders". The RE-AIM definitions are paraphrased from the 2019 open access article (CC BY 4.0)
+    that the article's Table 1 gives (high confidence for the definitions; the re-aim.org site
+    could not be reached). The mapping of RE-AIM dimensions to process and outcome questions, the
+    stage-to-evaluation-type suggestions, the indicator and data source suggestions, the role
+    names, and the timeline shares are this project's own (low to medium confidence, marked
+    below). The plan is decision support for the program team; the RE-AIM article itself
+    encourages pragmatic use of the dimensions rather than full application of every element.
+
+sources:
+  cdc-mmwr-2024:
+    title: "CDC Program Evaluation Framework, 2024 (MMWR Recommendations and Reports 2024;73(RR-6):1-37)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm
+    effective_date: 2024-09-26
+    retrieved: 2026-11-12
+  cdc-framework:
+    title: CDC Program Evaluation Framework
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework/index.html
+    effective_date: 2024-08-20
+    retrieved: 2026-11-12
+  cdc-action-guide:
+    title: CDC Program Evaluation Framework Action Guide (PDF, December 2025)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/media/pdfs/2025/12/CDC-Program-Evaluation-Framework-Action-Guide.pdf
+    effective_date: 2025-12-16
+    retrieved: 2026-11-12
+  cdc-step1:
+    title: "Step 1: Assess the Context (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-1-assess-the-context.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-step3:
+    title: "Step 3: Focus the Evaluation Questions and Design (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-3-focus-the-evaluation-questions-and-design.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-step4:
+    title: "Step 4: Gather Credible Evidence (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-4-gather-credible-evidence.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-step5:
+    title: "Step 5: Generate and Support Conclusions (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-5-generate-and-support-conclusions.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-step6:
+    title: "Step 6: Act on Findings (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-6-act-on-findings.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-cross-cutting:
+    title: About Cross-Cutting Actions (CDC Program Evaluation Framework)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework/about-cross-cutting-actions.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-standards:
+    title: About Evaluation Standards (CDC Program Evaluation Framework)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework/about-evaluation-standards.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  reaim-2019:
+    title: RE-AIM Planning and Evaluation Framework, adapting to new science and practice with a 20-year review (Frontiers in Public Health 2019;7:64)
+    publisher: Frontiers Media (open access, CC BY 4.0)
+    url: https://doi.org/10.3389/fpubh.2019.00064
+    effective_date: 2019-03-29
+    retrieved: 2026-11-12
+  reaim-1999:
+    title: Evaluating the public health impact of health promotion interventions, the RE-AIM framework (American Journal of Public Health 1999;89(9):1322-1327)
+    publisher: American Public Health Association
+    url: https://doi.org/10.2105/ajph.89.9.1322
+    effective_date: 1999-09-01
+    retrieved: 2026-11-12
+
+framework:
+  summary: >-
+    CDC's Program Evaluation Framework is a practical, nonprescriptive tool that summarizes and
+    organizes the essential elements of program evaluation. It consists of three cross-cutting
+    actions, five evaluation standards, and six steps.
+  source: cdc-framework
+  note_older_version: The 1999 framework had different steps (engage stakeholders, describe the program, focus the evaluation design, gather credible evidence, justify conclusions, ensure use and share lessons learned); CDC's 2024 update replaced it.
+
+steps:
+  - number: 1
+    id: assess_context
+    label: Assess the context
+    key_products:
+      - Evaluability assessment (is the program ready to be evaluated)
+      - Interest holder mapping of the four main types of interest holders
+      - Documentation of place-based context and evaluation capacity
+      - Evaluator reflection on readiness to conduct the evaluation
+    key_questions:
+      - Is the program logic clear, rational, and understandable? Are there any apparent gaps?
+      - What would success look like? Are program expectations realistic?
+      - What data are available, and what new data are feasible to collect?
+      - Who is served or affected, who plans or implements the program, who will use the findings, and who is skeptical?
+    source: cdc-step1
+    in_plan: "Interest holders and evaluation capacity sections"
+  - number: 2
+    id: describe_program
+    label: Describe the program
+    key_products:
+      - A one-page logic model or program roadmap
+      - A narrative description (need, inputs, activities, outcomes, contextual factors, stage of development)
+    key_questions:
+      - What activities are expected to lead to which short-term, intermediate, and long-term outcomes?
+      - What contextual factors outside the program might help or hinder it?
+    source: cdc-framework
+    in_plan: "Program description (from build_logic_model)"
+  - number: 3
+    id: focus_questions_design
+    label: Focus the evaluation questions and design
+    key_products:
+      - Purpose statement (why, how findings will be used, who will use them)
+      - Type of evaluation (for example process, outcome)
+      - Intended users and uses of the findings
+      - List of evaluation questions
+      - Description of the overarching evaluation design
+    key_questions:
+      - Who will use and act on the findings, and what do they want to gain?
+      - What is the stage of development of the program, and which components are best suited for evaluation?
+      - What resources (time, money, staff) are available for the evaluation?
+    source: cdc-step3
+    in_plan: "Purpose, intended users and uses, evaluation type, design, and the evaluation questions"
+  - number: 4
+    id: gather_evidence
+    label: Gather credible evidence
+    key_products:
+      - A data collection strategy that defines expectations for credible evidence, methods, indicators and measures, and data sources
+      - Data collection instruments, protocols, and a data management plan
+    key_questions:
+      - What evidence is needed to answer each question, and what does a positive finding look like?
+      - Which data already exist (surveillance, census, program records), and what must be collected?
+      - How will data quality (accuracy, completeness, consistency, timeliness, relevance) be checked?
+    source: cdc-step4
+    in_plan: "The evaluation matrix: indicators, measures, data sources, methods, and timing"
+  - number: 5
+    id: generate_conclusions
+    label: Generate and support conclusions
+    key_products:
+      - A data analysis and interpretation plan
+      - Recommendations based on analytic findings
+    key_questions:
+      - How will data be organized, analyzed, and synthesized, and by whom?
+      - How do findings compare with the expectations for success set with interest holders?
+    source: cdc-step5
+    in_plan: "Analysis and interpretation plan"
+  - number: 6
+    id: act_on_findings
+    label: Act on findings
+    key_products:
+      - Anticipated use of the findings by interest holders
+      - A communication, reporting, and dissemination strategy
+      - Evaluation products interest holders can act on
+    key_questions:
+      - Who will use the findings, what will they use, when, and how?
+      - Who will serve as the champion for the findings and recommendations?
+    source: cdc-step6
+    in_plan: "Use and dissemination plan"
+
+cross_cutting_actions:
+  source: cdc-cross-cutting
+  items:
+    - id: engage_collaboratively
+      label: Engage collaboratively
+      text: Evaluators can facilitate co-ownership of the program evaluation with interest holders, starting at the beginning of planning and continuing through implementation and interpretation.
+    - id: promote_fair_just
+      label: Promote fair and just evaluation practices and outcomes
+      text: Use collaborative approaches that include cross-sector partnerships and members of impacted communities; consider the effects of decisions on the evaluation process; identify factors that may prevent the ability to achieve optimal health.
+    - id: learn_use_insights
+      label: Learn from and use insights
+      text: Evaluators serve as facilitators for continuous learning, use of findings, and improvement through evaluation.
+
+standards:
+  source: cdc-standards
+  note: "The standards are intentionally broad. They are not rules, but practices that make evaluations credible. Each evaluation should balance them according to the needs of the situation."
+  items:
+    - id: relevance_utility
+      label: Relevance and utility
+      text: Evaluations should focus on useful information that is important to the interest holders; findings should be actionable and available in time for use.
+    - id: rigor
+      label: Rigor
+      text: Evaluations should produce findings that interest holders can confidently rely upon while giving clear explanations of limitations.
+    - id: independence_objectivity
+      label: Independence and objectivity
+      text: Evaluations should be as independent and objective as possible and insulated from undue influences on impartiality and professional judgment.
+    - id: transparency
+      label: Transparency
+      text: Decisions about purpose, objectives, who will have access to findings, design and methods, and the timeline and strategy for releasing findings should be documented before the evaluation begins.
+    - id: ethics
+      label: Ethics
+      text: Evaluations should meet the highest ethical standards, be fair and just, and consider contextual factors that could influence the findings or their use.
+
+# Evaluation types (CDC Action Guide Table 3.2, and the Step 3 web page).
+evaluation_types:
+  source: cdc-action-guide
+  section: Table 3.2 Comparison of Evaluation Types
+  items:
+    - id: formative
+      label: Formative evaluation
+      shows: Whether the proposed program, policy, or organizational approach is feasible, appropriate, and acceptable to the population of reach before it is fully implemented.
+      when: During the development of a new program, policy, or approach; when an existing program is being modified or used in a new setting; or when you want to focus on the who, what, when, where, and how.
+      why: Allows modifications before full implementation begins.
+    - id: process
+      label: Process (implementation) evaluation
+      shows: The extent to which the program, intervention, regulation, operation, or policy is being implemented as planned.
+      when: At the beginning of program implementation, or during operations of an existing program.
+      why: Provides early indications of gaps or issues that can be addressed early, and allows programs to monitor activity efficiency.
+    - id: outcome
+      label: Outcome evaluation
+      shows: The degree to which the program has achieved its intended outcomes or results. It cannot determine what caused specific outcomes (causality), only whether they have been achieved.
+      when: After an intervention, policy, or program has been implemented with the priority population.
+      why: Identifies whether the program is achieving its goals.
+    - id: impact
+      label: Impact evaluation
+      shows: Compares the outcomes of a program to estimates of what the outcomes would have been without it; usually seeks to determine whether activities caused the observed outcomes.
+      when: At the end of a program, or during operation at appropriate intervals.
+      why: Provides evidence for use in policy and funding decisions.
+    - id: economic
+      label: Economic evaluation (cost analysis, cost-benefit, cost-effectiveness, cost-utility)
+      shows: Program effects relative to the costs of the program.
+      when: At the beginning of a program, during operations, or at the end.
+      why: Helps understand the cost of implementing a program and its effects relative to the cost to produce them.
+
+# Which types fit each stage of development. DERIVED from CDC's "when to use it" column (this project's mapping).
+stage_types:
+  provenance: derived from the CDC table (this project's mapping)
+  confidence: medium
+  source: cdc-action-guide
+  items:
+    - stage: planning
+      types: [formative]
+      note: Early in development, before activities are fully implemented.
+    - stage: implementation
+      types: [process, formative]
+      note: Once activities are underway, process evaluation shows whether they happen as planned; outcome evaluation fits after the program has been implemented with the priority population.
+    - stage: maintenance
+      types: [process, outcome, impact]
+      note: A mature program should have produced some of its intended outcomes; impact evaluation fits the end of a program or appropriate intervals.
+
+designs:
+  source: cdc-step3
+  note: The evaluation design is the overarching structure for the evaluation, guided by the purpose, the key questions, and the context including resources and constraints.
+  items:
+    - id: experimental
+      label: Experimental
+      text: Units of study are randomly assigned to a control group or a treatment group; can demonstrate a causal relationship but may not be practical or ethical.
+      example: Randomized controlled trial
+    - id: quasi_experimental
+      label: Quasi-experimental
+      text: Compares non-equivalent groups that are not randomly assigned; used when random assignment is not possible, and needs additional analyses to control for other factors.
+      example: Time series
+    - id: observational
+      label: Observational
+      text: Does not use comparison or control groups; simpler and needs fewer resources, but cannot infer causality.
+      example: Case study or cross-sectional study
+# Design offered by default for each type (this project's default).
+design_by_type:
+  provenance: tool default
+  confidence: low
+  formative: observational
+  process: observational
+  outcome: observational
+  impact: quasi_experimental
+  economic: observational
+
+methods:
+  source: cdc-step4
+  section: Common Data Collection Methods
+  items:
+    - id: survey
+      label: Survey or questionnaire
+      kind: quantitative
+      text: Collection of standardized information from all respondents, in person or virtual.
+      use_when: [you need to collect information quickly, you want to monitor changes or trends over time, you want to identify individuals' knowledge, attitudes, or behaviors]
+    - id: interviews
+      label: Interviews
+      kind: qualitative
+      text: Structured conversations to gather information, individually or in groups.
+      use_when: [you need rich, detailed information, you need a deeper understanding of individuals' experiences, motivations, or emotions, you need a deeper understanding of the context]
+    - id: observation
+      label: Observations
+      kind: qualitative
+      text: Watching or listening to behaviors, with attention to ethics, sampling, and objectivity.
+      use_when: [you need to explore a new topic of which little is known, you need to understand behavior or context as it occurs naturally, you need to discover silent norms and values]
+    - id: focus_groups
+      label: Focus groups
+      kind: qualitative
+      text: Interactive discussion with small groups (usually 6-8) on specific topics under a trained moderator.
+      use_when: [you need to explore a new or specific topic of which little is known, you need to gain a range of views about issues in a single data collection]
+    - id: case_study
+      label: Case study
+      kind: qualitative
+      text: In-depth exploration of individuals, groups, events, programs, or sites using interviews, observations, documents, and other sources.
+      use_when: [you want concrete, in-depth knowledge about a specific topic, extensive research is not feasible]
+    - id: record_review
+      label: Document or record review
+      kind: qualitative
+      text: Assessing existing documents to gain historical understanding of the program or its participants.
+      use_when: [you need background information on the program, you need answers to specific "what" questions]
+  existing_data_note: Existing data such as surveillance data, census data, or other datasets may answer some questions without new collection (CDC Step 4).
+
+data_quality:
+  source: cdc-step4
+  section: Considerations when checking data quality
+  dimensions:
+    - id: accuracy
+      label: Accuracy
+      question: Are there errors or inaccuracies, and are the data collection methods reliable?
+    - id: completeness
+      label: Completeness
+      question: Are there missing data or gaps?
+    - id: consistency
+      label: Consistency
+      question: Do the data align with previous records, and were protocols followed across all sources?
+    - id: timeliness
+      label: Timeliness
+      question: Are data collected and updated on the schedule in the evaluation plan?
+    - id: relevance
+      label: Relevance
+      question: Do the data relate back to the objectives and goals of the evaluation?
+
+question_characteristics:
+  source: cdc-step3
+  section: Table 3.5 Characteristics of good evaluation questions
+  items:
+    - id: evaluative
+      label: Evaluative
+      text: Provides a determination on merit, worth, or significance and can directly inform decisions about the program.
+    - id: pertinent
+      label: Pertinent
+      text: Clearly related to the purpose and the intended user's information needs.
+    - id: reasonable
+      label: Reasonable
+      text: Linked to what the program can practically achieve given its scope, stage, and resources.
+    - id: specific
+      label: Specific
+      text: Clearly identifies what will be investigated.
+    - id: answerable
+      label: Answerable
+      text: Reflects the type and quantity of data that can feasibly be collected, analyzed, and interpreted.
+    - id: complete
+      label: Complete
+      text: Addresses the purpose of the evaluation and the intended users' information needs.
+
+# Example evaluation questions, as written in MMWR Table 5 (process and outcome). `focus` says which
+# part of the logic model each one fits.
+question_bank:
+  source: cdc-mmwr-2024
+  section: Table 5 Example process and outcome evaluation questions
+  confidence: high
+  items:
+    - id: inputs_sufficient
+      type: process
+      focus: inputs
+      text: To what extent are the program resources sufficient for successful implementation?
+    - id: staff_qualifications
+      type: process
+      focus: inputs
+      text: How do program staff qualifications align with those needed for program implementation? What gaps exist?
+    - id: implemented_as_planned
+      type: process
+      focus: activities
+      text: To what extent is the program being implemented as planned? What are the facilitators and barriers to implementation?
+    - id: reaching_audience
+      type: process
+      focus: activities
+      text: Is the program reaching its intended audience? Why or why not?
+    - id: program_costs
+      type: process
+      focus: activities
+      text: What are the overall program costs? How much does the program cost per unit of service?
+    - id: equity_drivers
+      type: process
+      focus: activities
+      text: In what ways are or aren't program activities designed to address the drivers of health inequities?
+    - id: tailored_to_community
+      type: process
+      focus: activities
+      text: In what ways are the program activities tailored to the community served? Where are there opportunities for improvement?
+    - id: materials_quality
+      type: process
+      focus: activities
+      text: What is the quality of materials provided as part of the program? To what extent are they understood across a variety of intended audiences?
+    - id: progress_toward_outcomes
+      type: outcome
+      focus: outcomes
+      text: To what extent is the program progressing toward its desired outcomes?
+    - id: conditions_effective
+      type: outcome
+      focus: outcomes
+      text: Under what conditions is this program most effective and why?
+    - id: for_whom_effective
+      type: outcome
+      focus: outcomes
+      text: For whom is the program most and least effective and why?
+    - id: unintended
+      type: outcome
+      focus: outcomes
+      text: What unintended consequences (positive or negative) are associated with the program?
+    - id: policy_change
+      type: outcome
+      focus: outcomes
+      text: In what ways, if any, has the program contributed to changes in policies or procedures related to the program?
+    - id: efficient_resources
+      type: process
+      focus: inputs_activities
+      text: To what extent were resources used efficiently to implement the program?
+    - id: cost_effectiveness
+      type: outcome
+      focus: inputs_activities_outcomes
+      text: What is the cost-benefit of the program? How cost-effective is the program?
+    - id: pathways_align
+      type: outcome
+      focus: inputs_activities_outcomes
+      text: To what extent do the pathways depicted in the logic model or program roadmap align with those seen in practice? Where do the pathways differ from what was anticipated and why?
+
+# Equity prompts CDC asks of the plan (MMWR Table 6 and Table 8, quoted).
+equity_prompts:
+  source: cdc-mmwr-2024
+  section: Tables 6 and 8, example questions for the cross-cutting actions
+  items:
+    - Were interest holders engaged in the development, identification, and prioritization of evaluation questions?
+    - Are evaluation questions included that will provide insights for advancing health equity?
+    - Is the selected evaluation design culturally responsive and viewed as credible by interest holders?
+    - Does the data collection approach include multiple data sources and incorporate different perspectives to provide a comprehensive view of the program?
+    - Have there been discussions with interest holders regarding data ownership and data sovereignty?
+
+# Templates for items the CDC tables do not cover. THIS PROJECT'S OWN wording (low confidence). {item} is the
+# logic model text.
+templates:
+  provenance: tool default
+  confidence: low
+  activity_question: "To what extent was this activity carried out as planned, and for whom: {item}?"
+  output_question: "How many were produced or reached, compared with the plan: {item}?"
+  short_term_question: "To what extent did this change occur among the population of focus: {item}?"
+  intermediate_question: "To what extent has this change followed, and for which groups did it differ: {item}?"
+  long_term_question: "To what extent has this long-term change occurred, and what can and cannot be said about the program's contribution: {item}?"
+  input_question: "Were these resources available and sufficient: {item}?"
+  formative_question: "Is this activity feasible, appropriate, and acceptable to the population it is meant to reach: {item}?"
+  formative_indicator: "Feasibility and acceptability of: {item} (for example participant and partner feedback, and what had to be changed)"
+  activity_indicator: "Extent of delivery of: {item} (number delivered compared with number planned)"
+  output_indicator: "Count of: {item}"
+  outcome_indicator: "Change in: {item} (define the measure, the baseline, and the comparison)"
+  input_indicator: "Availability of: {item}"
+  measure_placeholder: "[define the measure and its numerator and denominator]"
+  baseline_placeholder: "[baseline value and period]"
+
+# Timing suggested by evaluation type (descriptions, not dates; this project's defaults).
+timing_by_type:
+  provenance: tool default
+  confidence: low
+  formative: Before and during early implementation
+  process: Ongoing during implementation, summarized at least each reporting period
+  outcome: At baseline and at follow-up points set in the timeline
+  impact: At baseline, follow-up, and the comparison period
+  economic: Over the evaluation period
+
+# Data source suggestions by focus (this project's defaults; confirm each one is available).
+data_source_suggestions:
+  provenance: tool default
+  confidence: low
+  inputs: [Budget and staffing records, Partner agreements]
+  activities: [Program activity log, Sign-in sheets or attendance records, Partner or clinic reports]
+  outputs: [Program activity log, Service or distribution counts]
+  short_term: [Participant survey, Program records, Partner or clinic records]
+  intermediate: [Follow-up survey, Partner or clinic records, Surveillance or registry data]
+  long_term: [Surveillance or registry data, Population survey data, Community health assessment data]
+# Method suggested per focus (ids from `methods`).
+method_by_focus:
+  provenance: tool default
+  confidence: low
+  inputs: record_review
+  activities: record_review
+  outputs: record_review
+  short_term: survey
+  intermediate: survey
+  long_term: record_review
+
+# Matrix columns (Action Guide Worksheet 4H, in order, with this tool's added columns).
+matrix_columns:
+  source: cdc-action-guide
+  section: Worksheet 4H Evaluation Matrix
+  columns: [Focus area, Evaluation type, Evaluation question, Indicator, Measure or metric, Baseline, Data source, Data collection method, Timing, Responsible, Analysis]
+
+# Roles suggested when the nurse names none. THIS PROJECT'S defaults (low confidence).
+default_roles:
+  provenance: tool default
+  confidence: low
+  data_collection: Program staff (public health nurse)
+  data_management: Data manager or epidemiologist
+  analysis: Evaluation lead
+  review: Program supervisor or health director
+  interest_holders: Community advisory members and partner organizations
+
+# Interest holder types (CDC Step 1).
+interest_holder_types:
+  source: cdc-step1
+  items:
+    - People who are served or affected by the program
+    - People who plan or implement the program
+    - People who might use the evaluation findings
+    - People who are skeptical about the program
+
+# How the evaluation period is split across the six steps when the nurse gives dates. Shares of the whole period.
+timeline_defaults:
+  provenance: tool default
+  confidence: low
+  note: CDC says the framework is often discussed as linear but conducting program evaluation is iterative; the shares below are only a starting schedule.
+  default_weeks: 52
+  phases:
+    - step: 1
+      label: Assess the context and confirm interest holders
+      share: 0.08
+    - step: 2
+      label: Describe the program (logic model and narrative)
+      share: 0.08
+    - step: 3
+      label: Focus the evaluation questions and design
+      share: 0.12
+    - step: 4
+      label: Gather credible evidence (instruments, data collection)
+      share: 0.45
+    - step: 5
+      label: Generate and support conclusions (analysis, interpretation)
+      share: 0.15
+    - step: 6
+      label: Act on findings (report, share, plan follow-up)
+      share: 0.12
+
+# RE-AIM lens (optional).
+reaim:
+  source: reaim-2019
+  section: Table 1 The RE-AIM dimensions
+  citation_note: The framework was proposed in a 1999 commentary (reach, efficacy, adoption, implementation, and maintenance); later use renamed efficacy as effectiveness.
+  pragmatic_note: The 2019 review encourages pragmatic use of the key dimensions rather than comprehensive application of every element.
+  mapping_provenance: this project's mapping of dimensions to CDC evaluation types (medium confidence)
+  dimensions:
+    - id: reach
+      letter: R
+      label: Reach
+      level: individual
+      definition: The absolute number, proportion, and representativeness of individuals who are willing to participate in a given initiative, intervention, or program, and the reasons for not participating.
+      type: process
+      question: "Who took part in {program}, how many, and how do they compare with the intended population ({population})?"
+      indicator: "Number and percent of the intended population who participated, by group"
+      data_sources: [Program records, Census or community profile data for the denominator]
+    - id: effectiveness
+      letter: E
+      label: Effectiveness
+      level: individual
+      definition: The impact of an intervention on important outcomes, including potential negative effects, quality of life, and economic outcomes, and the heterogeneity of effects.
+      type: outcome
+      question: "What changed for participants in {program}, including any unintended effects, and for whom was the change larger or smaller?"
+      indicator: "Change in the primary outcome from baseline, by group, and any reported negative effects"
+      data_sources: [Participant survey, Program or partner records]
+    - id: adoption
+      letter: A
+      label: Adoption
+      level: setting
+      definition: The absolute number, proportion, and representativeness of settings and intervention agents (the people who deliver the program) who are willing to initiate a program, and the reasons for adoption or non-adoption.
+      type: process
+      question: "Which settings and staff took up {program}, and how do they compare with those that did not?"
+      indicator: "Number and percent of eligible settings and staff that started the program"
+      data_sources: [Partner records, Staff roster counts]
+    - id: implementation
+      letter: I
+      label: Implementation
+      level: setting
+      definition: At the setting level, the fidelity of intervention agents to the intervention's protocol (consistency of delivery, time required, adaptations made, and costs); at the individual level, clients' use of the intervention.
+      type: process
+      question: "Was {program} delivered as designed, what adaptations were made, and what did delivery cost?"
+      indicator: "Fidelity checklist score, adaptations documented, and cost per unit of service"
+      data_sources: [Program activity log, Fidelity checklist, Budget records]
+    - id: maintenance
+      letter: M
+      label: Maintenance
+      level: individual and setting
+      definition: The extent to which behavior is sustained (a default of 6 months or more after the intervention) and a program or policy becomes part of routine organizational practices, including how many settings continue it and why.
+      type: outcome
+      question: "Are results from {program} sustained after the initial period, and does the program continue as part of routine practice?"
+      indicator: "Outcome at follow-up (for example 6 months after) and number and percent of settings still delivering the program"
+      data_sources: [Follow-up survey, Partner records]

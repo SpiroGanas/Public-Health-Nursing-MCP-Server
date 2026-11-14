@@ -2940,3 +2940,1713 @@ appropriate food).
 <!-- End of Phase 14 chemfood. -->
 
 <!-- End of Phase 14 tools. -->
+
+## Phase 15: Chronic disease prevention and community assessment
+
+
+
+### `community_bp_screening_toolkit` (CHR-02, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `readings` | | Readings to classify, each `{systolic, diastolic}` (numbers only). Two or more are averaged (rounded to whole mm Hg); a single reading above 180 or above 120 makes the result severe range (tool default). |
+| `age` | | Age of the person the readings are from: under 18 is refused (the categories are for adults). |
+| `pregnant` | false | Uses CDC's pregnancy thresholds (140/90 high; 160/110 severe) instead of the adult categories. |
+| `symptoms` | false | Changes the severe-range referral tier from same day to emergency services (tool default). |
+| `log_path` | | Screening log CSV/XLSX in `/data` (age; systolic and diastolic readings in columns such as `Systolic 1`, `Diastolic 1`, `Systolic 2`, `Diastolic 2`, or `Blood pressure` written 128/82; referral status). |
+| `sheet` | first sheet | Sheet name for an XLSX log. |
+| `write_letters` | false | Fill follow-up letters from the log's rows (needs a name or address column) into `/data/output`. |
+| `write_documents` | true when no `readings` or `log_path` | Write the blank kit to `/data/output/bp_screening_kit`. |
+| `format` | `docx` | `docx` or `pdf` for the checklist, reference card, letters, and handout. |
+
+Content: `content/chronic/bp_screening.yaml` (status `pending`, review due 2027-02-01). **Which
+guideline:** the 2025 AHA/ACC high blood pressure guideline retires and replaces the 2017 one
+(stated in its PubMed abstract), so the categories are the 2025 ones, which keep the 2017
+categories. Its full text could not be read (ahajournals.org, professional.heart.org, acc.org,
+heart.org, nhlbi.nih.gov, and PMC web pages were blocked), so each item carries its confidence:
+normal below 120/80, elevated 120-129 and below 80, and high at 130/80 or above are from CDC's pages
+(updated 2026-10-13, high confidence); the stage 1 (130-139 or 80-89) and stage 2 (140 or higher, or
+90 or higher) ranges and the severe range (above 180 or above 120, "severe hypertension" replacing
+"hypertensive urgency") are from peer-reviewed open-access papers that state the 2025 guideline
+(medium confidence); the pregnancy thresholds (140/90 with two readings at least 4 hours apart;
+160/110 severe, needing prompt medical attention) are from CDC (high). Corrections to the
+guideline were published in 2026 and were not reviewed.
+
+Output: the categories with the sources' wording and confidence; the severe-range wording; the
+measurement technique checklist (CDC's steps; two steps that are standard practice but were not found
+at a source are marked "(not verified)", low confidence); referral tiers (emergency, same day,
+routine referral, advise, inform) labelled **"tool default, pending review"**, because the
+guideline sources give no community screening referral timing (the tool leaves timing to the
+agency's standing orders and medical director); the classification of typed readings; the log
+template columns and referral status words; three follow-up letter templates (normal or elevated,
+stage 1 or 2 range, severe range) and a client handout, each checked for reading grade with the
+COMM-01 engine; and the files written.
+
+Privacy: the log goes through `phn_tools::localdata` (identifier columns that are read are
+refused). Only suppressed one-way count tables are returned (blood pressure category worked out from
+the readings, age group, referral status, and number of readings); no table crosses two variables,
+so a small cell cannot be recovered from another table. Names and addresses go only into the
+letters in `/data/output` (one combined file); the response has the number of letters and file
+names. Letters are English only.
+
+Limits: the category comes from the numbers (a category column in the file is ignored); pregnancy
+is not recognized in a log; ages under 18 are counted separately; letters are English only.
+
+### `diabetes_prevention_finder` (CHR-03, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `age`, `sex`, `family_history`, `high_blood_pressure`, `physically_active` | | The answers CDC's Prediabetes Risk Test scores. `sex` is `man` or `woman`; adults only. |
+| `height_inches`, `weight_pounds` or `bmi` | | BMI for the test (703 x pounds / inches squared). |
+| `gestational_diabetes` | no (and the result says so) | A woman who has had it: 1 point and an eligibility route. |
+| `asian_american` | false (and the result says so) | CDC's lower BMI cut point (23 instead of 25). |
+| `diabetes_diagnosis`, `pregnant` | | Eligibility exclusions. |
+| `a1c_percent`, `fasting_glucose_mg_dl`, `two_hour_glucose_mg_dl` | | Blood test results from the past year (an eligibility route). |
+| `area` | saved town, else Massachusetts | Town (and its county), county, or the state for program sites. |
+| `responses_path`, `sheet` | | Screening-event file in `/data`: age, sex, family history, high blood pressure, physically active, and BMI or height and weight. |
+| `handout` | false | Client handout (reading grade 8 or lower, checked) to `/data/output`, with the score filled in when one was worked out. |
+| `format` | `docx` | `docx` or `pdf`. |
+
+Content: `content/chronic/diabetes_prevention.yaml` (status `pending`, review due 2027-02-01) and the
+bundled snapshot `ma-dpp-programs` (`snapshots/ma_dpp_programs.csv`; builder
+`xtask/scripts/build_screen_snapshots.py`, `--check` mode; retrieved 2026-11-12). **Verified from
+CDC and CMS pages (2026-11-12):** the Prediabetes Risk Test points (family history 1, high blood
+pressure 1, age 0/1/2/3 for under 40/40-49/50-59/60 or older, no physical activity 1, man 1, woman
+with gestational diabetes 1, BMI 0/1/2/3 with 23 as the first cut point for Asian American people),
+5 or higher of 10 is high risk, CDC's BMI example (5 feet 3 inches, 120 pounds, BMI 21), the program
+eligibility rules, the program's length and schedule, the delivery modes, and the Medicare Diabetes
+Prevention Program facts. CDC says most of its web content is public domain; the test was developed
+with the American Diabetes Association, so only CDC's points and cut-offs are kept and the
+questions are paraphrased.
+
+**What could not be verified:** CDC's registry of recognized organizations (`dprp.cdc.gov`) and
+program locator (`dprpdataportal.cdc.gov`) were blocked, and the older `nccd.cdc.gov/DDT_DPRP`
+pages return 404, so there is no CDC-recognized list. The bundled sites are the 73 rows of DPH's
+"Active MA DPPs" table: DPH shows no update date, does not say which sites are CDC-recognized, and
+gives no delivery mode, so the tool says so and lists no online or distance-learning providers
+(it explains the delivery modes and how to filter on CDC's page). DPH's contact column holds
+program coordinators' names and emails, so only organization phone numbers and emails (17 sites)
+are kept; individual names are not. No source was found for MassHealth coverage of the program, so
+none is stated. MDPP eligibility criteria differ from CDC's and were not read.
+
+Privacy: a responses file goes through `phn_tools::localdata`; only suppressed one-way counts by
+result and age group are returned.
+
+
+
+### `preventive_services_lookup` (CHR-04, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `age_years` | required | Whole years, 0 to 120. No names or other identifiers. |
+| `sex_at_birth` | required | `female` or `male` (the recommendations are keyed to sex at birth or organs present). |
+| `pregnancy_status` | not given | `not_pregnant`, `pregnant`, or `postpartum`. When left out the person is treated as not pregnant and the pregnancy-specific recommendations are not evaluated (the response counts and names them). |
+| `risk_factors` | none | `tobacco_use` (current, former, never), `pack_years`, `years_since_quit`, `bmi`, `bmi_percentile`, `cardiovascular_risk_factors` (hypertension, elevated blood pressure, dyslipidemia, diabetes, metabolic syndrome; an empty list means none), `ten_year_cvd_risk_percent`, `sexually_active`, `postmenopausal`, `fair_skin`, `home_water_low_in_fluoride`, and `increased_risk_for` / `not_at_increased_risk_for` lists (HIV, hepatitis B, syphilis, STIs, chlamydia and gonorrhea, TB, falls, breast cancer, BRCA-related cancer, preeclampsia, perinatal depression, osteoporotic fracture). |
+| `include_myhealthfinder` | true | Ask ODPHP's MyHealthfinder (live, no key) for its list for the same age, sex, and pregnancy; skipped offline. |
+| `write_handout` | false | Plain-language client handout (DOCX or PDF, reading grade checked) with no name or identifier, to `/data/output`. |
+| `format` | `docx` | `docx` or `pdf`. |
+
+Data: the bundled `uspstf-ab-recommendations` snapshot, built by
+`xtask/scripts/build_prevent_snapshots.py` from the Task Force's published recommendation
+statements (the latest statement per topic, 2016 on; 53 grade A or B recommendations from 46
+statements), read as PubMed abstracts through the E-utilities because the USPSTF web site and API
+(`www.` and `data.uspreventiveservicestaskforce.org`) were blocked from the build network. Grade,
+population wording, and recommendation sentence are copied from the abstract, and the builder
+refuses to write a grade that the text does not show. Dates are journal publication dates. The
+project's layer (`content/chronic/preventive_services.yaml`) adds the age, sex, pregnancy, and
+risk-factor criteria the tool can apply, the plain-language client summaries, and the
+Massachusetts program options.
+
+How it decides: each recommendation has one or more alternatives (age range, sex at birth,
+pregnancy status, and required risk-factor flags). It goes under `applies` when an alternative is
+fully met, under `needs_review` when it fits on age, sex, and pregnancy but a required risk
+factor was not given (the response says which input is missing), and is counted in
+`not_matched_count` when age, sex, pregnancy, or a risk factor you gave rules it out. Leaving a
+risk factor out never removes a recommendation. Everything else in the published population
+("average risk", "no known disease", "asymptomatic") is shown as the Task Force's own wording plus
+a `confirm` note for the nurse to apply. Where a statement gives no age range (for example "women
+of reproductive age" or "adolescents") the tool chose one and says so in `assumption`.
+
+Output: for each recommendation the USPSTF grade, the statement date and DOI link, the Task
+Force's population and recommendation text, the `confirm` note, a client summary, and related
+Massachusetts programs; the Massachusetts options (the Massachusetts Breast and Cervical Cancer
+Program with its eligibility as DPH lists it, sites, and toll-free number; the MA Colorectal
+Cancer Control Program; 1-800-QUIT-NOW); MyHealthfinder's topics for the same person when online;
+and what is not covered. It is the grade A and B list only (not ACIP vaccines, HRSA lists, or
+grade C).
+
+Privacy: the request has only age, sex at birth, pregnancy status, and risk factors; no local
+files are read. When MyHealthfinder is used, age, sex, and pregnancy status (no identifier) go to
+odphp.health.gov.
+
+Limits: no USPSTF API adapter (the API was unreachable and its response format could not be
+checked; no `PHN_USPSTF_API_KEY` exists), so a statement updated after the snapshot date is not
+seen: the answer says to check the Task Force's page. Statements before 2015 (2008 newborn
+screening statements) are not included. MyHealthfinder has no offline copy. The content is
+`status: pending` until the nurse reviews it.
+
+### `asthma_home_assessment` (CHR-05, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `sections` | all | Any of `checklist`, `control`, `action_plan`, `services`. |
+| `town` | saved town | Massachusetts city or town, to mark home visiting programs that name or are located in it. |
+| `control_answers` | | Counts to classify (needs `control`): `symptom_days_past_30`, `symptoms_throughout_the_day`, `nights_waking_past_30`, `rescue_uses_per_day` or `no_inhaler_medicine_past_3_months`, `activity_limitation_past_12_months`, `age_years`. |
+| `write_documents` | true | Blank home visit checklist and blank asthma action plan to `/data/output`. |
+| `format` | `docx` | `docx` or `pdf`. |
+| `clients_path` | | CSV/XLSX in `/data`, one row per person, with the prescriber's plan details: name, doctor, doctor phone, hospital phone, plan date, best peak flow, daily medicine, dose and timing, before-exercise medicine, quick-relief medicine and puffs, repeat minutes, maximum doses, oral steroid, mg and days, call hours, red-zone puffs, ambulance phone, triggers (needs `action_plan`). |
+
+Data: `content/chronic/asthma_home.yaml` (status pending), built from the CDC, EPA, and HUD
+"Home Characteristics and Asthma Triggers: Checklist for Home Visitors" (June 2018) and EPA's
+"Asthma Triggers: Gain Control"; NHLBI's Asthma Action Plan (NIH Publication No. 20-HL-5251,
+February 2021); the control table DPH prints in "Factors Associated with Asthma Management in
+Massachusetts" (2022), which adapts NHLBI's EPR-3 for the CDC Asthma Call-back Survey; and DPH's
+Massachusetts Asthma Home Visiting Program Directory (last updated by DPH in March 2025). Housing
+code facts are not repeated: each checklist section names a condition in the Phase 14 housing
+content (`env-housing-conditions`: moisture and mold, pests, heat, smoke and CO alarms) and the
+tool reads its 105 CMR 410 sections from there at run time.
+
+Control: the table has four items (symptom days in the past 30 days, nights waking, rescue
+inhaler uses per day, limits on usual activities in the past 12 months), each with well controlled,
+not well controlled, and very poorly controlled criteria as DPH prints them; the classification is
+the most severe item answered. Where the table's ranges meet (0.29 and 1.00 uses a day) the more
+severe category is used. It is a screening classification: no lung function or exacerbation
+criteria, DPH applied the age 12 and older cut points to children, and EPR-3 itself (NCBI
+Bookshelf, nhlbi.nih.gov) and GINA could not be reached, so the clinical grids are not bundled. The
+Asthma Control Test is licensed (QualityMetric) and is not reproduced; the response says so and
+gives the ACT and ACQ cut scores NHLBI's 2020 update prints.
+
+Action plan: the NHLBI zones (green, yellow, red, danger signs) as a template with
+`{{placeholders}}`; peak flow zones are worked out from a best peak flow with NHLBI's percentages
+(80 percent or more; 50 to 79; under 50). Template + local fill (ADR 0008): the filled plans for
+the people in `clients_path` go to `/data/output` only, medicines and doses appear only if they are
+in the file, and the response has counts and the file name.
+
+Services: DPH's seven-program directory (organization, location, regions served, and pediatric,
+adult, and older adult programs), with the town-fit label, DPH's description of the CHW-led
+model, and other DPH-listed resources (APCP email, MAAP, Massachusetts Breathing Better, the IPM
+toolkit, the Health Promotion Clearinghouse action plans). DPH lists regions, not towns, and no
+phone numbers.
+
+Privacy: local files go through `phn_tools::localdata`; person details in the file are written
+into the action plan file only. Control answers are counts typed in the request.
+
+Limits: MassHealth coverage of asthma home visits, local board of health or housing programs, and
+program phone numbers were not checked; the Massachusetts Health Promotion Clearinghouse (the
+DPH action plan forms) and nhlbi.nih.gov were blocked; the checklist is shortened from the
+original.
+
+
+
+### `community_health_assessment_builder` (EQ-08, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town | A Massachusetts city or town, or a county (a county skips the drinking water and fluoridation sections, which are by town). |
+| `sections` | all | Any of `profile`, `language`, `social_vulnerability`, `environmental_justice`, `climate`, `food_access`, `drinking_water`, `fluoridation`. |
+| `hospitals` | | Names of hospitals that serve the community, added to the CMS list of hospitals in the town and county. |
+| `chna_paths` | | Hospital CHNA reports saved in `/data` (PDF, DOCX, HTML, TXT, or a folder of them; at most 20). |
+| `partners_path` | | A CSV/XLSX with one partner organization per row (name and sector or type). |
+| `write_document` | true | Draft report sections in `/data/output`. |
+| `format` | docx | `docx` or `pdf`. |
+
+Guides a community health assessment with MAPP 2.0 and drafts report sections. It lays out the three
+phases (Build the Community Health Improvement Foundation, Tell the Community Story, Continuously
+Improve the Community) and the three assessments (community status, community context, community
+partner) with their data types and purposes. **Community status:** calls this server's own tools as
+library functions (EQ-01 community profile with CDC PLACES and the Social Vulnerability Index, EQ-03
+language access, EQ-02, ENV-04 environmental justice, ENV-05 climate, CHR-06 food access, ENV-03
+drinking water, CHR-07 fluoridation), live then cache then snapshot; a section that fails is reported
+with its reason and the rest are returned, and the report carries each tool's caveats and sources.
+The measure that needs your own data (EQ-04 disparities) is pointed to, not run. **Partners:** a
+13-sector checklist (this project's own list); a roster file is counted by sector (organizations
+only; contact people, phones, and emails are never read), and a client or patient list is refused.
+**Context:** focus group and interview prompts, with EQ-10 for the transcripts. **Hospital CHNAs:**
+the hospitals in and near the area from the CMS Hospital General Information snapshot (84
+Massachusetts hospitals; non-profit acute care, critical access, and children's hospitals are
+flagged as likely community benefits filers), the federal rule (26 CFR 1.501(r)-3: every three
+years, a written report on the hospital's website, input from at least one public health
+department, a prioritized list of significant needs) and the Attorney General's Community Benefits
+Guidelines (four statewide focus issues, six DPH priorities), links to find each hospital's CHNA
+(the Attorney General's reports site), and, for CHNA files you save, the priority lists found in
+them with a page or heading citation, the report year, and themes that recur across reports.
+
+**Privacy.** CHNA reports are public documents; only priority lines (identifiers removed) and page
+numbers are taken from them, and a file that holds several record numbers, social security numbers,
+or birth dates is refused as a client record. The draft report holds public data, counts, and the
+names of partner organizations, and goes only to `/data/output`.
+
+**Limits.** MAPP 2.0 was verified against two 2025 journal articles, not NACCHO's pages (naccho.org
+was unreachable): the phases and assessments are confirmed (medium confidence), what each phase
+contains beyond that and NACCHO's own tools were not verified (low confidence), and the mapping of
+this server's tools to the assessments is this project's. Hospital websites and the Attorney
+General's reports site could not be opened, so no per-hospital CHNA link is bundled. Priority lines
+are found by pattern (bullets, numbered lists, short heading lines, or an inline list after
+"priorities:") and can be incomplete; the theme words are this project's list.
+
+### `prioritize_health_issues` (EQ-09, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `issues` | (required) | 2 to 60 issues, each with `name` and any of `size` (A, 0-10), `seriousness` (B, 0-20) or `urgency`, `severity`, `economic_loss`, `impact_on_others` (0-5 each), `effectiveness` (C, 0-10), `pearl` (five yes/no answers), `rank_counts`, `description`, `rationale`. |
+| `pearl_mode` | `multiply` | `multiply` (a failed PEARL scores 0 and ranks last), `prescreen` (failed issues are screened out, not ranked), or `off`. |
+| `nominal_group` | | `participants` and `ranks_per_participant`; required when any issue has `rank_counts`. |
+| `grid_threshold` | 0.5 | Where the strategy grid splits importance and feasibility (0.1-0.9). |
+| `area` | | For the document title. |
+| `write_document` / `format` | true / docx | Method, results, and rationale to `/data/output`. |
+
+Hanlon method: **BPR = ((A + B) x C / 3) x D**, with A size of the problem (0-10), B seriousness
+(0-20, or the sum of four 0-5 factors), C effectiveness of the intervention (0-10), and D from the
+PEARL test (propriety, economics, acceptability, resources, legality; 1 only when all five are yes).
+Dividing by 3 puts the score on 0-100 and does not change the order. Worked example: A = 8, B = 14,
+C = 6, PEARL all yes gives (8 + 14) x 6 / 3 = 44. The strategy grid places each issue by importance
+((A + B) / 30) and feasibility (C / 10) into act now, important but hard, quick win, or revisit
+later. The nominal group score gives rank 1 as many points as ranks per participant, and one point
+for the last rank, summed over the counts (4 first-place, 3 second-place, and 1 third-place counts
+with three ranks score 4 x 3 + 3 x 2 + 1 x 1 = 19); the counts for any rank cannot exceed the number
+of participants. **Ties** share a rank (1, 2, 2, 4) and are listed with guidance, not broken.
+**Missing ratings** make an issue "incomplete" (listed with what it still needs, not scored as 0).
+Scores that differ by under 5% are flagged as close calls; where the Hanlon and nominal group ranks
+differ by three or more places both are shown, not blended.
+
+**Privacy.** Reads no files. Votes are aggregate counts, never names; an issue name or rationale that
+looks like it contains an identifier gets a caveat, because everything typed is sent to the AI service.
+
+**Limits.** The formula is the original equation as quoted in a 2019 PAHO paper (Rev Panam Salud
+Publica), checked against a 2017 case study and a 2026 review of prioritization methods; NACCHO's own
+worksheet could not be read. Variants (the Illinois 0.5-1.5 effectiveness scale, a benefit-cost
+ratio, PAHO's inequity component) are not implemented. No scoring anchors are bundled: none were
+found in a readable source. The strategy grid and the nominal group point rule are this project's
+own (low and medium confidence).
+
+### `analyze_qualitative_data` (EQ-10, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `transcript_paths` | (required) | TXT, MD, DOCX, text PDF, or HTML transcripts, or a folder of them, in `/data` (at most 60 files, 10 MB each). |
+| `codebook_path` | starter codebook | Your CSV, XLSX, or YAML codebook: `code`, `definition`, `keywords` (semicolons; a trailing `*` matches any ending), optional `theme`. |
+| `names_path` | | A TXT/CSV/XLSX/DOCX list of the participants and staff named in the transcripts, to remove wherever they appear. |
+| `facilitator_labels` | | Extra speaker labels to leave uncoded (`Interviewer`, `Facilitator`, `Moderator`, and `Q` are built in). |
+| `min_voices` | 3 | Fewest different participants for a theme to be shown; 3 is the minimum. |
+| `write_outputs` | true | Coded excerpt matrix (XLSX) and theme summary (DOCX) in `/data/output`. |
+| `write_deidentified_transcripts` | false | Also each de-identified transcript as text in `/data/output`. |
+
+Reads transcripts only on this machine and returns **counts only**: the scrub report (identifiers
+removed, by kind), the codebook, and for each code the number of different participants who raised
+it, the transcripts it appeared in, and the coded segments, with a one-sentence summary built from
+those counts. A code raised by fewer than three different participants is withheld entirely (no
+counts, no label), so one person cannot be picked out from a rare theme. Words used by three or more
+participants that no code matched are offered as candidate new codes (lower-case words only; names
+excluded). No transcript sentence, speaker label, or file name is returned, and there is no option to
+return one. **Scrubbing:** speaker labels ("Name:" at the start of a turn, with at least two such
+lines) become P1, P2, ...; the facilitator's turns are not coded; names from the labels and the names
+file are removed everywhere; capitalized words inside sentences that are not Massachusetts towns,
+counties, months, languages, or common labels (names, organizations, places) become `[NAME]`; the
+server's identifier detector removes phone numbers, email and street addresses, dates, ZIP codes,
+record numbers, and titled names; and the result is scanned again. **Coding:** keyword matching on
+whole words, with `*` prefixes and multiword phrases, applied to each speaker turn (long turns are
+split at sentence ends). The coded excerpt matrix, with one row per segment and code, holds
+de-identified excerpts (the sentences with a matched keyword), a code-by-transcript table, the
+codebook, and a transcript key; the theme summary adds up to three excerpts from different
+participants per reported theme. Read them before quoting any.
+
+**Privacy.** Output files are de-identified but are written only to `/data/output`; the transcript
+key (which file is T1) is in the matrix only. A person who spoke in two transcripts counts twice.
+
+**Limits.** Keyword coding is a heuristic: it finds words, not meaning, and cannot read negation or
+sarcasm. De-identification by pattern, name list, and capitalization can miss details that point to a
+person (a unique job, a rare event, a nickname, a place written in lower case) and over-removes
+organization and place names. The starter codebook is this project's own draft (low confidence).
+Scanned PDFs have no text (no OCR). Transcripts without "Name:" turns are read as one speaker.
+
+### MCP prompt: `community_health_assessment`
+
+Arguments (all optional): `area`, `partners_path`, `chna_folder`, `transcripts_folder`. Returns one
+message that walks the model through a MAPP 2.0 community health assessment for a Massachusetts
+local public health nurse: build the foundation and partner list
+(`community_health_assessment_builder`, `find_community_resources`), assemble the community status
+assessment (`build_community_health_profile`, `get_social_vulnerability_index`,
+`language_access_profile`, `get_places_estimates`, `measure_health_disparities`,
+`screen_health_related_social_needs`, `estimate_benefit_eligibility`, and the environmental,
+climate, food, and water tools), add the community context (`analyze_qualitative_data`), bring in
+nearby hospitals' CHNAs, list candidate issues, rank them with `prioritize_health_issues` (Hanlon
+method, PEARL, strategy grid, nominal group totals), and write the draft report. Transcripts and
+client files stay in the data folder; the message tells the model to say that MAPP 2.0 was checked
+against journal articles and not NACCHO's handbook. It names the toolsets the workflow uses
+(`equity`, `chronic`, `env`) and tells the model to report, not retry, a tool whose toolset is off.
+
+
+
+### `geocode_and_aggregate_addresses` (EPI-13, toolset `epi`)
+
+| Argument | Default | |
+|---|---|---|
+| `path` | (required) | CSV or spreadsheet in `/data`, one address per row. |
+| `sheet` | first | Sheet of a workbook. |
+| `address_column` | found from the headers (`Street Address`, `Address`, `Home Address`, `Street`, ...) | The street address, or the whole address in one cell (`12 Elm St, Amherst, MA 01002`). |
+| `town_column` | found from the headers (`Town`, `City`, `Municipality`, ...) | City or town. |
+| `zip_column` | found from the headers (`ZIP`, `ZIP Code`, `Postal Code`, ...) | ZIP code (a spreadsheet's four-digit `1002` is read as `01002`). |
+| `town` | none | One Massachusetts town for every row without a town value. |
+| `level` | finest possible | `town`, `tract`, or `block_group`. Falls back to town, and says why, when no address could be placed on a street. |
+| `zip_min_share` | 0.9 | A row that has only a ZIP code is counted in a town when that town holds at least this share of the ZIP code's addresses (0.5 to 1). |
+| `write_matched_file` | false | Also write `/data/output/<file>_geocoded.csv` (row number, the address as written, match level, town, tract, block group, latitude, longitude). Identifiable; only its name is returned. |
+
+Locates the addresses **offline**, inside the container, against MassGIS Master Address Data
+points and Census TIGER address ranges (ADR 0011), and returns only counts. Nothing is sent to a
+geocoding service and nothing from the file (no address, coordinate, name, or row) is returned.
+It reads three columns: address, town, and ZIP code. A column the PHI detector takes for a name,
+date of birth, phone number, SSN, ID number, or free text is refused when it is named as one of
+the three (the message names the column and the kind, never a value); the file's other columns
+are not read, so a client list can be used as it is.
+
+Address handling: case-insensitive; USPS street-type abbreviations (`St`, `Street`, `Str`, `Ave`,
+`Rd`, ...), directions (`N`, `North`), ordinals (`First`, `1st`), `Saint`/`St`, `Mount`/`Mt`, route
+numbers (`Route 9`, `State Rte 9`), unit designators (`Apt 3B`, `Unit 2`, `#4`, `2nd Floor`, `Rear`)
+removed, house-number suffixes (`12A`, `12 1/2`) and ranges (`12-14`), a city, state, and ZIP
+written after the street, PO boxes (no street position claimed), and village names (Florence,
+Hyannis, Indian Orchard). A street typed without its type or with the wrong one is accepted when
+only one street in the town has that name.
+
+How precisely each row was located, best first: **exact address point** (a MassGIS point for the
+house number); **interpolated** (between neighboring points in the same block group, or along a
+TIGER address range); **street only** (the street, not the number; the block group is reported
+only when the whole street is in one); **ZIP code only** (one town holds at least `zip_min_share`
+of the ZIP code; approximate, because ZIP codes cross town lines); **town only** (from a town
+column or the address); **not located** (with the reason). The response gives the count at each
+level, the match rate to a street position, and the counts by town, 2020 census tract (with its
+name and GEOID), or block group. Rows that could only be counted in a town appear as one line
+at tract and block group level.
+
+Privacy: counts below the suppression threshold (default 5, your setting) are hidden in every
+table, with complementary suppression because a total is shown, and areas are listed by name so
+the order reveals nothing. The match rate is omitted when one of its counts is small. Counts are
+rows, not people or households; divide by a population from ACS for rates.
+
+Data: the **full street index is optional** (35.5 MB, 351 towns, 2.2 million address points,
+built in about two minutes by `xtask/scripts/build_geocoder_index.py --full OUT_DIR` and installed
+in `/data/geocoder/` or `/cache/geocoder/`; see ADR 0011). To install it, on any computer with Python 3.10 and numpy run `python3 -I xtask/scripts/build_geocoder_index.py WORK_DIR --full OUT_DIR` (it downloads about 350 MB from MassGIS and the Census Bureau into WORK_DIR), then put the OUT_DIR folder where the container sees it: inside your mounted data folder as `geocoder/`, or mount it at `/cache/geocoder` (`-v /path/to/OUT_DIR:/cache/geocoder:ro`). Without it the bundled sample index
+(Alford, Amherst, Northampton, and Pelham; real data) places addresses in those four towns and
+every other row is counted by town (town column, a town written in the address, or the bundled
+ZIP-code and village-name crosswalk). An installed index is checked against its manifest
+checksums; a mismatch is reported and the sample used.
+
+Limits: Boston has no MassGIS address-point download, so its addresses are placed from TIGER
+ranges only (interpolated or street only). Interpolated positions assume numbers are evenly spaced
+on a straight segment, and a point is usually a building or parcel center, so it can lie in a
+different block group than the front door; where a town has two streets with the same name (villages) and the same house number, the index keeps one point (23 of 20,328 test addresses). No intersections, named places, or spelling correction
+of street names; PO box ZIP codes are not in the ZIP crosswalk. At most 500,000 rows. Sources:
+MassGIS Master Address Data (town exports of 2026-11-09), TIGER/Line 2025 (address ranges and
+2020 block groups), `ma_geocoder_sample.idx`, `ma_geocoder_crosswalk.csv`
+(`xtask/scripts/build_geocoder_index.py`); MassGIS's data disclaimer could not be retrieved, so its
+terms are unverified (credit MassGIS).
+
+
+
+## Phase 16: Program planning, evaluation, and evidence
+
+
+
+### `build_logic_model` (PLAN-01, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_name` | required | Title of the model. |
+| `population`, `need`, `stage` | | Who the program serves, the need (narrative only), and `planning`, `implementation`, or `maintenance` (CDC's stages of development). |
+| `inputs`, `activities`, `outputs` | | Short phrases, one per box (at most 30 each; 6 or fewer reads best). |
+| `short_term_outcomes`, `intermediate_outcomes`, `long_term_outcomes` | | Who or what changes, in time order. |
+| `assumptions`, `external_factors` | | Why the team expects the activities to work, and conditions outside the program (CDC: contextual factors). |
+| `write_documents` | true | Word table, SVG, PNG, and Mermaid text in `/data/output/logic_model_<name>/`. |
+| `format` | docx | `docx` or `pdf` for the table. |
+| `include_svg` | true | Return the SVG source in the result. |
+
+**Output.** The model's columns with CDC's definition of each, the model read as if-then statements
+(CDC's way of reading a logic model), findings, the narrative scaffold CDC pairs with the model
+(need, inputs, activities, outcomes, contextual factors, stage of development), and the diagram as
+Mermaid `flowchart LR` text and a self-contained SVG (`role="img"`, `<title>`, `<desc>` with every
+box's text, dark text on light fills, no scripts or external files) plus short alt text and a full
+text description. The Word table carries the same content and fits one portrait page; the diagram
+files are for a slide or a landscape page. The diagram code is `crates/phn-tools/src/planning/diagram.rs`
+(columns, groups, bands, Mermaid and SVG), written to be reused by other planning tools.
+
+**Checks** (rules in `content/planning/logic_model.yaml`): no activities or outcomes (needs work);
+no inputs, outputs, assumptions, external factors, stage, or population; outcomes not sequenced
+(missing short-term, intermediate, or long-term); an outcome that reads like an activity ("Provide
+..."); an outcome that does not say what changes; an activity that does not start with an action
+word; more than six boxes in a column; a box over 25 words; duplicates. The word lists and limits
+are this project's heuristics, not CDC rules.
+
+**Privacy.** The tool takes no file arguments and reads nothing from `/data`. Contact details or
+addresses typed into the description are reported by category in the privacy block (never echoed).
+
+**Limits.** The model is drafted by the AI from the nurse's description; the tool structures and
+checks it but cannot judge whether the program logic is sound. The W.K. Kellogg Foundation's Logic
+Model Development Guide could not be fetched, so the Outputs column and the term "assumptions" are
+used as common practice and the content says so; CDC treats outputs as indicators that belong with
+the evaluation measures. Mermaid output has arrows between columns, not between single boxes.
+Content is pending review.
+
+### `write_smartie_objectives` (PLAN-02, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `objectives` | | Up to 20. Each: `statement`, `objective_type` (`process` or `outcome`), `measure`, `direction` (`increase`, `decrease`, `maintain`), `population`, `geography`, `baseline`, `baseline_period`, `target`, `unit`, `target_date`, `start_date`, `review_points`, `data_source`, `achievability_basis`, `relevance`, `inclusion`, `equity_dimension`, `breakdown_by`, `healthy_people_id`, `responsible`. |
+| `goal` | | The broader goal, for the worksheet. |
+| `healthy_people_queries` | | Up to 6 topics, keywords, or objective IDs ("diabetes eye exam", "D-04"). |
+| `max_matches` | 5 | Matches per lookup, at most 10. |
+| `refresh_live` | true | Re-read each matched objective's page on odphp.health.gov; falls back to the snapshot. |
+| `write_document`, `format` | false, docx | Objectives worksheet in `/data/output/smartie_objectives/`. |
+
+**Output.** For each objective: a statement assembled from the parts (bracketed placeholders for
+what is missing), the seven SMARTIE elements each marked met, given for your judgment, missing, or
+check (with notes and CDC's question), flags (`missing_baseline`, `missing_target`, `missing_date`,
+`missing_population`, `missing_data_source`, `missing_equity_dimension`, `direction_mismatch`,
+`date_unreadable`, `date_before_start`, `no_review_points`, and others), the change from baseline to
+target (absolute, percentage points when the unit is percent, and percent of baseline), and the
+date as read (`YYYY-MM-DD`, `YYYY-MM`, a year, or `M/D/YYYY`; 1900-2100 only). Counts of each gap
+across the objectives. CDC's seven questions and three traditional-versus-SMARTIE examples.
+
+**Healthy People 2030.** Each lookup returns the closest objectives with national baseline (with
+its year), national target, desired direction, status, most recent value, data source,
+target-setting method, Leading Health Indicator flag, and revision notes. Values are read live from
+the objective's own ODPHP page when reachable, else from the bundled snapshot
+(`snapshots/healthy_people_2030_objectives.json`, 507 objectives read 2026-11-12: 356 core, 110
+developmental, 40 research, 1 unclassified), and each answer says which. A linked objective's
+target is compared with yours only when both are in the same kind of unit (percent, per 100,000,
+per 10,000, per 1,000) and the objective is core. Rebuild with
+`python3 -I xtask/scripts/build_design_snapshots.py` (`--check` compares).
+
+**Privacy.** No file arguments. Contact details in the text are reported by category.
+
+**Limits.** ODPHP has no public JSON API for the objectives that could be found, so the adapter
+parses the objective pages; a page redesign breaks live reads (the snapshot still works) and
+`parse_objective_page` has a fixture test. Subpopulation and state data are not included. The site
+shows a court-ordered restoration notice and may change. The checker counts what is present;
+achievable, relevant, inclusive, and equitable are judgments for the nurse and the community.
+CDC's sheet writes "attainable" and "time-based"; its Action Guide writes "achievable" and
+"timebound". Content is pending review.
+
+### `build_evaluation_plan` (PLAN-05, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_name` | required | |
+| `population`, `stage`, `purpose`, `intended_users`, `intended_uses` | | CDC Step 3 purpose statement, users, and uses. |
+| `evaluation_types` | from stage | `formative`, `process`, `outcome`, `impact`, `economic`. No stage: process and outcome. |
+| `logic_model` | | `inputs`, `activities`, `outputs`, `short_term_outcomes`, `intermediate_outcomes`, `long_term_outcomes`; questions and indicators are drafted from it. |
+| `rows` | | Your own questions: `focus`, `evaluation_type`, `question`, `indicator`, `measure`, `baseline`, `data_sources`, `method`, `timing`, `responsible`, `analysis`. |
+| `lenses` | | `re_aim`. |
+| `disaggregate_by`, `roles` | | Groups to break results down by; roles on the team. |
+| `start_date`, `end_date` | weeks | Dated timeline (at most 10 years); a start alone runs 52 weeks. |
+| `roster_path`, `roster_sheet` | | Staff roster CSV/XLSX in `/data`; names beside matching roles in the file only. |
+| `write_document`, `format` | true, docx | Plan in `/data/output/evaluation_plan/`. |
+
+**Output.** Evaluation types with CDC's description, when to use each, and a suggested design; the
+evaluation matrix in CDC's order (focus area, type, question, indicator, measure, baseline, data
+source, method, timing, responsible) with the origin of each question ("CDC example question" for
+MMWR Table 5 wording used word for word, "drafted from your logic model", "your question") and a
+`suggested` list of the cells the tool filled; findings (no purpose, users, uses, stage, groups, or
+dates; question too short or too long; yes/no questions; missing indicator or data source; impact
+evaluation without a comparison; a planned type with no question); the six-step timeline; CDC's
+steps with their key products, cross-cutting actions, standards, data collection methods, and
+data-quality dimensions; the RE-AIM table when requested. The Word plan follows the six steps and
+has blanks for interest holders, baselines, analysis, due dates, and the dissemination plan.
+
+**Privacy.** The roster is read only to match positions; with one holder of a role, the name goes
+beside the role in the plan file. Phone numbers and emails are never copied. The response has
+counts only. Free text is scanned for contact details (reported by category).
+
+**Limits.** Question templates, suggested indicators, data sources, methods, timing, role names,
+stage-to-type mapping, and timeline shares are this project's defaults where CDC gives none (marked
+in the content and in each row). RE-AIM definitions are paraphrased from a 2019 open-access review;
+re-aim.org could not be reached. Content is pending review.
+
+
+
+### `find_evidence_based_interventions` (PLAN-03, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | required | Health topic or problem, for example "childhood obesity" or "colorectal cancer screening". Related words are searched too (smoking and tobacco, drinking and alcohol, and so on; 26 topic groups). |
+| `population` | | For example "adolescents" or "older adults". Used to rank, not to exclude. |
+| `setting` | | For example "school", "worksite", "health care", "community", "home". Used to rank. |
+| `kinds` | all | `recommendation`, `systematic_review`, `economic_review`. |
+| `evidence` | `any` | `any`, `strong_or_recommended` (abstract says strong or sufficient evidence, or that the Task Force recommends), or `insufficient`. |
+| `max_results` | 8 | 1 to 20. |
+| `include_live` | true | Also search PubMed for newer papers (only the topic words are sent); skipped offline, and any failure leaves the snapshot answer standing. |
+
+Data: the bundled `cpstf-publications` snapshot, built by
+`xtask/scripts/build_interventions_snapshots.py` (with `--check`) from PubMed: the 157 journal
+papers indexed under the Corporate Author "Community Preventive Services Task Force" (or its
+earlier name, "Task Force on Community Preventive Services"), of which 145 are bundled (eight
+methods papers and four other items are left out). Each record keeps what PubMed shows (title,
+journal, publication year and month, DOI, MeSH headings, the paper's kind from its title) and,
+from the abstract, the sentences that use rating words ("strong evidence", "sufficient
+evidence", "insufficient evidence", "recommends", "recommends against") and one short excerpt
+each of the findings, the conclusion, and any implementation, barrier, or cost sentence. A rating
+appears only when those words are in the abstract (or, for a few recommendation titles, in the
+title); otherwise the result says the PubMed record gives none. The Rust rule that reads rating
+words is tested against every sentence the builder stored. The Community Guide
+(`www.thecommunityguide.org`) and What Works for Health (`www.countyhealthrankings.org`) both
+answered the build network's connection request with HTTP 403, so neither site nor its terms of
+use was read and What Works for Health has no data here; the result lists what to check on each
+site. `content/planning/evidence_sources.yaml` holds the rating key, the topic synonyms, and
+those notes.
+
+Output: matches ranked by topic words in the title, MeSH headings, and abstract excerpts; for
+each, the evidence wording, quotations, finding, conclusion, implementation notes, a reminder to
+check for updates when the paper is eight or more years old, and links. Privacy: no local files;
+the topic words go to PubMed only for the live search.
+
+Limits: this is not the Community Guide's list of recommendations (its pages, and ratings that
+have no journal paper, are missing), and a paper can be updated or archived after it was
+published. Ratings are per paper, and a paper can cover several interventions.
+
+### `apply_behavior_change_theory` (PLAN-04, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `problem` | required | The health problem or behavior and what is going wrong. Describe a population, never a person (identifier-like text is refused). |
+| `population`, `setting` | | Who the program serves and where it runs. |
+| `barriers` | none | Barriers and facilitators in your own words, one per entry (up to 15). Each is matched to constructs. |
+| `program_components` | none | Planned activities, one per entry (up to 15). Each is matched to strategies that share a word. |
+| `theories` | auto | Ids, abbreviations, or names (`hbm`, `sct`, `tpb`, `ttm`, `sem`, `doi`, `comb`, `sdt`), or `all`. Auto picks up to three whose constructs match your words and adds the Socio-Ecological Model when none looks beyond the individual. |
+| `write_document` | false | Word or PDF worksheet in `/data/output`. |
+| `format` | `docx` | `docx` or `pdf`. |
+
+Data: `content/planning/behavior_theories.yaml` (schema
+`content/schemas/planning_behavior_theories.schema.json`): eight theories and frameworks, 48
+constructs. Construct names and definitions are paraphrased from nine open-access papers (full
+text read through PubMed Central) and CDC's social-ecological model page; the National Cancer
+Institute's Theory at a Glance was blocked and the original theory papers were not read. Each
+strategy is marked `source` (the Social Cognitive Theory strategies come from a published
+construct-to-behavior-change-technique table, the COM-B strategies from the Behaviour Change
+Wheel's published links, the Socio-Ecological Model examples from CDC) or `authored` (this
+project's suggestion). Measure ideas are what to count or ask, not validated instruments; no
+survey instrument is copied. Output: the theories shown with why, constructs (the ones whose
+signal words match your description first, with the words that matched), strategies and
+measures, a barrier-to-construct table, a component-to-strategy table, and notes on choosing
+among theories. Matches are leads, not a diagnosis.
+
+### `track_program_performance` (PLAN-11, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | CSV/XLSX in `/data`: one row per period (wide), one row per period and measure (long), or one row per record (`count_rows`). |
+| `period_column` | required | A date, "2025-Q1", "Jan 2025", "FY26 Q2", or any label. Dates roll up to `date_period` (`month` default, `quarter`, `week`); text periods sort by year and quarter or month when every label has one, otherwise by first appearance. |
+| `measure_column`, `value_column`, `denominator_column` | | Long layout: the measure name, the value (a count or a numerator), and the denominator for percentages. Without `value_column`, rows are counted per period and measure. |
+| `count_rows` | false | Count the rows per period as the measure "Records" (give it a target). |
+| `targets` | required | Up to 12: `measure`, `target`, `direction` (`higher_is_better` default or `lower_is_better`), `kind` (`count` default or `percent`), `denominator` (wide layout column), `basis` (`cumulative` default or `each_period`), `baseline`, `unit`. |
+| `periods_in_program` | | Periods in the program or grant year, for pace (4 quarters, 12 months). |
+| `on_track_fraction` | 0.9 | A cumulative count is "on track" at this share of the pace needed (this tool's convention; use your funder's rule). |
+| `write_report`, `write_workbook`, `write_charts` | true | Report (`format`: `docx` or `pdf`), workbook, and one PNG chart per measure in `/data/output`. |
+
+Method: a cumulative count adds the periods; a cumulative percentage pools numerators and
+denominators (not the mean of period percentages). Progress for a count is total / target; for a
+percentage with a baseline it is (current - baseline) / (target - baseline); without a baseline
+it is current / target for higher-is-better and not computed for lower-is-better. Pace for a
+cumulative higher-is-better count: expected = target x periods reported / `periods_in_program`;
+Met at or above target, On track at or above `on_track_fraction` x expected, otherwise Behind.
+Trend flags run on the periods with data: a run chart (the median and the Anhoej run and
+crossing rules, `phn_epi::spc`) or, for percentages with at least eight periods, a p chart; fewer
+than six periods get no flags, and fewer than ten are flagged as weak. The workbook has a Summary
+sheet (targets, Current, Progress, Expected, Status, and Latest as live formulas) and a Data sheet
+(numerators, denominators, and percent formulas down to row 101), so next quarter's row can be
+typed in.
+
+Privacy: the file is read through `phn_tools::localdata`, and only the named columns are read;
+identifier columns are refused, other columns (including contact people) are never read or
+returned. Period labels must be dates, labels with a number (2025-Q1, Cohort 3), or month or season names, so a column of names the identifier detector does not recognize is refused as a period column, and the values of the measure column are never listed in an error. Only counts by period are
+returned: a count from 1 to the threshold minus 1 (or, for a percentage, a numerator, a
+denominator, or the remainder that small) is hidden, and the measure's totals, progress, center
+line, and status are then withheld because they would reveal it. The report, workbook, and charts
+in `/data/output` hold the full values from the nurse's file.
+
+
+
+### `appraise_evidence` (EBP-03, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` | | A pasted abstract, methods section, or full text. Used only to suggest the design; analysed in memory and never returned. |
+| `path` | | A TXT, Markdown, DOCX, PDF, or HTML file in `/data`, used like `text`. Refused if it holds a Social Security number, date of birth, or medical record number. |
+| `title` | DOI title, file name | A label for the study in your record. |
+| `doi` | | 10.xxxx/... Looked up in Crossref when online (only the DOI is sent); otherwise the DOI is used as entered and the response says which. |
+| `design` | suggested from the text | `randomized_trial`, `non_randomized_intervention`, `cohort`, `case_control`, `cross_sectional`, `systematic_review`, `qualitative`, or `quality_improvement`. Required with `answers`. |
+| `answers` | | `[{question, answer, note}]`: your answers, using the question ids returned the first time. |
+| `key_domains` | all seven | Randomized trials: the risk-of-bias questions you treat as key domains for the summary rating. |
+| `grade` | | `{outcome, evidence_type, judgments: [{domain, change, reason}], final_rating, final_reason}`: your GRADE judgments for a body of evidence on one outcome. |
+| `cerqual` | | `{finding, concerns: [{component, level, reason}], overall_confidence}`: your GRADE-CERQual judgments for a qualitative finding. |
+| `write_record` | true with answers or a certainty judgment | A Word record of your answers in `/data/output`. |
+
+**How it works.** Call it first with the text (or a DOI, or just the design) to get the design
+suggestion and the design's questions; read the study; call it again with `design` and `answers`.
+It checks each answer against the question's scale, lists the answers that deserve a second look,
+and, where the instrument defines an overall rating, applies that rule: the 2011 Cochrane
+risk-of-bias summary for trials (low if every key domain is low, high if any is high, otherwise
+unclear), ROBINS-I's overall judgment (table 2), and AMSTAR 2's overall confidence (box 2: seven
+critical domains; high, moderate, low, critically low). It never answers a question, and an
+instrument that is a reporting guideline (STROBE, SQUIRE 2.0) gets no total. With `grade` it adds
+your rating changes (0 to -2 for risk of bias, inconsistency, indirectness, imprecision, and
+publication bias; 0 to +2 for a large effect, +1 for a dose-response gradient or opposing plausible
+confounding) to the starting level (high for randomized trials, low for observational studies) and
+holds the result between very low and high; a final rating that differs from the sum needs a
+reason. With `cerqual` it records the four components' concern levels and your overall confidence
+with its definition; CERQual has no arithmetic rule, so the tool does not compute one.
+
+**Design identification.** Words in the text (and the DOI's title) are matched against a fixed list
+(for example "randomly assigned", "cohort", "thematic analysis", "plan-do-study-act"); the matched
+words and a strength (likely, possible) come back, never excerpts of the text. Diagnostic accuracy,
+case series, economic evaluations, and guidelines are recognised but have no questions (a pointer
+is returned).
+
+**Sources.** Questions are the project's own wording of items from open-access papers read in full
+on 2026-11-12: the 2011 Cochrane risk-of-bias tool and CONSORT 2010 (trials), ROBINS-I (non-randomized
+studies), STROBE (observational), AMSTAR 2 (reviews), a health-education guide to appraising
+qualitative research, and SQUIRE 2.0. GRADE content is from PubMed abstracts of the GRADE guidelines
+series (2011-2013) and Core GRADE (BMJ 2025), GRADE guidance 24, and the GRADE-CERQual series
+(full text). Every question and domain cites its source and section.
+
+**CASP.** The questions are not CASP's. CASP is linked, not copied; CASP's licence is believed to be
+Creative Commons Attribution-NonCommercial-ShareAlike, which could not be verified (the site was
+blocked), so read the licence on the checklist you download.
+
+**Privacy.** The study text is scanned with the PHI detector and analysed in memory; the response
+has the matched design words, identifier categories (never values), and counts. Your notes are
+redacted if they contain a personal identifier. The Word record has only your answers, notes, and
+label.
+
+**Limits.** The trial questions use the 2011 Cochrane tool (RoB 2 was not read); the ROBINS-I
+questions are the seven domains, not its signalling questions; how AMSTAR 2 counts a "partial yes"
+was not verified (partial yes answers are listed, not counted); the qualitative questions follow one
+guide, not a published instrument. GRADE details come from abstracts (the levels for rating up a
+dose-response gradient or opposing confounding are marked low confidence); GRADE rates a body of
+evidence, not one study. Crossref's response format was written from its documentation and tested
+against a local server (the host was blocked). Content is pending review.
+
+### `build_evidence_synthesis_table` (EBP-04, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `question` | | The review question; used as the title. |
+| `studies` | | Up to 300: `{citation (required), year, design, population, sample_size, intervention, comparator, outcome, effect, quality_rating, quality_tool, identifier, notes}`. |
+| `prisma` | | PRISMA 2020 counts: `records_identified`, `identified_by_source` [{source, records}], `duplicates_removed`, `removed_other_reasons` (0), `records_screened`, `records_excluded`, `reports_sought` (derived), `reports_not_retrieved` (0), `reports_assessed`, `reports_excluded` [{reason, reports}], `studies_included`, `reports_of_included_studies`. |
+| `format` | both | `both`, `docx`, or `xlsx`. |
+| `write_files` | true | false for the response only. |
+
+**Output.** The table as you entered it, a summary (studies, studies with a sample size, total
+participants, median sample size, studies by design, studies by quality rating and tool), and, from
+the counts, the PRISMA 2020 flow: the checked numbers (with any derived or defaulted ones listed),
+Mermaid flowchart text, a self-contained accessible SVG (title, description, no scripts or external
+files), and the flow in sentences. Files in `/data/output/evidence_synthesis/`: `synthesis_table.docx`
+(the diagram as an image with its text alternative, the table, the summary), `synthesis_table.xlsx`
+(the table with a live "share of total n" formula, a Summary sheet with live COUNTA, COUNT, SUM,
+MEDIAN, and SUMPRODUCT formulas, a PRISMA counts sheet whose derived counts are live formulas with
+OK or CHECK flags, and notes), `prisma_flow.svg`, and `prisma_flow.mmd`.
+
+**Arithmetic checks.** All errors are reported at once, as a tool error, and nothing is written:
+sources must add up to the records identified; screened = identified - duplicates - other removed;
+sought = screened - excluded; assessed = sought - not retrieved; reports of included studies =
+assessed - the sum of exclusion reasons; studies included cannot exceed those reports (give
+`reports_of_included_studies` when a study has more than one report). Counts must be whole numbers
+from 0 to 1,000,000,000.
+
+**Sources.** The flow elements follow the "essential elements" of PRISMA 2020 explanation and
+elaboration item 16a (read in full); the figure itself is an image and could not be read, so the
+layout is this project's, not the official template (the "other methods" column and the box for
+earlier versions of an updated review are not drawn). Ratings from different tools are counted
+separately because "low" means different things in different tools.
+
+**Privacy.** No local file is read and no network call is made; the tables hold only what you
+typed. Content is pending review.
+
+
+
+### `plan_quality_improvement` (EBP-05, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `sections` | all | `aim`, `measures`, `drivers`, `fishbone`, `process_map`, `pdsa`, `analysis`, `squire`. The analysis runs only when data are given. |
+| `project_title`, `problem` | | Names the files; the problem heads the fishbone. |
+| `aim` | | `direction` (increase or decrease), `what`, `population`, `baseline`, `goal`, `unit`, `by` (a date or words). Builds "We will ... from ... to ... by ..." and checks it. |
+| `measures` | | List of `name`, `kind` (outcome, process, balancing), `numerator`, `denominator`, `data_source`, `frequency`, `sampling`, `owner`, `goal`. |
+| `drivers` | scaffold | `primary` with `secondary` drivers and their `change_ideas`. |
+| `fishbone` | five empty categories | `problem` and `categories` with `causes` (default categories: people, methods, materials, equipment, environment). |
+| `process_steps` | scaffold | `name`, `kind` (start, step, decision, end), `owner`, `pain_point`, and for a decision `no_goes_to` (step number or name). |
+| `pdsa_cycles` | | `change`, `objective`, `prediction`, `who`, `when`, `where`, `scale`, `data_to_collect`, `builds_on`. |
+| `squire_status` | all to do | `item` (1-18), `status` (todo, in_progress, done, not_applicable), `where_addressed`. |
+| `values`, `labels`, `denominators` | | Measure data typed into the request, in time order (numerators with denominators for a proportion or rate). |
+| `path`, `sheet` | | A CSV/XLSX in `/data`. With `date_column` and `measure_kind` (`count`, `proportion` with `flag_column`, `mean` with `value_column`) and `period` (week, month, quarter): one row per event, grouped by period. With `period_column` and `numerator_column` (and `denominator_column`): one row per period, such as the tracker this tool writes. |
+| `baseline_points`, `phase_starts` | all points, none | Points that give the median or center line; labels of the first period after each documented change (a new median or limits start there). |
+| `chart_type` | `run` | `run`, `xmr`, `p`, `u`, or `c`. |
+| `rule_set` | `both` | For run charts: `ihi`, `anhoej`, or `both`. |
+| `measure_name`, `display_scale`, `format` | | Chart labels; proportions are shown as percent (100); `png`, `svg`, or `both`. |
+| `write_plan`, `write_tracker`, `write_diagrams` | true | DOCX plan, XLSX tracker, and SVG/PNG diagrams in `/data/output`. |
+
+**What it produces.** The three Model for Improvement questions; an aim statement with checks
+(population, numbers, time, direction; "ambitious yet feasible" is left to the team); a measure family with
+operational definition gaps; a **driver diagram**, **fishbone diagram**, and **process map** as
+Mermaid text, accessible SVG and PNG (role, title, description; shapes and labels, not color alone),
+and a text alternative (an outline); PDSA cycle plans with checks drawn from a systematic review of
+PDSA reports (prediction, small scale, data over time, linked cycles, one change, documentation);
+and the SQUIRE 2.0 checklist.
+
+**Data analysis.** Run charts apply the IHI/Perla rules (a shift is 6 or more points on one side of
+the median, a trend is 5 or more points going one way with a repeated value counted once, too few or
+too many runs from the exact distribution of runs at 2.5% in each tail, and a screen for an
+astronomical point: modified z-score above 3.5 against the other points) and the Anhøj rules (the
+longest run longer than round(log2(n)+3), crossings fewer than the 5th percentile of
+Binomial(n-1, 0.5)). Both sets are shown by default; the Anhøj rules performed better in a published
+simulation and the notes say so when only the IHI rules signal. Control charts (XmR, p, u, c) use the
+`phn-epi` SPC engine (3-sigma limits, eight points on one side, six rising or falling, 2 of 3 beyond
+2 sigma, 15 within 1 sigma). A new phase gets its own median or limits.
+
+**Files.** The DOCX plan (diagrams as images with alt text and as outlines, measure and PDSA tables,
+the chart and its signals, the SQUIRE table, an approval table). The XLSX tracker: a Data sheet with
+live formulas (value, median, side, run length, shift, trend, new run, moving range, limits) and
+Settings cells for the baseline and the rule lengths, a Summary sheet that recomputes the signals as
+periods are added (IHI shift, trend, and runs; Anhøj long run and crossings; points outside limits),
+a native chart, and the Measures, PDSA, and SQUIRE sheets with drop-downs. The formulas were
+recalculated in LibreOffice and matched an independent computation
+(`crates/phn-tools/tests/fixtures/generators/check_qi_tracker.py`).
+
+**Privacy.** Files are read through the local-data guardrails: identifier columns are refused,
+rows are grouped into periods, and periods built from fewer records than the suppression threshold
+are hidden. When any period is hidden the median, limits, and phase averages are withheld from the
+response (with the other values they would reveal the hidden number); the chart and tracker in
+`/data/output` carry every value. Period labels that look like identifiers are refused. Text typed
+into the request is scanned for phone numbers, emails, and addresses, which are reported in the
+privacy block. Use roles, not names, for owners.
+
+**Sources and limits.** Content is `content/ebp/quality_improvement.yaml` (pending review),
+drafted from open-access articles read through NCBI E-utilities: the SQUIRE 2.0 article, a core
+components guide for QI design (the Model for Improvement questions, aim attributes, measure
+families, driver diagrams), the two Anhøj run chart papers, a PDSA systematic review, a fishbone
+primer, and two QI methods articles. IHI's own pages, the SQUIRE website, the full text of the Perla
+2011 paper, and *The Improvement Guide* could not be read; items resting on them are marked low
+confidence. SQUIRE is copyrighted: the checklist gives item numbers, names, and its own
+paraphrases and a license note, not the guideline's wording. The astronomical-point screen and the
+runs limits are this tool's computation and were not compared with Perla's wording or table. The
+tool does not decide whether work is quality improvement or research (a planned Phase 18 tool will
+help with that determination).
+
+
+
+## Phase 17: Grants and finance
+
+
+
+### `search_grant_opportunities` (PLAN-06, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | all health topics | A subject in plain words (at most 100 characters), or one of `public_health`, `behavioral_health`, `maternal_child`, `communicable_disease`, `chronic_disease`, `older_adults`, `environmental_health`, `emergency_preparedness`, `housing_social`, `workforce_capacity`. A topic that looks like a personal identifier is refused. |
+| `eligibility` | `local_health_agency` | `local_health_agency`, `state_agency`, `tribal_health`, or `any`: the federal applicant types to filter by. |
+| `source` | `both` | `both`, `federal`, or `commbuys`. |
+| `closes_after` / `closes_before` / `within_days` | today / none / none | Closing-date window (`YYYY-MM-DD`; years 1900 to 2100). |
+| `min_award` / `max_award` | none | Federal award ceiling of at least, and award floor of at most, this many dollars. |
+| `include_forecasted` | false | Include forecasted (not yet posted) federal opportunities. |
+| `grants_only` | false | COMMBUYS: only titles that look like a grant or funding offer. |
+| `limit` | 25 | At most 100. |
+
+Data: **federal** listings come from the Simpler.Grants.gov search API
+(`POST https://api.simpler.grants.gov/v1/opportunities/search`, request and response read from the
+project's published OpenAPI file) when the optional environment variable `PHN_GRANTS_GOV_API_KEY`
+is set (the key goes in an `X-API-Key` header and is never cached, returned, or put in a message).
+Without a key, or when the request fails, the answer says `mode: snapshot` and why; the bundled
+snapshot holds **no federal listings**, because api.simpler.grants.gov, simpler.grants.gov,
+www.grants.gov, and the other federal grant sites were blocked from the build environment and
+nothing could be fetched. The live path was therefore tested only against a local server answering
+in the specification's shape. **Massachusetts** listings are the Operational Services Division's
+weekly "New Bids Available" PDF on mass.gov, read live when the page is reachable and its layout
+still parses (cached six hours), otherwise the bundled `commbuys-weekly-bids` snapshot (147 bids,
+list dated 2026-11-09; builder `xtask/scripts/build_grants_snapshots.py`). COMMBUYS itself
+(commbuys.com) was blocked. The list gives each bid's organization, closing date and time,
+description, and bid number; the tool adds topic tags and a kind (grant or funding offer, request
+for response or proposal, purchase or contract) from keywords in `content/planning/grant_sources.yaml`
+(tool defaults). Bids that closed before today are counted and left out.
+
+Output: for each source its mode, as-of date, reason when not live, and counts; the filters applied
+and those that could not be (eligibility and amount do not exist on the COMMBUYS list, so those
+bids are kept and flagged); the opportunities soonest closing first (source, id, title, agency,
+kind, closing date and time, days left, award range, applicant types, topics, how to find it);
+where else to look (Simpler.Grants.gov, CDC, EPA, DPH requests for response, COMMBUYS, the OSD
+list, the Office of Behavioral Health Promotion and Prevention, whose fall 2025 round is closed);
+Massachusetts procurement facts from DPH's "Doing business with DPH" page (competitive bids only,
+no unsolicited proposals, RFRs on COMMBUYS, vendor registration for email notices); and what could
+and could not be reached.
+
+Privacy: only topic words and filters are sent to outside services. Nothing is read from local files.
+
+Limits: no federal listing could be fetched here; COMMBUYS bid details (type, amount, eligibility,
+description) were not readable; the topic keywords and the mapping of agency type to federal
+applicant types are this project's own (low confidence). A match is a lead, not a determination of
+eligibility.
+
+### `analyze_funding_announcement` (PLAN-07, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `path` | required | A PDF, DOCX, HTML, TXT, or Markdown announcement in `/data`. |
+| `kind` | `auto` | `auto`, `federal_nofo`, `ma_rfr`, or `other`; only changes how the result labels it. |
+| `write_checklist` | true | DOCX and XLSX checklist in `/data/output`. |
+
+Method: the file's text is read with the Phase 1 extractors (PDF text by page; DOCX headings and
+tables), split into pages or sections, and searched with regular expressions and the word lists in
+`content/planning/announcement_patterns.yaml` (tool defaults). It finds: dates with a deadline cue
+(submission, questions, conference, letter or notice of intent, award, start) and their days from
+today; page, word, and character limits (including "eight (8) double spaced pages") tied to the
+nearest heading, and format rules (font, spacing, margins, file type); attachments, appendices,
+exhibits, SF form numbers, and lists introduced by "must include"; scoring criteria with points
+(`Label (20 points)`, `Label: 20 points`, a points column in a table) or, when there are no points,
+numbered components ("Criteria 2: ...") and rating words (Highly Advantageous, Advantageous); eligibility
+sentences and the applicant types they name (municipality, county, nonprofit, tribal, and so on) and
+whether they exclude; dollar amounts near funding words; project periods; the submission method;
+announcement numbers and COMMBUYS bid numbers; cost-sharing mentions. Each criterion is typed by
+keyword (need, approach, evaluation, capacity, partnerships, equity, sustainability, budget, cover) and mapped to the
+narrative section that answers it. The response outline follows the announcement's own criteria
+in order, or a generic default outline (said so) when none were found.
+
+Output: counts; the primary submission deadline; deadlines, limits, format rules, attachments,
+criteria, eligibility findings (location and categories only), amounts, terms, submission methods;
+the outline; **what could not be found** (always listed); and the checklist files. The XLSX has a
+"Scoring criteria" sheet that `draft_grant_narrative` reads through `criteria_file`.
+
+Privacy: only structure, counts, dates, and labels of at most 100 characters are returned, never long
+passages. Procurement contacts (names, phones, emails) are never returned: any label containing a
+possible identifier is dropped and counted. Eligibility excerpts (300 characters) are written only to
+the DOCX and XLSX. A file that looks like a client record (several record numbers, SSNs, or dates of
+birth) is refused. Scanned PDFs without text are rejected with advice.
+
+Limits: pattern matching, not judgment: it can miss items in tables, images, or linked documents and
+can mistake a sentence for a requirement (the checklist says so). PDF text from the server's reader
+arrives in fragments (cells and even dates such as "10/20/2025" can be split, some words are cut by a
+space, and the cells of some PDF tables are not extracted at all), so for PDFs the reader also
+searches each page as running text, joins split dates, and reads criteria, appendices, and limits
+from sentences; labels read that way can include a stray word. It was tried on synthetic notices
+(`fixtures/synthetic/generators/phase17_grants_fixtures.py`) and on a public Massachusetts RFR and a
+state NOFO, and **not on a real federal NOFO** (Grants.gov and the federal grant sites were
+blocked). Amendments are not read unless saved as part of the file.
+
+### `draft_grant_narrative` (PLAN-08, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `project_title`, `funder`, `applicant`, `community` | applicant from letterhead settings, community from the saved town | Names for the draft. |
+| `sections` | all | `needs_statement`, `project_narrative`, `sustainability`. |
+| `criteria` / `criteria_file` | none | Scoring criteria typed in (label, points, optional section), or the XLSX checklist from `analyze_funding_announcement` (its "Scoring criteria" sheet). |
+| `data_points` | none | Statistics you supply: label, value, geography, source, year, comparison. |
+| `facts` | none | Program facts: health problem, population, disparities, current services, gap, goal, objectives, activities, timeline, evidence, staffing, partners, evaluation, capacity, sustainability funding, policy, partners, in-kind support, use of results. |
+| `page_limit` | none | A reminder shown in the draft. |
+| `output_name` / `write_document` | by title / true | DOCX file name stem and whether to write it. |
+
+Method (template plus local fill, ADR 0008): the sections and their parts come from
+`content/planning/narrative_templates.yaml` (this project's own drafting skeletons). Each part is
+filled with the fact you gave (verbatim) or shows `[NURSE: ...]` with what to add. Statistics are
+shown only from `data_points`, as "label: value (geography; source, year; comparison)"; one without a
+source or year shows a placeholder for it. Criteria are typed by keyword and mapped to the section
+that answers them, with writing prompts for each type; budget and form criteria are listed as not
+drafted here (use `build_program_budget`, and the checklist's attachments).
+
+Output: the criteria and where each is answered, the section drafts (text, parts filled, placeholders,
+words), counts of data points and placeholders, and the DOCX in `/data/output`.
+
+Privacy: the draft holds only what you pass and template wording. A client identifier in any input
+(record or social security number, date of birth) is refused without echoing it. Nothing is read from
+local files except the checklist file.
+
+Limits: the tool does not write prose from memory, so the draft is a scaffold; the writing prompts are
+this project's, not a funder's. English only.
+
+
+
+### `build_program_budget` (PLAN-09, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `project_name`, `organization` | "Program budget", your letterhead's agency name | Name the files and head the justification. |
+| `years` | the last year any line names, or 1 | 1 to 5 budget years. |
+| `line_items` | | Costs typed into the request (up to 150): `category` (`personnel`, `travel`, `equipment`, `supplies`, `contractual`, `other`), `item` (a role or description, never a name), `funding` (`federal` or `cost_share`). Personnel: `annual_salary` and `effort_percent`, optional `fringe_rate_percent`. Others: `unit_cost`, `quantity` (default 1), `unit`. Optional `escalate`, `first_year`, `last_year`, `subaward` (contractual), `exclude_from_mtdc` (`participant_support`, `rental`, `patient_care`, `tuition_or_scholarship`, `capital_expenditure`). |
+| `line_items_path`, `sheet` | | A CSV/XLSX in `/data` with one row per cost (columns `category`, `item`, and `annual salary` and `effort percent` or `fte`, or `quantity` and `unit cost`; optional `funding`, `unit`, `fringe rate`, `escalate`, `first year`, `last year`, `subaward`, `exclude from mtdc`). Read locally. A file with a name, phone, email, or other identifier column is refused. |
+| `fringe_rate_percent` | required with personnel lines | Percent of salary (25 for 25 percent). |
+| `salary_escalation_percent`, `other_escalation_percent` | 0 | Yearly increase for personnel lines and for other lines that escalate (equipment does not by default). Year k = year 1 x (1 + rate)^(k - 1). |
+| `indirect` | de minimis, 15 percent of MTDC | `method` (`de_minimis`, `negotiated`, `none`), `rate_percent`, `base` (`mtdc`, `total_direct`, `salaries_and_wages`, `salaries_and_fringe`), `charge_on_cost_share`. A de minimis rate above 15 percent, or on another base, is refused. |
+| `required_cost_share` | | `percent` and `basis` (`total_project` or `federal_request`): checks the cost share lines against the requirement. |
+| `write_workbook`, `write_justification` | true | XLSX and DOCX in `/data/output`. With no line items the tool writes a blank workbook (spare rows with live formulas). |
+
+**What it computes.** Each line's amount by year (rounded to the cent), fringe on personnel lines,
+direct costs by object class (personnel, fringe, travel, equipment, supplies, contractual, other),
+the modified total direct cost (MTDC) base, indirect costs on the chosen base, the cost share, and the
+match check. MTDC follows 2 CFR 200.1: salaries and fringe, supplies, services, travel, and the first
+$50,000 of each subaward over the whole award; it leaves out equipment, capital expenditures, patient
+care, rental costs, tuition remission and scholarships, participant support costs, and the part of a
+subaward above $50,000. The de minimis rate is up to 15 percent of MTDC (2 CFR 200.414(f), eCFR
+current through 2026-11-09; it was 10 percent before the October 1, 2024 revision). The response also
+reports that an independent re-addition of every line agreed with the category totals.
+
+**Files.** The workbook has Read me, Inputs (yellow cells with drop-downs), Line items (formulas for each
+year's amount, fringe, and MTDC base, with spare rows), and Budget summary (SUMIFS by object class for the
+federal request, the cost share, and the project total; indirect costs by `CHOOSE` on the base; the match
+check; an arithmetic check). Changing a rate or a line recalculates everything in Excel or LibreOffice.
+The DOCX justification is drafted from the line items with template text and `[NURSE: ...]` placeholders
+for what only you know (duties, how rates were set, partners, sources of cost share). The formulas were
+recalculated in LibreOffice and matched an independent Python computation to the cent
+(`crates/phn-tools/tests/fixtures/generators/check_budget_workbook.py`).
+
+**Privacy.** The response returns category totals by year, rates, structure, and the cited rules: never
+individual salaries, lines, or staff names. Salaries and lines go only into the two files in
+`/data/output`. Figures typed into the request were seen by the AI assistant, so put salaries in a file and
+use `line_items_path` to keep them local. A personnel total for one position equals that position's
+cost: the response says so.
+
+**Sources and limits.** Content is `content/planning/budget_reference.yaml` (pending review). The rules
+are quoted from the eCFR text of 2 CFR 200.1, 200.306, 200.414, 200.431, and 200.456. The SF-424A line
+letters (6a to 6k) could not be checked against the form or its instructions (grants.gov was blocked) and
+are low confidence. Your funder's notice controls: it may cap indirect costs or define cost share
+differently. Construction (SF-424A line 6g) is not built. No salary caps, regional rates, or mileage rates
+are applied; no federal rate is invented. Decision support, not a certified budget.
+
+### `economic_evaluation_calculator` (PLAN-10, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_name`, `perspective` | "Program", `program` | `program`, `payer`, or `societal`: whose costs and benefits are counted. |
+| `program_cost` or `costs_by_year` | required | Total cost (year 1) or a list by year; the longest list sets the horizon (up to 30 years). |
+| `participants` | | Gives cost per participant. |
+| `outcomes` or `outcomes_by_year` | | Outcomes achieved (cases averted, people who quit). Gives cost per outcome. |
+| `benefit_per_outcome`, `other_benefits` or `other_benefits_by_year` | | Dollar value of one outcome (cite where it comes from) and other savings or revenue. Gives net benefit, benefit-cost ratio, return on investment, payback, and break-even. |
+| `comparator` | | `cost` or `costs_by_year`, and `outcomes` or `outcomes_by_year` (0 for "no program"). Gives the incremental cost-effectiveness ratio. |
+| `discount_rate_percent` | 3 | Costs and dollar benefits; `outcome_discount_rate_percent` (default the same) for outcomes. `first_year_discounted` (default false) discounts year 1 too. |
+| `willingness_to_pay` | none | Used only if you give it (net monetary benefit). The tool applies no threshold of its own. |
+| `sensitivity`, `sensitivity_metric` | defaults | List of `parameter` (`program_cost`, `participants`, `outcomes`, `benefit_per_outcome`, `other_benefits`, `comparator_cost`, `comparator_outcomes`, `discount_rate`), `low`, `high`. Numbers with no range get 20 percent either way (0 to 7 percent for the discount rate). Metric: `benefit_cost_ratio`, `return_on_investment`, `net_benefit`, `cost_per_outcome`, `cost_per_participant`, `icer`. |
+| `run_sensitivity`, `write_chart`, `chart_format` | true, true, both | The tornado chart goes to `/data/output/charts` as SVG and PNG. |
+
+**What it computes.** Present values (year 1 at the start of the program and not discounted unless you ask;
+year t divided by (1 + rate)^(t - 1)); cost per participant; the average cost per outcome (against doing
+nothing); the ICER with a classification (dominant, dominated, more costly and more effective, less costly
+and less effective, no difference: a ratio is reported only for the two middle cases); net benefit,
+benefit-cost ratio, and return on investment (net benefit over cost); payback year; and break-even (the
+value per outcome, and the share of expected outcomes, at which benefits equal cost). The one-way analysis
+varies each number alone, sorts by swing, and says when the conclusion changes inside a range. The chart is
+a dot-and-range plot with a title, a description, a data table, and a text alternative in the response.
+
+**Interpretation guards.** The plain-language reading says that the numbers are your inputs and do not show
+causation; that an average cost per outcome is not an incremental ratio; that a benefit-cost ratio below 1
+leaves out benefits you did not value in dollars; that a dominant program has no meaningful ratio; that no
+cost-effectiveness threshold fits every decision; and that costs and benefits should be counted from one
+stated perspective.
+
+**Sources and limits.** Content is `content/planning/economic_evaluation.yaml` (pending review). The 3 percent
+default discount rate rests on CDC's MMWR 2024;73(31), which discounted at 3 percent as the Second Panel on
+Cost-Effectiveness in Health and Medicine recommends; the Panel's report itself and OMB Circular A-94 could not
+be read (hosts blocked), so the rate is medium confidence and Circular A-94's rates are not used. The default
+sensitivity ranges (20 percent; 0 to 7 percent) are this tool's choices. The golden tests reproduce the
+benefit-cost results in that MMWR report (Table 2) and compare the rest with an independent exact-fraction
+computation (`crates/phn-tools/tests/fixtures/generators/economic_golden.py`). **Privacy.** No file is read and
+nothing identifiable is involved. Decision support only.
+
+
+
+### `analyze_health_department_budget` (LEAD-01, toolset `leadership`)
+
+Analyzes a budget or ledger file in `/data` and returns category totals only. It compares what
+each category has spent or collected with the share of the fiscal year that has passed, splits
+revenue into groups, costs services from volumes you supply, and forecasts the year end two ways.
+Decision support: the figures come from your file and are not checked against the general ledger.
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | CSV or XLSX. One row per account line (budget and year-to-date actual), or one row per account line per month (give `period_column` and `account_column`). |
+| `category_column` | found by name | Category, Account Category, Object Class, and similar. |
+| `type_column` | found by name | Revenue or Expense. Without it every row is an expense and the revenue mix is skipped. |
+| `source_column` | found by name | Fund or revenue source; sorts revenue into groups. |
+| `budget_column`, `actual_column` | found by name | The annual budget; year-to-date actual (or each month's actual in a monthly ledger). |
+| `encumbrance_column` | found by name | Money reserved for open orders and contracts. |
+| `account_column`, `period_column` | found by name | The account code (never returned) and the month (`2026-07`, `Jul 2026`, or a date). A period column turns on the run-rate forecast. |
+| `positions_column`, `personnel_headcount`, `personnel_categories` | | How many positions stand behind the salary lines, and extra category names to treat as salary categories. |
+| `as_of_date` | today | `YYYY-MM-DD`. |
+| `fiscal_year_start_month` | 7 | July 1 is the Massachusetts municipal year (G.L. c. 44, section 56). Use 10 for a federal year, 1 for a calendar-year grant. |
+| `pace_tolerance_points` | 10 | Percentage points ahead of or behind pace that raise a flag. This tool's convention. |
+| `run_rate_months` | 3 | Complete months averaged for the run-rate forecast. |
+| `revenue_group_overrides` | | `label` and `group` (phe, federal, state_other, fees, municipal, other_grants, other) for labels the word lists do not place. |
+| `services` | | `name`, `volume` (units so far), `costs` (`category`, `share_percent`), `planned_annual_volume`. |
+| `indirect_rate_percent`, `population`, `department_name` | | An indirect rate to add to cost per service; population for budget per resident; a title. |
+| `write_workbook`, `write_report`, `format` | true, true, docx | The workbook with live formulas and the summary report (`docx` or `pdf`) go to `/data/output`. |
+
+**Method.** The fiscal year is the 12 months starting on the chosen month that contain the as-of
+date; elapsed share = (as-of date - start + 1) / days in the year. For each category: remaining =
+budget - actual - encumbrances; percent of budget = actual / budget; expected by pace = budget x
+elapsed share; points versus pace = percent of budget - percent of year elapsed. Status: *Over
+budget* (actual + encumbrances above the budget), *No budget*, *Ahead of pace* or *Behind pace*
+(beyond the tolerance), else *On pace*. Forecasts: **straight line** = actual / elapsed share;
+**run rate** = actual + average monthly actual of the last N complete months in the file x 12 x
+(1 - elapsed share), available only for monthly ledgers. Both are labelled in the output and are
+projections of a pattern, not predictions. In a monthly ledger each account's annual budget is
+taken once (from its latest month with a budget), encumbrances from its latest month, and actuals
+are summed from the start of the fiscal year through the as-of month. Cost per service = the sum
+of (category year-to-date actual x your share) x (1 + indirect rate) / units. The reference values
+for these formulas come from an independent Python computation
+(`crates/phn-server/tests/fixtures/phase17_finance/generate_expected.py`), and the workbook's
+formulas were recalculated in LibreOffice.
+
+**Revenue groups.** Fees, permits, licenses, and revolving funds; municipal appropriation (general
+fund); State Public Health Excellence (PHE) grants; other state funds; federal funds; other grants
+and gifts; other or not classified. A label is placed by whole words in the fund or source label
+(`content/leadership/department_finance.yaml`, tool defaults, not DPH or DLS classifications);
+labels that match nothing are listed so you can place them with `revenue_group_overrides`. The PHE
+group is a label match (PHE, SAPHE, public health excellence, shared services), not a check against
+DPH's award records.
+
+**Public Health Excellence.** Cited statements from DPH's PHE page (the program, FY2027 funding of
+up to $26.6 million in state and federal funds through the Office of Local and Regional Health, the
+FY2026 positions it funds including 46 public health nurses, shared service arrangements, and the
+2020 renaming from the Municipal Public Health Shared Services program to SAPHE), from the SAPHE
+2.0 guidance, and from DPH's 2022-2023 capacity assessment. **Not read:** the request for
+responses and the award contract, so the tool does not say which costs PHE may pay or how awards are
+reported. DPH's page gives different counts of grantees (54, 56, and 57), so none is bundled.
+
+**Per resident.** With `population`, the municipal appropriation budget and the total revenue
+budget per resident are shown beside DPH's published figures (2022-2023 capacity assessment): an
+average municipal budget of $17.56 per capita across shared services arrangements (high), an average
+combined municipal and grant funding of $26.61 (high), and an estimate of $36.98 as the municipal
+budget needed for basic capacities, from research the report does not name (medium confidence).
+These are budgets of arrangements, not of one town.
+
+**Privacy.** Only the category, type, source, amount, account, month, and position columns are read.
+Columns whose header looks like names of people or vendors, contact details, or identifiers (name,
+employee, vendor, payee, supplier, staff, contact, SSN, email, phone, address, invoice, check
+number) are refused when named and never chosen automatically; columns the PHI detector flags are
+refused by the local-data guardrails; category values that look like identifiers are refused. No
+account code, vendor, employee, or row is returned or written. All salary and wage categories
+(salary, wage, payroll, personnel, personal services, stipend, compensation, overtime, longevity, per
+diem, fringe, employee benefits, or named in `personnel_categories`) are combined into one row. If
+the combined group has fewer than 3 positions, its amounts are hidden in the response, the workbook,
+and the report; expense totals and revenue minus expenses leave it out or are withheld; and a
+service cost that includes it is withheld. The position count is the smaller of the figures you
+give (the sum of `positions_column`, or `personnel_headcount`); with neither, the number of salary
+accounts in the file is used as a proxy that can overstate it. The output files hold the same
+category totals as the response.
+
+A column header that the PHI detector flags only because it says "account" (a general ledger's
+Account or Account Category) is accepted, since every ledger has one; any other finding still
+refuses the column, the values are still scanned for identifiers (a column whose cells look like
+people's identifiers is refused), and account codes are only counted and matched, never returned.
+
+**Limits.** No reconciliation with the general ledger; straight-line pace ignores seasonality; a
+monthly ledger needs one account column and whole months; revenue groups depend on label wording;
+files with more rows than the reader's limit are refused. Content is pending review.
+
+### `model_staffing_needs` (LEAD-02, toolset `leadership`)
+
+Estimates public health nurse full-time equivalents (FTE) from service volumes and time standards
+that you supply. Decision support for workforce planning, not a staffing determination.
+
+| Argument | Default | |
+|---|---|---|
+| `services` | | Up to 20: `name`, `annual_volume`, `minutes_per_unit`. Give these or `volumes_path`. |
+| `volumes_path`, `sheet`, `service_column`, `volume_column`, `minutes_column` | | A CSV/XLSX with one row per service. Only those three columns are read. |
+| `paid_hours_per_year`, `holiday_hours`, `vacation_hours`, `sick_personal_hours`, `training_hours`, `non_service_percent` | 2080, 88, 120, 64, 24, 20 | The productive-hours inputs. **Only 2,080 (40 x 52) is arithmetic; the rest are placeholders with no published source**, labelled "tool default" in the output. |
+| `current_fte`, `population`, `clients` | | For the gap to current staffing, residents per nurse FTE, and clients per nurse FTE. |
+| `scenarios` | | Up to 8: `name`, `volume_growth_percent` (applied to every baseline service), `added_services` (own volumes and minutes, not grown). "Baseline" is always included. |
+| `benchmark` | none | A benchmark you supply: `label`, `source` (yours), `population_per_fte` and/or `clients_per_fte`. Compared and labelled as yours; not verified. |
+| `rounding_step_fte` | 0.1 | FTE are rounded up to this step (0.5 for half-time positions). |
+| `program_name`, `write_workbook`, `write_report`, `format` | | Title; workbook with live formulas and summary report (`docx` or `pdf`) go to `/data/output`. |
+
+**Method.** Hours of work = sum of volume x minutes per unit / 60. Productive hours per FTE =
+(paid - holiday - vacation - sick and personal - training) x (1 - non-service share). FTE needed =
+hours of work / productive hours; rounded up to the step. A scenario's hours = baseline hours x
+(1 + growth) + hours of added services. Reference values come from an independent Python
+computation (`crates/phn-server/tests/fixtures/phase17_finance/generate_expected.py`); the
+workbook's formulas were recalculated in LibreOffice.
+
+**Benchmarks: none are bundled.** Looked for and not used (also returned in
+`benchmarks_not_bundled`): a public health nurse to population ratio (a search result attributed 1
+per 5,000 to a 2022 American Journal of Public Health article, whose text could not be read and
+whose abstract does not give it); NACCHO's local public health workforce staffing benchmarks and the
+PHAB workforce calculator (hosts blocked); Massachusetts SAPHE 2.0 and Performance Standards (the
+guidance and DPH's capacity assessment set workforce education, training, and credential standards
+and report budgets and shared-staff FTE, not a nurse ratio); published time standards (none found).
+DPH reported 46 PHE-funded public health nurses in FY2026, a count and not a benchmark.
+
+**Privacy.** Services are typed in or read from a file through the local-data guardrails (identifier
+columns refused; only three columns read; names in a service label are refused). No client or staff
+data is read, and nothing but the figures you supply is returned or written.
+
+**Limits.** Scenarios change volumes or add services, not minutes per unit or productive hours; no
+hiring time, leave coverage, or skill mix. Content is pending review.
+
+
+
+## Phase 18: Leadership, accreditation, and professional practice
+
+
+
+### `assess_foundational_public_health_services` (LEAD-03, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | saved town | City or town, to show the shared service arrangement DPH lists for it (arrangement, lead entity, training hub, member towns). |
+| `sets` | all four | `performance` (mandated local responsibilities), `workforce`, `statute` (program terms in G.L. c. 111, s. 27D(a) with no single FPHS twin), `fphs` (the 56 FPHS Headline Responsibilities). |
+| `statuses` | | Statuses you record: `standard_id`, `status` (`met`, `partial`, `not_met`, `not_applicable`; also yes, no, partly met, n/a), optional `delivered_by` (`own`, `shared`, `contract`, `state`, `not_delivered`), `priority` (`high`, `medium`, `low`), `note`. At most 400. |
+| `assessment_path` / `assessment_sheet` | | The self-assessment worksheet this tool wrote, with its Status (and optionally Delivered by, Priority, Notes) columns filled in, as CSV/XLSX in `/data`. Typed `statuses` override it. |
+| `write_documents` | true | Worksheet or gap analysis in `/data/output`. |
+| `formats` | `docx`, `xlsx` | Either or both. |
+
+**What it does.** Without statuses it writes a self-assessment worksheet (XLSX: ID, set, area,
+standard, citation, Status, Delivered by, Priority, Notes) and a guide (DOCX), and returns the
+number of standards by set. With statuses (typed or from the filled worksheet) it returns counts
+by set and area, the percent met of rated standards, a gap table, and a **priority view**: tier 1
+mandated responsibilities not met; tier 2 mandates partly met, plus workforce, statute, and FPHS
+capability items not met; tier 3 everything else (the rules are returned; your own priority
+replaces the tier for that item). Shared-service options come from the statute (comprehensive
+districts, G.L. c. 40, s. 4A formal shared services, other arrangements), DPH's Public Health
+Excellence grants, technical assistance and training hubs, and DPH's April 2026 list of shared
+service arrangements. The files hold every gap with your notes.
+
+**Sources.** G.L. c. 111, s. 27D (read in full on malegislature.gov); DPH's Performance
+Standards workbook (published 2023-10-11, file last modified 2024-07-15; snapshot
+`ma-performance-standards`: 93 mandates and 13 workforce standards); DPH's FPHS operational
+definitions (Word file modified 2024-11-05; 56 Headline Responsibilities); DPH's shared service
+arrangement list (April 2026; snapshot `ma-shared-service-arrangements`, 351 municipalities).
+
+**Law and name.** The plan and the request that started this work said "2020" and "2024 SAPHE
+2.0". mass.gov and the statute say the State Action for Public Health Excellence (SAPHE) program
+came from legislation enacted in 2020 (the grant program was renamed in April 2020) and is now run
+as the Public Health Excellence (PHE) grants. No page read used the name "SAPHE 2.0". Each board of
+health reports compliance to DPH by August 31 (s. 27D(d)(2)).
+
+**Privacy.** Only the ID, Status, Delivered by, Priority, and Notes columns of your worksheet are
+read; a file with identifier columns in those, or with no ID column, is refused without echoing a
+value. The response has counts and public standard IDs; notes are written only to `/data/output`.
+
+**Limits.** Content is a draft pending expert review (`review_due` 2027-02-01). The status scale,
+tiers, and the mapping of statute terms to FPHS areas are this project's; DPH's workbook has no
+scoring. The workbook's one-line summaries are shortened (the citation controls); some standards
+are marked * as possibly outdated. The licence terms of the FPHS framework and of mass.gov
+documents were not read. PHAB's and de Beaumont's FPHS pages (phaboard.org) were not reachable.
+
+
+### `phab_accreditation_crosswalk` (LEAD-04, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `folder` | policy folder | Folder under `/data` with your documents (PDF, DOCX, Markdown, text, HTML; subfolders included). |
+| `domains` | all | PHAB domains 1 to 10 to include. |
+| `measures_path` / `measures_sheet` | | A CSV/XLSX in `/data` from your own copy of PHAB's document: `Measure ID`, `Short title`, optional `Keywords` (semicolon separated). |
+| `max_documents_per_standard` | 5 | 1 to 10. |
+| `write_documents`, `formats` | true; both | Crosswalk in `/data/output` (DOCX and XLSX). |
+
+**What it does.** Searches the Phase 1 document index (the one `search_agency_policies` uses) for
+this project's keyword cues for each of the 20 PHAB Version 2022 standards (10 domains), and
+reports evidence as **strong** (two or more cues in one section, or cues in three or more
+sections), **some** (at least one cue, or a file name such as "Strategic Plan"), or **none
+found** (a gap). For each standard it lists the documents (your file names), the cues matched,
+and a passage of at most 20 words with names and contact details redacted. The XLSX has the
+crosswalk, domain summary, a document view, the measures you supplied, and the files left out.
+
+**Privacy.** A file that looks like a client record (labeled birth date, record or health plan
+number, two or more street addresses, "Client name:" style labels) or an interview or meeting
+transcript is left out, counted, and named only in the output file. Passages are redacted at the
+strict level. The response never holds more than file names, cue words, evidence levels, and the
+short passages.
+
+**PHAB content and licence.** PHAB's Standards & Measures are PHAB's copyrighted work. PHAB's
+document (phaboard.org) could not be reached from the build network, so this tool bundles only
+the domain names, standard numbers, and short standard titles as CDC's 2023 crosswalk toolkit
+shows them, plus keyword cues written for this project. **Measure IDs and titles are not
+bundled**; use `measures_path` with a list from your own PHAB copy, and check PHAB's terms.
+
+**Limits.** A keyword match is not a finding that a measure is met: document dates, approval,
+and PHAB's documentation requirements are not checked. Scanned images are not read (no OCR).
+Content is a draft pending review.
+
+
+### `build_strategic_plan` (LEAD-05, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `department`, `period_start`, `period_end` | | Name and years (1900 to 2100, at most 15 years). |
+| `mission`, `vision`, `values` | | Your own words. |
+| `method`, `swot`, `soar` | SWOT, or whichever you filled | Entries for each quadrant (short phrases, at most 20 each). |
+| `stakeholders` | | Name (organization, group, or role), `power` and `interest` from 1 to 5, optional group, engagement now and desired, what you need, owner. At most 40. |
+| `priorities` | | Each with `title`, `rationale`, `chip_priority`, and `goals` (each with `objectives`: statement, measure, baseline, target, due; and `strategies`: statement, responsible, timeline, resources). |
+| `chip_title`, `chip_priorities` | | Your community health improvement plan and its priorities. |
+| `write_document` | true | Draft plan (DOCX) plus the grid as SVG and PNG in `/data/output`. |
+| `include_svg` | false | Return the SVG text in the response. |
+
+**What it does.** Scaffolds a SWOT or SOAR analysis (your entries beside prompts; SWOT adds the
+four strategy-pairing prompts), places stakeholders on a power and interest grid (above 3 counts as
+high: Manage closely, Keep satisfied, Keep informed, Monitor) as an accessible SVG with a
+title, description, numbered shapes, and a key, plus a table; numbers priorities, goals,
+objectives, and strategies (P1, G1.1, O1.1.1, S1.1.1); links them to your CHIP priorities;
+and checks for blanks (objective without measure, target, or date; goal without objective or
+strategy; strategy without owner; CHIP priority with nothing linked; dates outside the period;
+a high power and high interest stakeholder in no strategy). The Phase 15 community health
+assessment framework supplies the MAPP 2.0 phase names for the assessment link.
+
+**PHAB.** PHAB's requirements for a strategic plan (Standards 10.1 and 5.2) could not be read
+(phaboard.org was blocked), so the result says `unverified` and lists what to check in PHAB's
+document. What was read: CDC's description of Standard 10.1 (a plan defines roles, goals,
+objectives, and priorities for a specific period) and Standard 5.2 (a collaboratively developed
+CHIP), CDC's statement that a documented CHA and CHIP dated within five years are required, and
+a 2025 study of what accredited departments' plans contain.
+
+**Privacy.** Nothing is read from your files; the draft contains only what you type. Phone
+numbers, emails, and similar details in inputs are reported in the privacy block.
+
+**Limits.** The tool adds no facts and judges no quality. The SWOT, SOAR, and stakeholder-grid
+prompts and quadrant names are this project's drafts built on two journal abstracts (SOAR in
+nursing administration, 2016; a stakeholder analysis review, 2000). Content is pending review.
+
+
+
+
+### `assess_workforce_competencies` (LEAD-06, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `framework` | `core_competencies_2021` | Or `cphn_2018` (the Quad Council Community/Public Health Nursing Competencies, 2018). Each has eight domains and three tiers. |
+| `ratings_path` / `ratings_sheet` | | CSV/XLSX in `/data`: one row per staff code and domain (and optionally per competency label you type): staff code, tier (1 to 3), domain (number or name), rating (1 None, 2 Aware, 3 Knowledgeable, 4 Proficient; blank or 0 = not rated). With no file the tool writes a blank self-assessment workbook and guide. |
+| `staff_column`, `tier_column`, `domain_column`, `rating_column` | Staff Code (or Staff ID), Tier, Domain, Rating | Column names. A column of names is refused; staff are identified by a code. |
+| `target_rating` | 3 | Your target for every domain (1 to 4). A tool default with no published source. |
+| `credentials_path` / `credentials_sheet` | | CSV/XLSX: staff code, position, hire date, and one row per credential completed (credential, completed date). |
+| `cred_*_column` | Position, Hire Date, Credential, Completed | Column names for the credentials file. |
+| `as_of_date`, `due_soon_days` | today, 90 | Date to measure deadlines from, and the "due soon" window. |
+| `write_documents` | true | Workbook (live formulas) and DOCX plan in `/data/output`. |
+
+**What it does.** Blank mode writes a workbook with a ratings form (twelve staff codes by eight
+domains), a Team results sheet whose formulas hide any result for fewer than three people, a
+training plan sheet, a credentials tracker, and DPH's standards, plus a Word guide. Results mode
+aggregates each staff member's ratings to the domain (the mean of any competency rows), then
+returns team means by domain, the gap to the target, how many staff are below it, means by tier,
+the overall mean, a training plan ranked by gap (High 1 or more, Medium 0.5 to under 1, Low under
+0.5, Maintain), and, with a credentials file, status (complete, due soon, overdue, upcoming) for
+each DPH requirement by position. The workbook's Ratings and Credentials sheets and the DOCX plan
+are written to `/data/output`.
+
+**Small-group rule.** No result is shown for fewer than three people. A team of fewer than three
+gets one combined total (two people) or nothing (one person), with no domain, tier, or person
+result. A domain rated by fewer than three staff, a tier with fewer than three staff, and a
+count of one or two below the target are hidden; the overall mean then uses only the domains
+shown, so a hidden domain cannot be worked out from the total. Credential counts follow the same
+rule (any count of one or two hides the requirement's counts). The response never contains a
+staff code or name.
+
+**Credentials.** The requirements come from the bundled `ma-performance-standards` snapshot (DPH's
+Performance Standards workbook, Workforce Standards sheet, modified 2024-07-15): required at hire,
+required after hire with "within N months or years of hire", and recommended items, for six
+positions (management, management or agent, inspector, public health nurse, clerical, board of
+health member). A public health nurse has MAVEN training within 6 months and the Foundations
+course within 1 year of hire. The tool adds the deadline to the hire date; it does not apply
+waivers, prior service, or equivalents. ICS 100 and NIMS 700 within a year of hire are DPH's note
+for all staff. Entries in your file are matched to DPH's list by keyword; unmatched entries are
+counted, so check the matches in the workbook.
+
+**Sources.** Domain names, tier descriptions, and the four-level scale come from open-access
+journal articles found through PubMed Central (Frontiers in Public Health 2025; Nurse Educator
+2025; Public Health Nursing 2025; Acta Medica Philippina 2024) and CDC's page on competencies
+(the 2021 edition was adopted on October 21, 2021; the nursing competencies' latest edition is
+2018). The Public Health Foundation and Quad Council sites were blocked, so **no competency
+statements are bundled**, their reuse terms were not read, and the 2018 nursing domain names are
+as one 2025 article lists them (medium confidence). DPH's workforce standards: the bundled snapshot.
+
+**Limits.** Domain-level ratings only; staff-level data never leaves your computer except as the
+aggregates above. The target, the priority cut-offs, the small-group rule, and the generic training
+steps are this project's, not the frameworks'. The pairing of 2021 and 2018 domains is rough (low
+confidence for two pairs). Content is a draft pending expert review (`review_due` 2027-02-01).
+
+### `board_of_health_meeting_assistant` (LEAD-07, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `action` | required | `notice_check`, `agenda`, `staff_report`, `minutes`, or `oml_guide`. |
+| `meeting_date`, `meeting_time` | | `YYYY-MM-DD` (2026-01-06 to 2028-12-31) and a time such as `18:00` or `6:00 pm`. |
+| `town`, `suffolk_county` | saved town | Suffolk county bodies (Boston, Chelsea, Revere, Winthrop) also skip Evacuation Day and Bunker Hill Day. |
+| `location`, `remote_meeting`, `remote_access` | | Place; whether any participation is remote; how to join (for the notice). |
+| `emergency` | false | Emergency notice is "as soon as reasonably possible". |
+| `posted_at` | | `YYYY-MM-DD HH:MM`, to check against the deadline. |
+| `topics` | | Up to 40: `title`, `detail`, `presenter_role`, `minutes`, `action_requested`. No resident names. |
+| `executive_session_purposes` | | Numbers 1 to 10 (c. 30A, s. 21(a)). |
+| `report_title`, `report_sections` | | Staff report: your drafted sections (`heading`, `text`); the rest are placeholders. |
+| `notes_path` / `notes_text` | | A `.txt` or `.md` file in `/data` (or text) with your meeting notes. |
+| `body_name`, `write_document` | Board of Health; true | Heading; write the Word file to `/data/output`. |
+
+**What it does.** `notice_check` returns the latest time to post: 48 hours before the meeting,
+leaving out whole Saturdays, Sundays, and Massachusetts legal holidays (G.L. c. 4, s. 7, clause
+Eighteenth; list for 2026-2028 in `content/leadership/ma_legal_holidays.yaml`). A Monday 6 pm
+meeting needs posting by Thursday 6 pm; the days left out are listed. It checks a `posted_at` time
+(countable hours and shortfall), the meeting place, remote access information, topics (too-general
+topics such as "new business" are flagged by word cues), and executive session items (listed as a
+topic; purpose 1 written notice; the chair's declaration for purposes 3, 6, and 8). `agenda` adds
+a Word agenda and notice draft with the post-by time, the notice checklist, the chair's
+responsibilities, and the executive session steps on staff pages to remove before posting.
+`staff_report` writes a report template. `minutes` sorts your notes into a minutes draft (members
+present and absent, remote members, items with discussion, motions, votes, exhibits, executive
+session, adjournment), then checks the parts G.L. c. 30A, s. 22(a) and 940 CMR 29.10 and 29.11
+require, and reports the 30-day approval target. `oml_guide` returns the requirements with
+sources.
+
+**Privacy.** Notes are read locally and never returned. The result has counts, which required
+parts were found, the PHI detector's categories, and line numbers of possible identifiers (at most
+50); the draft minutes carry a "check before release" note. Typed topics, details, and report text
+that look like identifiers are refused (board materials are public records).
+
+**Sources.** M.G.L. c. 30A, ss. 18, 20, 21, 22 (malegislature.gov); 940 CMR 29.00; the Attorney
+General's Open Meeting Law Guide and November 2024 checklists (notice, minutes, executive session,
+chair); the Attorney General's FAQ and training primer; M.G.L. c. 4, s. 7; the Trial Court's legal
+holiday list for 2026 and 2027 (all statewide dates agree with the computed list).
+
+**Limits.** The method of counting 48 hours across weekends and holidays is this project's reading
+(the Attorney General gives no worked example); the clerk's filing deadline, other notice laws,
+and remote participation (Chapter 20 of the Acts of 2021 expires June 30, 2027 unless extended)
+are not modeled. 2028 and the Suffolk-only days have no second published list. Decision support,
+not legal advice. Content is a draft pending expert review (`review_due` 2027-02-01).
+
+### `draft_standing_orders` (LEAD-08, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `order_type` | required | `vaccine`, `medication`, or `activity`. |
+| `title`, `agency_name` | | For the heading. |
+| `sections` | | Up to 20: `section_id`, `text`, `source_citation`. Clinical sections (dose and route, inclusion and exclusion criteria, contraindications and precautions, presentation, objective measures, procedure, emergency) require a source you cite. The authorization block cannot be filled in: the medical director signs. |
+| `effective_date`, `review_interval_months` | | Dates for the review schedule (the interval needs the effective date). |
+| `write_document` | true | Word draft in `/data/output`. |
+
+**What it does.** Builds a standing order skeleton for the Board of Registration in Nursing's
+Advisory Ruling 9324: the substance or activity; dose and route; inclusion and exclusion criteria;
+the prescriber's signature or approval; patient presentation; objective measures, dosing, and
+follow-up; when to call for emergency help; record keeping; review by medical, pharmacy, and
+nursing staff; and authentication by the prescriber. A vaccine order adds Advisory Ruling 9804's
+elements (VIS, education about risks and benefits, parent or guardian permission, MIIS reporting,
+documentation). Sections you write go in with their cited source; the rest are `[NURSE: ...]` or
+`[MEDICAL DIRECTOR: ...]` placeholders, with signature lines. The result lists each section's
+status, coverage of each element, and word cues that may conflict with the limits (a standing order
+cannot let the nurse choose from a menu, alter the order, or prescribe, renew, refill, or extend).
+For vaccines it points to DPH's signed 2026-2027 standing orders for local boards of health
+(influenza, COVID-19, anaphylaxis medication) to check first, and to Immunize.org's templates.
+
+**No clinical content.** The tool bundles no vaccine, drug, dose, route, criterion, contraindication,
+or precaution, and checks none; what you type goes into the Word file only and is not returned.
+Typed text that looks like an identifier is refused.
+
+**Sources.** Advisory Rulings 9324 (revised April 11, 2018) and 9804 (revised September 9, 2015),
+read in full; Immunize.org's adult influenza standing order (Item P3074, 9/14/2026), which says it
+may be adapted without permission and asks for acknowledgment of Immunize.org (read in that
+template only); DPH's 2026-2027 influenza standing order for local boards of health; DPH's Vaccine
+Model Standing Orders page. The 244 CMR and advisory ruling content is in
+`nursing_scope_of_practice_guide`.
+
+**Limits.** The prescriber authentication time frame and review interval are the medical director's
+(Advisory Ruling 9324 names no interval and refers to federal and state requirements). The
+outline of a vaccine order is read from one Immunize.org and one DPH template. Collaborating
+pharmacy, insurer, and other board rules were not read. Clinical decision support only; the medical
+director signs. Content is a draft pending expert review (`review_due` 2027-02-01).
+
+
+
+### `qi_vs_research_determination` (EBP-07, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `answers` | none | Your answers to the screening questions: `question_id`, `answer` (`yes`, `no`, or `unsure`), and an optional short `note`. With no answers the tool lists the 14 questions with their sources. |
+| `project_title` | placeholder | Short title for the draft document (no names of people). |
+| `description` | none | A few sentences describing the project; placed in the draft document only. |
+| `reviewing_office` | placeholder | The IRB or human research protection office, as your institution names it. |
+| `write_document` | true | Draft project description and IRB determination request (DOCX) in `/data/output`. |
+
+A screening aid. It never answers for you and never decides: the institution's IRB does. The
+questions come from the definitions of research and human subject in 45 CFR 46.102 (including the
+2018 exclusion of public health surveillance, 46.102(l)(2)), CDC's Guidelines for Defining Public
+Health Research and Public Health Non-Research (1999 revision: primary intent, new or untested
+interventions, program evaluation, surveillance, emergency response, separable components), and two
+quality improvement sources read as abstracts (a Hastings Center group, Ann Intern Med 2007; two
+criteria proposed in JAMA 2000). Each question shows why it matters, with citations.
+
+**Output.** `status` is `questions_only` (no answers yet), `needs_answers` (the three required
+questions, intent to produce generalizable knowledge, a new or untested intervention, and extra
+burden for participants, need a yes or no; `unsure` does not count), or `provisional`. A provisional
+reading is one of: quality improvement, program evaluation, public health practice or surveillance,
+possible human subjects research, or undetermined. Any answer that points to research gives
+"possible research" (with a reading of whether the project would involve human subjects under
+46.102(e): interaction or intervention, or identifiable private information); otherwise authority for
+surveillance gives practice, an established program gives evaluation, and local improvement gives QI.
+Cautions are listed for overlap (QI and research), authority plus intent to generalize, a research
+component, publication plans, and unsure answers that could change the reading. Next steps depend on
+the reading, including 244 CMR 9.03(18) (a Massachusetts nurse who conducts or enrolls subjects in a
+study must verify IRB-type approval). The draft document has the project description headings with
+`[NURSE: ...]` placeholders and a table of your answers.
+
+**Privacy.** No local files are read. Text you type is refused if it looks like a person's
+identifier, and appears only in the document in `/data/output`.
+
+**Limits.** OHRP's own QI FAQ pages (hhs.gov) could not be read, so OHRP's charts are not
+reproduced. The CDC guidelines predate the 2018 rule. The Hastings Center and JAMA sources were read
+as abstracts. Exemptions (46.104) are not evaluated. No Massachusetts institution's IRB policy was
+reviewed. Content is pending review.
+
+### `public_health_ethics_analysis` (POL-05, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `decision_type` | general profile | `quarantine`, `isolation`, `exclusion from school`, `allocation of scarce resources`, or your own words. |
+| `decision` | none | The decision in one or two sentences (no names of people). |
+| `situation` | none | A short description of the facts you have (disease, setting, numbers, timeline). |
+| `responses` | none | Your responses to Kass's six questions (`question` 1 to 6 or id, and `response`). |
+| `alternatives` | none | Options you are considering, added to the table for you to rank and assess. |
+| `write_document` | true | Worksheet (DOCX) in `/data/output`. |
+
+Structures an ethics analysis; it never recommends a decision and does not cover Massachusetts law
+on quarantine, isolation, or exclusion. **Output:** Kass's six questions (goals, effectiveness,
+burdens, minimizing burdens and alternatives, fair implementation, balancing) with prompts and the
+facts to gather, and which are still open; her three burden categories (privacy and
+confidentiality, liberty and self-determination, justice) and balancing criteria; CDC's three
+functions of ethics inquiry; a table of options from least to most restrictive (a drafting aid for
+the decision type, plus your options, with columns to assess liberty, privacy, justice, and
+evidence); a justification checklist (effectiveness, proportionality, necessity, least infringement,
+public justification, fair procedure, responsible use of scarce resources); the six core values of
+the APHA Public Health Code of Ethics (2019) with prompts and its four-step analysis approach; and
+a worksheet with `[NURSE: ...]` placeholders. Source texts are paraphrased and cited, with
+copyright noted.
+
+**Limits.** The APHA code itself (apha.org) and Kass's full article could not be read; the
+frameworks are known from the PubMed abstract and from open-access papers that describe them
+(medium to low confidence, shown per item). The decision profiles and options are this project's
+drafting aids (low confidence). Content is pending review.
+
+### `nursing_scope_of_practice_guide` (POL-06, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `question` | none | Your question in your own words ("Can an LPN give flu vaccines under a standing order?"). |
+| `topics` | none | Topic ids or names: `scope_framework`, `rn_lpn`, `delegation`, `delegation_medication`, `standing_orders`, `vaccines`, `otc_school`, `harm_reduction`, `aprn`, `research`, `licensure`, `management_charge`, `conduct_reporting`, `map_program`, `new_procedures`. Leave both empty for the index. |
+| `role` | any | `rn`, `lpn`, `aprn`, or `any`. |
+| `max_results` | 12 | At most 40 provisions. |
+| `list_all_rulings` | false | List every advisory ruling on the Board's list. |
+
+Finds the provisions that bear on a scope, delegation, or standing-order question in a partial
+snapshot (2026-11-12) of 244 CMR 3.00, 9.00, and 10.00, parts of 244 CMR 4.00, M.G.L. c. 112, section
+80B, and eleven Board of Registration in Nursing advisory rulings (9324 orders and standing orders,
+9804 vaccines, 9803 delegation to unlicensed assistive personnel, 25-01 RN and LPN scope, 92-05 OTC
+medications in schools, 9401 the DPH Medication Administration Program, 20-01 APRN delegation of
+immunizations, 24-01 harm reduction, 98-02 the LPN in charge, 1801 licensure, 23-03 LARC). **Output:**
+each provision with its citation, a quotation of 25 words or fewer, the guide's paraphrase, the roles
+it applies to, and its confidence; the Board's six decision-making questions and eight-box flow chart;
+the advisory rulings cited, or listed by title when the title matches your words; the coverage (what
+was read in full, in part, and not read); and how to reach the Board.
+
+It never says that a specific act is within a nurse's scope. Answers depend on education, competence,
+orders or protocols, the setting, and the facts, and the Board decides its own rules. Decision support,
+not legal advice.
+
+**Limits.** Partial: 244 CMR 5.00 to 8.00 and 23 listed advisory rulings were not read (titles only).
+The mass.gov copies of the regulations are not the official text, and its PDF text for 244 CMR 3.05(5)(d)
+has a layout problem (flagged on the provision). Content is pending review.
+
+
+
+## Phase 19: Policy and law
+
+
+
+### `track_ma_legislation` (POL-01, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `topics` | none | Topic ids or names: `vaccines`, `communicable_disease`, `tobacco_nicotine`, `substance_use`, `mental_health`, `maternal_child`, `school_child_care`, `older_adults`, `environmental_health`, `food_nutrition`, `local_public_health`, `nursing_workforce`, `health_equity`, `oral_health`, `emergency_preparedness`, `health_coverage`, `reproductive_sexual_health`, `injury_safety`. With no topics, keywords, bill numbers, or watchlist you get the topic index. |
+| `keywords` | none | Up to 10 extra words to find in bill titles. No names of people. |
+| `bill_numbers` | none | Bills to follow, for example `H3444`, `S 2518`. |
+| `stages` | all | `filed`, `in_committee`, `reported_out`, `floor`, `awaiting_governor`, `enacted`, `study_or_new_draft`. |
+| `only_upcoming_hearings` | false | Only bills whose latest hearing is today or later. |
+| `max_bills` | 15 | At most 40 (in live mode each bill costs two requests; the filters apply to the bills examined). |
+| `include_excerpts` | true | A cited excerpt of 25 words or fewer from each bill's text. |
+| `general_court` | 194 | 189 to 200 live; the offline snapshot covers only the 194th (2025-2026). |
+| `watchlist_path` | none | CSV or XLSX in `/data` with columns `kind` (`topic`, `keyword`, `bill`), `value`, and optionally `note`. Refused if it looks like a list of people. |
+| `save_watchlist` | false | Write the search's topics, keywords, and bills, with each bill's latest stage and last action, to `/data/output/ma_legislation_watchlist.csv` (readable as a watchlist next time). |
+| `as_of` | today | Date for "today" (1900 to 2100). |
+
+Finds Massachusetts bills on public health topics in the Legislature's public API
+(`malegislature.gov/api`, no key; requests carry only a General Court number and bill numbers). The API has
+no search, so the tool downloads the General Court's bill list (about 12 MB, cached for one day), matches
+**titles** against the topic keywords (and yours), then reads each selected bill's record and history.
+**Output:** per bill the number, title, link, cosponsor count, topics, a **stage** (this project's reading of
+the history by rules in the content file), the latest committee referral, hearing lines with the hearing date
+and days until it, the committee's reporting deadline, the last action with its date and days since, the
+committee's recommendation when recorded, and an excerpt of the bill text of 25 words or fewer with its
+citation; the questions to put to any bill (who must act, what changes, money, existing law, evidence,
+equity, positions, timing, your role); and how the data was obtained.
+
+**Modes.** Live (the bill list may be a cached copy no more than a day old, labeled), then the bundled dated
+snapshot (`snapshots/ma_legislation_194.json`, built 2026-11-13 from 822 bills whose titles match the topic
+lists) when the API cannot be reached; the result and every bill say which was used. A snapshot's stage and
+last action are as of its date.
+
+It compiles what the Legislature publishes. It never says what a bill would do or what it means for local
+health, and the stage is a label, not an official status: read the last action and the bill. Sponsor and
+amendment-author names are not returned (they are on the bill page). Decision support, not legal advice.
+
+**Limits.** Bills whose titles do not use a topic keyword are not found. Committee hearing dates are read from
+history lines ("Hearing scheduled for ..."), not from the hearings calendar. Content is pending review.
+
+### `monitor_federal_rules` (POL-03, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `agencies` | cdc, cms, hrsa, epa, usda, hhs | Agency ids (also `fda`, `samhsa`, `acf`, `fns`, `fsis`). |
+| `agency_slugs` | none | Federal Register agency slugs to use too (use if an id finds nothing). |
+| `document_types` | all | `proposed_rule`, `final_rule`, `notice`. |
+| `topic` | none | Words to search for in the documents. |
+| `published_since`, `published_until` | none | `YYYY-MM-DD`. With `open_for_comment_only` false, `published_since` defaults to 30 days ago. |
+| `open_for_comment_only` | true | Only documents whose comment period has not closed. |
+| `max_results` | 15 | At most 50; soonest deadline first. |
+| `document_number` | none | One Federal Register document (for example `2026-12345`). |
+| `check_regulations_gov` | true | Cross-check open comment periods on Regulations.gov (needs `PHN_REGULATIONS_GOV_API_KEY`; skipped without it). |
+| `draft_comment_outline` | false | Write a comment outline (Word) for `document_number`, or for the document you describe. |
+| `document_title`, `comment_deadline`, `docket_id`, `agency_name` | none | Describe the document for the outline (and a countdown) when live data is unavailable. |
+| `fill_path` | none | CSV or XLSX in `/data` with columns `field` and `value` (organization, population, position, reasons, evidence, local_data, cost_estimate, community_effects, department_effects, opposing_view, agency_questions, docket_id, fr_citation). Values go only into the Word file. Refused if it looks like a list of people. |
+| `as_of` | today | Date for "today" (1900 to 2100). |
+
+Lists Federal Register proposed rules, final rules, and notices from the agencies you choose, with each
+**comment deadline counted down against today's date** (calendar days; the close date itself is still open;
+"closing soon" is 7 days or fewer), docket IDs, and links. With a free api.data.gov key in the server's
+environment variable `PHN_REGULATIONS_GOV_API_KEY` it also looks each open document up on Regulations.gov
+(by Federal Register number; up to 10) and shows whether it is open for comment and the end time Regulations.gov
+gives (UTC). The key is added to the request only; it is never cached, cited, or returned.
+
+The outline (`draft_comment_outline`) is a Word file with nine sections (identification, who is commenting,
+position, comments on specific provisions in a table, answers to the agency's questions, evidence and data,
+effects on the community and department, trade-offs and opposing views, closing and submission checklist),
+`[NURSE: ...]` placeholders, and quotations (25 words or fewer) from EPA's published tips for effective comments,
+which it cites. It is a template, not an agency form.
+
+**Live data only.** When the Federal Register cannot be reached (and no cached search from the last two days
+exists) the result says **LIVE DATA UNAVAILABLE**, lists no documents, and gives links to check yourself; it
+never shows old data as current. A cached search used after a failure is labeled with its date. The outline can
+still be drafted from `document_title` and `comment_deadline`.
+
+**Limits.** The Federal Register and Regulations.gov were blocked in the build environment, so the adapters were
+tested against local servers and responses written from the Federal Register's open-source code and recorded
+Regulations.gov responses, not against the live services (live tests exist and are `#[ignore]`d). The slugs for
+CDC, CMS, HRSA, FDA, SAMHSA, ACF, and FSIS are unverified (EPA, HHS, USDA, and FNS are verified). Other agencies
+may ask for a different comment format. Decision support; it does not file comments. Content is pending review.
+
+
+
+### `search_public_health_law` (POL-02, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `query` | required | A citation (`105 CMR 300.200`, `M.G.L. c. 111, § 95`, `244 CMR 3.05`, `105 CMR 410` for a whole chapter) or words ("board of health order to quarantine"). No names of people; identifiers are refused. |
+| `sources` | all four | `mgl_c111`, `cmr_105`, `cmr_244`, `local`. |
+| `max_results` | 8 | At most 25. |
+| `local_folder` | `local_regulations` | A folder under `/data` with your board of health's regulations (PDF, Word, Markdown, text, HTML). A file instead of a folder is an error. |
+| `full_text_only` | false | Skip sections that are index-only (title and link). |
+
+Searches a bundled corpus of Massachusetts public health law and answers with citations. **What is
+bundled** (snapshots taken 2026-11-12 from malegislature.gov and mass.gov; the builder is
+`xtask/scripts/build_law_snapshots.py`):
+
+- **M.G.L. c. 111** (Public Health): a section index of all 510 sections that are not repealed (number,
+  title, link), with full text for 45 core sections (the Department's and boards of health's powers,
+  disease reporting, isolation and quarantine, nuisances and the sanitary code, the immunization registry,
+  newborn screening, confidentiality of HIV and venereal disease records).
+- **105 CMR**: all 89 chapters on mass.gov's table of contents with their dates and links, and a section
+  number and title index (3,060 sections) read from each chapter's PDF. Full text for 20 chapters: 172,
+  200, 201, 210, 220, 221, 222, 223, 270, 271, 300 (reportable diseases, isolation and quarantine), 335,
+  360, 365, 400 (general sanitary code), 410 (housing), 460 (lead), 590 (food establishments), 661 and 665
+  (tobacco). The other chapters are **index-only**.
+- **244 CMR**: all eight chapters in full text (51 sections).
+
+**Output:** for each hit, the citation, title, link (the section page for statutes, the chapter page and PDF
+for regulations), the date on the chapter's page, the date the snapshot was taken, whether it is `full_text`
+or `index_only`, and an excerpt of **25 words or fewer** (never long text); topic starting points for common
+topics with the section titles; local regulation hits (file and section); and the coverage of each source
+(sections, full-text sections, what is not included). Citation lookups (`105 CMR 300.200`) return the exact
+section; a chapter citation lists its sections. Words are matched on section titles (weighted) and text, with
+plural endings removed; a section must match at least half of the distinct words. For 244 CMR hits the tool
+points to the sections of POL-06's `nursing_scope_of_practice_guide` content for the same provision.
+
+**Optional larger corpus.** `python3 -I xtask/scripts/build_law_snapshots.py --extended OUT_DIR` builds every
+section of c. 111 and every chapter of 105 CMR in full text (the same format, with a manifest of SHA-256
+checksums; about 3 minutes and 400 requests). Install `OUT_DIR` as `law_corpus/` in the data folder or the
+cache folder (or mount it read-only at `/cache/law_corpus`). The tool uses it only when the manifest and every
+checksum match, and says which it used; otherwise it falls back to the bundled corpus and says why. Refresh the
+bundled snapshot with the script (`--check` compares a fresh build with the files on disk).
+
+**Local regulations** go through the Phase 1 policy index in your container (index in `/cache/index`).
+Documents that contain a date of birth, record number, or health plan number are treated as client records
+and refused (counted, never named); phone numbers, e-mail and street addresses in excerpts are masked;
+spreadsheets are ignored. Nothing is written.
+
+It is decision support, not legal advice: it finds and quotes law, and does not say what the law requires in
+your case. **Limits.** Partial coverage (said in every result); regulation text comes from PDF extraction
+(tables, forms, and appendices may be missing); the mass.gov copies of regulations are unofficial; matching is
+by words, not meaning. Content is pending review.
+
+### `draft_policy_brief` (POL-04, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `title`, `audience` | placeholders | The working title; `board_of_health`, `select_board_or_council`, `school_committee`, `agency_leadership`, `legislators`, or your own words. |
+| `length` | `one_page` | `one_page` or `full`. |
+| `problem`, `request`, `tradeoffs`, `recommendation` | placeholders | Your own text (at most 2,000 characters each). |
+| `evidence` | none | Up to 12 items: `finding`, `citation`, `strength`. Copy from `find_evidence_based_interventions` or `build_evidence_synthesis_table` output; the tool does not search or check evidence. |
+| `options` | none | Up to 6 options: `name`, `description`. |
+| `criteria` | health_impact, equity, economic_impact, feasibility | Ids or names from the menu (`health_impact`, `equity`, `economic_impact`, `safety`, `feasibility`, `justice_inclusion`, `affordability`, `political_acceptability`, `legal_authority`, `evidence_strength`) or your own words. |
+| `ratings` | none | Cells of the comparison table: `option`, `criterion`, `rating` (`strong`, `mixed`, `weak`, `unknown`), `reason`. |
+| `output` | `docx` | `docx`, `markdown`, `both`, or `none`. |
+
+Drafts a policy brief in the order of the Eightfold Path of policy analysis: summary and request, the problem,
+evidence, options, criteria (full length), the options compared against the criteria in an **accessible
+table** (options in rows, criteria in columns; each cell is a rating in words plus a reason, so it reads
+without color), trade-offs, recommendation, implementation and evaluation, and references (full length).
+It is **template + local fill**: everything the tool adds is structure and prompts; every fact, number, and
+citation is text you supplied or a `[NURSE: ...]` placeholder. **Output:** the eight steps with their status
+(supplied, partly supplied, placeholder), the sections, the criteria and where each comes from, the comparison
+table, the number of placeholders left, a readability check of the prose you supplied (grade level against the
+`check_readability` target; skipped with a note if under 30 words), the files written to `/data/output`, and
+what the method sources say.
+
+**Sources and limits.** The steps are described from two open-access articles (Namibia disability policy
+2018; community water fluoridation policy analysis 2026; both CC BY 4.0) and two PubMed abstracts (a 2005
+paper that adapted the path for health policy and a 2020 nursing application). **Bardach's book was not read**
+(it is copyrighted; the articles cite its 4th edition, 2012). The criteria are those the articles used, plus
+two marked as this project's suggestions (`legal_authority`, `evidence_strength`, low confidence). It is not
+legal advice. Content is pending review.
+
+### `health_information_sharing_guide` (POL-07, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `holder_role` | none | `health_care_provider`, `local_health_department`, `school_nurse_public`, `school_nurse_private`, `substance_use_program`, `state_agency`, `other`. |
+| `record_type` | none | `clinical_record`, `school_health_record`, `immunization_record`, `communicable_disease_report`, `hiv_test_result`, `substance_use_treatment_record`, `administrative_record`, `other`. |
+| `recipient` | none | `individual_or_parent`, `school`, `health_care_provider`, `public_health_authority`, `law_enforcement_or_court`, `employer`, `researcher`, `public_requester`, `exposed_person`, `other_agency`. |
+| `purpose` | none | `treatment_or_care`, `public_health_reporting`, `disease_investigation`, `school_immunization`, `emergency_threat`, `research`, `public_records_request`, `legal_process`, `other`. |
+| `consent` | none | `written`, `verbal`, `none`, `unknown`. |
+| `subject_is_minor` | none | True if the person the record is about is a minor. |
+| `situation` | none | General words only; identifiers are refused. |
+
+A decision guide, not an answer. With no `holder_role` and `record_type` it returns the structured questions.
+With them it returns the regimes that may govern, ordered from "likely governs" through "may apply" and "check"
+to "not indicated", each with the reason, the provisions that bear on your recipient and purpose (citation,
+link, a quotation of 25 words or fewer, a paraphrase, confidence), cautions, and the facts about your
+organization you must confirm:
+
+- **HIPAA** (45 CFR 160.103, 164.105, 164.501, 164.502, 164.506, 164.512 including the public health
+  permission, disclosure of proof of immunization to a school, exposed persons, serious threat, judicial and
+  law enforcement paragraphs, and research);
+- **FERPA** (34 CFR 99.1, 99.3, 99.30, 99.31, 99.36): school health records are education records and outside
+  HIPAA's definition of protected health information;
+- **42 CFR Part 2** (2.11, 2.12, 2.13, 2.32, 2.33, 2.51, 2.54, as amended in 2024);
+- **Massachusetts public records law** (M.G.L. c. 66, section 10; c. 4, section 7, clause twenty-sixth);
+- **Massachusetts health confidentiality** (105 CMR 300.120 and 300.191, including school nurses' access to
+  immunization records; M.G.L. c. 111 sections 24M, 70F, 111, 119; c. 112 section 12CC);
+- **Massachusetts student records** (M.G.L. c. 71, sections 34D and 34E).
+
+It **never gives a yes or no on whether a disclosure is allowed** (`answer_type` is `governing_rules_and_cautions`).
+Federal texts are the eCFR text as of 2026-11-10, read through the eCFR API; Massachusetts texts are from
+malegislature.gov and mass.gov. **Not read:** the FERPA statute, the HHS and Education joint guidance
+(hhs.gov is blocked), 603 CMR 23.00 (the mass.gov page is marked unpublished), 42 CFR Part 2 subpart E and the
+2024 rule's compliance dates, 45 CFR 164.508 and 164.520, and other Massachusetts confidentiality statutes
+(coverage is in every result). Decision support, not legal advice; take the question to agency counsel.
+Content is pending review.
+
+

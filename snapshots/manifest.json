@@ -1928,6 +1928,425 @@
           "rows": 361
         }
       ]
+    },
+    {
+      "id": "ma-geocoder-sample",
+      "title": "Offline geocoder index for four Massachusetts towns (Alford, Amherst, Northampton, Pelham): MassGIS address points and TIGER address ranges, with 2020 block groups",
+      "publisher": "MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and U.S. Census Bureau; index built by this project",
+      "source_urls": [
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/mad/town_exports/addr_pts/AddressPts_M###.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/ADDRFEAT/tl_2025_25{county}_addrfeat.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/BG/tl_2025_25_bg.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/COUSUB/tl_2025_25_cousub.zip",
+        "https://www.mass.gov/info-details/massgis-data-master-address-data"
+      ],
+      "source_sha256": {
+        "AddressPts_M006.zip": "8c954d9eb4a9264e07db6367b06bd2ecf64ead774a9e9c002bce12302f74362b",
+        "AddressPts_M008.zip": "5259ee94344e0c60e6a5e050b3f1154cec7e36d8a60d9f2fb9b641164f675623",
+        "AddressPts_M214.zip": "16ed366566ab38c681f9538625bd07c117356e6f658bf11aaf90c319aaffd718",
+        "AddressPts_M230.zip": "2e4f0822340cce6b88a9fe778efc6a9d927137d8947291059c30eb2c262734f3",
+        "tl_2025_25003_addrfeat.zip": "23984db71ede616ef440936cc8e287bb08c9bb96e2c601adc0e692f045577e4b",
+        "tl_2025_25015_addrfeat.zip": "5861b9acd302a9a668610a5cd8ebbd5848d5b962094ffbd855e082d44b447a8a",
+        "tl_2025_25_bg.zip": "a2e5c76a1915f214881230cb99c3e883ad5630cff65db37aaae3435ca9cd4cfd",
+        "tl_2025_25_cousub.zip": "495c0f1c8690c518842f5351e6186a1408a277f21990cb64d4553e90051a4910"
+      },
+      "source_vintage": "MassGIS Master Address Data town exports last modified 2026-11-09; TIGER/Line 2025 (address ranges; 2020 Census block groups)",
+      "retrieved": "2026-11-12",
+      "license": "MassGIS data are published on mass.gov for public use; the download page and the data's metadata state no license or use limitation, but the MassGIS data disclaimer page could not be retrieved, so its terms are unverified: credit MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and check its current terms. U.S. Census Bureau TIGER/Line files are in the public domain.",
+      "derivation": "xtask/scripts/build_geocoder_index.py --sample reads the four towns' MassGIS address points (one point per house number and street, the best-ranked point where several exist), assigns each to a 2020 census block group by point-in-polygon against TIGER/Line block groups, and adds every TIGER address range whose street side lies in the town (side placed 15 m from the street centre line and assigned a block group and town by point-in-polygon). Street names are normalized with the vocabulary in crates/phn-data/data/geocoder_vocab.json. Format: docs/adr/0011-offline-geocoder.md. Coordinates are NAD83 / Massachusetts Mainland (EPSG:26986) metres rounded to 1 m.",
+      "caveats": [
+        "This is a four-town sample for tests and demonstrations. Addresses in other towns need the full index (see docs/adr/0011-offline-geocoder.md) and are otherwise counted by town or ZIP code only.",
+        "MassGIS address points mostly mark building centroids and sometimes assessor parcel centroids, so a point can lie in a different block group than the front door; TIGER address ranges are interpolated on a straight line between the segment's end points."
+      ],
+      "files": [
+        {
+          "path": "ma_geocoder_sample.idx",
+          "sha256": "b970bf889f30404853ffed1533e0ad3fd22495d364250a702a497e30b5a7ba9f",
+          "bytes": 417632,
+          "rows": 951
+        }
+      ]
+    },
+    {
+      "id": "ma-geocoder-crosswalk",
+      "title": "Massachusetts ZIP code to town and place name to town crosswalk from MassGIS address points",
+      "publisher": "MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and U.S. Census Bureau; crosswalk built by this project",
+      "source_urls": [
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/mad/town_exports/addr_pts/AddressPts_M###.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/ADDRFEAT/tl_2025_25025_addrfeat.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/COUSUB/tl_2025_25_cousub.zip",
+        "https://www.mass.gov/info-details/massgis-data-master-address-data"
+      ],
+      "source_sha256": {
+        "tl_2025_25025_addrfeat.zip": "f4e8372cd4257b03e6177c3c50a8344515d823c299641c1fd07f1ea1383ad1a2",
+        "tl_2025_25_cousub.zip": "495c0f1c8690c518842f5351e6186a1408a277f21990cb64d4553e90051a4910",
+        "AddressPts_M###.zip (combined digest of 350 files)": "4494ea23a24ddf68ef023535109fd5a7a0fe56a5cca59f53b12a954cc74e0fb2"
+      },
+      "source_vintage": "MassGIS Master Address Data town exports last modified 2026-11-09 (350 towns); TIGER/Line 2025 address ranges for Boston, which has no MassGIS export",
+      "retrieved": "2026-11-12",
+      "license": "MassGIS data are published on mass.gov for public use; the download page and the data's metadata state no license or use limitation, but the MassGIS data disclaimer page could not be retrieved, so its terms are unverified: credit MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and check its current terms. U.S. Census Bureau TIGER/Line files are in the public domain.",
+      "derivation": "xtask/scripts/build_geocoder_index.py --crosswalk counts the MassGIS address points of every ZIP code in each town, and the community names (villages and post-office names such as Florence or Hyannis) that differ from the town name; each row's share is its fraction of the ZIP code's or name's addresses. Rows with fewer than 10 addresses or under 1 percent are dropped. Boston's rows come from TIGER address ranges weighted by the addresses they imply; its 18 neighborhood names are listed in the builder script and were not verified against a source.",
+      "caveats": [
+        "ZIP codes cross town lines: 75 of the 517 ZIP codes reach more than one town. A ZIP-only assignment is an approximation unless one town holds nearly all of the ZIP code's addresses (the share column).",
+        "PO box ZIP codes and ZIP codes without street addresses are not in the table.",
+        "Boston's neighborhood names are listed from general knowledge and are not verified against a source."
+      ],
+      "files": [
+        {
+          "path": "ma_geocoder_crosswalk.csv",
+          "sha256": "70c799da125ee56cf2f29a0c3dec2e10ad81b331cca1853e8ac985f637a17a87",
+          "bytes": 30648,
+          "rows": 662
+        }
+      ]
+    },
+    {
+      "id": "uspstf-ab-recommendations",
+      "title": "USPSTF A and B recommendations (from the Task Force's published recommendation statements)",
+      "publisher": "U.S. Preventive Services Task Force (statements published in JAMA and other journals; read through the National Library of Medicine's PubMed E-utilities)",
+      "source_urls": [
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed (one request for all PubMed IDs in the builder script)",
+        "https://www.uspreventiveservicestaskforce.org/"
+      ],
+      "source_sha256": {
+        "pubmed_efetch_response.xml": "dfe078286638d8f880aa030c1526757ab1af0eb996761d611f5ea01d4d7c49c9"
+      },
+      "source_vintage": "statements published 2017-09-05 to 2025-07-22",
+      "retrieved": "2026-11-12",
+      "license": "USPSTF recommendations are U.S. government work; the abstracts are quoted briefly with attribution. Check each journal's terms before reproducing more.",
+      "derivation": "Final recommendation statements (latest per topic, 2016 on) fetched as PubMed abstracts for the PubMed IDs listed in xtask/scripts/build_prevent_snapshots.py; for each A or B recommendation the builder copies the graded sentence and the statement's population text, and refuses to write the file if the grade in the text differs from the grade in the script. Dates are the journal publication dates. Builder: xtask/scripts/build_prevent_snapshots.py (Python 3 standard library). The USPSTF web site and API could not be reached from the build network.",
+      "caveats": [
+        "Dates are journal publication dates; the Task Force's own posting date can differ by days.",
+        "The abstract's recommendation wording omits details on the Task Force's own pages (for example screening intervals and tests). Always check the full statement.",
+        "Statements published before 2015 (for example, 2008 statements on newborn screening for hearing loss, phenylketonuria, congenital hypothyroidism, and sickle cell disease) are not included because their current USPSTF status could not be checked from here.",
+        "Any statement PubMed does not return for the Corporate Author 'US Preventive Services Task Force', and anything published after the retrieval date, is not included.",
+        "Grades C, D, and I are not listed. Recommendations the Task Force has archived or is updating (draft statements) are not reflected."
+      ],
+      "files": [
+        {
+          "path": "uspstf_ab_recommendations.json",
+          "sha256": "85411c19eccdb572650fcefd78c1ea09f6853e4cc957b7a0b64d0b665c1e7e09",
+          "bytes": 46193,
+          "rows": 53
+        }
+      ]
+    },
+    {
+      "id": "ma-dpp-programs",
+      "title": "Diabetes Prevention Programs in Massachusetts: DPH's list of active program sites",
+      "publisher": "Massachusetts Department of Public Health, Bureau of Community Health and Prevention",
+      "source_urls": [
+        "https://www.mass.gov/service-details/diabetes-prevention-programs-in-massachusetts"
+      ],
+      "source_sha256": {
+        "dph_dpp_page.html": "09cb4de721602344086b36cb4df1fe4157cceaeb1fa4dd584e66746b28f8eacb"
+      },
+      "source_vintage": "DPH page 'Diabetes Prevention Programs in Massachusetts', table 'Active MA DPPs' as retrieved 2026-11-12; the page shows no publication or update date",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts state government web content, bundled here as a short factual list (site names, addresses, organization phone numbers) with attribution; works of state governments may be protected by copyright, so confirm reuse terms with DPH before redistributing the file.",
+      "derivation": "The 73 rows of the 'Active MA DPPs' table (city/town, location, address, contact) of DPH's page. Each address was split into street, city, state, and ZIP; the city was resolved to one of the 351 municipalities (villages and neighborhoods such as Dorchester, Hyannis, Newtonville, and the spelling variants Foxboro, Middleboro, and North Attleboro were mapped by hand) and its county; one site is in New Hampshire (no municipality). DPH's contact column holds named program coordinators with personal work emails for 56 sites: names, emails, and phone numbers of named people are NOT kept (has_named_contact = yes). A phone number or email address is kept only for the 17 sites whose contact cell names no person. The page does not say which sites are CDC-recognized, the delivery mode (in person, online), the recognition status, or the date of the list; those columns do not exist. Builder: xtask/scripts/build_screen_snapshots.py (Python 3 standard library; --check mode).",
+      "caveats": [
+        "This is DPH's list, not the CDC Diabetes Prevention Recognition Program registry (dprp.cdc.gov and dprpdataportal.cdc.gov were not reachable from the build environment). CDC recognition status of each site was not verified.",
+        "The page shows no date; sites may have closed or changed. Call a site before referring.",
+        "Delivery mode is not stated. A site listed here is a place with a program, not proof of an in-person class today.",
+        "One ZIP code (Lanesborough, 02137) looks wrong on DPH's page and is kept as published."
+      ],
+      "files": [
+        {
+          "path": "ma_dpp_programs.csv",
+          "sha256": "74bab296c7196148a6e916ce8927d236834957486b57c22bd2516f057d8d8137",
+          "bytes": 7129,
+          "rows": 73
+        }
+      ]
+    },
+    {
+      "id": "cms-ma-hospitals",
+      "title": "Massachusetts hospitals (CMS Hospital General Information, directory fields)",
+      "publisher": "Centers for Medicare & Medicaid Services, Provider Data Catalog (Care Compare)",
+      "source_urls": [
+        "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0",
+        "https://data.cms.gov/provider-data/dataset/xubh-q36u"
+      ],
+      "source_sha256": {
+        "hospital_general_information_ma.json": "13a3c58d29ddcc66cabc16a399e3d329dfa24d5f644dca7fdff027a895262b1c"
+      },
+      "source_vintage": "CMS Hospital General Information as served on 2026-11-12 (84 Massachusetts rows)",
+      "retrieved": "2026-11-12",
+      "license": "CMS open data (public domain).",
+      "derivation": "Directory fields only (CMS certification number, name, address, town, ZIP code, county, hospital type, ownership, emergency services); names and towns are title-cased and CMS postal cities that are Boston neighborhoods or villages are mapped to the municipality (Boston, Northampton, Concord, Bourne, Attleboro). Quality ratings are not kept. Builder: xtask/scripts/build_cha_snapshots.py.",
+      "caveats": [
+        "CMS lists hospital facilities, not health systems: a community health needs assessment may cover several facilities.",
+        "Ownership is CMS's field; only non-profit acute care hospitals file community benefits reports with the Massachusetts Attorney General.",
+        "CMS may be behind recent openings, closures, and renamings."
+      ],
+      "files": [
+        {
+          "path": "ma_hospitals.csv",
+          "sha256": "b37e06fae868bad70e959aa67be3f8d27c4a04edb0708eaf4aa227edd5b6621e",
+          "bytes": 10815,
+          "rows": 84
+        }
+      ]
+    },
+    {
+      "id": "cpstf-publications",
+      "title": "Community Guide systematic reviews, economic reviews, and Task Force recommendation statements (journal papers indexed in PubMed)",
+      "publisher": "Community Preventive Services Task Force and CDC Community Guide staff (papers in the American Journal of Preventive Medicine and other journals; records read through the National Library of Medicine's PubMed E-utilities)",
+      "source_urls": [
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed (Corporate Author query in xtask/scripts/build_interventions_snapshots.py)",
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed (all PubMed IDs the query returns, one request)",
+        "https://www.thecommunityguide.org/ (not reachable from the build network; linked for the nurse)"
+      ],
+      "source_sha256": {
+        "pubmed_efetch_response.xml": "0a22c30e335bd0ba51dd7407636e252ca4ffd66a4aa409650a71d9ac481da3b3"
+      },
+      "source_vintage": "papers published 2000-11 to 2026-05",
+      "retrieved": "2026-11-12",
+      "license": "Titles, dates, and MeSH headings are PubMed bibliographic data. Abstract excerpts are short quotations with attribution; abstracts can be copyrighted by the journal, so check the journal's terms before reproducing more. The Community Guide's own terms of use and the National Library of Medicine's PubMed data policy pages could not be read (blocked from the build network).",
+      "derivation": "PubMed esearch for the Corporate Author 'Community Preventive Services Task Force' or 'Task Force on Community Preventive Services', then one efetch for every PubMed ID returned. The builder classifies each paper's kind from its title, copies rating words ('strong evidence', 'sufficient evidence', 'insufficient evidence', 'recommends', 'recommends against') only when the abstract contains them, and keeps one short excerpt each of the findings, the conclusion, and any implementation or barrier sentence. Nothing about a rating comes from memory. Builder: xtask/scripts/build_interventions_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "Publication dates are journal dates (year, and month when PubMed has it); the Community Guide's own posting date can differ.",
+        "This is not the Community Guide's list of recommendations. It holds the journal papers PubMed attributes to the Community Preventive Services Task Force (and its earlier name), so a recommendation or review that was posted only on thecommunityguide.org, or whose paper PubMed does not attribute to the Task Force, is missing.",
+        "Papers about methods, and news items, are left out. Recommendation statements are kept even when PubMed has no abstract for them; their rating is then not in this snapshot.",
+        "A rating appears only when the abstract's own words give it. Many abstracts report the review's findings and not the Task Force's rating, and some papers cover several interventions with different ratings.",
+        "Recommendations can be updated or archived after the paper was published. Check the Community Guide page before relying on an older record.",
+        "What Works for Health (County Health Rankings) has no data here: its site could not be reached from the build network."
+      ],
+      "files": [
+        {
+          "path": "cpstf_publications.json",
+          "sha256": "381371dfd4d063bfba657ba1583ff6d19d00e254bfb1c91f04fac0a1f959aeaa",
+          "bytes": 157656,
+          "rows": 145
+        }
+      ]
+    },
+    {
+      "id": "healthy-people-2030-objectives",
+      "title": "Healthy People 2030 objectives: national status, most recent data, target, and baseline",
+      "publisher": "U.S. Department of Health and Human Services, Office of Disease Prevention and Health Promotion (ODPHP), Healthy People 2030",
+      "source_urls": [
+        "https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives",
+        "https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives/<topic>/<objective> (one page per objective; the builder lists them from the topic pages)",
+        "https://odphp.health.gov/healthypeople/objectives-and-data/leading-health-indicators"
+      ],
+      "source_sha256": {},
+      "source_vintage": "pages read 2026-11-12; most recent data years as shown on each page",
+      "retrieved": "2026-11-12",
+      "license": "Healthy People 2030 content is a U.S. government work (public domain); cite ODPHP.",
+      "derivation": "Server-rendered objective pages on odphp.health.gov read by xtask/scripts/build_design_snapshots.py (Python 3 standard library): the browse index and topic pages give the objective links; each objective page gives the id, title, status, most recent data, national target, desired direction, national baseline (with its year), target-setting method, data source, topics, and workgroup, copied as text with numbers parsed from the same text. No JSON API for Healthy People 2030 could be found (odphp.health.gov/healthypeople/api returns 404 and health.gov is blocked from the build network).",
+      "caveats": [
+        "Objectives that no topic page lists are not included; the number found is in the file.",
+        "Subpopulation (disparities) data, state data, and the data tables and charts behind each objective are not included: only the national status, most recent value, target, baseline, and data source from each objective page.",
+        "Values are as shown on the page on the retrieval date. ODPHP revises baselines and targets and adds data through the year; check the objective page before you cite a figure in a grant or a report."
+      ],
+      "files": [
+        {
+          "path": "healthy_people_2030_objectives.json",
+          "sha256": "842a6c8ce7f52c2b7f1b3578f67a62f9d15bd174604986fa7e071c97fb61e11d",
+          "bytes": 619692,
+          "rows": 507
+        }
+      ]
+    },
+    {
+      "id": "ma-performance-standards",
+      "title": "Massachusetts Performance Standards for Local Public Health (mandated local responsibilities and workforce standards)",
+      "publisher": "Massachusetts Department of Public Health, Office of Local and Regional Health",
+      "source_urls": [
+        "https://www.mass.gov/doc/performance-standards/download",
+        "https://www.mass.gov/resource/performance-standards-for-local-public-health"
+      ],
+      "source_sha256": {
+        "performance-standards.xlsx": "50e15ef6780f355d7ee1f3219ec71b1fef37cb6a600d1dc2c788503a097c7401"
+      },
+      "source_vintage": "published 2023-10-11; workbook last modified Mon, 15 Jul 2024 13:51:24 GMT",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts state government publication. mass.gov's site policies were not read (the page was not fetched), so check them before republishing the workbook; the snapshot reuses citations and DPH's one-line summaries and drops phone numbers and email addresses.",
+      "derivation": "xtask/scripts/build_strategy_snapshots.py reads the Administration, Disease Control And Prevention, Environmental Health, and Tobacco Use Prevention sheets (topic area, citation, summary, state program) and the Workforce Standards sheet, row by row, with the Python standard library. Blank topic-area and contact cells carry down from the row above, as the workbook's merged cells intend. IDs (PS-ADM-001 and so on) are assigned in sheet order by this project and are not DPH identifiers.",
+      "caveats": [
+        "Only the four mandate sheets and the Workforce Standards sheet are read. The workbook's 'Frequently Used' sheet (discretionary board of health powers, such as appointing agents), 'Resources', and 'Keywords' sheets are not included.",
+        "The workbook lists responsibilities as DPH summarizes them; the statute or regulation citation controls. A footnote in the workbook says OLRH has received comments that the standards marked * are outdated.",
+        "The workbook has no status, due dates, or scoring: those are for each department to record. The next version of the Performance Standards is expected to include the Foundational Public Health Services framework (DPH's FPHS page).",
+        "State program contact phone numbers and email addresses are not copied; the program names are kept."
+      ],
+      "files": [
+        {
+          "path": "ma_performance_standards.json",
+          "sha256": "09700f8d0922d2a385c5923d778d4bca24c902eafbc47029895b33ac68bcf8ac",
+          "bytes": 39027,
+          "rows": 93
+        }
+      ]
+    },
+    {
+      "id": "ma-shared-service-arrangements",
+      "title": "Massachusetts shared public health service arrangements, by municipality",
+      "publisher": "Massachusetts Department of Public Health, Office of Local and Regional Health (Public Health Excellence Grant Program)",
+      "source_urls": [
+        "https://www.mass.gov/doc/shared-service-arrangements/download",
+        "https://www.mass.gov/info-details/public-health-excellence-grant-program"
+      ],
+      "source_sha256": {
+        "shared-service-arrangements.xlsx": "0ea54321073793f38e9eca8b25e8c211eeb45edd20b0eb19efd9e1c6efe31fa2"
+      },
+      "source_vintage": "list updated April 2026; workbook last modified Thu, 16 Apr 2026 14:39:09 GMT",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts state government publication; mass.gov's site policies were not read.",
+      "derivation": "xtask/scripts/build_strategy_snapshots.py reads the workbook's only sheet (cached values of its link formulas), maps the workbook's N/A markers to blank, and sorts by municipality.",
+      "caveats": [
+        "A blank arrangement means the list shows no shared service arrangement for the municipality (it may be a standalone grantee, such as Boston, Springfield, or Worcester, or not funded). Two rows are labeled 'PHE: Capacity Building Grantee' by DPH.",
+        "Membership changes with each grant year. Confirm with the Office of Local and Regional Health before relying on the list."
+      ],
+      "files": [
+        {
+          "path": "ma_shared_service_arrangements.csv",
+          "sha256": "22043d43e606795660c46bdadb57ba053aded6dce746809cef9f5b626e218880",
+          "bytes": 36715,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "commbuys-weekly-bids",
+      "title": "COMMBUYS weekly list of new bids (Massachusetts Operational Services Division)",
+      "publisher": "Massachusetts Operational Services Division (OSD), via mass.gov",
+      "source_urls": [
+        "https://www.mass.gov/doc/commbuys-home-page-bid-count/download",
+        "https://www.mass.gov/learn-about-commbuys-resources"
+      ],
+      "source_sha256": {
+        "weekly_bids.pdf": "5868b5dec371666b5349dbeb314c4b152210079d1721c77166ef8abcadf284c4"
+      },
+      "source_vintage": "Weekly list dated Monday, November 9, 2026 (147 bids; closing dates 2026-11-12 onward)",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts public record (mass.gov).",
+      "derivation": "The OSD weekly 'New Bids Available' PDF read with pdftotext -layout; each row's organization id, organization, closing date and time, description, and COMMBUYS bid number were kept, and nothing was filtered out. Builder: xtask/scripts/build_grants_snapshots.py (--check).",
+      "caveats": [
+        "COMMBUYS itself (commbuys.com) could not be reached from the build environment: the list has no bid type, amount, eligibility, or link, and it is replaced every week.",
+        "Most bids on the list are construction and purchasing bids; the tool tags topics by keyword (tool defaults) and the nurse must read the solicitation on COMMBUYS before relying on a match.",
+        "A bid is a closing date, not a promise of funding: grants posted as RFRs, NOFAs, or RFAs are mixed with contracts a health department would buy."
+      ],
+      "files": [
+        {
+          "path": "commbuys_weekly_bids.json",
+          "sha256": "89a9b9e0e56defb9c82cd8ac02872ae940372e503a70892312a1e98c51114f69",
+          "bytes": 37879,
+          "rows": 147
+        }
+      ]
+    },
+    {
+      "id": "ma-law-mgl-c111",
+      "title": "M.G.L. c. 111 (Public Health) - section index and partial full text",
+      "publisher": "Massachusetts Legislature",
+      "source_urls": [
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111"
+      ],
+      "source_sha256": {
+        "corpus-input": "0bd5f7416088adaeddda152d26d771b80db1121f4f2efd781cec330d4d83e904"
+      },
+      "source_vintage": "retrieved 2026-11-12",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts statutes and regulations are public records published by the Commonwealth; mass.gov's and malegislature.gov's site policies were not read, so check them before republishing the text. The snapshot keeps section numbers, titles, and text for search; the tool returns excerpts of 25 words or fewer.",
+      "derivation": "xtask/scripts/build_law_snapshots.py reads the chapter page (section number, title, link) and, for the core sections, each section page, taking the text after the heading and before the page chrome; whitespace is collapsed.",
+      "caveats": [
+        "The index lists every section of c. 111 that is not repealed (the Legislature's chapter page); full text is kept only for the sections named in CORE_C111 of the builder script. For any other section the tool gives the number, title, and link, not the text.",
+        "The Legislature's site gives no per-section effective date: check the section page for amendments made after the retrieval date.",
+        "Repealed sections are not listed. Sections of other chapters (for example c. 111D, c. 94C, c. 112) are not included."
+      ],
+      "files": [
+        {
+          "path": "ma_law_mgl_c111.json",
+          "sha256": "ad7785afdc7e5005128a7b554c7ac8266b71d52712eb1e273c5a952f6c50125a",
+          "bytes": 204930,
+          "rows": 510
+        }
+      ]
+    },
+    {
+      "id": "ma-law-105-cmr",
+      "title": "105 CMR (Department of Public Health regulations) - section index and partial full text",
+      "publisher": "Massachusetts Department of Public Health (copies on mass.gov, Trial Court Law Libraries)",
+      "source_urls": [
+        "https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements"
+      ],
+      "source_sha256": {
+        "corpus-input": "7256c55732f6603be8829690c3b4269eea22e7962cd1c25917af2f8e46d3ade3"
+      },
+      "source_vintage": "retrieved 2026-11-12; chapter dates 1997-10-31 to 2026-11-06",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts statutes and regulations are public records published by the Commonwealth; mass.gov's and malegislature.gov's site policies were not read, so check them before republishing the text. The snapshot keeps section numbers, titles, and text for search; the tool returns excerpts of 25 words or fewer.",
+      "derivation": "xtask/scripts/build_law_snapshots.py reads the mass.gov table of contents, each chapter page (date and PDF link), and each PDF with pdftotext -layout. Headings before the first repeated section number are the table of contents; page headers, footers, and 'continued' lines are removed; whitespace is collapsed.",
+      "caveats": [
+        "Every chapter on mass.gov's 105 CMR table of contents is listed; section numbers and titles come from each chapter's PDF. Full text is kept only for the chapters named in FULL_105 of the builder script. Other chapters are index-only.",
+        "mass.gov's copies are unofficial; the official version is published by the Secretary of the Commonwealth. Each chapter's date is the date on its mass.gov page and may be earlier than a later amendment not yet posted.",
+        "Section titles and text are from PDF text extraction; check the PDF for tables, forms, and appendices, which are not reliably extracted."
+      ],
+      "files": [
+        {
+          "path": "ma_law_105_cmr.json",
+          "sha256": "e83341e5cbc2b3a47e516461276ce572d58e4b5970ffef7e1d1be94dd80d7269",
+          "bytes": 966122,
+          "rows": 3060
+        }
+      ]
+    },
+    {
+      "id": "ma-law-244-cmr",
+      "title": "244 CMR (Board of Registration in Nursing regulations) - section index and partial full text",
+      "publisher": "Massachusetts Board of Registration in Nursing (copies on mass.gov, Trial Court Law Libraries)",
+      "source_urls": [
+        "https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses"
+      ],
+      "source_sha256": {
+        "corpus-input": "9daa57cde2d7f2d65db3a62b51214a1417b96d305afe2ccc55be2a51c08b024a"
+      },
+      "source_vintage": "retrieved 2026-11-12; chapter dates 2021-06-11 to 2025-04-25",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts statutes and regulations are public records published by the Commonwealth; mass.gov's and malegislature.gov's site policies were not read, so check them before republishing the text. The snapshot keeps section numbers, titles, and text for search; the tool returns excerpts of 25 words or fewer.",
+      "derivation": "xtask/scripts/build_law_snapshots.py reads each chapter page (date and PDF link) and each PDF with pypdf, keeping the first text layer of each page, then splits sections the same way as for 105 CMR.",
+      "caveats": [
+        "All eight chapters of 244 CMR on mass.gov (3.00 to 10.00) are in full text.",
+        "mass.gov's PDFs hold each page twice; the build keeps the first text layer. The Board marks the mass.gov copies as not official.",
+        "Board advisory rulings are not regulations and are in the scope-of-practice guide (nursing_scope_of_practice_guide), not here."
+      ],
+      "files": [
+        {
+          "path": "ma_law_244_cmr.json",
+          "sha256": "cfb6a6bd56e57e9ca0315700b8a1e524ae128f644a8d0119f2a5154031b3b9f2",
+          "bytes": 157008,
+          "rows": 51
+        }
+      ]
+    },
+    {
+      "id": "ma-legislation-194",
+      "title": "Massachusetts bills of the 194th General Court (2025-2026) whose titles match public health topics",
+      "publisher": "Massachusetts Legislature (public API at malegislature.gov/api)",
+      "source_urls": [
+        "https://malegislature.gov/api/GeneralCourts/194/Documents",
+        "https://malegislature.gov/api/GeneralCourts/194/Documents/{bill}",
+        "https://malegislature.gov/api/GeneralCourts/194/Documents/{bill}/DocumentHistoryActions"
+      ],
+      "source_sha256": {},
+      "source_vintage": "live API responses on 2026-11-13",
+      "retrieved": "2026-11-13",
+      "license": "Public records of the Massachusetts Legislature; the API's terms were not found in its Swagger document. Bill text is not copied except one excerpt of at most 25 words per bill.",
+      "derivation": "xtask/scripts/build_tracking_snapshots.py downloads the 194th General Court document list, keeps bills that have a bill number and whose title matches a keyword of the topic list in the script (the same list as content/policy/ma_legislation_tracking.yaml), then fetches each bill's record and history. Per bill it keeps the number, docket, title, cosponsor count (sponsor names and amendment authors' names are not kept), topics, committee recommendations, the full dated history, and one excerpt of at most 25 words around the first topic keyword in the bill text.",
+      "caveats": [
+        "A bill whose title does not contain a topic keyword is not included, even if its text is about the topic.",
+        "Status is as of the retrieval date; the Legislature updates it daily. Use live mode for current status."
+      ],
+      "files": [
+        {
+          "path": "ma_legislation_194.json",
+          "sha256": "742ea009e5b0aae22cd2f679db07658a701b7ab31a51b2f80bda0880595655de",
+          "bytes": 730178,
+          "rows": 822
+        }
+      ]
     }
   ]
 }

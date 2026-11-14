@@ -29,6 +29,21 @@ const TABLETOP_TOOLSETS: &[Toolset] = &[
     Toolset::Vax,
 ];
 
+// Phase 15 cha prompt (community_health_assessment) constants go below this line.
+/// Name of the MAPP 2.0 community health assessment prompt (Phase 15).
+pub(crate) const COMMUNITY_HEALTH_ASSESSMENT: &str = "community_health_assessment";
+
+/// Tool groups the community health assessment prompt's tools belong to (`core` is always on).
+const CHA_TOOLSETS: &[Toolset] = &[Toolset::Equity, Toolset::Chronic, Toolset::Env];
+// End of Phase 15 cha prompt constants.
+// Phase 17 grants prompt (prepare_grant_application) constants go below this line.
+/// Name of the grant application preparation prompt (Phase 17).
+pub(crate) const PREPARE_GRANT_APPLICATION: &str = "prepare_grant_application";
+
+/// Tool groups the grant application prompt's tools belong to (`core` is always on).
+const GRANT_TOOLSETS: &[Toolset] = &[Toolset::Planning, Toolset::Equity];
+// End of Phase 17 grants prompt constants.
+
 /// Tells the model which tool groups a workflow uses and what to do when one
 /// of them is off (prompts are listed whatever toolsets are enabled).
 fn toolset_note(needed: &[Toolset]) -> String {
@@ -161,7 +176,14 @@ pub(crate) fn list() -> Vec<Prompt> {
         ]),
     );
     t.title = Some("Plan a tabletop exercise".into());
-    vec![p, t]
+    let mut all = vec![p, t];
+    // Phase 15 cha prompts go below this line.
+    all.push(community_health_assessment_prompt());
+    // End of Phase 15 cha prompts.
+    // Phase 17 grants prompts go below this line.
+    all.push(prepare_grant_application_prompt());
+    // End of Phase 17 grants prompts.
+    all
 }
 
 fn arg(args: &Option<JsonObject>, name: &str) -> Option<String> {
@@ -193,10 +215,17 @@ pub(crate) fn get(name: &str, args: &Option<JsonObject>) -> Result<GetPromptResu
     match name {
         INVESTIGATE_OUTBREAK => outbreak(args),
         PLAN_TABLETOP_EXERCISE => tabletop(args),
+        // Phase 15 cha prompt arm goes below this line.
+        COMMUNITY_HEALTH_ASSESSMENT => community_health_assessment(args),
+        // End of Phase 15 cha prompt arm.
+        // Phase 17 grants prompt arm goes below this line.
+        PREPARE_GRANT_APPLICATION => prepare_grant_application(args),
+        // End of Phase 17 grants prompt arm.
         _ => Err(ErrorData::invalid_params(
             format!(
                 "unknown prompt '{name}'; available: {INVESTIGATE_OUTBREAK}, \
-                 {PLAN_TABLETOP_EXERCISE}"
+                 {PLAN_TABLETOP_EXERCISE}, {COMMUNITY_HEALTH_ASSESSMENT}, \
+                 {PREPARE_GRANT_APPLICATION}"
             ),
             None,
         )),
@@ -453,6 +482,294 @@ Begin with step 1 and ask me for what you need."
     )
 }
 
+// Phase 15 cha prompt (community_health_assessment) goes below this line.
+/// The prompt's listing: a MAPP 2.0 community health assessment workflow.
+fn community_health_assessment_prompt() -> Prompt {
+    let mut p = Prompt::new(
+        COMMUNITY_HEALTH_ASSESSMENT,
+        Some(
+            "A MAPP 2.0 community health assessment for a Massachusetts town or county: build the \
+             foundation and partner list, assemble the community status data (profile, social \
+             vulnerability, language, chronic disease, disparities, environment, food, water), \
+             add the community context from focus groups and interviews (names removed locally), \
+             bring in nearby hospitals' CHNAs, then rank the issues with the Hanlon method, PEARL, \
+             and a nominal group vote. Uses the equity toolset; chronic and env tools add data when \
+             enabled.",
+        ),
+        Some(vec![
+            PromptArgument::new("area")
+                .with_title("Town or county")
+                .with_description("The Massachusetts city, town, or county to assess.")
+                .with_required(false),
+            PromptArgument::new("partners_path")
+                .with_title("Partner roster file")
+                .with_description(
+                    "A CSV or XLSX in the data folder with one partner organization per row \
+                     (organization name and sector). Contact people are never read.",
+                )
+                .with_required(false),
+            PromptArgument::new("chna_folder")
+                .with_title("Folder of hospital CHNAs")
+                .with_description(
+                    "A folder in the data folder with nearby hospitals' community health needs \
+                     assessment reports (PDF or Word).",
+                )
+                .with_required(false),
+            PromptArgument::new("transcripts_folder")
+                .with_title("Folder of focus group and interview transcripts")
+                .with_description(
+                    "A folder in the data folder with transcripts. They are read only on this \
+                     machine; only theme counts come back.",
+                )
+                .with_required(false),
+        ]),
+    );
+    p.title = Some("MAPP 2.0 community health assessment".into());
+    p
+}
+
+fn community_health_assessment(args: &Option<JsonObject>) -> Result<GetPromptResult, ErrorData> {
+    let area = arg(args, "area");
+    let partners = arg(args, "partners_path");
+    let chna = arg(args, "chna_folder");
+    let transcripts = arg(args, "transcripts_folder");
+    check_lengths(&[
+        ("area", &area),
+        ("partners_path", &partners),
+        ("chna_folder", &chna),
+        ("transcripts_folder", &transcripts),
+    ])?;
+    let ar = area
+        .clone()
+        .unwrap_or_else(|| "my saved town (ask me if none is saved)".into());
+    let area_arg = area
+        .as_ref()
+        .map(|a| format!("area \"{a}\""))
+        .unwrap_or_else(|| "the area".into());
+    let partners_arg = partners
+        .as_ref()
+        .map(|p| format!(", partners_path \"{p}\""))
+        .unwrap_or_default();
+    let chna_arg = chna
+        .as_ref()
+        .map(|c| format!(", chna_paths [\"{c}\"]"))
+        .unwrap_or_default();
+    let chna_text = match &chna {
+        Some(c) => format!("Pass chna_paths [\"{c}\"] so the tool reads the priority lists."),
+        None => "Ask me to save each nearby hospital's CHNA (PDF or Word) in a folder in the data \
+folder, such as /data/chna, and then call it again with chna_paths."
+            .into(),
+    };
+    let transcripts_text = match &transcripts {
+        Some(t) => {
+            format!("Call analyze_qualitative_data (EQ-10) with transcript_paths [\"{t}\"].")
+        }
+        None => "If I have focus group or interview transcripts, ask me to save them in a folder \
+in the data folder and call analyze_qualitative_data (EQ-10) with transcript_paths."
+            .into(),
+    };
+    let toolsets = toolset_note(CHA_TOOLSETS);
+
+    let text = format!(
+        "Help me carry out a community health assessment as a Massachusetts local public health \
+nurse, following MAPP 2.0 (Mobilizing for Action through Planning and Partnerships, NACCHO). \
+Area: {ar}.
+
+At each step, call the tool named, show me the key result with its source and date, and tell me \
+what you need from me next. Treat the results as decision support: I decide with my partners. \
+Be plain about what the tools could not verify: MAPP 2.0 was checked against journal articles \
+and not NACCHO's own handbook, so tell me to check NACCHO's materials before citing a phase or \
+tool as NACCHO's wording.
+
+Privacy rules for the whole assessment: never ask me to paste transcripts, names, or client \
+details into the chat. Transcripts and client files stay in files in the data folder; the tools \
+read them locally and return counts, with small counts withheld, and write anything detailed \
+only to the output folder.
+
+{toolsets}
+
+1. Build the foundation (MAPP 2.0 Phase 1). Ask who leads the assessment, who the partners are, \
+and who is missing. Call community_health_assessment_builder (EQ-08) with {area_arg}{partners_arg}{chna_arg} \
+to get the three phases and three assessments, the partner sector checklist, nearby hospitals, \
+and the first data sections. Ask me to save a partner roster (organization and sector) in the \
+data folder if I have none. Call find_community_resources (EQ-07) to inventory local services \
+and note the gaps.
+
+2. Community status assessment (quantitative data). Go through the data sections the builder \
+returned and call the underlying tools when I want more detail: build_community_health_profile \
+(EQ-01), get_social_vulnerability_index (EQ-02), language_access_profile (EQ-03), \
+get_places_estimates (CHR-01) for chronic disease, environmental_justice_screen, \
+climate_health_vulnerability_profile, food_access_mapper, drinking_water_quality_lookup, and \
+community_water_fluoridation_status. If I have a table of counts by race, ethnicity, language, \
+or income, call measure_health_disparities (EQ-04); ask me to save it in the data folder. If I \
+have a screening file of health-related social needs, call screen_health_related_social_needs \
+(EQ-05) for aggregates only. Use estimate_benefit_eligibility (EQ-06) only for teaching \
+examples of which programs residents may qualify for, not for individual clients. Flag small \
+numbers, unreliable estimates, and data older than five years.
+
+3. Community context assessment (qualitative data). Review the focus group and interview \
+prompts the builder returned. {transcripts_text} Report the themes it returns (participant \
+counts only) and remind me that keyword coding is a heuristic: I should read the coded excerpts \
+in the output folder myself before reporting a finding.
+
+4. Hospital CHNAs. Show the hospitals near the area and the links to find their community \
+health needs assessments (the Attorney General's community benefits reports). {chna_text} \
+Compare the hospitals' priorities with the data and the context themes: where do they agree, \
+and what is missing?
+
+5. Bring the story together. Help me list the themes that appear across the status data, the \
+context assessment, the partner assessment, and the CHNAs. Propose a list of candidate health \
+issues (do not rank them yet) and ask me to confirm it.
+
+6. Prioritize. For the confirmed issues, walk me through the Hanlon method and call \
+prioritize_health_issues (EQ-09): ask me for each issue's size (0-10, from the data), \
+seriousness (0-20), effectiveness of an available intervention (0-10), and the five PEARL \
+answers (propriety, economics, acceptability, resources, legality), and write down the \
+rationale for each. If my partners held a nominal group vote, enter the totals only (how many \
+participants gave each issue each rank), never names. Show the ranking, the ties, the close \
+calls, and the strategy grid; do not break ties for me.
+
+7. Report. Write the draft sections with community_health_assessment_builder (the document goes \
+to the output folder), then list what is still missing (data gaps, partners, voices) and what \
+should be collected next. The next phase of the work, planning and evaluation, follows from \
+the priorities.
+
+Begin with step 1 and ask me for what you need."
+    );
+    Ok(
+        GetPromptResult::new(vec![PromptMessage::new_text(Role::User, text)])
+            .with_description(format!("MAPP 2.0 community health assessment for {ar}.")),
+    )
+}
+// End of Phase 15 cha prompt.
+// Phase 17 grants prompt (prepare_grant_application) goes below this line.
+/// The prompt's listing: find, read, plan, and write a grant application.
+fn prepare_grant_application_prompt() -> Prompt {
+    let mut p = Prompt::new(
+        PREPARE_GRANT_APPLICATION,
+        Some(
+            "Prepare a grant or request-for-response application for a health department: search \
+             open opportunities, read the announcement into a compliance checklist with its \
+             scoring criteria, plan the budget, then draft the needs statement, project narrative, \
+             and sustainability section from your own data and facts, with placeholders for \
+             anything missing. Uses the planning toolset; the equity toolset adds community data.",
+        ),
+        Some(vec![
+            PromptArgument::new("topic")
+                .with_title("Topic to search")
+                .with_description(
+                    "A subject in plain words, such as immunization or overdose prevention. \
+                     Never a client or a case.",
+                )
+                .with_required(false),
+            PromptArgument::new("announcement_path")
+                .with_title("Announcement file")
+                .with_description(
+                    "A funding announcement (PDF or Word) already saved in the data folder. Leave \
+                     it empty to search for opportunities first.",
+                )
+                .with_required(false),
+            PromptArgument::new("project_title")
+                .with_title("Project title")
+                .with_description("A short name for the project.")
+                .with_required(false),
+            PromptArgument::new("community")
+                .with_title("Community")
+                .with_description("The town or county the project serves.")
+                .with_required(false),
+        ]),
+    );
+    p.title = Some("Prepare a grant application".into());
+    p
+}
+
+fn prepare_grant_application(args: &Option<JsonObject>) -> Result<GetPromptResult, ErrorData> {
+    let topic = arg(args, "topic");
+    let path = arg(args, "announcement_path");
+    let title = arg(args, "project_title");
+    let community = arg(args, "community");
+    check_lengths(&[
+        ("topic", &topic),
+        ("announcement_path", &path),
+        ("project_title", &title),
+        ("community", &community),
+    ])?;
+    let comm = community
+        .clone()
+        .unwrap_or_else(|| "my saved town (ask me if none is saved)".into());
+    let search_arg = topic
+        .as_ref()
+        .map(|t| format!("topic \"{t}\""))
+        .unwrap_or_else(|| "a topic I give you (ask me)".into());
+    let analyze_step = match &path {
+        Some(p) => format!("Call analyze_funding_announcement (PLAN-07) with path \"{p}\"."),
+        None => "Ask me to save the announcement (the NOFO or RFR, as PDF or Word) in the data \
+folder, then call analyze_funding_announcement (PLAN-07) with its path."
+            .into(),
+    };
+    let title_arg = title
+        .as_ref()
+        .map(|t| format!(", project_title \"{t}\""))
+        .unwrap_or_default();
+    let toolsets = toolset_note(GRANT_TOOLSETS);
+    let text = format!(
+        "Help me prepare a grant or request-for-response application as a Massachusetts local \
+public health nurse. Community: {comm}.
+
+At each step, call the tool named, show me the key result with its source and date, and tell me \
+what you need from me next. Treat everything as decision support: I decide whether to apply. \
+Be plain about what the tools could not verify: the federal search needs my Simpler.Grants.gov \
+key and may run in snapshot mode, the Massachusetts list is a weekly snapshot, and the \
+announcement reader uses pattern matching and lists what it could not find.
+
+Rules for the whole application: never invent a statistic, a program detail, or a citation, and \
+leave a [NURSE: ...] placeholder for anything I have not given you. Every number needs a \
+source and a year. Never ask me to paste client information into the chat; use community-level \
+data only. Funders' instructions come before anything these tools say.
+
+{toolsets}
+
+1. Find opportunities. Call search_grant_opportunities (PLAN-06) with {search_arg}. Tell me \
+which mode each source used (live or snapshot) and its date, show the closing dates, and flag \
+that eligibility and amounts for Massachusetts bids must be read on COMMBUYS. Help me choose \
+one opportunity worth the effort, and ask me whether a board of health may apply.
+
+2. Read the announcement. {analyze_step} Show me the deadlines, the page limits, the required \
+attachments, the scoring criteria with points, and what the tool could not find; ask me to \
+check each against the announcement. Tell me the checklist files in the output folder.
+
+3. Plan the project. Ask for the health problem, the people affected, the goal, and the \
+partners. If useful, build a logic model with build_logic_model (PLAN-01), write objectives \
+with write_smartie_objectives (PLAN-02), and look for evidence with \
+find_evidence_based_interventions (PLAN-03); do not skip a step I did not ask for.
+
+4. Build the budget. Call build_program_budget (PLAN-09) with the activities and the award \
+ceiling from the announcement, and keep each line tied to an activity. If the funder asks for \
+a cost-effectiveness or return-on-investment case, use economic_evaluation_calculator \
+(PLAN-10).
+
+5. Gather community data for the needs statement. Call build_community_health_profile (EQ-01) \
+for {comm} and copy only figures that come back with a source and year; ask me to supply \
+anything else (local survey results, program data) with its source and year.
+
+6. Draft the narrative. Call draft_grant_narrative (PLAN-08) with the scoring criteria from the \
+checklist (criteria_file, or typed criteria){title_arg}, the data points from step 5, and the \
+facts I have given you. Show me how many placeholders remain and what each needs. Then help me \
+replace them with my own text, one at a time.
+
+7. Final check. List every requirement from the checklist and whether the draft meets it \
+(deadline, page limit, attachments, criteria), what is still missing, and what I need to do \
+before the deadline.
+
+Begin with step 1 (or step 2 if I gave you an announcement) and ask me for what you need."
+    );
+    Ok(
+        GetPromptResult::new(vec![PromptMessage::new_text(Role::User, text)])
+            .with_description(format!("Grant application preparation for {comm}.")),
+    )
+}
+// End of Phase 17 grants prompt.
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -460,9 +777,17 @@ mod tests {
     #[test]
     fn prompt_lists_and_renders_with_arguments() {
         let l = list();
-        assert_eq!(l.len(), 2);
-        assert_eq!(l[0].name, INVESTIGATE_OUTBREAK);
-        assert_eq!(l[1].name, PLAN_TABLETOP_EXERCISE);
+        let names: Vec<&str> = l.iter().map(|p| p.name.as_str()).collect();
+        assert_eq!(
+            names,
+            [
+                INVESTIGATE_OUTBREAK,
+                PLAN_TABLETOP_EXERCISE,
+                COMMUNITY_HEALTH_ASSESSMENT,
+                PREPARE_GRANT_APPLICATION
+            ],
+            "the full prompt list, in order"
+        );
         let mut a = JsonObject::new();
         a.insert("disease".into(), "salmonellosis".into());
         a.insert("line_list_path".into(), "supper.csv".into());
@@ -630,4 +955,137 @@ mod tests {
         let tabletop = render(PLAN_TABLETOP_EXERCISE, &[]);
         assert!(tabletop.contains("the preparedness profile does not include vax"));
     }
+    // Phase 15 cha prompt tests go below this line.
+    #[test]
+    fn community_health_assessment_prompt_chains_the_equity_tools() {
+        assert!(list().iter().any(|p| p.name == COMMUNITY_HEALTH_ASSESSMENT));
+        let text = render(
+            COMMUNITY_HEALTH_ASSESSMENT,
+            &[
+                ("area", "Lowell"),
+                ("chna_folder", "chna"),
+                ("transcripts_folder", "focus_groups"),
+                ("partners_path", "partners.csv"),
+            ],
+        );
+        for tool in [
+            "community_health_assessment_builder",
+            "build_community_health_profile",
+            "get_social_vulnerability_index",
+            "language_access_profile",
+            "measure_health_disparities",
+            "screen_health_related_social_needs",
+            "estimate_benefit_eligibility",
+            "find_community_resources",
+            "analyze_qualitative_data",
+            "prioritize_health_issues",
+            "get_places_estimates",
+        ] {
+            assert!(text.contains(tool), "{tool}");
+        }
+        // EQ-01 to EQ-10 are all named.
+        for id in [
+            "EQ-01", "EQ-02", "EQ-03", "EQ-04", "EQ-05", "EQ-06", "EQ-07", "EQ-08", "EQ-09",
+            "EQ-10",
+        ] {
+            assert!(text.contains(id), "{id}");
+        }
+        assert!(
+            text.contains("area \"Lowell\"") && text.contains("partners_path \"partners.csv\"")
+        );
+        assert!(text.contains("chna_paths [\"chna\"]"));
+        assert!(text.contains("transcript_paths [\"focus_groups\"]"));
+        assert!(text.contains("not NACCHO's own handbook") || text.contains("not NACCHO's own"));
+        // Every tool named is registered and in core or a declared toolset.
+        let mut named = 0;
+        for t in phn_tools::registry::tools() {
+            if text.contains(t.name) {
+                named += 1;
+                assert!(
+                    t.toolset == Toolset::Core || CHA_TOOLSETS.contains(&t.toolset),
+                    "{} ({}) is not in the declared toolsets",
+                    t.name,
+                    t.toolset
+                );
+            }
+        }
+        assert!(named >= 10, "{named}");
+        for ts in CHA_TOOLSETS {
+            assert!(
+                phn_tools::registry::tools().any(|t| t.toolset == *ts && text.contains(t.name)),
+                "{ts} is declared but no tool from it is named"
+            );
+        }
+        assert!(text.contains(&toolset_note(CHA_TOOLSETS)));
+        // Without arguments it asks for what it needs.
+        let bare = render(COMMUNITY_HEALTH_ASSESSMENT, &[]);
+        assert!(
+            bare.contains("my saved town") && bare.contains("save each nearby hospital's CHNA")
+        );
+        let mut long = JsonObject::new();
+        long.insert("area".into(), "x".repeat(301).into());
+        assert!(get(COMMUNITY_HEALTH_ASSESSMENT, &Some(long)).is_err());
+    }
+    // End of Phase 15 cha prompt tests.
+    // Phase 17 grants prompt tests go below this line.
+    #[test]
+    fn grant_application_prompt_chains_search_analyze_budget_and_draft() {
+        assert!(list().iter().any(|p| p.name == PREPARE_GRANT_APPLICATION));
+        let text = render(
+            PREPARE_GRANT_APPLICATION,
+            &[
+                ("topic", "immunization"),
+                ("announcement_path", "funding/nofo.pdf"),
+                ("project_title", "Vaccine Outreach"),
+                ("community", "Lowell"),
+            ],
+        );
+        for tool in [
+            "search_grant_opportunities",
+            "analyze_funding_announcement",
+            "build_program_budget",
+            "draft_grant_narrative",
+        ] {
+            assert!(text.contains(tool), "{tool}");
+        }
+        // The steps run in order: search, analyze, budget, narrative.
+        let at = |t: &str| text.find(t).unwrap();
+        assert!(
+            at("search_grant_opportunities") < at("analyze_funding_announcement")
+                && at("analyze_funding_announcement") < at("build_program_budget")
+                && at("build_program_budget") < at("draft_grant_narrative")
+        );
+        assert!(text.contains("topic \"immunization\""));
+        assert!(text.contains("path \"funding/nofo.pdf\""));
+        assert!(text.contains("project_title \"Vaccine Outreach\""));
+        assert!(text.contains("never invent a statistic"));
+        assert!(text.contains(&toolset_note(GRANT_TOOLSETS)));
+        // Every registered tool the prompt names is in core or a declared toolset.
+        for t in phn_tools::registry::tools() {
+            if text.contains(t.name) {
+                assert!(
+                    t.toolset == Toolset::Core || GRANT_TOOLSETS.contains(&t.toolset),
+                    "{} ({}) is not in the declared toolsets",
+                    t.name,
+                    t.toolset
+                );
+            }
+        }
+        for name in [
+            "search_grant_opportunities",
+            "analyze_funding_announcement",
+            "draft_grant_narrative",
+        ] {
+            assert!(
+                phn_tools::registry::tools().any(|t| t.name == name),
+                "{name} is not registered"
+            );
+        }
+        let bare = render(PREPARE_GRANT_APPLICATION, &[]);
+        assert!(bare.contains("my saved town") && bare.contains("save the announcement"));
+        let mut long = JsonObject::new();
+        long.insert("topic".into(), "x".repeat(301).into());
+        assert!(get(PREPARE_GRANT_APPLICATION, &Some(long)).is_err());
+    }
+    // End of Phase 17 grants prompt tests.
 }

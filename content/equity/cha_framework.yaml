@@ -1,0 +1,431 @@
+# Community health assessment framework for community_health_assessment_builder (EQ-08): the
+# MAPP 2.0 phases and assessments, the requirements and Massachusetts guidance for hospital
+# community health needs assessments (CHNAs), where to find hospital CHNAs, a partner sector
+# checklist, context assessment prompts, theme words for reading CHNA priority lists, and the
+# outline of the report the tool drafts.
+#
+# REVIEW STATUS: pending. NACCHO's own MAPP 2.0 pages and handbook (naccho.org) could not be
+# fetched from the build environment (the proxy refused the connection), so MAPP 2.0 was
+# verified against peer-reviewed articles that describe it. What those articles confirm is marked
+# medium confidence; anything NACCHO's materials may say that the articles do not is marked low or
+# listed under not_verified. The federal CHNA rule and the Attorney General's Community Benefits
+# Guidelines were read in full (eCFR and mass.gov) and are high confidence. Retrieved 2026-11-12.
+# Schema: content/schemas/equity_cha_framework.schema.json
+meta:
+  id: equity-cha-framework
+  title: Community health assessment framework (MAPP 2.0) and hospital CHNA guidance
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: "Mobilizing for Action through Planning and Partnerships (MAPP) 2.0, as described in Front Public Health 2025;13:1601406 (NACCHO's own materials were not reachable)"
+    publisher: Frontiers in Public Health (describing NACCHO's MAPP 2.0)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12283569/
+  related_sources:
+    - title: 26 CFR 1.501(r)-3 Community health needs assessments (eCFR)
+      publisher: U.S. Government (Electronic Code of Federal Regulations)
+      url: https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1/section-1.501(r)-3
+    - title: Community Benefits Guidelines for Non-Profit Hospitals (Massachusetts Attorney General's Office, February 2018)
+      publisher: Massachusetts Office of the Attorney General
+      url: https://www.mass.gov/doc/updated-nonprofit-hospital-community-benefits-guidelines/download
+    - title: Non-Profit Hospital and HMO Community Benefits (Massachusetts Attorney General's Office)
+      publisher: Massachusetts Office of the Attorney General
+      url: https://www.mass.gov/non-profit-hospital-and-hmo-community-benefits
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    MAPP 2.0 (released by NACCHO in 2023) could not be read from NACCHO's own site; its three phases
+    and three assessments were verified in two open-access journal articles (2025), which give the
+    phase names, the three assessments with their data types and purposes, some Phase 1 tools, and
+    the Community Partner Assessment's survey and time commitment (medium confidence). What each
+    phase contains beyond those descriptions, the names of NACCHO's individual tools, and where
+    prioritization falls were not verified (low confidence). The mapping of this server's tools to
+    the three assessments, the partner sector checklist, the context assessment prompts, the CHNA
+    theme words, and the report outline are this project's own drafts. The federal CHNA rule (26 CFR
+    1.501(r)-3) and the Attorney General's guidelines (mass.gov) were read directly. Hospital
+    websites and the Attorney General's filing site (massago.hylandcloud.com) were not reachable
+    from the build environment, so no per-hospital CHNA link is bundled.
+
+sources:
+  mapp-frontiers-2025:
+    title: "The role of the Chief Health Strategist in community health improvement: a MAPP 2.0 counterproposal (Front Public Health 2025;13:1601406)"
+    publisher: Frontiers in Public Health
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12283569/
+    effective_date: "2025"
+    retrieved: 2026-11-12
+  mapp-inquiry-2025:
+    title: The B.R.I.D.G.E. Program as an exemplar of nurse-led multimodal approaches to address colorectal cancer disparities and opioid deaths (Inquiry 2025)
+    publisher: Inquiry (journal)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12290342/
+    effective_date: "2025"
+    retrieved: 2026-11-12
+  cfr-501r3:
+    title: 26 CFR 1.501(r)-3 Community health needs assessments
+    publisher: U.S. Government (Electronic Code of Federal Regulations)
+    url: https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1/section-1.501(r)-3
+    effective_date: null
+    retrieved: 2026-11-12
+  ag-guidelines:
+    title: Community Benefits Guidelines for Non-Profit Hospitals (February 2018)
+    publisher: Massachusetts Office of the Attorney General
+    url: https://www.mass.gov/doc/updated-nonprofit-hospital-community-benefits-guidelines/download
+    effective_date: "2018-02-07"
+    retrieved: 2026-11-12
+  ag-cb-page:
+    title: Non-Profit Hospital and HMO Community Benefits
+    publisher: Massachusetts Office of the Attorney General
+    url: https://www.mass.gov/non-profit-hospital-and-hmo-community-benefits
+    effective_date: null
+    retrieved: 2026-11-12
+  ag-cb-guidelines-page:
+    title: Community Benefits Guidelines (Attorney General's Office page with the guidelines and forms)
+    publisher: Massachusetts Office of the Attorney General
+    url: https://www.mass.gov/info-details/community-benefits-guidelines
+    effective_date: null
+    retrieved: 2026-11-12
+  cms-hospitals:
+    title: Hospital General Information (CMS Provider Data Catalog)
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://data.cms.gov/provider-data/dataset/xubh-q36u
+    effective_date: null
+    retrieved: 2026-11-12
+
+framework:
+  name: MAPP 2.0 (Mobilizing for Action through Planning and Partnerships)
+  owner: National Association of County and City Health Officials (NACCHO)
+  released: "2023"
+  released_source: mapp-frontiers-2025
+  source_status: >-
+    Read through two 2025 journal articles; NACCHO's own materials could not be fetched. Check the
+    phases and tools below against NACCHO's MAPP 2.0 handbook before citing them as NACCHO's
+    wording.
+  phases:
+    - number: 1
+      name: Build the Community Health Improvement (CHI) Foundation
+      summary: >-
+        Relaunches the earlier "Organizing for Success and Partnership Development" step. Its tools
+        assess stakeholders and power, take stock of starting resources, and set a shared vision,
+        to build relationships and ownership of the process.
+      activities:
+        - text: Stakeholder and power analysis (who has to be at the table).
+          source: mapp-frontiers-2025
+          section: Introduction (MAPP 2.0 Phase 1 tools)
+          confidence: medium
+        - text: Starting Point Assessment (an inventory of the resources and capacity you begin with).
+          source: mapp-frontiers-2025
+          section: Introduction (MAPP 2.0 Phase 1 tools)
+          confidence: medium
+        - text: A shared vision for the community health improvement work.
+          source: mapp-frontiers-2025
+          section: Introduction (MAPP 2.0 Phase 1 tools)
+          confidence: medium
+      confidence: medium
+      source: mapp-frontiers-2025
+    - number: 2
+      name: Tell the Community Story
+      summary: >-
+        Carry out the three assessments (community status, community context, and community
+        partner) and bring their findings together into the story of the community's health.
+      activities:
+        - text: Conduct the three assessments described below.
+          source: mapp-inquiry-2025
+          section: Table 1 (Phase 2 aligned with conducting needs assessments)
+          confidence: medium
+        - text: >-
+            Bring the findings of the three assessments together and look across them for
+            themes (the way the assessments are combined is not described in the sources read).
+          source: mapp-frontiers-2025
+          section: Figure 1 (Tell the Community Story)
+          confidence: low
+      confidence: medium
+      source: mapp-inquiry-2025
+    - number: 3
+      name: Continuously Improve the Community
+      summary: >-
+        Plan, carry out, and evaluate the improvement work, and keep improving. The sources read
+        describe this phase only in outline; where prioritization of issues and the community
+        health improvement plan fall within it was not verified.
+      activities:
+        - text: Evaluate processes and outcomes and apply continuous improvement methods (for example PDSA cycles).
+          source: mapp-inquiry-2025
+          section: Table 1 (Phase 3)
+          confidence: low
+      confidence: low
+      source: mapp-inquiry-2025
+  assessments:
+    - id: status
+      name: Community Status Assessment
+      data: Quantitative data
+      purpose: Helps the community understand upstream factors, root causes, and the social determinants of health.
+      server_tools: [build_community_health_profile, get_social_vulnerability_index, language_access_profile, measure_health_disparities, get_places_estimates, drinking_water_quality_lookup, community_water_fluoridation_status, environmental_justice_screen, climate_health_vulnerability_profile, food_access_mapper]
+      source: mapp-frontiers-2025
+      section: Table 2 (MAPP 2.0 three assessments)
+      confidence: medium
+    - id: context
+      name: Community Context Assessment
+      data: Qualitative data
+      purpose: Helps understand the strengths, assets, and forces of change at play in the community.
+      server_tools: [analyze_qualitative_data, screen_health_related_social_needs]
+      source: mapp-frontiers-2025
+      section: Table 2 (MAPP 2.0 three assessments)
+      confidence: medium
+    - id: partner
+      name: Community Partner Assessment
+      data: Quantitative and qualitative data
+      purpose: Lets community partners look at their own organizations' capacity and work out the collective capacity of the community. It replaced the earlier Local Public Health System Assessment.
+      server_tools: [find_community_resources]
+      source: mapp-frontiers-2025
+      section: Table 2 (MAPP 2.0 three assessments); Introduction
+      confidence: medium
+  partner_assessment_facts:
+    - text: The Community Partner Assessment uses several in-person partner meetings and a 59-question survey (for example, the survey asks about an organization's interests in joining, its priority populations, and its data skills).
+      source: mapp-frontiers-2025
+      section: Section 2.2
+      confidence: medium
+    - text: "The MAPP 2.0 training manual suggests asking partners for about 14.5 to 17.5 hours for one assessment tool: two orientation meetings of 2 to 2.5 hours, a 30 to 40 minute survey, and 10 to 12 hours of partner discussion."
+      source: mapp-frontiers-2025
+      section: Section 2.2
+      confidence: medium
+  equity_note:
+    text: MAPP 2.0 centers health equity more than the original MAPP framework did.
+    source: mapp-frontiers-2025
+    section: Introduction
+    confidence: low
+
+# Sectors to look for among your partners (this project's own checklist).
+partner_sectors:
+  - id: public_health
+    label: Public health and the board of health
+    keywords: ["health department", "board of health", "public health", "health district"]
+    why: The process is usually led from here.
+  - id: health_care
+    label: Hospitals, health centers, and clinics
+    keywords: [hospital, "health center", clinic, "community health center", "primary care", "medical center"]
+    why: Hospitals must complete a community health needs assessment every three years and must ask a public health department for input.
+  - id: behavioral_health
+    label: Behavioral health and substance use services
+    keywords: ["behavioral health", "mental health", "substance", recovery, "harm reduction", counseling, "crisis"]
+    why: Mental health and substance use are statewide priorities in the Attorney General's guidelines.
+  - id: social_services
+    label: Social and human services, food, and basic needs
+    keywords: ["social service", "human service", "food pantry", pantry, "meal site", "food bank", snap, "community action", charity, "legal aid", "meals"]
+    why: Basic needs and benefits connect the data to what residents live with.
+  - id: housing
+    label: Housing and homelessness services
+    keywords: [housing, shelter, homeless, "housing authority", tenant]
+    why: Housing stability is a statewide priority.
+  - id: education
+    label: Schools, early childhood, and colleges
+    keywords: [school, college, university, "child care", childcare, "early education", "head start", library]
+    why: Reach to children, families, and young adults.
+  - id: aging
+    label: Older adult and disability services
+    keywords: ["council on aging", "senior", "elder", aging, disability, "independent living", "adult day"]
+    why: Older adults and people with disabilities are often missed by general surveys.
+  - id: faith_community
+    label: Faith-based and cultural community organizations
+    keywords: [church, mosque, temple, synagogue, "faith", "cultural", "community group", "neighborhood association"]
+    why: Trusted channels for the people the process most needs to hear.
+  - id: immigrant_language
+    label: Immigrant, refugee, and language access organizations
+    keywords: [immigrant, refugee, "language access", interpreter, "welcome center", "english learner"]
+    why: Language access and trust.
+  - id: government_planning
+    label: Local government, planning, public works, and transportation
+    keywords: ["planning board", "planning", "public works", transit, transportation, "city hall", "town hall", "regional planning", parks, recreation]
+    why: Many determinants of health (transportation, parks, zoning) are local government decisions.
+  - id: public_safety
+    label: Public safety and emergency services
+    keywords: [police, fire, ems, ambulance, "emergency management", "public safety"]
+    why: Safety, violence, and emergency preparedness.
+  - id: business_labor
+    label: Employers, business, and labor
+    keywords: [employer, business, "chamber of commerce", union, labor, workforce, "career center"]
+    why: Jobs and income shape health.
+  - id: residents
+    label: Residents and people with lived experience
+    keywords: [resident, "community member", "lived experience", "advisory", "resident council"]
+    why: A process with no residents at the table is not a community process.
+
+# Prompts for the Community Context Assessment (qualitative): this project's own drafts.
+context_prompts:
+  - What makes this a healthy place to live, work, learn, and play?
+  - What gets in the way of being healthy here, for you, your family, and your neighbors?
+  - Who is not being heard in this process, and how could they be reached?
+  - What strengths and assets does the community already have (people, groups, places, traditions)?
+  - What changes (policy, economic, demographic, environmental) are coming that could affect health?
+  - What would you change first if you could?
+context_how_to:
+  - text: Hold focus groups and key informant interviews in the languages people use, with community members and leaders; save the transcripts in /data and use analyze_qualitative_data (EQ-10), which removes names and returns theme counts only.
+    source: mapp-frontiers-2025
+    section: Table 2 (the context assessment uses qualitative data)
+    confidence: low
+
+# Hospital community health needs assessments (CHNAs).
+chna:
+  federal:
+    - text: A hospital facility must have conducted a CHNA in the taxable year or in either of the two taxable years immediately before it (so at least once every three years) and have adopted an implementation strategy.
+      source: cfr-501r3
+      section: 26 CFR 1.501(r)-3(a)
+      confidence: high
+    - text: "To conduct a CHNA the hospital must define the community it serves, assess its health needs (identify significant health needs, prioritize them, and identify resources to address them), take into account input from persons who represent the broad interests of the community, document the CHNA in a written report adopted by an authorized body, and make the report widely available to the public."
+      source: cfr-501r3
+      section: 26 CFR 1.501(r)-3(b)(1) and (b)(4)
+      confidence: high
+    - text: The hospital must ask for input from at least one governmental public health department (state, local, tribal, or regional) with relevant knowledge, from members of medically underserved, low-income, and minority populations or organizations that represent them, and from written comments on its last CHNA and implementation strategy.
+      source: cfr-501r3
+      section: 26 CFR 1.501(r)-3(b)(5)(i)
+      confidence: high
+    - text: The report must include the community definition, the process and methods, how input was taken into account, a prioritized description of the significant health needs with the process and criteria used to prioritize them, the resources available, and an evaluation of the impact of actions since the last CHNA.
+      source: cfr-501r3
+      section: 26 CFR 1.501(r)-3(b)(6)(i)(A) to (F)
+      confidence: high
+    - text: The report must be available on the hospital's website (until the next two CHNA reports are posted) and on paper, free, at the hospital on request.
+      source: cfr-501r3
+      section: 26 CFR 1.501(r)-3(b)(7)(i)
+      confidence: high
+  massachusetts:
+    - text: Non-profit hospitals complete a CHNA at least once every three years and file an annual Community Benefits Report with the Attorney General that includes the CHNA, the implementation strategy, a self-assessment, program information, and expenditures; the Attorney General publishes the reports.
+      source: ag-guidelines
+      section: Community Benefits Program, A to F; Community Health Needs Assessment
+      confidence: high
+    - text: "The Guidelines name four statewide focus issues for CHNAs: chronic disease with a focus on cancer, heart disease and diabetes; housing stability and homelessness; mental illness and mental health; and substance use disorders."
+      source: ag-guidelines
+      section: Statewide Priorities
+      confidence: high
+    - text: "DPH's six health priorities for Determination of Need community health initiatives, which the Guidelines ask hospitals to consider: built environment, social environment, housing, violence, education, and employment."
+      source: ag-guidelines
+      section: Statewide Priorities
+      confidence: high
+    - text: Hospitals are encouraged to do joint CHNAs with other hospitals, health plans, and local public health departments, and to show data for populations that experience disparities.
+      source: ag-guidelines
+      section: Joint Community Health Needs Assessments; Identifying Health Disparities
+      confidence: high
+    - text: "The Attorney General's Office (CBAdmin@mass.gov) takes questions about the Guidelines and the reporting site."
+      source: ag-cb-page
+      section: Non-Profit Hospital and HMO Community Benefits
+      confidence: high
+  elements:
+    - A definition of the community served and how it was defined
+    - The process and methods used
+    - How input from the community (including populations experiencing inequities) was gathered and used
+    - A prioritized description of the significant health needs, with the process and criteria used to prioritize
+    - Resources available to address the needs
+    - An evaluation of the impact of actions since the last CHNA
+    - A review of other filers' reports in the region (Massachusetts Guidelines)
+  directory:
+    - title: Search and download community benefits reports (Attorney General's reporting site)
+      url: https://massago.hylandcloud.com/231cbs/annualreport.aspx
+      what: The Attorney General publishes each hospital's annual Community Benefits Report, which includes its CHNA and implementation strategy. Search by hospital and year.
+      source: ag-cb-page
+      confidence: medium
+      note: The address comes from the Attorney General's mass.gov page; the site itself could not be opened from the build environment.
+    - title: Community Benefits Guidelines for Non-Profit Hospitals (PDF)
+      url: https://www.mass.gov/doc/updated-nonprofit-hospital-community-benefits-guidelines/download
+      what: What a Massachusetts non-profit hospital must include in its CHNA and report.
+      source: ag-guidelines
+      confidence: high
+      note: Read in full.
+    - title: Community Benefits Guidelines page (guidelines, self-assessment forms, community feedback forms)
+      url: https://www.mass.gov/info-details/community-benefits-guidelines
+      what: Links to the guidelines and the hospital self-assessment and community representative feedback forms.
+      source: ag-cb-guidelines-page
+      confidence: high
+      note: Read in full.
+    - title: Non-Profit Hospital and HMO Community Benefits (Attorney General's Office)
+      url: https://www.mass.gov/non-profit-hospital-and-hmo-community-benefits
+      what: The Attorney General's overview page, with links to the reports search and the filing instructions.
+      source: ag-cb-page
+      confidence: high
+      note: Read in full.
+    - title: 26 CFR 1.501(r)-3 Community health needs assessments (eCFR)
+      url: https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1/section-1.501(r)-3
+      what: The federal rule for the CHNA that non-profit hospitals must complete.
+      source: cfr-501r3
+      confidence: high
+      note: Read in full.
+  how_to_collect:
+    - Look up each hospital that serves your community in the list below, then search the Attorney General's community benefits reports site for the hospital and the latest year.
+    - Or open the hospital's website and look for "community health needs assessment" or "community benefit"; hospitals must post the report on their websites.
+    - Save each CHNA (PDF or Word) in a folder in /data, for example /data/chna, and run this tool again with chna_paths to read the priority lists.
+    - A hospital must ask a public health department for input on its CHNA; if you were never asked, ask the hospital's community benefits office how to contribute to the next one.
+  # Words that group the priority lines found in CHNAs into themes (this project's own list).
+  theme_vocabulary:
+    - id: mental_health
+      label: Mental health
+      keywords: ["mental health", "behavioral health", depression, anxiety, "mental illness", suicide, "emotional well"]
+    - id: substance_use
+      label: Substance use
+      keywords: ["substance use", "substance abuse", opioid, overdose, addiction, alcohol, "drug use", tobacco, vaping]
+    - id: housing
+      label: Housing and homelessness
+      keywords: [housing, homeless, rent, eviction, "housing stability", "affordable housing"]
+    - id: chronic_disease
+      label: Chronic disease
+      keywords: ["chronic disease", "chronic condition", diabetes, "heart disease", cardiovascular, hypertension, "blood pressure", cancer, obesity, asthma, "cardiac"]
+    - id: access_to_care
+      label: Access to health care
+      keywords: ["access to care", "access to health", "health care access", "primary care", insurance, uninsured, "specialty care", "oral health", dental, "care coordination", "health services"]
+    - id: food_nutrition
+      label: Food and nutrition
+      keywords: ["food insecurity", "food access", nutrition, hunger, "healthy food"]
+    - id: transportation
+      label: Transportation
+      keywords: [transportation, transit]
+    - id: social_determinants
+      label: Social determinants and economic security
+      keywords: ["social determinants", "social needs", poverty, income, employment, education, "economic stability", "financial"]
+    - id: equity_discrimination
+      label: Health equity, racism, and discrimination
+      keywords: ["health equity", racism, discrimination, disparities, "racial justice", "language access", "cultural"]
+    - id: maternal_child
+      label: Maternal, infant, and child health
+      keywords: [maternal, prenatal, perinatal, infant, "child health", "children and youth", "pediatric", "early childhood", "adolescent"]
+    - id: older_adults
+      label: Older adults
+      keywords: ["older adult", aging, "elder", dementia, alzheimer, "falls", "senior"]
+    - id: violence_safety
+      label: Violence and safety
+      keywords: [violence, safety, "domestic", abuse, trauma]
+    - id: environment
+      label: Built and natural environment
+      keywords: ["built environment", environment, climate, "air quality", "green space", walkable]
+    - id: infectious_disease
+      label: Infectious disease and vaccination
+      keywords: [covid, vaccination, immunization, "infectious", "communicable"]
+
+# What the tool drafts (this project's outline; not a NACCHO template).
+report_outline:
+  - id: purpose
+    title: Purpose and process
+    guidance: Why the assessment was done, who is leading it, which MAPP 2.0 phase it belongs to, and who is at the table.
+  - id: community
+    title: Our community
+    guidance: Who lives here (the community profile) and what makes the community distinct.
+  - id: status
+    title: Community status assessment
+    guidance: The quantitative picture (health outcomes, risk factors, social and environmental conditions) with the source and date of each figure.
+  - id: context
+    title: Community context assessment
+    guidance: What residents and local leaders say (strengths, concerns, forces of change), from focus groups and interviews.
+  - id: partners
+    title: Community partner assessment
+    guidance: Which organizations are part of the process, what capacity they bring, and who is missing.
+  - id: hospitals
+    title: Hospital community health needs assessments
+    guidance: What nearby hospitals found and prioritized, and where it agrees or differs with this assessment.
+  - id: synthesis
+    title: Putting the story together
+    guidance: Themes that appear across the three assessments and the hospital CHNAs, and the candidate issues to rank (use prioritize_health_issues).
+  - id: limits
+    title: Limits and data gaps
+    guidance: What the data cannot say, what was not available, and what to collect next.
+
+not_verified:
+  - "NACCHO's MAPP 2.0 handbook, tools, and templates (naccho.org was not reachable): the exact wording and steps of each phase, the names of the individual tools in Phases 2 and 3, and where prioritization and the community health improvement plan fall."
+  - The full text of the Community Partner Assessment survey (only the count of questions and four sample items were read).
+  - Hospital websites and the Attorney General's reports site (not reachable), so no per-hospital CHNA link or list of which hospitals file is bundled.
+  - The IRS's own CHNA guidance pages (irs.gov was not reachable); the rule text was read in the eCFR.

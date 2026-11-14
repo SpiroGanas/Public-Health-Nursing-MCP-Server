@@ -582,6 +582,318 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 14 chemfood.
     // End of Phase 14 content items.
+    // Phase 15 content items go below this line.
+    // Phase 15 screen (CHR-02, CHR-03).
+    ContentItem {
+        id: "chronic-bp-screening",
+        path: "content/chronic/bp_screening.yaml",
+        resource_uri: "phn://content/chronic-bp-screening",
+        yaml: include_str!("../../../content/chronic/bp_screening.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_bp_screening.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-diabetes-prevention",
+        path: "content/chronic/diabetes_prevention.yaml",
+        resource_uri: "phn://content/chronic-diabetes-prevention",
+        yaml: include_str!("../../../content/chronic/diabetes_prevention.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_diabetes_prevention.schema.json"),
+    },
+    // End of Phase 15 screen.
+    // Phase 15 prevent (CHR-04, CHR-05).
+    ContentItem {
+        id: "chronic-preventive-services",
+        path: "content/chronic/preventive_services.yaml",
+        resource_uri: "phn://content/chronic-preventive-services",
+        yaml: include_str!("../../../content/chronic/preventive_services.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_preventive_services.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-asthma-home",
+        path: "content/chronic/asthma_home.yaml",
+        resource_uri: "phn://content/chronic-asthma-home",
+        yaml: include_str!("../../../content/chronic/asthma_home.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_asthma_home.schema.json"),
+    },
+    // End of Phase 15 prevent.
+    // Phase 15 cha (EQ-08, EQ-09, EQ-10).
+    ContentItem {
+        id: "equity-prioritization",
+        path: "content/equity/prioritization.yaml",
+        resource_uri: "phn://content/equity-prioritization",
+        yaml: include_str!("../../../content/equity/prioritization.yaml"),
+        schema: include_str!("../../../content/schemas/equity_prioritization.schema.json"),
+    },
+    ContentItem {
+        id: "equity-qualitative-codebook",
+        path: "content/equity/qualitative_codebook.yaml",
+        resource_uri: "phn://content/equity-qualitative-codebook",
+        yaml: include_str!("../../../content/equity/qualitative_codebook.yaml"),
+        schema: include_str!("../../../content/schemas/equity_qualitative_codebook.schema.json"),
+    },
+    ContentItem {
+        id: "equity-cha-framework",
+        path: "content/equity/cha_framework.yaml",
+        resource_uri: "phn://content/equity-cha-framework",
+        yaml: include_str!("../../../content/equity/cha_framework.yaml"),
+        schema: include_str!("../../../content/schemas/equity_cha_framework.schema.json"),
+    },
+    // End of Phase 15 cha.
+    // Phase 15 geo (EPI-13).
+    // End of Phase 15 geo.
+    // End of Phase 15 content items.
+    // Phase 16 content items go below this line.
+    // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+    ContentItem {
+        id: "planning-logic-model",
+        path: "content/planning/logic_model.yaml",
+        resource_uri: "phn://content/planning-logic-model",
+        yaml: include_str!("../../../content/planning/logic_model.yaml"),
+        schema: include_str!("../../../content/schemas/planning_logic_model.schema.json"),
+    },
+    ContentItem {
+        id: "planning-smartie",
+        path: "content/planning/smartie.yaml",
+        resource_uri: "phn://content/planning-smartie",
+        yaml: include_str!("../../../content/planning/smartie.yaml"),
+        schema: include_str!("../../../content/schemas/planning_smartie.schema.json"),
+    },
+    ContentItem {
+        id: "planning-evaluation-framework",
+        path: "content/planning/evaluation_framework.yaml",
+        resource_uri: "phn://content/planning-evaluation-framework",
+        yaml: include_str!("../../../content/planning/evaluation_framework.yaml"),
+        schema: include_str!("../../../content/schemas/planning_evaluation_framework.schema.json"),
+    },
+    // End of Phase 16 design.
+    // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+    ContentItem {
+        id: "planning-behavior-theories",
+        path: "content/planning/behavior_theories.yaml",
+        resource_uri: "phn://content/planning-behavior-theories",
+        yaml: include_str!("../../../content/planning/behavior_theories.yaml"),
+        schema: include_str!("../../../content/schemas/planning_behavior_theories.schema.json"),
+    },
+    ContentItem {
+        id: "planning-evidence-sources",
+        path: "content/planning/evidence_sources.yaml",
+        resource_uri: "phn://content/planning-evidence-sources",
+        yaml: include_str!("../../../content/planning/evidence_sources.yaml"),
+        schema: include_str!("../../../content/schemas/planning_evidence_sources.schema.json"),
+    },
+    // End of Phase 16 interventions.
+    // Phase 16 appraise (EBP-03, EBP-04).
+    ContentItem {
+        id: "ebp-appraisal-checklists",
+        path: "content/ebp/appraisal_checklists.yaml",
+        resource_uri: "phn://content/ebp-appraisal-checklists",
+        yaml: include_str!("../../../content/ebp/appraisal_checklists.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_appraisal_checklists.schema.json"),
+    },
+    ContentItem {
+        id: "ebp-grade-certainty",
+        path: "content/ebp/grade_certainty.yaml",
+        resource_uri: "phn://content/ebp-grade-certainty",
+        yaml: include_str!("../../../content/ebp/grade_certainty.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_grade_certainty.schema.json"),
+    },
+    ContentItem {
+        id: "ebp-evidence-synthesis",
+        path: "content/ebp/evidence_synthesis.yaml",
+        resource_uri: "phn://content/ebp-evidence-synthesis",
+        yaml: include_str!("../../../content/ebp/evidence_synthesis.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_evidence_synthesis.schema.json"),
+    },
+    // End of Phase 16 appraise.
+    // Phase 16 qi (EBP-05).
+    ContentItem {
+        id: "ebp-quality-improvement",
+        path: "content/ebp/quality_improvement.yaml",
+        resource_uri: "phn://content/ebp-quality-improvement",
+        yaml: include_str!("../../../content/ebp/quality_improvement.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_quality_improvement.schema.json"),
+    },
+    // End of Phase 16 qi.
+    // End of Phase 16 content items.
+    // Phase 17 content items go below this line.
+    // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+    ContentItem {
+        id: "planning-grant-sources",
+        path: "content/planning/grant_sources.yaml",
+        resource_uri: "phn://content/planning-grant-sources",
+        yaml: include_str!("../../../content/planning/grant_sources.yaml"),
+        schema: include_str!("../../../content/schemas/planning_grant_sources.schema.json"),
+    },
+    ContentItem {
+        id: "planning-announcement-patterns",
+        path: "content/planning/announcement_patterns.yaml",
+        resource_uri: "phn://content/planning-announcement-patterns",
+        yaml: include_str!("../../../content/planning/announcement_patterns.yaml"),
+        schema: include_str!("../../../content/schemas/planning_announcement_patterns.schema.json"),
+    },
+    ContentItem {
+        id: "planning-narrative-templates",
+        path: "content/planning/narrative_templates.yaml",
+        resource_uri: "phn://content/planning-narrative-templates",
+        yaml: include_str!("../../../content/planning/narrative_templates.yaml"),
+        schema: include_str!("../../../content/schemas/planning_narrative_templates.schema.json"),
+    },
+    // End of Phase 17 grants.
+    // Phase 17 budget (PLAN-09, PLAN-10).
+    ContentItem {
+        id: "planning-budget-reference",
+        path: "content/planning/budget_reference.yaml",
+        resource_uri: "phn://content/planning-budget-reference",
+        yaml: include_str!("../../../content/planning/budget_reference.yaml"),
+        schema: include_str!("../../../content/schemas/planning_budget_reference.schema.json"),
+    },
+    ContentItem {
+        id: "planning-economic-evaluation",
+        path: "content/planning/economic_evaluation.yaml",
+        resource_uri: "phn://content/planning-economic-evaluation",
+        yaml: include_str!("../../../content/planning/economic_evaluation.yaml"),
+        schema: include_str!("../../../content/schemas/planning_economic_evaluation.schema.json"),
+    },
+    // End of Phase 17 budget.
+    // Phase 17 finance (LEAD-01, LEAD-02).
+    ContentItem {
+        id: "leadership-department-finance",
+        path: "content/leadership/department_finance.yaml",
+        resource_uri: "phn://content/leadership-department-finance",
+        yaml: include_str!("../../../content/leadership/department_finance.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_department_finance.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-staffing-model",
+        path: "content/leadership/staffing_model.yaml",
+        resource_uri: "phn://content/leadership-staffing-model",
+        yaml: include_str!("../../../content/leadership/staffing_model.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_staffing_model.schema.json"),
+    },
+    // End of Phase 17 finance.
+    // End of Phase 17 content items.
+    // Phase 18 content items go below this line.
+    // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+    ContentItem {
+        id: "leadership-fphs-framework",
+        path: "content/leadership/fphs_framework.yaml",
+        resource_uri: "phn://content/leadership-fphs-framework",
+        yaml: include_str!("../../../content/leadership/fphs_framework.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_fphs_framework.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-phab-standards",
+        path: "content/leadership/phab_standards.yaml",
+        resource_uri: "phn://content/leadership-phab-standards",
+        yaml: include_str!("../../../content/leadership/phab_standards.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_phab_standards.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-strategic-planning",
+        path: "content/leadership/strategic_planning.yaml",
+        resource_uri: "phn://content/leadership-strategic-planning",
+        yaml: include_str!("../../../content/leadership/strategic_planning.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_strategic_planning.schema.json"),
+    },
+    // End of Phase 18 strategy.
+    // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+    ContentItem {
+        id: "leadership-workforce-competencies",
+        path: "content/leadership/workforce_competencies.yaml",
+        resource_uri: "phn://content/leadership-workforce-competencies",
+        yaml: include_str!("../../../content/leadership/workforce_competencies.yaml"),
+        schema: include_str!(
+            "../../../content/schemas/leadership_workforce_competencies.schema.json"
+        ),
+    },
+    ContentItem {
+        id: "leadership-open-meeting-law",
+        path: "content/leadership/open_meeting_law.yaml",
+        resource_uri: "phn://content/leadership-open-meeting-law",
+        yaml: include_str!("../../../content/leadership/open_meeting_law.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_open_meeting_law.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-ma-legal-holidays",
+        path: "content/leadership/ma_legal_holidays.yaml",
+        resource_uri: "phn://content/leadership-ma-legal-holidays",
+        yaml: include_str!("../../../content/leadership/ma_legal_holidays.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_ma_legal_holidays.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-standing-orders",
+        path: "content/leadership/standing_orders.yaml",
+        resource_uri: "phn://content/leadership-standing-orders",
+        yaml: include_str!("../../../content/leadership/standing_orders.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_standing_orders.schema.json"),
+    },
+    // End of Phase 18 workforce.
+    // Phase 18 ethics (EBP-07, POL-05, POL-06).
+    ContentItem {
+        id: "ebp-qi-research-determination",
+        path: "content/ebp/qi_research_determination.yaml",
+        resource_uri: "phn://content/ebp-qi-research-determination",
+        yaml: include_str!("../../../content/ebp/qi_research_determination.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_qi_research_determination.schema.json"),
+    },
+    ContentItem {
+        id: "policy-public-health-ethics",
+        path: "content/policy/public_health_ethics.yaml",
+        resource_uri: "phn://content/policy-public-health-ethics",
+        yaml: include_str!("../../../content/policy/public_health_ethics.yaml"),
+        schema: include_str!("../../../content/schemas/policy_public_health_ethics.schema.json"),
+    },
+    ContentItem {
+        id: "policy-nursing-scope-of-practice",
+        path: "content/policy/nursing_scope_of_practice.yaml",
+        resource_uri: "phn://content/policy-nursing-scope-of-practice",
+        yaml: include_str!("../../../content/policy/nursing_scope_of_practice.yaml"),
+        schema: include_str!(
+            "../../../content/schemas/policy_nursing_scope_of_practice.schema.json"
+        ),
+    },
+    // End of Phase 18 ethics.
+    // End of Phase 18 content items.
+    // Phase 19 content items go below this line.
+    // Phase 19 tracking (POL-01, POL-03).
+    ContentItem {
+        id: "policy-ma-legislation-tracking",
+        path: "content/policy/ma_legislation_tracking.yaml",
+        resource_uri: "phn://content/policy-ma-legislation-tracking",
+        yaml: include_str!("../../../content/policy/ma_legislation_tracking.yaml"),
+        schema: include_str!("../../../content/schemas/policy_ma_legislation_tracking.schema.json"),
+    },
+    ContentItem {
+        id: "policy-federal-rules-tracking",
+        path: "content/policy/federal_rules_tracking.yaml",
+        resource_uri: "phn://content/policy-federal-rules-tracking",
+        yaml: include_str!("../../../content/policy/federal_rules_tracking.yaml"),
+        schema: include_str!("../../../content/schemas/policy_federal_rules_tracking.schema.json"),
+    },
+    // End of Phase 19 tracking.
+    // Phase 19 law (POL-02, POL-04, POL-07).
+    ContentItem {
+        id: "policy-public-law-search",
+        path: "content/policy/public_law_search.yaml",
+        resource_uri: "phn://content/policy-public-law-search",
+        yaml: include_str!("../../../content/policy/public_law_search.yaml"),
+        schema: include_str!("../../../content/schemas/policy_public_law_search.schema.json"),
+    },
+    ContentItem {
+        id: "policy-policy-brief",
+        path: "content/policy/policy_brief.yaml",
+        resource_uri: "phn://content/policy-policy-brief",
+        yaml: include_str!("../../../content/policy/policy_brief.yaml"),
+        schema: include_str!("../../../content/schemas/policy_policy_brief.schema.json"),
+    },
+    ContentItem {
+        id: "policy-information-sharing",
+        path: "content/policy/information_sharing.yaml",
+        resource_uri: "phn://content/policy-information-sharing",
+        yaml: include_str!("../../../content/policy/information_sharing.yaml"),
+        schema: include_str!("../../../content/schemas/policy_information_sharing.schema.json"),
+    },
+    // End of Phase 19 law.
+    // End of Phase 19 content items.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

@@ -1,0 +1,832 @@
+{
+ "ledger": {
+  "as_of": "2026-10-31",
+  "expense_totals": {
+   "actual": 113400.0,
+   "budgeted": 342000.0,
+   "encumbered": 6400.0,
+   "expected_by_pace": 115249.3151,
+   "forecast_run_rate": 341211.5068,
+   "forecast_straight_line": 336512.1951,
+   "percent_of_budget": 33.1579,
+   "points_vs_pace": -0.5407,
+   "projected_vs_budget_run_rate": 788.4932,
+   "projected_vs_budget_straight_line": 5487.8049,
+   "remaining": 222200.0,
+   "status": "On pace",
+   "variance_vs_pace": -1849.3151
+  },
+  "expenses": {
+   "Contracted Services": {
+    "actual": 11000.0,
+    "budgeted": 30000.0,
+    "encumbered": 6000.0,
+    "expected_by_pace": 10109.589,
+    "forecast_run_rate": 34868.4932,
+    "forecast_straight_line": 32642.2764,
+    "percent_of_budget": 36.6667,
+    "points_vs_pace": 2.968,
+    "projected_vs_budget_run_rate": -4868.4932,
+    "projected_vs_budget_straight_line": -2642.2764,
+    "remaining": 13000.0,
+    "status": "On pace",
+    "variance_vs_pace": 890.411
+   },
+   "PERSONNEL": {
+    "actual": 100000.0,
+    "budgeted": 300000.0,
+    "encumbered": 0.0,
+    "expected_by_pace": 101095.8904,
+    "forecast_run_rate": 298904.1096,
+    "forecast_straight_line": 296747.9675,
+    "percent_of_budget": 33.3333,
+    "points_vs_pace": -0.3653,
+    "projected_vs_budget_run_rate": 1095.8904,
+    "projected_vs_budget_straight_line": 3252.0325,
+    "remaining": 200000.0,
+    "status": "On pace",
+    "variance_vs_pace": -1095.8904
+   },
+   "Supplies": {
+    "actual": 2400.0,
+    "budgeted": 12000.0,
+    "encumbered": 400.0,
+    "expected_by_pace": 4043.8356,
+    "forecast_run_rate": 7438.9041,
+    "forecast_straight_line": 7121.9512,
+    "percent_of_budget": 20.0,
+    "points_vs_pace": -13.6986,
+    "projected_vs_budget_run_rate": 4561.0959,
+    "projected_vs_budget_straight_line": 4878.0488,
+    "remaining": 9200.0,
+    "status": "Behind pace",
+    "variance_vs_pace": -1643.8356
+   }
+  },
+  "percent_elapsed": 33.6986,
+  "personnel": {
+   "positions": 3.0,
+   "shown": true
+  },
+  "recent_months": [
+   "2026-08",
+   "2026-09",
+   "2026-10"
+  ],
+  "revenue": {
+   "Inspection Fees": {
+    "actual": 17500.0,
+    "budgeted": 36000.0,
+    "encumbered": null,
+    "expected_by_pace": 12131.5068,
+    "forecast_run_rate": 58606.8493,
+    "forecast_straight_line": 51930.8943,
+    "percent_of_budget": 48.6111,
+    "points_vs_pace": 14.9125,
+    "projected_vs_budget_run_rate": 22606.8493,
+    "projected_vs_budget_straight_line": 15930.8943,
+    "remaining": 18500.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 5368.4932
+   },
+   "Municipal Appropriation": {
+    "actual": 60000.0,
+    "budgeted": 180000.0,
+    "encumbered": null,
+    "expected_by_pace": 60657.5342,
+    "forecast_run_rate": 179342.4658,
+    "forecast_straight_line": 178048.7805,
+    "percent_of_budget": 33.3333,
+    "points_vs_pace": -0.3653,
+    "projected_vs_budget_run_rate": -657.5342,
+    "projected_vs_budget_straight_line": -1951.2195,
+    "remaining": 120000.0,
+    "status": "On pace",
+    "variance_vs_pace": -657.5342
+   },
+   "State Grants": {
+    "actual": 60000.0,
+    "budgeted": 120000.0,
+    "encumbered": null,
+    "expected_by_pace": 40438.3562,
+    "forecast_run_rate": 219123.2877,
+    "forecast_straight_line": 178048.7805,
+    "percent_of_budget": 50.0,
+    "points_vs_pace": 16.3014,
+    "projected_vs_budget_run_rate": 99123.2877,
+    "projected_vs_budget_straight_line": 58048.7805,
+    "remaining": 60000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 19561.6438
+   }
+  },
+  "revenue_totals": {
+   "actual": 137500.0,
+   "budgeted": 336000.0,
+   "encumbered": null,
+   "expected_by_pace": 113227.3973,
+   "forecast_run_rate": 457072.6027,
+   "forecast_straight_line": 408028.4553,
+   "percent_of_budget": 40.9226,
+   "points_vs_pace": 7.224,
+   "projected_vs_budget_run_rate": 121072.6027,
+   "projected_vs_budget_straight_line": 72028.4553,
+   "remaining": 198500.0,
+   "status": "On pace",
+   "variance_vs_pace": 24272.6027
+  }
+ },
+ "ledger_mid_month": {
+  "as_of": "2026-10-15",
+  "expense_totals": {
+   "actual": 113400.0,
+   "budgeted": 342000.0,
+   "encumbered": 6400.0,
+   "expected_by_pace": 100257.5342,
+   "forecast_run_rate": 350901.3699,
+   "forecast_straight_line": 386831.7757,
+   "percent_of_budget": 33.1579,
+   "points_vs_pace": 3.8428,
+   "projected_vs_budget_run_rate": -8901.3699,
+   "projected_vs_budget_straight_line": -44831.7757,
+   "remaining": 222200.0,
+   "status": "On pace",
+   "variance_vs_pace": 13142.4658
+  },
+  "expenses": {
+   "Contracted Services": {
+    "actual": 11000.0,
+    "budgeted": 30000.0,
+    "encumbered": 6000.0,
+    "expected_by_pace": 8794.5205,
+    "forecast_run_rate": 32205.4795,
+    "forecast_straight_line": 37523.3645,
+    "percent_of_budget": 36.6667,
+    "points_vs_pace": 7.3516,
+    "projected_vs_budget_run_rate": -2205.4795,
+    "projected_vs_budget_straight_line": -7523.3645,
+    "remaining": 13000.0,
+    "status": "On pace",
+    "variance_vs_pace": 2205.4795
+   },
+   "PERSONNEL": {
+    "actual": 100000.0,
+    "budgeted": 300000.0,
+    "encumbered": 0.0,
+    "expected_by_pace": 87945.2055,
+    "forecast_run_rate": 312054.7945,
+    "forecast_straight_line": 341121.4953,
+    "percent_of_budget": 33.3333,
+    "points_vs_pace": 4.0183,
+    "projected_vs_budget_run_rate": -12054.7945,
+    "projected_vs_budget_straight_line": -41121.4953,
+    "remaining": 200000.0,
+    "status": "On pace",
+    "variance_vs_pace": 12054.7945
+   },
+   "Supplies": {
+    "actual": 2400.0,
+    "budgeted": 12000.0,
+    "encumbered": 400.0,
+    "expected_by_pace": 3517.8082,
+    "forecast_run_rate": 6641.0959,
+    "forecast_straight_line": 8186.9159,
+    "percent_of_budget": 20.0,
+    "points_vs_pace": -9.3151,
+    "projected_vs_budget_run_rate": 5358.9041,
+    "projected_vs_budget_straight_line": 3813.0841,
+    "remaining": 9200.0,
+    "status": "On pace",
+    "variance_vs_pace": -1117.8082
+   }
+  },
+  "percent_elapsed": 29.3151,
+  "personnel": {
+   "positions": 3.0,
+   "shown": true
+  },
+  "recent_months": [
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "revenue": {
+   "Inspection Fees": {
+    "actual": 17500.0,
+    "budgeted": 36000.0,
+    "encumbered": null,
+    "expected_by_pace": 10553.4247,
+    "forecast_run_rate": 48601.3699,
+    "forecast_straight_line": 59696.2617,
+    "percent_of_budget": 48.6111,
+    "points_vs_pace": 19.296,
+    "projected_vs_budget_run_rate": 12601.3699,
+    "projected_vs_budget_straight_line": 23696.2617,
+    "remaining": 18500.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 6946.5753
+   },
+   "Municipal Appropriation": {
+    "actual": 60000.0,
+    "budgeted": 180000.0,
+    "encumbered": null,
+    "expected_by_pace": 52767.1233,
+    "forecast_run_rate": 187232.8767,
+    "forecast_straight_line": 204672.8972,
+    "percent_of_budget": 33.3333,
+    "points_vs_pace": 4.0183,
+    "projected_vs_budget_run_rate": 7232.8767,
+    "projected_vs_budget_straight_line": 24672.8972,
+    "remaining": 120000.0,
+    "status": "On pace",
+    "variance_vs_pace": 7232.8767
+   },
+   "State Grants": {
+    "actual": 60000.0,
+    "budgeted": 120000.0,
+    "encumbered": null,
+    "expected_by_pace": 35178.0822,
+    "forecast_run_rate": 229643.8356,
+    "forecast_straight_line": 204672.8972,
+    "percent_of_budget": 50.0,
+    "points_vs_pace": 20.6849,
+    "projected_vs_budget_run_rate": 109643.8356,
+    "projected_vs_budget_straight_line": 84672.8972,
+    "remaining": 60000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 24821.9178
+   }
+  },
+  "revenue_totals": {
+   "actual": 137500.0,
+   "budgeted": 336000.0,
+   "encumbered": null,
+   "expected_by_pace": 98498.6301,
+   "forecast_run_rate": 465478.0822,
+   "forecast_straight_line": 469042.0561,
+   "percent_of_budget": 40.9226,
+   "points_vs_pace": 11.6076,
+   "projected_vs_budget_run_rate": 129478.0822,
+   "projected_vs_budget_straight_line": 133042.0561,
+   "remaining": 198500.0,
+   "status": "Ahead of pace",
+   "variance_vs_pace": 39001.3699
+  }
+ },
+ "small": {
+  "as_of": "2026-10-31",
+  "expense_totals": {
+   "actual": 7100.0,
+   "budgeted": 21000.0,
+   "encumbered": 2700.0,
+   "excludes_personnel": true,
+   "expected_by_pace": 7076.7123,
+   "forecast_run_rate": null,
+   "forecast_straight_line": 21069.1057,
+   "percent_of_budget": 33.8095,
+   "points_vs_pace": 0.1109,
+   "projected_vs_budget_run_rate": null,
+   "projected_vs_budget_straight_line": -69.1057,
+   "remaining": 11200.0,
+   "status": "On pace",
+   "variance_vs_pace": 23.2877
+  },
+  "expenses": {
+   "Contracted Services": {
+    "actual": 4000.0,
+    "budgeted": 12000.0,
+    "encumbered": 2500.0,
+    "expected_by_pace": 4043.8356,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 11869.9187,
+    "percent_of_budget": 33.3333,
+    "points_vs_pace": -0.3653,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 130.0813,
+    "remaining": 5500.0,
+    "status": "On pace",
+    "variance_vs_pace": -43.8356
+   },
+   "Supplies": {
+    "actual": 3100.0,
+    "budgeted": 9000.0,
+    "encumbered": 200.0,
+    "expected_by_pace": 3032.8767,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 9199.187,
+    "percent_of_budget": 34.4444,
+    "points_vs_pace": 0.7458,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": -199.187,
+    "remaining": 5700.0,
+    "status": "On pace",
+    "variance_vs_pace": 67.1233
+   }
+  },
+  "fiscal_year": {
+   "days_elapsed": 123,
+   "days_in_year": 365,
+   "end": "2027-06-30",
+   "label": "FY2027",
+   "percent_elapsed": 33.6986,
+   "start": "2026-07-01"
+  },
+  "mix": {
+   "municipal": {
+    "actual": 60000.0,
+    "budgeted": 120000.0,
+    "percent_of_actual": 63.1579,
+    "percent_of_budgeted": 63.1579
+   },
+   "phe": {
+    "actual": 35000.0,
+    "budgeted": 70000.0,
+    "percent_of_actual": 36.8421,
+    "percent_of_budgeted": 36.8421
+   }
+  },
+  "net": null,
+  "personnel": {
+   "positions": 2.0,
+   "shown": false
+  },
+  "revenue": {
+   "Municipal Appropriation": {
+    "actual": 60000.0,
+    "budgeted": 120000.0,
+    "encumbered": null,
+    "expected_by_pace": 40438.3562,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 178048.7805,
+    "percent_of_budget": 50.0,
+    "points_vs_pace": 16.3014,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 58048.7805,
+    "remaining": 60000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 19561.6438
+   },
+   "State Grants": {
+    "actual": 35000.0,
+    "budgeted": 70000.0,
+    "encumbered": null,
+    "expected_by_pace": 23589.0411,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 103861.7886,
+    "percent_of_budget": 50.0,
+    "points_vs_pace": 16.3014,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 33861.7886,
+    "remaining": 35000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 11410.9589
+   }
+  },
+  "revenue_totals": {
+   "actual": 95000.0,
+   "budgeted": 190000.0,
+   "encumbered": null,
+   "expected_by_pace": 64027.3973,
+   "forecast_run_rate": null,
+   "forecast_straight_line": 281910.5691,
+   "percent_of_budget": 50.0,
+   "points_vs_pace": 16.3014,
+   "projected_vs_budget_run_rate": null,
+   "projected_vs_budget_straight_line": 91910.5691,
+   "remaining": 95000.0,
+   "status": "Ahead of pace",
+   "variance_vs_pace": 30972.6027
+  },
+  "services": {
+   "Immunization clinics": {
+    "withheld": true
+   }
+  }
+ },
+ "staffing_custom": {
+  "available_hours": 1698.0,
+  "baseline_hours": 1510.0,
+  "current": {
+   "baseline_workload_percent_of_capacity": 52.3107,
+   "clients_per_fte": 170.0,
+   "residents_per_fte": 12000.0
+  },
+  "productive_hours_per_fte": 1443.3,
+  "scenarios": [
+   {
+    "added_hours": 0.0,
+    "clients_per_fte_needed": 324.9815,
+    "fte_needed": 1.0462,
+    "fte_rounded_up": 1.5,
+    "gap_vs_current_fte": -0.5,
+    "name": "Baseline",
+    "residents_per_fte_needed": 22939.8675,
+    "total_hours": 1510.0
+   },
+   {
+    "added_hours": 0.0,
+    "clients_per_fte_needed": 295.4377,
+    "fte_needed": 1.1508,
+    "fte_rounded_up": 1.5,
+    "gap_vs_current_fte": -0.5,
+    "name": "10% growth",
+    "residents_per_fte_needed": 20854.425,
+    "total_hours": 1661.0
+   }
+  ],
+  "services": {
+   "Clinic doses": {
+    "hours": 300.0,
+    "percent_of_hours": 19.8675
+   },
+   "Communicable disease investigations": {
+    "hours": 150.0,
+    "percent_of_hours": 9.9338
+   },
+   "Home visits": {
+    "hours": 900.0,
+    "percent_of_hours": 59.6026
+   },
+   "TB case management": {
+    "hours": 160.0,
+    "percent_of_hours": 10.596
+   }
+  }
+ },
+ "staffing_default": {
+  "available_hours": 1784.0,
+  "baseline_hours": 1510.0,
+  "current": {
+   "baseline_workload_percent_of_capacity": 70.5344,
+   "clients_per_fte": 226.6667,
+   "residents_per_fte": 16000.0
+  },
+  "productive_hours_per_fte": 1427.2,
+  "scenarios": [
+   {
+    "added_hours": 0.0,
+    "clients_per_fte_needed": 321.3563,
+    "fte_needed": 1.058,
+    "fte_rounded_up": 1.1,
+    "gap_vs_current_fte": -0.4,
+    "name": "Baseline",
+    "residents_per_fte_needed": 22683.9735,
+    "total_hours": 1510.0
+   },
+   {
+    "added_hours": 0.0,
+    "clients_per_fte_needed": 292.1421,
+    "fte_needed": 1.1638,
+    "fte_rounded_up": 1.2,
+    "gap_vs_current_fte": -0.3,
+    "name": "10% growth",
+    "residents_per_fte_needed": 20621.7941,
+    "total_hours": 1661.0
+   },
+   {
+    "added_hours": 180.0,
+    "clients_per_fte_needed": 287.129,
+    "fte_needed": 1.1841,
+    "fte_rounded_up": 1.2,
+    "gap_vs_current_fte": -0.3,
+    "name": "Add diabetes prevention",
+    "residents_per_fte_needed": 20267.929,
+    "total_hours": 1690.0
+   },
+   {
+    "added_hours": 240.0,
+    "clients_per_fte_needed": 265.8165,
+    "fte_needed": 1.2791,
+    "fte_rounded_up": 1.3,
+    "gap_vs_current_fte": -0.2,
+    "name": "Growth plus added",
+    "residents_per_fte_needed": 18763.5168,
+    "total_hours": 1825.5
+   }
+  ],
+  "services": {
+   "Clinic doses": {
+    "hours": 300.0,
+    "percent_of_hours": 19.8675
+   },
+   "Communicable disease investigations": {
+    "hours": 150.0,
+    "percent_of_hours": 9.9338
+   },
+   "Home visits": {
+    "hours": 900.0,
+    "percent_of_hours": 59.6026
+   },
+   "TB case management": {
+    "hours": 160.0,
+    "percent_of_hours": 10.596
+   }
+  }
+ },
+ "summary": {
+  "as_of": "2026-10-31",
+  "expense_totals": {
+   "actual": 139100.0,
+   "budgeted": 392500.0,
+   "encumbered": 14300.0,
+   "excludes_personnel": false,
+   "expected_by_pace": 132267.1233,
+   "forecast_run_rate": null,
+   "forecast_straight_line": 412776.4228,
+   "percent_of_budget": 35.4395,
+   "points_vs_pace": 1.7409,
+   "projected_vs_budget_run_rate": null,
+   "projected_vs_budget_straight_line": -20276.4228,
+   "remaining": 239100.0,
+   "status": "On pace",
+   "variance_vs_pace": 6832.8767
+  },
+  "expenses": {
+   "Contracted Services": {
+    "actual": 11000.0,
+    "budgeted": 36000.0,
+    "encumbered": 12000.0,
+    "expected_by_pace": 12131.5068,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 32642.2764,
+    "percent_of_budget": 30.5556,
+    "points_vs_pace": -3.1431,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 3357.7236,
+    "remaining": 13000.0,
+    "status": "On pace",
+    "variance_vs_pace": -1131.5068
+   },
+   "PERSONNEL": {
+    "actual": 103500.0,
+    "budgeted": 308000.0,
+    "encumbered": 0.0,
+    "expected_by_pace": 103791.7808,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 307134.1463,
+    "percent_of_budget": 33.6039,
+    "points_vs_pace": -0.0947,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 865.8537,
+    "remaining": 204500.0,
+    "status": "On pace",
+    "variance_vs_pace": -291.7808
+   },
+   "Software and Licenses": {
+    "actual": 7600.0,
+    "budgeted": 7500.0,
+    "encumbered": 0.0,
+    "expected_by_pace": 2527.3973,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 22552.8455,
+    "percent_of_budget": 101.3333,
+    "points_vs_pace": 67.6347,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": -15052.8455,
+    "remaining": -100.0,
+    "status": "Over budget",
+    "variance_vs_pace": 5072.6027
+   },
+   "Supplies": {
+    "actual": 6200.0,
+    "budgeted": 14000.0,
+    "encumbered": 800.0,
+    "expected_by_pace": 4717.8082,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 18398.374,
+    "percent_of_budget": 44.2857,
+    "points_vs_pace": 10.5871,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": -4398.374,
+    "remaining": 7000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 1482.1918
+   },
+   "Travel and Training": {
+    "actual": 900.0,
+    "budgeted": 5000.0,
+    "encumbered": 0.0,
+    "expected_by_pace": 1684.9315,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 2670.7317,
+    "percent_of_budget": 18.0,
+    "points_vs_pace": -15.6986,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 2329.2683,
+    "remaining": 4100.0,
+    "status": "Behind pace",
+    "variance_vs_pace": -784.9315
+   },
+   "Vaccines and Medical Supplies": {
+    "actual": 9900.0,
+    "budgeted": 22000.0,
+    "encumbered": 1500.0,
+    "expected_by_pace": 7413.6986,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 29378.0488,
+    "percent_of_budget": 45.0,
+    "points_vs_pace": 11.3014,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": -7378.0488,
+    "remaining": 10600.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 2486.3014
+   }
+  },
+  "fiscal_year": {
+   "days_elapsed": 123,
+   "days_in_year": 365,
+   "end": "2027-06-30",
+   "label": "FY2027",
+   "percent_elapsed": 33.6986,
+   "start": "2026-07-01"
+  },
+  "mix": {
+   "federal": {
+    "actual": 12000.0,
+    "budgeted": 30000.0,
+    "percent_of_actual": 6.003,
+    "percent_of_budgeted": 7.2115
+   },
+   "fees": {
+    "actual": 18600.0,
+    "budgeted": 50000.0,
+    "percent_of_actual": 9.3047,
+    "percent_of_budgeted": 12.0192
+   },
+   "municipal": {
+    "actual": 80000.0,
+    "budgeted": 160000.0,
+    "percent_of_actual": 40.02,
+    "percent_of_budgeted": 38.4615
+   },
+   "other": {
+    "actual": 300.0,
+    "budgeted": 1000.0,
+    "percent_of_actual": 0.1501,
+    "percent_of_budgeted": 0.2404
+   },
+   "other_grants": {
+    "actual": 5000.0,
+    "budgeted": 5000.0,
+    "percent_of_actual": 2.5013,
+    "percent_of_budgeted": 1.2019
+   },
+   "phe": {
+    "actual": 75000.0,
+    "budgeted": 150000.0,
+    "percent_of_actual": 37.5188,
+    "percent_of_budgeted": 36.0577
+   },
+   "state_other": {
+    "actual": 9000.0,
+    "budgeted": 20000.0,
+    "percent_of_actual": 4.5023,
+    "percent_of_budgeted": 4.8077
+   }
+  },
+  "net": {
+   "actual_ytd": 60800.0,
+   "budgeted": 23500.0,
+   "revenue_covers_percent_of_expenses": 143.7096
+  },
+  "personnel": {
+   "positions": 3.0,
+   "shown": true
+  },
+  "revenue": {
+   "Federal Grants": {
+    "actual": 12000.0,
+    "budgeted": 30000.0,
+    "encumbered": null,
+    "expected_by_pace": 10109.589,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 35609.7561,
+    "percent_of_budget": 40.0,
+    "points_vs_pace": 6.3014,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 5609.7561,
+    "remaining": 18000.0,
+    "status": "On pace",
+    "variance_vs_pace": 1890.411
+   },
+   "Gifts and Donations": {
+    "actual": 5000.0,
+    "budgeted": 5000.0,
+    "encumbered": null,
+    "expected_by_pace": 1684.9315,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 14837.3984,
+    "percent_of_budget": 100.0,
+    "points_vs_pace": 66.3014,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 9837.3984,
+    "remaining": 0.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 3315.0685
+   },
+   "Inspection Fees": {
+    "actual": 16500.0,
+    "budgeted": 42000.0,
+    "encumbered": null,
+    "expected_by_pace": 14153.4247,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 48963.4146,
+    "percent_of_budget": 39.2857,
+    "points_vs_pace": 5.5871,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 6963.4146,
+    "remaining": 25500.0,
+    "status": "On pace",
+    "variance_vs_pace": 2346.5753
+   },
+   "Miscellaneous Revenue": {
+    "actual": 300.0,
+    "budgeted": 1000.0,
+    "encumbered": null,
+    "expected_by_pace": 336.9863,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 890.2439,
+    "percent_of_budget": 30.0,
+    "points_vs_pace": -3.6986,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": -109.7561,
+    "remaining": 700.0,
+    "status": "On pace",
+    "variance_vs_pace": -36.9863
+   },
+   "Municipal Appropriation": {
+    "actual": 80000.0,
+    "budgeted": 160000.0,
+    "encumbered": null,
+    "expected_by_pace": 53917.8082,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 237398.374,
+    "percent_of_budget": 50.0,
+    "points_vs_pace": 16.3014,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 77398.374,
+    "remaining": 80000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 26082.1918
+   },
+   "State Grants": {
+    "actual": 84000.0,
+    "budgeted": 170000.0,
+    "encumbered": null,
+    "expected_by_pace": 57287.6712,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 249268.2927,
+    "percent_of_budget": 49.4118,
+    "points_vs_pace": 15.7131,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": 79268.2927,
+    "remaining": 86000.0,
+    "status": "Ahead of pace",
+    "variance_vs_pace": 26712.3288
+   },
+   "Vaccine Administration Fees": {
+    "actual": 2100.0,
+    "budgeted": 8000.0,
+    "encumbered": null,
+    "expected_by_pace": 2695.8904,
+    "forecast_run_rate": null,
+    "forecast_straight_line": 6231.7073,
+    "percent_of_budget": 26.25,
+    "points_vs_pace": -7.4486,
+    "projected_vs_budget_run_rate": null,
+    "projected_vs_budget_straight_line": -1768.2927,
+    "remaining": 5900.0,
+    "status": "On pace",
+    "variance_vs_pace": -595.8904
+   }
+  },
+  "revenue_totals": {
+   "actual": 199900.0,
+   "budgeted": 416000.0,
+   "encumbered": null,
+   "expected_by_pace": 140186.3014,
+   "forecast_run_rate": null,
+   "forecast_straight_line": 593199.187,
+   "percent_of_budget": 48.0529,
+   "points_vs_pace": 14.3543,
+   "projected_vs_budget_run_rate": null,
+   "projected_vs_budget_straight_line": 177199.187,
+   "remaining": 216100.0,
+   "status": "Ahead of pace",
+   "variance_vs_pace": 59713.6986
+  },
+  "services": {
+   "Immunization clinics": {
+    "budgeted_cost_per_unit": 60.5,
+    "cost_per_unit": 61.4883,
+    "total_cost": 39352.5
+   },
+   "Inspections": {
+    "budgeted_cost_per_unit": null,
+    "cost_per_unit": 20.9524,
+    "total_cost": 4400.0
+   }
+  }
+ }
+}

@@ -1,0 +1,1080 @@
+# Design-specific critical appraisal questions for appraise_evidence (EBP-03): how to tell the
+# study design, the questions to ask of each design, the answer scales, and how the instruments
+# that define an overall rating (the Cochrane 2011 risk-of-bias tool, ROBINS-I, AMSTAR 2) combine
+# answers. Every question is THIS PROJECT'S OWN WORDING of an item or domain from the open-access
+# source named on it; none is copied from a licensed checklist.
+#
+# REVIEW STATUS: pending. Drafted from full texts retrieved 2026-11-12 through the NCBI
+# E-utilities (PubMed Central). Schema: content/schemas/ebp_appraisal_checklists.schema.json
+meta:
+  id: ebp-appraisal-checklists
+  title: Critical appraisal questions by study design (risk of bias, reporting, and review quality)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: The Cochrane Collaboration's tool for assessing risk of bias in randomised trials (BMJ 2011)
+    publisher: BMJ
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3196245/
+  related_sources:
+    - title: ROBINS-I, a tool for assessing risk of bias in non-randomised studies of interventions (BMJ 2016)
+      publisher: BMJ
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5062054/
+    - title: AMSTAR 2, a critical appraisal tool for systematic reviews (BMJ 2017)
+      publisher: BMJ
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5833365/
+    - title: STROBE statement and its explanation and elaboration (PLoS Medicine 2007)
+      publisher: PLoS Medicine
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2020496/
+    - title: Appraising qualitative research in health education (Health Promotion Practice 2010)
+      publisher: SAGE
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3012622/
+    - title: SQUIRE 2.0 (BMJ Quality and Safety 2016)
+      publisher: BMJ
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5256233/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The questions were written from the full texts listed under `sources` (read 2026-11-12 from
+    PubMed Central through the NCBI E-utilities). They are NOT the CASP checklists: the CASP
+    site (casp-uk.net) could not be reached from the build environment, so no CASP wording was
+    read, and CASP's licence terms (believed to be Creative Commons Attribution-NonCommercial-
+    ShareAlike, confidence low) were not verified; the tool links to CASP instead of copying it.
+    Several instruments are used as published but with limits: the randomised trial questions follow
+    the 2011 Cochrane risk-of-bias tool (its 2019 successor, RoB 2, was not read); the
+    non-randomised intervention questions are the seven ROBINS-I domains, not its signalling
+    questions (those are in the paper's supplement, which was not read); AMSTAR 2 is paraphrased
+    from the paper's item rationale (the supplementary user guide was not read, so how a
+    "partial yes" counts toward the overall rating is not verified); STROBE and SQUIRE 2.0 are
+    reporting guidelines, and their authors say they are not quality scores, so the cohort,
+    case-control, cross-sectional, and improvement questions are prompts for the nurse's judgment
+    and are never summed into a score. The qualitative questions follow one health-education
+    paper (its guidelines are not a published instrument; confidence medium). The design
+    identification word lists are heuristics written for this tool (confidence medium); the nurse
+    confirms the design.
+
+sources:
+  rob:
+    title: The Cochrane Collaboration's tool for assessing risk of bias in randomised trials
+    publisher: BMJ (2011), doi 10.1136/bmj.d5928
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3196245/
+    licence: Creative Commons Attribution-NonCommercial 2.0 (as stated by PubMed Central)
+    read: full text
+    retrieved: 2026-11-12
+  consort:
+    title: CONSORT 2010 Statement, updated guidelines for reporting parallel group randomised trials (boxes on changes to items)
+    publisher: BMJ (2010), doi 10.1136/bmj.c332
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2844940/
+    licence: Creative Commons Attribution-NonCommercial 2.0 (as stated by PubMed Central)
+    read: full text (the checklist table itself did not load; items are taken from the boxes on changes)
+    retrieved: 2026-11-12
+  robins_i:
+    title: ROBINS-I, a tool for assessing risk of bias in non-randomised studies of interventions
+    publisher: BMJ (2016), doi 10.1136/bmj.i4919
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5062054/
+    licence: Creative Commons Attribution-NonCommercial 3.0 (as stated by PubMed Central)
+    read: full text (supplementary tables with the signalling questions not read)
+    retrieved: 2026-11-12
+  strobe_ee:
+    title: STROBE, explanation and elaboration
+    publisher: PLoS Medicine (2007), doi 10.1371/journal.pmed.0040297
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2020496/
+    licence: Creative Commons Attribution 4.0 (as stated by PubMed Central)
+    read: full text
+    retrieved: 2026-11-12
+  strobe:
+    title: The STROBE statement, guidelines for reporting observational studies
+    publisher: PLoS Medicine (2007), doi 10.1371/journal.pmed.0040296
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2020495/
+    licence: Creative Commons Attribution 4.0 (as stated by PubMed Central)
+    read: full text
+    retrieved: 2026-11-12
+  amstar2:
+    title: AMSTAR 2, a critical appraisal tool for systematic reviews that include randomised or non-randomised studies of healthcare interventions, or both
+    publisher: BMJ (2017), doi 10.1136/bmj.j4008
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5833365/
+    licence: Creative Commons Attribution 4.0 (as stated by PubMed Central)
+    read: full text (supplementary user guide not read)
+    retrieved: 2026-11-12
+  prisma:
+    title: The PRISMA 2020 statement, an updated guideline for reporting systematic reviews
+    publisher: BMJ (2021), doi 10.1136/bmj.n71
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005924/
+    licence: Creative Commons Attribution 4.0 (as stated by PubMed Central)
+    read: full text
+    retrieved: 2026-11-12
+  qual_ph:
+    title: Appraising qualitative research in health education, guidelines for public health educators
+    publisher: Health Promotion Practice (2010), doi 10.1177/1524839910363537
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3012622/
+    licence: Copyright SAGE; PubMed Central allows text mining and fair use only, so it is paraphrased, never copied
+    read: full text
+    retrieved: 2026-11-12
+  squire:
+    title: SQUIRE 2.0 (Standards for QUality Improvement Reporting Excellence), revised publication guidelines
+    publisher: BMJ Quality and Safety (2016), doi 10.1136/bmjqs-2015-004411
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5256233/
+    licence: Creative Commons Attribution-NonCommercial 4.0 (as stated by PubMed Central)
+    read: full text
+    retrieved: 2026-11-12
+  grade_24:
+    title: GRADE guidance 24, optimizing the integration of randomized and non-randomized studies of interventions in evidence syntheses
+    publisher: Journal of Clinical Epidemiology (2022), doi 10.1016/j.jclinepi.2021.11.026
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8982640/
+    licence: Creative Commons Attribution 4.0 (as stated by PubMed Central)
+    read: full text
+    retrieved: 2026-11-12
+
+# CASP (Critical Appraisal Skills Programme) is offered as a link only.
+casp:
+  title: CASP checklists (Critical Appraisal Skills Programme)
+  publisher: CASP UK (Oxford)
+  url: https://casp-uk.net/casp-tools-checklists/
+  licence_note: >-
+    CASP checklists are believed to be published under a Creative Commons Attribution-
+    NonCommercial-ShareAlike licence. This was NOT verified (the site could not be reached when
+    this content was built; confidence low). Read the licence printed on the checklist you
+    download. The questions in this tool are original wording from other open-access sources, not
+    CASP text, so using them carries no CASP licence conditions; if you adapt CASP's own wording,
+    credit CASP and keep its licence terms.
+  checklists_note: >-
+    From memory, not verified: CASP publishes separate checklists for randomised controlled
+    trials, systematic reviews, cohort studies, case-control studies, qualitative studies,
+    diagnostic studies, and economic evaluations (confidence low).
+
+scales:
+  yes_no:
+    label: Yes, partly, no, can't tell, not applicable
+    values: ["yes", partly, "no", cant_tell, not_applicable]
+    concern: [partly, "no", cant_tell]
+    meaning: "Questions are worded so that 'yes' is the reassuring answer. 'cant_tell' means the report does not say."
+  yes_partial_no:
+    label: Yes, partial yes, no (AMSTAR 2 style)
+    values: ["yes", partial_yes, "no", not_applicable]
+    concern: [partial_yes, "no"]
+    meaning: "As in AMSTAR 2, when the review does not give the information, answer 'no' rather than giving the benefit of the doubt. 'not_applicable' is allowed only for the items that depend on a meta-analysis."
+  risk_3:
+    label: Low, unclear, or high risk of bias
+    values: [low, unclear, high]
+    concern: [unclear, high]
+    meaning: "The 2011 Cochrane tool's judgments. Unclear means too little is reported, or the risk is not known."
+  risk_4:
+    label: Low, moderate, serious, critical risk, or no information (ROBINS-I)
+    values: [low, moderate, serious, critical, no_information]
+    concern: [serious, critical, no_information]
+    meaning: "ROBINS-I judgments. Low means comparable to a well-performed randomised trial for that domain; only exceptionally is a non-randomised study low risk of bias from confounding."
+
+# Design identification. A design is suggested from words in the text; the nurse confirms it.
+# Phrases are matched at the start of a word after lower-casing and replacing punctuation with
+# spaces ("randomi" matches "randomised" and "randomized"; "non-randomised" is read as one word).
+designs:
+  - id: randomized_trial
+    label: Randomized controlled trial
+    how_to_tell: >-
+      Participants (or groups) were allocated to the intervention or comparison by a random
+      process, then followed for outcomes.
+    instrument: Cochrane risk-of-bias tool (2011 version) domains, plus reporting and applicability questions
+    overall_method: rob_table3
+    starts_certainty: high
+    signals:
+      - {phrase: randomly assigned, weight: 4}
+      - {phrase: randomly allocated, weight: 4}
+      - {phrase: randomised controlled, weight: 4}
+      - {phrase: randomized controlled, weight: 4}
+      - {phrase: cluster randomi, weight: 4}
+      - {phrase: randomi, weight: 2}
+      - {phrase: allocation concealment, weight: 3}
+      - {phrase: random allocation, weight: 3}
+      - {phrase: consort, weight: 2}
+      - {phrase: double blind, weight: 2}
+      - {phrase: placebo, weight: 1}
+  - id: non_randomized_intervention
+    label: Non-randomized study of an intervention (quasi-experimental, before-and-after, controlled before-after, interrupted time series)
+    how_to_tell: >-
+      An intervention or program was evaluated, but the groups were not formed by random
+      allocation (for example comparison communities, before-and-after counts, or a policy change).
+    instrument: ROBINS-I bias domains
+    overall_method: robins_table2
+    starts_certainty: low
+    signals:
+      - {phrase: quasi experiment, weight: 4}
+      - {phrase: nonrandomi, weight: 4}
+      - {phrase: non equivalent, weight: 3}
+      - {phrase: interrupted time series, weight: 4}
+      - {phrase: difference in differences, weight: 4}
+      - {phrase: controlled before, weight: 4}
+      - {phrase: pre post, weight: 3}
+      - {phrase: pretest posttest, weight: 3}
+      - {phrase: before and after, weight: 2}
+      - {phrase: historical control, weight: 3}
+      - {phrase: comparison group, weight: 1}
+      - {phrase: natural experiment, weight: 3}
+  - id: cohort
+    label: Cohort study
+    how_to_tell: >-
+      The investigators followed people over time from baseline exposures to later outcomes
+      (STROBE explanation and elaboration, Box 1).
+    instrument: STROBE-based reporting and bias prompts (not a score)
+    overall_method: none
+    starts_certainty: low
+    signals:
+      - {phrase: cohort, weight: 4}
+      - {phrase: prospective study, weight: 3}
+      - {phrase: retrospective study, weight: 2}
+      - {phrase: followed up, weight: 2}
+      - {phrase: follow up, weight: 1}
+      - {phrase: person years, weight: 2}
+      - {phrase: hazard ratio, weight: 2}
+      - {phrase: incidence, weight: 1}
+  - id: case_control
+    label: Case-control study
+    how_to_tell: >-
+      People with the outcome (cases) are compared with people without it (controls) on past
+      exposures (STROBE explanation and elaboration, Box 1).
+    instrument: STROBE-based reporting and bias prompts (not a score)
+    overall_method: none
+    starts_certainty: low
+    signals:
+      - {phrase: case control, weight: 5}
+      - {phrase: cases and controls, weight: 4}
+      - {phrase: matched controls, weight: 3}
+      - {phrase: control group of, weight: 1}
+      - {phrase: odds ratio, weight: 1}
+      - {phrase: controls were, weight: 2}
+  - id: cross_sectional
+    label: Cross-sectional study or survey
+    how_to_tell: >-
+      Everyone in a sample was assessed at one point in time, often to estimate prevalence or to
+      look at associations measured together (STROBE explanation and elaboration, Box 1).
+    instrument: STROBE-based reporting and bias prompts (not a score)
+    overall_method: none
+    starts_certainty: low
+    signals:
+      - {phrase: cross sectional, weight: 5}
+      - {phrase: prevalence, weight: 2}
+      - {phrase: survey, weight: 2}
+      - {phrase: questionnaire, weight: 1}
+      - {phrase: response rate, weight: 2}
+      - {phrase: point in time, weight: 1}
+  - id: systematic_review
+    label: Systematic review or meta-analysis
+    how_to_tell: >-
+      The authors searched for and selected studies by stated methods, appraised them, and
+      summarised or pooled the results.
+    instrument: AMSTAR 2 items (16) with its critical domains
+    overall_method: amstar2_box2
+    starts_certainty: none
+    signals:
+      - {phrase: systematic review, weight: 5}
+      - {phrase: meta analys, weight: 5}
+      - {phrase: prisma, weight: 4}
+      - {phrase: prospero, weight: 4}
+      - {phrase: databases were searched, weight: 4}
+      - {phrase: search strategy, weight: 3}
+      - {phrase: pooled, weight: 1}
+      - {phrase: heterogeneity, weight: 2}
+      - {phrase: scoping review, weight: 2}
+  - id: qualitative
+    label: Qualitative study
+    how_to_tell: >-
+      Interviews, focus groups, or observation were analysed for themes or patterns to describe
+      experiences or meanings, usually in a small purposive sample.
+    instrument: Six appraisal questions from a health-education appraisal guide, plus findings and limitations
+    overall_method: none
+    starts_certainty: none
+    signals:
+      - {phrase: qualitative, weight: 4}
+      - {phrase: focus group, weight: 3}
+      - {phrase: semi structured, weight: 3}
+      - {phrase: interview, weight: 2}
+      - {phrase: thematic analys, weight: 4}
+      - {phrase: grounded theory, weight: 4}
+      - {phrase: phenomenolog, weight: 4}
+      - {phrase: ethnograph, weight: 4}
+      - {phrase: content analysis, weight: 2}
+      - {phrase: themes emerged, weight: 3}
+      - {phrase: purposive, weight: 3}
+      - {phrase: saturation, weight: 3}
+      - {phrase: coreq, weight: 3}
+  - id: quality_improvement
+    label: Quality improvement or program improvement report
+    how_to_tell: >-
+      A local effort to improve care or a process, usually with repeated measurement over time
+      and small tests of change (SQUIRE 2.0 covers reports of such work).
+    instrument: SQUIRE 2.0 reporting prompts (not a score)
+    overall_method: none
+    starts_certainty: low
+    signals:
+      - {phrase: quality improvement, weight: 4}
+      - {phrase: plan do study act, weight: 5}
+      - {phrase: pdsa, weight: 5}
+      - {phrase: model for improvement, weight: 4}
+      - {phrase: run chart, weight: 3}
+      - {phrase: statistical process control, weight: 3}
+      - {phrase: improvement project, weight: 3}
+      - {phrase: squire, weight: 3}
+      - {phrase: change idea, weight: 2}
+
+# Designs the tool recognises but has no questions for. The reason and a pointer are returned.
+unsupported_designs:
+  - id: diagnostic_accuracy
+    label: Diagnostic accuracy study
+    signals:
+      - {phrase: diagnostic accuracy, weight: 4}
+      - {phrase: sensitivity and specificity, weight: 4}
+      - {phrase: reference standard, weight: 4}
+      - {phrase: index test, weight: 4}
+    pointer: >-
+      The ROBINS-I paper names QUADAS 2 as the risk-of-bias tool for diagnostic test accuracy
+      studies (the tool itself was not read, so no questions are bundled).
+    source: robins_i
+  - id: case_report_series
+    label: Case report or case series
+    signals:
+      - {phrase: case report, weight: 4}
+      - {phrase: case series, weight: 4}
+    pointer: >-
+      No appraisal instrument for case reports or series was read. Treat it as the weakest
+      kind of evidence about effects and use it to generate questions, not to answer them.
+    source: null
+  - id: economic_evaluation
+    label: Economic evaluation (cost-effectiveness, cost-benefit)
+    signals:
+      - {phrase: cost effectiveness, weight: 4}
+      - {phrase: cost benefit, weight: 4}
+      - {phrase: cost utility, weight: 4}
+      - {phrase: qaly, weight: 3}
+    pointer: >-
+      No economic evaluation checklist was read. Reporting guidelines for each design are listed
+      by the EQUATOR Network (equator-network.org, named in the SQUIRE 2.0 paper; not reached
+      from the build environment).
+    source: squire
+  - id: clinical_guideline
+    label: Clinical practice guideline
+    signals:
+      - {phrase: practice guideline, weight: 4}
+      - {phrase: consensus statement, weight: 3}
+      - {phrase: guideline development, weight: 3}
+    pointer: >-
+      No guideline appraisal instrument was read. Check how the guideline rated its evidence
+      (for example with GRADE) and use the systematic review questions for the reviews it relies on.
+    source: null
+
+# ---------------------------------------------------------------------------------------------
+# Questions. `designs` lists the designs a question applies to. `response` names the answer
+# scale. `in_overall` marks the questions that feed the instrument's own overall rating
+# (rob_table3, robins_table2, amstar2_box2). `critical` marks AMSTAR 2's critical domains.
+# `na_allowed` allows "not_applicable" on a yes_partial_no question.
+questions:
+  # ---- Randomised trial: Cochrane 2011 risk-of-bias domains (judge each main outcome)
+  - id: rct_sequence
+    designs: [randomized_trial]
+    domain: Selection bias
+    text: "Random sequence generation: how well does the report show that the allocation sequence was produced by a method that should give comparable groups?"
+    look_for: "The method used to generate the sequence, in enough detail to judge it; give your judgment as low, unclear, or high risk."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1, random sequence generation"
+    confidence: high
+  - id: rct_concealment
+    designs: [randomized_trial]
+    domain: Selection bias
+    text: "Allocation concealment: could the people enrolling participants have foreseen the next assignment before or during enrolment?"
+    look_for: "How the sequence was hidden until assignment (for example central allocation). Low risk means it could not be foreseen."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1, allocation concealment"
+    confidence: high
+  - id: rct_blind_participants
+    designs: [randomized_trial]
+    domain: Performance bias
+    text: "Blinding of participants and personnel: were they kept unaware of which intervention was given, or, if that was impossible, is it unlikely that knowing changed what they did or reported?"
+    look_for: "Any measures taken to blind, and whether the blinding was effective. Not being able to blind does not make a trial 'low quality', but outcomes that depend on knowing the assignment may still be at risk."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1 and principle 3 (blinding of participants and personnel)"
+    confidence: high
+  - id: rct_blind_outcome
+    designs: [randomized_trial]
+    domain: Detection bias
+    text: "Blinding of outcome assessment: were the people who assessed the outcome unaware of the assigned intervention, or is the outcome unlikely to be influenced by that knowledge?"
+    look_for: "Who measured the outcome and what they knew. Judge each main outcome separately (the tool is outcome-specific)."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1 (blinding of outcome assessment) and principle 7"
+    confidence: high
+  - id: rct_attrition
+    designs: [randomized_trial]
+    domain: Attrition bias
+    text: "Incomplete outcome data: is the amount, nature, and handling of missing outcome data unlikely to distort the result?"
+    look_for: "Numbers lost in each group compared with those randomised, reasons, and whether anyone was excluded from the analysis. Reported to be the hardest domain to judge."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1, incomplete outcome data; evaluation of initial implementation"
+    confidence: high
+  - id: rct_reporting
+    designs: [randomized_trial]
+    domain: Reporting bias
+    text: "Selective outcome reporting: is it unlikely that outcomes were picked for reporting because of their results?"
+    look_for: "Compare the outcomes named in the trial registration or protocol with those reported. Changes to outcomes after the trial started should be stated (CONSORT 2010 item 6)."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1, selective reporting"
+    confidence: high
+  - id: rct_other
+    designs: [randomized_trial]
+    domain: Other bias
+    text: "Other sources of bias: is the trial free of other important concerns about bias (ideally ones you decided to look for in advance, such as problems specific to the trial design)?"
+    look_for: "Anything not covered above, for example an inadequate washout period in a crossover trial."
+    response: risk_3
+    in_overall: true
+    source: rob
+    section: "Table 1, other bias; principle 5"
+    confidence: medium
+  # ---- Randomised trial: reporting and applicability (not part of the risk-of-bias judgment)
+  - id: rct_analysis_groups
+    designs: [randomized_trial]
+    domain: Reporting and applicability (not part of the risk-of-bias judgment)
+    text: "Were participants analysed in the groups they were assigned to, and is it clear how many were included in each analysis?"
+    look_for: "CONSORT 2010 item 16 asks for the numbers analysed and for keeping participants in their original groups instead of the loosely used term 'intention to treat'."
+    response: yes_no
+    source: consort
+    section: "Box 2, item 16 (numbers analysed)"
+    confidence: medium
+  - id: rct_registered
+    designs: [randomized_trial]
+    domain: Reporting and applicability (not part of the risk-of-bias judgment)
+    text: "Is the trial registered and its protocol available, so that what was planned can be compared with what was reported?"
+    response: yes_no
+    source: consort
+    section: "Box 2, items 23 and 24"
+    confidence: medium
+  - id: rct_harms
+    designs: [randomized_trial]
+    domain: Reporting and applicability (not part of the risk-of-bias judgment)
+    text: "Are harms reported as well as benefits, and does the interpretation match the results?"
+    response: yes_no
+    source: consort
+    section: "Box 2, items 19 and 22"
+    confidence: medium
+  - id: rct_effect_scale
+    designs: [randomized_trial]
+    domain: Reporting and applicability (not part of the risk-of-bias judgment)
+    text: "For yes-or-no outcomes, are both relative and absolute effects given, so you can judge how large the effect is for people like yours?"
+    response: yes_no
+    source: consort
+    section: "Box 2, item 17b"
+    confidence: medium
+  - id: rct_funding
+    designs: [randomized_trial]
+    domain: Reporting and applicability (not part of the risk-of-bias judgment)
+    text: "Are the sources of funding stated, and have you considered whether they could have influenced the results?"
+    response: yes_no
+    source: consort
+    section: "Box 2, item 25"
+    confidence: medium
+  - id: rct_applicability
+    designs: [randomized_trial]
+    domain: Reporting and applicability (not part of the risk-of-bias judgment)
+    text: "Do the participants, setting, intervention, and outcomes match your population and question closely enough to apply the result?"
+    look_for: "The Cochrane tool deliberately keeps applicability and precision separate from risk of bias (principle 2). A small, well-run trial can be unbiased but imprecise."
+    response: yes_no
+    source: rob
+    section: "Principle 2 (internal validity, external validity, and precision are separate)"
+    confidence: high
+  # ---- Non-randomised intervention study: ROBINS-I domains
+  - id: nrsi_target
+    designs: [non_randomized_intervention]
+    domain: Planning
+    text: "Before judging the domains, did you write down the 'target trial' (population, intervention, comparator, outcomes) and the main confounders and co-interventions to look for?"
+    response: yes_no
+    source: robins_i
+    section: "The target trial; planning the risk of bias assessment"
+    confidence: high
+  - id: nrsi_confounding
+    designs: [non_randomized_intervention]
+    domain: Before the intervention
+    text: "Bias due to confounding: how well were the factors that predict both the outcome and which intervention people received measured and controlled (in the design or analysis)?"
+    look_for: "Only exceptionally is a non-randomised study low risk from confounding. Judge low, moderate, serious, critical, or no information."
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias due to confounding; table 2"
+    confidence: medium
+  - id: nrsi_selection
+    designs: [non_randomized_intervention]
+    domain: Before the intervention
+    text: "Bias in selection of participants: could leaving out eligible people, or starting follow-up at different times, be related to both the intervention and the outcome (for example including only people already on the intervention)?"
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias in selection of participants into the study"
+    confidence: medium
+  - id: nrsi_classification
+    designs: [non_randomized_intervention]
+    domain: At the intervention
+    text: "Bias in classification of interventions: was intervention status defined and recorded the same way for everyone, without being influenced by the outcome?"
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias in classification of interventions"
+    confidence: medium
+  - id: nrsi_deviations
+    designs: [non_randomized_intervention]
+    domain: After the intervention
+    text: "Bias due to deviations from the intended intervention: were there systematic differences between groups in other care received (co-interventions), or in adherence if the question is about starting and sticking with the intervention?"
+    look_for: "The answer depends on whether the effect of interest is that of being assigned or starting the intervention, or of starting and adhering to it."
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias due to deviations from intended interventions; the effect of interest"
+    confidence: medium
+  - id: nrsi_missing
+    designs: [non_randomized_intervention]
+    domain: After the intervention
+    text: "Bias due to missing data: is missing follow-up, or missing information on intervention status or confounders, unlikely to be related to prognosis or to differ between groups?"
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias due to missing data"
+    confidence: medium
+  - id: nrsi_measurement
+    designs: [non_randomized_intervention]
+    domain: After the intervention
+    text: "Bias in measurement of outcomes: were outcomes measured the same way in every group, by assessors who did not know intervention status, or are measurement errors unrelated to the intervention?"
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias in measurement of outcomes"
+    confidence: medium
+  - id: nrsi_reporting
+    designs: [non_randomized_intervention]
+    domain: After the intervention
+    text: "Bias in selection of the reported result: is it unlikely that the reported result was chosen from several outcomes or analyses because of what it showed?"
+    response: risk_4
+    in_overall: true
+    source: robins_i
+    section: "Table 1, bias in selection of the reported result"
+    confidence: medium
+  - id: nrsi_applicability
+    designs: [non_randomized_intervention]
+    domain: Applicability (not part of the risk-of-bias judgment)
+    text: "Do the participants, setting, intervention, and outcomes match your population and question closely enough to apply the result?"
+    look_for: "ROBINS-I treats bias as distinct from generalisability to people who were not in the study."
+    response: yes_no
+    source: robins_i
+    section: "The target trial (bias is distinct from generalisability)"
+    confidence: medium
+  # ---- Cohort, case-control, and cross-sectional studies: STROBE-based prompts
+  - id: obs_design_question
+    designs: [cohort, case_control, cross_sectional]
+    domain: Question and design
+    text: "Is the study design stated early, and are the objectives or hypotheses specific?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 1a, 3, and 4"
+    confidence: high
+  - id: obs_setting
+    designs: [cohort, case_control, cross_sectional]
+    domain: Participants and setting
+    text: "Are the setting, locations, and relevant dates (recruitment, exposure, follow-up, data collection) described?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 5"
+    confidence: high
+  - id: obs_selection_cohort
+    designs: [cohort]
+    domain: Participants and setting
+    text: "Are the eligibility criteria and how participants were selected and followed described?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 6a (cohort)"
+    confidence: high
+  - id: obs_selection_cc
+    designs: [case_control]
+    domain: Participants and setting
+    text: "Are the sources and methods for finding cases and choosing controls given, with the reason for choosing them, and do the controls represent the population the cases came from?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 6a (case-control) and Box 1"
+    confidence: high
+  - id: obs_selection_xs
+    designs: [cross_sectional]
+    domain: Participants and setting
+    text: "Are the eligibility criteria and the sources and methods of selecting participants described, with the response rate?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 6a (cross-sectional) and 13"
+    confidence: medium
+  - id: obs_matching
+    designs: [cohort, case_control]
+    domain: Participants and setting
+    text: "If exposed and unexposed people, or cases and controls, were matched, are the matching criteria given and was the matching accounted for in the analysis?"
+    na_allowed: true
+    response: yes_no
+    source: strobe_ee
+    section: "Items 6b and 12d (case-control)"
+    confidence: medium
+  - id: obs_variables
+    designs: [cohort, case_control, cross_sectional]
+    domain: Variables and measurement
+    text: "Are outcomes, exposures, possible confounders, and effect modifiers clearly defined?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 7"
+    confidence: high
+  - id: obs_measurement
+    designs: [cohort, case_control, cross_sectional]
+    domain: Variables and measurement
+    text: "Are the sources of data and the measurement methods described, and are they comparable across the groups compared?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 8"
+    confidence: high
+  - id: obs_bias
+    designs: [cohort, case_control, cross_sectional]
+    domain: Bias and confounding
+    text: "Did the authors say what they did to address specific sources of bias, such as selection bias and information (measurement or detection) bias?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 9 and Box 3"
+    confidence: high
+  - id: obs_confounding
+    designs: [cohort, case_control, cross_sectional]
+    domain: Bias and confounding
+    text: "Were the statistical methods used to control for confounding described, and are the confounders adjusted for named and justified?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 12a and 16a"
+    confidence: high
+  - id: obs_size
+    designs: [cohort, case_control, cross_sectional]
+    domain: Analysis
+    text: "Is it explained how the study size was arrived at?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 10"
+    confidence: high
+  - id: obs_flow
+    designs: [cohort, case_control, cross_sectional]
+    domain: Participants and missing data
+    text: "Are the numbers of people at each stage given (eligible, included, completing follow-up, analysed), with reasons for non-participation?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 13a and 13b"
+    confidence: high
+  - id: obs_missing
+    designs: [cohort, case_control, cross_sectional]
+    domain: Participants and missing data
+    text: "Were missing data addressed, and is the number of participants with missing data given for each variable of interest?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 12c and 14b"
+    confidence: high
+  - id: obs_followup
+    designs: [cohort]
+    domain: Participants and missing data
+    text: "Is follow-up time summarised, and was loss to follow-up addressed?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 12d (cohort) and 14c"
+    confidence: high
+  - id: obs_xs_sampling
+    designs: [cross_sectional]
+    domain: Analysis
+    text: "Does the analysis take the sampling strategy into account (for example survey weights)?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 12d (cross-sectional)"
+    confidence: high
+  - id: obs_xs_order
+    designs: [cross_sectional]
+    domain: Bias and confounding
+    text: "Can you tell that the exposure came before the outcome, or do the authors acknowledge that the time order is unclear?"
+    response: yes_no
+    source: strobe_ee
+    section: "Box 1 (cross-sectional studies)"
+    confidence: high
+  - id: obs_estimates
+    designs: [cohort, case_control, cross_sectional]
+    domain: Results
+    text: "Are unadjusted and confounder-adjusted estimates both given, with their precision (confidence intervals)?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 16a"
+    confidence: high
+  - id: obs_limitations
+    designs: [cohort, case_control, cross_sectional]
+    domain: Interpretation
+    text: "Do the authors discuss limitations, including the likely direction and size of any bias, and give a cautious interpretation?"
+    response: yes_no
+    source: strobe_ee
+    section: "Items 19 and 20"
+    confidence: high
+  - id: obs_applicability
+    designs: [cohort, case_control, cross_sectional]
+    domain: Interpretation
+    text: "Do the participants and setting match your population closely enough to apply the results (external validity)?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 21"
+    confidence: medium
+  - id: obs_funding
+    designs: [cohort, case_control, cross_sectional]
+    domain: Other information
+    text: "Are the funding sources and the funders' role stated?"
+    response: yes_no
+    source: strobe_ee
+    section: "Item 22"
+    confidence: high
+  # ---- Systematic review: AMSTAR 2 items (critical domains: 2, 4, 7, 9, 11, 13, 15)
+  - id: sr_01_pico
+    designs: [systematic_review]
+    domain: Question
+    text: "Did the review's questions and inclusion criteria include population, intervention, comparator, and outcome (PICO)?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 1"
+    confidence: high
+  - id: sr_02_protocol
+    designs: [systematic_review]
+    domain: Methods set in advance
+    text: "Does the report state that the review methods were set before the review began, and justify any important departures from the protocol?"
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 2; Box 1 (critical domain)"
+    confidence: high
+  - id: sr_03_designs
+    designs: [systematic_review]
+    domain: Question
+    text: "Did the authors explain why they included the study designs they did?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 3"
+    confidence: high
+  - id: sr_04_search
+    designs: [systematic_review]
+    domain: Search
+    text: "Was the literature search comprehensive?"
+    look_for: "Several databases and other sources, search terms reported, and a way to find non-randomised studies if they were eligible."
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 4; Box 1 (critical domain)"
+    confidence: medium
+  - id: sr_05_selection
+    designs: [systematic_review]
+    domain: Selection and extraction
+    text: "Was study selection done in duplicate (two reviewers)?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 5"
+    confidence: high
+  - id: sr_06_extraction
+    designs: [systematic_review]
+    domain: Selection and extraction
+    text: "Was data extraction done in duplicate?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 6"
+    confidence: high
+  - id: sr_07_excluded
+    designs: [systematic_review]
+    domain: Selection and extraction
+    text: "Did the authors list the studies they excluded after reading them in full, and give the reason for each?"
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 7; Box 1 (critical domain)"
+    confidence: high
+  - id: sr_08_described
+    designs: [systematic_review]
+    domain: Included studies
+    text: "Did the authors describe the included studies in enough detail (designs, populations, interventions, comparators, outcomes)?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 8"
+    confidence: high
+  - id: sr_09_rob
+    designs: [systematic_review]
+    domain: Included studies
+    text: "Did the authors use a satisfactory technique to assess risk of bias in each included study (confounding, selection, measurement, selective reporting)?"
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 9; Box 1 (critical domain)"
+    confidence: medium
+  - id: sr_10_funding
+    designs: [systematic_review]
+    domain: Included studies
+    text: "Did the authors report the sources of funding of the included studies?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 10"
+    confidence: high
+  - id: sr_11_meta
+    designs: [systematic_review]
+    domain: Synthesis
+    text: "If results were pooled, were the statistical methods appropriate (studies similar enough to combine, decision stated in advance)?"
+    na_allowed: true
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 11; Box 1 (critical domain)"
+    confidence: medium
+  - id: sr_12_meta_rob
+    designs: [systematic_review]
+    domain: Synthesis
+    text: "If results were pooled, did the authors assess how risk of bias in the individual studies could affect the pooled result?"
+    na_allowed: true
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 12"
+    confidence: high
+  - id: sr_13_rob_interpretation
+    designs: [systematic_review]
+    domain: Interpretation
+    text: "Did the authors take risk of bias in the primary studies into account when interpreting and discussing the results?"
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 13; Box 1 (critical domain)"
+    confidence: high
+  - id: sr_14_heterogeneity
+    designs: [systematic_review]
+    domain: Interpretation
+    text: "Did the authors give a satisfactory explanation and discussion of any heterogeneity in the results?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 14"
+    confidence: high
+  - id: sr_15_publication_bias
+    designs: [systematic_review]
+    domain: Interpretation
+    text: "If results were combined, did the authors investigate publication bias (small-study bias) and discuss its likely impact?"
+    look_for: "A funnel plot needs about 10 or more studies to show asymmetry, and a negative test does not rule publication bias out."
+    na_allowed: true
+    response: yes_partial_no
+    in_overall: true
+    critical: true
+    source: amstar2
+    section: "Item 15; Box 1 (critical domain)"
+    confidence: high
+  - id: sr_16_conflicts
+    designs: [systematic_review]
+    domain: Other information
+    text: "Did the review authors report potential conflicts of interest, including funding they received for the review?"
+    response: yes_partial_no
+    in_overall: true
+    source: amstar2
+    section: "Item 16"
+    confidence: high
+  # ---- Qualitative study: six appraisal questions from a health-education guide
+  - id: qual_question
+    designs: [qualitative]
+    domain: Purpose
+    text: "Does the study address an important practice-related problem through a clearly formulated research question (it may be stated as an aim)?"
+    response: yes_no
+    source: qual_ph
+    section: "Critically appraising qualitative research, question 1"
+    confidence: medium
+  - id: qual_approach
+    designs: [qualitative]
+    domain: Approach
+    text: "Was a qualitative approach appropriate (an in-depth look at a phenomenon from participants' perspective, in a topic where little is known), and is the specific approach (for example phenomenology, ethnography, grounded theory) named and suited to the question?"
+    response: yes_no
+    source: qual_ph
+    section: "Question 2"
+    confidence: medium
+  - id: qual_sampling
+    designs: [qualitative]
+    domain: Participants
+    text: "Are the source of the sample, the sampling method, and the inclusion and exclusion criteria described, and was the amount of data adequate (for example, data collection continued until no new information emerged)?"
+    look_for: "Adequacy is judged by the quality and amount of data, not by the number of participants."
+    response: yes_no
+    source: qual_ph
+    section: "Question 3"
+    confidence: medium
+  - id: qual_researcher
+    designs: [qualitative]
+    domain: Researcher role
+    text: "Did the researchers describe their own role and how they managed their possible influence (for example reflexivity or setting aside prior assumptions)?"
+    response: yes_no
+    source: qual_ph
+    section: "Question 4"
+    confidence: medium
+  - id: qual_data
+    designs: [qualitative]
+    domain: Data collection
+    text: "Are the data collection methods (interviews, focus groups, observation) described in enough detail, and are they suited to the topic and approach?"
+    response: yes_no
+    source: qual_ph
+    section: "Question 5"
+    confidence: medium
+  - id: qual_rigor
+    designs: [qualitative]
+    domain: Analysis and rigor
+    text: "Are the analysis methods described, and did the researchers use strategies to support trustworthiness: an audit trail (confirmability), credibility checks (for example triangulation, member checking, peer debriefing), and rich description so readers can judge transferability?"
+    look_for: "Qualitative rigor is judged by trustworthiness, not by the reliability and validity used for quantitative work."
+    response: yes_no
+    source: qual_ph
+    section: "Question 6 and the discussion of trustworthiness"
+    confidence: medium
+  - id: qual_findings
+    designs: [qualitative]
+    domain: Findings
+    text: "Are the themes or patterns clearly presented and supported by participant quotations, and are limitations discussed with their effect on applicability?"
+    response: yes_no
+    source: qual_ph
+    section: "Key components, results"
+    confidence: medium
+  # ---- Quality improvement report: SQUIRE 2.0 prompts
+  - id: qi_problem
+    designs: [quality_improvement]
+    domain: Why did they start?
+    text: "Is the local problem and its significance described, with a summary of what was already known?"
+    response: yes_no
+    source: squire
+    section: "Table 1, items 3 and 4"
+    confidence: high
+  - id: qi_rationale
+    designs: [quality_improvement]
+    domain: Why did they start?
+    text: "Do the authors give the theory or reasoning for why the intervention was expected to work, and state specific aims?"
+    response: yes_no
+    source: squire
+    section: "Table 1, items 5 and 6"
+    confidence: high
+  - id: qi_context
+    designs: [quality_improvement]
+    domain: What did they do?
+    text: "Are the context factors that mattered at the start described?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 7"
+    confidence: high
+  - id: qi_intervention
+    designs: [quality_improvement]
+    domain: What did they do?
+    text: "Is the intervention described well enough for someone else to reproduce it, including the team involved?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 8"
+    confidence: high
+  - id: qi_study
+    designs: [quality_improvement]
+    domain: What did they do?
+    text: "Do the authors say how they assessed the impact and how they judged that the observed outcomes were due to the intervention?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 9"
+    confidence: high
+  - id: qi_measures
+    designs: [quality_improvement]
+    domain: What did they do?
+    text: "Are process and outcome measures defined, with the reasons for choosing them and checks on data completeness and accuracy?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 10"
+    confidence: high
+  - id: qi_analysis
+    designs: [quality_improvement]
+    domain: What did they do?
+    text: "Do the analysis methods show variation in the data over time rather than only a before-and-after comparison?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 11"
+    confidence: high
+  - id: qi_ethics
+    designs: [quality_improvement]
+    domain: What did they do?
+    text: "Are ethical aspects, any ethics review, and conflicts of interest addressed?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 12"
+    confidence: high
+  - id: qi_results
+    designs: [quality_improvement]
+    domain: What did they find?
+    text: "Are the steps and changes of the intervention over time, the measures, and unintended consequences reported?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 13"
+    confidence: high
+  - id: qi_limitations
+    designs: [quality_improvement]
+    domain: What does it mean?
+    text: "Do the authors discuss limits to generalisability and to internal validity (confounding, bias, imprecision), and what they did about them?"
+    response: yes_no
+    source: squire
+    section: "Table 1, items 15 and 16"
+    confidence: high
+  - id: qi_spread
+    designs: [quality_improvement]
+    domain: What does it mean?
+    text: "Do the authors discuss sustainability and whether the change could spread to other settings?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 17"
+    confidence: high
+  - id: qi_funding
+    designs: [quality_improvement]
+    domain: Other information
+    text: "Are the funding sources and the funder's role stated?"
+    response: yes_no
+    source: squire
+    section: "Table 1, item 18"
+    confidence: high
+
+# How an instrument's own overall rating is formed from the answers marked in_overall.
+overall_methods:
+  rob_table3:
+    label: Summary risk of bias within a trial (2011 Cochrane tool, table 3)
+    rule: "Low risk of bias if every key domain is low; high if any key domain is high; otherwise unclear."
+    source: rob
+    section: "Table 3, within a trial"
+    note: >-
+      The paper leaves the choice of key domains to the review team (for example blinding of
+      participants matters most for subjective outcomes). Unless you name key domains, all seven
+      domains count. The paper says to judge each main outcome separately and not to use quality
+      scores.
+  robins_table2:
+    label: Overall risk of bias for an outcome (ROBINS-I, table 2)
+    rule: "Low if every domain is low; moderate if domains are low or moderate; serious if at least one domain is serious and none is critical; critical if any domain is critical; no information when there is no clear sign of serious or critical risk but information is missing in key domains."
+    source: robins_i
+    section: "Table 2"
+    note: "A judgment is still required when information is missing (the table says so); this tool reports 'no information' and leaves that call to you."
+  amstar2_box2:
+    label: Overall confidence in the review's results (AMSTAR 2, box 2)
+    rule: "High: no or one non-critical weakness. Moderate: more than one non-critical weakness and no critical flaw. Low: one critical flaw. Critically low: more than one critical flaw."
+    source: amstar2
+    section: "Box 2 and box 1 (critical domains: items 2, 4, 7, 9, 11, 13, 15)"
+    note: >-
+      AMSTAR 2's authors strongly recommend against adding the item ratings into a score, and
+      say the scheme is advisory and appraisers may add or substitute critical domains. Here a
+      'no' answer is a flaw or weakness; a 'partial yes' is listed but not counted (how the
+      user guide counts it was not read; confidence low).

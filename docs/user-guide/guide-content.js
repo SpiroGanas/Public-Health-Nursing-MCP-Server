@@ -9,9 +9,9 @@
 
 'use strict';
 
-const VERSION = '0.15.0';
+const VERSION = '1.0.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 110;
+const TOOL_COUNT = 148;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -28,6 +28,9 @@ const TOOLSETS = {
   bh: 'bh (mental health and substance use)',
   epr: 'epr (emergency preparedness)',
   env: 'env (environmental health and climate)',
+  planning: 'planning (program planning, evaluation, and grants)',
+  leadership: 'leadership (health department leadership and finance)',
+  policy: 'policy (policy, law, and professional practice)',
 };
 
 const INTERNET = {
@@ -72,7 +75,7 @@ const frontChapters = [
       {
         title: 'What you can do with it',
         blocks: [
-          { p: `The ${TOOL_COUNT} tools fall into 14 work areas. Chapters 4 to 17 describe each tool.` },
+          { p: `The ${TOOL_COUNT} tools fall into 19 work areas. Chapters 4 to 22 describe each tool.` },
           {
             table: {
               caption: 'Table 1. Work areas covered by the server',
@@ -107,6 +110,21 @@ const frontChapters = [
                 // Phase 14 work-area rows go below this line.
                 ['Environmental health and climate (chapter 17)', 'Look up drinking water violations, lead, and PFAS for your town’s water systems; check community water fluoridation; screen environmental justice populations; profile climate and health vulnerability for MVP and hazard mitigation planning; follow mosquito and tick-borne disease risk; explain housing conditions under the State Sanitary Code; look up chemical exposure limits; map food access.', '8'],
                 // End of Phase 14 work-area rows.
+                // Phase 15 work-area rows go below this line.
+                ['Chronic disease prevention and community assessment (chapter 18)', 'Run a community blood pressure screening; score the prediabetes risk test and find a diabetes prevention program; look up recommended preventive services; plan an asthma home visit; build a community health assessment (MAPP 2.0); rank community health issues; analyze focus group transcripts; count addresses by town or census tract without showing any address.', '8'],
+                // End of Phase 15 work-area rows.
+                // Phase 16 work-area rows go below this line.
+                ['Program planning, evaluation, and evidence (chapter 19)', 'Build logic models; write and check SMARTIE objectives with Healthy People 2030 targets; draft evaluation plans; find Community Guide evidence; apply behavior change theory; track program results against targets; appraise a study; build evidence tables and PRISMA diagrams; plan quality improvement projects with run charts.', '9'],
+                // End of Phase 16 work-area rows.
+                // Phase 17 work-area rows go below this line.
+                ['Grants and finance (chapter 20)', 'Search federal grants and Massachusetts bids; turn a funding announcement into a checklist; draft a grant narrative from your facts; build a program budget; compare costs and results; analyze the department budget; estimate nurse staffing needs.', '7'],
+                // End of Phase 17 work-area rows.
+                // Phase 18 work-area rows go below this line.
+                ['Leadership, accreditation, and professional practice (chapter 21)', 'Assess the department against the state local public health standards; map documents to PHAB standards; draft a strategic plan; assess workforce competencies and credentials; run board of health meetings under the Open Meeting Law; draft standing orders; decide whether a project is QI or research; work through public health ethics; look up scope of practice and delegation rules.', '9'],
+                // End of Phase 18 work-area rows.
+                // Phase 19 work-area rows go below this line.
+                ['Policy and law (chapter 22)', 'Follow Massachusetts bills on public health topics; watch federal rules and comment deadlines; search Massachusetts public health law; draft a policy brief; work out which rules govern sharing a health record.', '5'],
+                // End of Phase 19 work-area rows.
               ],
             },
           },
@@ -217,16 +235,16 @@ const frontChapters = [
               widths: [1700, 2500, 2860, 2300],
               header: ['Profile', 'Intended for', 'Tool groups included', 'Not included'],
               rows: [
-                ['school_nurse', 'School nurses', 'core, school, vax, cd, bh, comms, epi', 'mch, aging, epr, env, equity, chronic, ebp'],
-                ['cd_nurse', 'Communicable disease and epidemiology nurses at a board of health', 'core, cd, vax, epi, comms, equity', 'school, mch, aging, bh, epr, env, chronic, ebp'],
-                ['phn_leader', 'Public health nurse leaders and directors', 'core, epi, equity, comms, ebp, chronic', 'cd, vax, school, mch, aging, bh, epr, env'],
-                ['preparedness', 'Emergency preparedness coordinators', 'core, epr, env, epi, equity, comms, cd', 'vax, school, mch, aging, bh, chronic, ebp'],
+                ['school_nurse', 'School nurses', 'core, school, vax, cd, bh, comms, epi', 'mch, aging, epr, env, equity, chronic, ebp, planning, leadership, policy'],
+                ['cd_nurse', 'Communicable disease and epidemiology nurses at a board of health', 'core, cd, vax, epi, comms, equity', 'school, mch, aging, bh, epr, env, chronic, ebp, planning, leadership, policy'],
+                ['phn_leader', 'Public health nurse leaders and directors', 'core, epi, equity, planning, leadership, policy, comms, ebp, chronic', 'cd, vax, school, mch, aging, bh, epr, env'],
+                ['preparedness', 'Emergency preparedness coordinators', 'core, epr, env, epi, equity, comms, cd', 'vax, school, mch, aging, bh, chronic, ebp, planning, leadership, policy'],
                 ['(none)', 'Anyone who wants every tool', 'All groups', '—'],
               ],
             },
           },
           {
-            p: 'Each tool description in this guide names its group. If a tool you need is not available, ask Claude to change your profile or turn on the group, for example “Turn on the ebp toolset.” If your profile was set in the Claude Desktop configuration file, that setting takes priority; the tool will say so, and you or IT can change the file. The phn_leader profile also switches on three groups reserved for future versions (planning, leadership, and policy); they have no tools yet. The mch and aging groups are not part of any profile: ask Claude to turn them on (for example “Turn on the mch toolset”), or use no profile.',
+            p: 'Each tool description in this guide names its group. If a tool you need is not available, ask Claude to change your profile or turn on the group, for example “Turn on the ebp toolset.” If your profile was set in the Claude Desktop configuration file, that setting takes priority; the tool will say so, and you or IT can change the file. The planning, leadership, and policy groups hold the program planning, grant and budget, leadership, and policy tools (chapters 19 to 22); only the phn_leader profile includes them. The mch and aging groups are not part of any profile: ask Claude to turn them on (for example “Turn on the mch toolset”), or use no profile.',
           },
         ],
       },
@@ -235,9 +253,9 @@ const frontChapters = [
         blocks: [
           {
             bullets: [
-              '**Bundled reference content**, drafted from Massachusetts regulations and laws (105 CMR 300.000 and the school health, lead, and child care regulations cited in each chapter; the Massachusetts General Laws on mandated reporting and health care proxies), DPH’s disease guide and guidance, DPH’s school immunization requirements, CDC and ACIP, AAP, ACOG, AAFP, Immunize.org, EPA, CMS, and FEMA’s incident command and exercise materials, each entry with its citation and a confidence level. All of it is pending expert review.',
-              '**Dated data snapshots** bundled with the server: American Community Survey estimates, the Social Vulnerability Index, CDC PLACES, map boundaries, DPH’s school immunization survey, CDC immunization coverage estimates, an offline copy of DPH’s disease guide and fact sheets, recent CDC surveillance data, CDC and WHO growth charts, DPH lead screening, birth, overdose, and youth survey tables, directories of aging and behavioral health services, CMS nursing home data, FEMA disaster declarations, and HHS emPOWER counts.',
-              '**Live public data**, when the internet is available: the Census Bureau, CDC’s data portal (data.cdc.gov), PubMed, CDC’s MMWR and Health Alert Network, RxNorm, openFDA, DailyMed, the National Weather Service, AirNow, OpenFEMA, HHS emPOWER, CMS Provider Data, HRSA, and FindTreatment.gov.',
+              '**Bundled reference content**, drafted from Massachusetts regulations and laws (105 CMR 300.000 and the school health, lead, and child care regulations cited in each chapter; the Massachusetts General Laws on mandated reporting and health care proxies), DPH’s disease guide and guidance, DPH’s school immunization requirements, CDC and ACIP, AAP, ACOG, AAFP, Immunize.org, EPA, CMS, FEMA’s incident command and exercise materials, USPSTF, the Community Guide, CDC’s program evaluation framework, the federal Uniform Guidance for grants, and the Board of Registration in Nursing’s rulings, each entry with its citation and a confidence level. All of it is pending expert review.',
+              '**Dated data snapshots** bundled with the server: American Community Survey estimates, the Social Vulnerability Index, CDC PLACES, map boundaries, DPH’s school immunization survey, CDC immunization coverage estimates, an offline copy of DPH’s disease guide and fact sheets, recent CDC surveillance data, CDC and WHO growth charts, DPH lead screening, birth, overdose, and youth survey tables, directories of aging and behavioral health services, CMS nursing home data, FEMA disaster declarations, HHS emPOWER counts, USPSTF recommendations, DPH’s diabetes prevention program list, Healthy People 2030 objectives, Community Guide papers, DPH’s local public health standards and shared service list, the COMMBUYS weekly bid list, Massachusetts bills, and a partial copy of M.G.L. c. 111, 105 CMR, and 244 CMR.',
+              '**Live public data**, when the internet is available: the Census Bureau, CDC’s data portal (data.cdc.gov), PubMed, CDC’s MMWR and Health Alert Network, RxNorm, openFDA, DailyMed, the National Weather Service, AirNow, OpenFEMA, HHS emPOWER, CMS Provider Data, HRSA, FindTreatment.gov, Healthy People 2030, MyHealthfinder, the Massachusetts Legislature, the Federal Register, Crossref, and, with your own optional key, Simpler.Grants.gov and Regulations.gov.',
               '**Your own files** in the data folder.',
             ],
           },
@@ -302,7 +320,7 @@ const frontChapters = [
 ];
 
 // ---------------------------------------------------------------------------------------
-// Tool chapters: chapters 4–16. One entry per implemented tool.
+// Tool chapters: chapters 4–22. One entry per implemented tool.
 // ---------------------------------------------------------------------------------------
 
 const toolChapters = [
@@ -3632,6 +3650,1288 @@ const toolChapters = [
     ],
   },
   // End of Phase 14 chapter.
+  // Phase 15 chapter goes below this line.
+  {
+    title: 'Chronic disease prevention and community assessment',
+    intro: 'These eight tools support chronic disease prevention and community assessment: a community blood pressure screening kit, the prediabetes risk test and diabetes prevention programs, recommended preventive services, asthma home visits, a MAPP 2.0 community health assessment, ranking health issues, analyzing focus group transcripts, and counting addresses by town or census tract. The first four are in the chronic group (phn_leader profile), the three assessment tools in the equity group, and the address tool in the epi group, which every profile includes. Tools that read your files return only counts or themes, and anything identifiable goes to your output folder. The guidance is a draft from CDC, USPSTF, DPH, EPA, CMS, and open-access sources, pending review; the notes for each tool say which sources could not be read.',
+    tools: [
+      // Phase 15 screen (CHR-02, CHR-03) tools.
+      {
+        id: 'community_bp_screening_toolkit',
+        title: 'Run a community blood pressure screening',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, a blank screening kit in your output folder (and follow-up letters, if you give a screening log)',
+        does: 'Gives you a ready kit for a community blood pressure screening: a checklist for taking an accurate reading, the current ACC/AHA blood pressure categories for adults, the wording for a severe-range reading, referral tiers, a screening log template, follow-up letters, and a plain-language handout checked for reading level. It can sort readings you type in, add up a screening log you keep, and fill follow-up letters from that log. Each category shows where it came from and how sure the tool is. The referral tiers are the project’s own defaults and are marked “tool default, pending review.”',
+        when: [
+          'Planning a screening at a church, senior center, or health fair.',
+          'Checking what category a set of readings falls in.',
+          'Summing up a screening event, or sending follow-up letters to people with high readings.',
+        ],
+        provide: [
+          'Nothing to get the blank kit. For one person, the readings (numbers only), and whether the person is pregnant or has symptoms.',
+          'For a whole event, a screening log in your data folder with age, the systolic and diastolic numbers, and a referral status. A name and address column is needed only for letters.',
+        ],
+        examples: [
+          'Make a blood pressure screening kit for our health fair.',
+          'Two readings were 146/92 and 142/90. What category is that, and what should I do?',
+          'Summarize bp_screening_log.csv and write the follow-up letters.',
+        ],
+        returns: [
+          'The categories, the severe-range wording, the technique checklist, the referral tiers (marked as defaults to review), the log template columns, the letter templates, the files written, and, for a log, counts by category, age group, and referral status with small counts hidden.',
+        ],
+        notes: [
+          'The 2025 AHA/ACC guideline replaced the 2017 one. The tool could not read its full text: normal, elevated, and the 130/80 cut-off come from CDC’s pages, and the stage 1, stage 2, and severe-range numbers come from published papers that report the guideline. Each item shows its confidence.',
+          'Referral timing is for your agency’s standing orders and medical director. The tool’s tiers are drafts. This is decision support, not medical advice.',
+          'Names and addresses from your log go only into the letters in your output folder; they are never shown in the chat.',
+        ],
+      },
+      {
+        id: 'diabetes_prevention_finder',
+        title: 'Score the prediabetes risk test and find a diabetes prevention program',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, a client handout in your output folder (if you ask for one)',
+        does: 'Scores the CDC Prediabetes Risk Test, checks whether the person meets CDC’s rules for the National Diabetes Prevention Program lifestyle change program, and lists the Massachusetts program sites that the Department of Public Health publishes for a town, county, or the whole state. It explains in-person, live online, and on-demand programs, and Medicare’s diabetes prevention program. It can write a plain-language handout for the client. It is honest about what it could not check: CDC’s national registry could not be reached, so it does not say which sites are CDC-recognized or how each one is delivered, and it does not list online providers. It points you to CDC’s finder for those.',
+        when: [
+          'Screening at a health fair or senior center.',
+          'A client has a high-risk result or prediabetes and wants a program near home.',
+          'Counting how many people at an event scored high risk.',
+        ],
+        provide: [
+          'For a score: age, sex (man or woman), family history, high blood pressure, whether the person is physically active, and height and weight (or BMI). For eligibility, also whether the person has diabetes or is pregnant, and any blood test result.',
+          'A town or county for the program list. Optionally a screening-event file in your data folder.',
+        ],
+        examples: [
+          'A 54-year-old man, 5 feet 10 and 240 pounds, has a family history, high blood pressure, and is not active. What is his risk test score, and are there programs in Fall River?',
+          'Is a 45-year-old Asian American woman with a BMI of 24 and a past gestational diabetes diagnosis eligible for the lifestyle change program?',
+          'Count how many people scored high risk in health_fair_responses.csv.',
+        ],
+        returns: [
+          'The score with points for each factor, the eligibility check (met, not met, or unknown for each rule), program sites near the area with address and organization phone, how to find online and distance options, Medicare program facts, a statement on MassHealth, and an optional handout with its reading grade.',
+        ],
+        notes: [
+          'A risk score is not a diagnosis: only a blood test can diagnose prediabetes.',
+          'The site list is DPH’s and shows no date, so call a site before you refer. Names of coordinators are not kept, only organization phone numbers where DPH lists them.',
+          'No source was found for MassHealth coverage of the program, so the tool makes no statement about it. Ask MassHealth or the member’s plan.',
+          'A screening-event file is summarized as counts only, with small counts hidden.',
+        ],
+      },
+      // End of Phase 15 screen tools.
+      // Phase 15 prevent (CHR-04, CHR-05) tools.
+      {
+        id: 'preventive_services_lookup',
+        title: 'Look up recommended preventive services',
+        toolset: 'chronic',
+        internet: 'optional',
+        files: 'optional, a plain-language client handout in your output folder',
+        does: 'Lists the U.S. Preventive Services Task Force (USPSTF) grade A and B recommendations that fit a person’s age, sex at birth, pregnancy status, and risk factors. Each one shows its grade, the date of the Task Force statement, the Task Force’s own wording of who it is for, what you still need to check, and a plain-language summary you can use with the client. It also shows Massachusetts options: the Massachusetts Breast and Cervical Cancer Program, the colorectal cancer program, and the 1-800-QUIT-NOW quit line.',
+        when: [
+          'Planning a screening conversation or a well-person visit.',
+          'Finding out what a client in a certain age group may be due for.',
+          'Looking for a free or low-cost breast or cervical cancer screening program for an uninsured client.',
+        ],
+        provide: [
+          'Age in years and sex assigned at birth. Never a name, date of birth, or other identifier.',
+          'Pregnancy status (pregnant, postpartum, or not pregnant), if it applies.',
+          'Any risk factors you know: tobacco use and pack-years, BMI, blood pressure or cholesterol problems, 10-year heart disease risk, and where you judge the person to be at higher risk (for example HIV, hepatitis B, or TB).',
+        ],
+        examples: [
+          'What USPSTF A and B screenings apply to a 52-year-old woman who smoked 25 pack-years and quit 8 years ago?',
+          'A 29-year-old woman is 20 weeks pregnant. Which recommended preventive services should I cover, and give me client summaries.',
+          'My client is 47, has no health insurance, and needs a mammogram. What programs in Massachusetts can help?',
+        ],
+        returns: [
+          'Recommendations that apply, and a separate list of those that depend on a risk factor you did not give, with the grade, the statement date, the Task Force’s wording, a client summary, and links.',
+          'Massachusetts program options with how DPH describes who can use them, and, when you are online, the federal MyHealthfinder list for the same age and sex.',
+        ],
+        notes: [
+          'This is the grade A and B list only. It is not the full list of recommended services: vaccines (CDC’s immunization schedule) and grade C recommendations are separate.',
+          'The recommendations were read from the Task Force’s published statements because its web site could not be reached; the answer shows each statement’s date, and you should check the Task Force’s page for any newer version.',
+          'The tool checks only age, sex, pregnancy, and the risk factors you give. The rest of each recommendation’s population (for example “average risk”) is shown for you to apply.',
+          'The content is a draft that the subject matter expert has not yet reviewed.',
+        ],
+      },
+      {
+        id: 'asthma_home_assessment',
+        title: 'Plan an asthma home visit',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, blank forms and filled asthma action plans in your output folder',
+        does: 'Gives you what you need for a home-based asthma visit: the CDC, EPA, and HUD home asthma trigger checklist with an action step for each answer, DPH’s asthma control categories (and it can sort the answers you give into well controlled, not well controlled, or very poorly controlled), the NHLBI asthma action plan form, and the home asthma visiting programs DPH lists in Massachusetts. For mold, moisture, pests, and heat it points you to the state housing code sections already in the housing tool.',
+        when: [
+          'Preparing for a home visit with a child or adult whose asthma is not controlled.',
+          'Helping a family ask a landlord for repairs that affect asthma.',
+          'Finding a community health worker asthma home visiting program to refer to.',
+          'Making asthma action plans for a school or clinic from your own list.',
+        ],
+        provide: [
+          'Which parts you want (checklist, control, action plan, services). The default is all four.',
+          'For services: the town.',
+          'For the control categories: counts only, such as days with symptoms in the past 30 days, nights woken, rescue inhaler uses per day, and how much asthma limited activities. No names.',
+          'To fill action plans: a spreadsheet in your data folder with one row per person and the prescriber’s plan details (the doctor, phone numbers, best peak flow, medicines and doses).',
+        ],
+        examples: [
+          'Give me the home asthma trigger checklist and a blank asthma action plan.',
+          'A 9-year-old had symptoms on 12 of the last 30 days and woke 4 nights. What control category is that?',
+          'What asthma home visiting programs are there near Springfield?',
+          'Fill asthma action plans from my asthma_plans.xlsx file.',
+        ],
+        returns: [
+          'The checklist by section, the control table and the category of your answers, the action plan template with peak flow zones, and the home visiting programs with how each fits your town.',
+          'A blank checklist and a blank action plan as Word files, and filled plans in one file in your output folder.',
+        ],
+        notes: [
+          'The control categories are a screening table from the Massachusetts DPH adapted from NHLBI’s national guidelines (the guidelines themselves could not be reached). They are not a treatment decision. For children under 12 they are only a rough screen.',
+          'The Asthma Control Test is a licensed form and is not reproduced.',
+          'The tool never chooses medicines or doses. They appear in a filled plan only if they are in your file, and the prescriber should check the plan.',
+          'DPH’s program directory lists regions, not towns, and no phone numbers; call the program to confirm who it serves.',
+          'Names and details from your file go only into the plans in your output folder; the chat sees counts.',
+        ],
+      },
+      // End of Phase 15 prevent tools.
+      // Phase 15 cha (EQ-08, EQ-09, EQ-10) tools.
+      {
+        id: 'community_health_assessment_builder',
+        title: 'Build a community health assessment (MAPP 2.0)',
+        toolset: 'equity',
+        internet: 'optional',
+        files: 'yes, a draft report in your output folder; reads hospital CHNA reports and a partner list from your data folder if you give them',
+        does: 'Guides a community health assessment the way MAPP 2.0 (from NACCHO) lays it out, for a town or county. It gathers the numbers for the community status assessment (the community profile with CDC chronic disease estimates and social vulnerability, language access, environmental justice, climate, food access, and water), gives you a checklist of partner sectors to cover and prompts for the community context assessment, and lists the hospitals near you with the rules for their community health needs assessments (CHNAs) and where to find them. If you save hospitals’ CHNA reports in your data folder, it pulls out each report’s priority list with the page number. It drafts report sections as a Word document.',
+        when: [
+          'Starting or updating your town’s community health assessment.',
+          'You want to know what nearby hospitals found and prioritized in their CHNAs.',
+          'Checking whether your partner list covers the sectors that matter.',
+        ],
+        provide: [
+          'The town or county.',
+          'Optionally the hospitals you want to follow, a folder of their CHNA reports (PDF or Word) in your data folder, and a partner list (a spreadsheet with organization and sector).',
+        ],
+        examples: [
+          'Start a community health assessment for Lowell.',
+          'Read the CHNAs in /data/chna and tell me what Lowell General and Lawrence General prioritized.',
+          'Count my partner list by sector and tell me who is missing.',
+        ],
+        returns: [
+          'The MAPP 2.0 phases and assessments, the data sections (each with its sources and any section that could not be built), the partner checklist, hospitals with CMS type and ownership, the federal and Massachusetts CHNA rules, links to find CHNAs, the priorities found in your CHNA files with page numbers and shared themes, next steps, and a draft report in your output folder.',
+        ],
+        notes: [
+          'MAPP 2.0 was checked against journal articles because NACCHO’s own pages could not be opened. Check NACCHO’s handbook before you cite a phase or tool by name.',
+          'This is a draft from public data. It does not replace what your partners and residents tell you.',
+          'Priority lists are found by pattern and can be incomplete. Check each against the report.',
+          'Only organization names are read from a partner list; contact people are never read. A list of clients is refused, and so is a CHNA file that looks like client records.',
+          'The content is waiting for your review.',
+        ],
+      },
+      {
+        id: 'prioritize_health_issues',
+        title: 'Rank community health issues (Hanlon, PEARL, nominal group)',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'yes, a record of the method and rationale in your output folder',
+        does: 'Ranks the community health issues you give it. For each issue you rate the size of the problem, how serious it is, and how effective an intervention could be, and answer the five PEARL questions (propriety, economics, acceptability, resources, legality). The tool does the arithmetic with the Hanlon method, shows ties and missing ratings openly instead of hiding them, places each issue on a grid of importance and feasibility, and can score a group vote from totals. It writes the method, the scores, and your reasons to a document.',
+        when: [
+          'Your partners need to narrow a long list of health issues to a few priorities.',
+          'You want a record of how priorities were chosen, for the assessment report or a hospital partner.',
+          'Scoring a nominal group or multivoting session.',
+        ],
+        provide: [
+          'The issues (community issues, not people) with size 0 to 10, seriousness 0 to 20 (or urgency, severity, economic loss, and effect on others, 0 to 5 each), effectiveness 0 to 10, and the five PEARL answers.',
+          'Your reasons for each rating, so the record shows how it was decided.',
+          'Optionally the vote totals: how many people gave each issue first, second, third place (never names).',
+        ],
+        examples: [
+          'Rank these five issues for our community: housing cost, food insecurity, transportation, opioid overdose, and dental care. Here are my ratings.',
+          'We held a nominal group with 12 people who each ranked their top 3. Score the vote.',
+          'Screen out any issue that fails PEARL before ranking.',
+        ],
+        returns: [
+          'The ranking with scores, ties, issues still missing ratings, close calls, the strategy grid, the vote scores if given, and a document with the method and your reasons.',
+        ],
+        notes: [
+          'The scores are only as good as the ratings. Rate size from your data and write down why.',
+          'Ties share a rank and are not broken for you. Missing ratings are not counted as zero.',
+          'The Hanlon formula comes from published papers; NACCHO’s own worksheet could not be opened, so check it matches the worksheet your partners use.',
+          'The importance and feasibility grid is this project’s own design.',
+          'Type community issues, not names: everything you type goes to the AI service.',
+        ],
+      },
+      {
+        id: 'analyze_qualitative_data',
+        title: 'Analyze focus group and interview transcripts',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'yes, reads transcripts and writes de-identified results to your output folder',
+        does: 'Helps you analyze focus groups and key informant interviews you have saved as transcripts. It reads them only on your computer, removes names, organizations, places, phone numbers, addresses, dates, and similar details (speakers become P1, P2, and so on), and codes what people said with the codes you supply or a draft starter list. What comes back to the chat is counts only: how many different people raised each theme. A theme that fewer than three people raised is held back so no one can be picked out. The de-identified excerpts under each code and a theme summary go to your output folder.',
+        when: [
+          'You held focus groups or interviews for a community assessment and need the themes.',
+          'You want a coded table of excerpts you can read, check, and recode.',
+          'You need to share findings without sharing what any one person said.',
+        ],
+        provide: [
+          'The transcript files (or a folder of them) in your data folder, with speaker turns written as “Name: what they said”.',
+          'Optionally your own codebook (a spreadsheet with code, definition, and keywords) and a list of the names that appear, so they are removed everywhere.',
+        ],
+        examples: [
+          'Analyze the transcripts in /data/focus_groups with my codebook.',
+          'What themes came up in the two interviews? Remove the names first.',
+          'Make a coded excerpt table I can use for my report.',
+        ],
+        returns: [
+          'A count of what was removed, the codebook, for each theme how many participants raised it and in how many transcripts, words that came up often but fit no code, and the files in your output folder.',
+        ],
+        notes: [
+          'Nothing a person said, no speaker name, and no file name comes back to the chat.',
+          'Coding by keyword is a rough first pass: it finds words, not meaning. Read the excerpts yourself and recode by hand before you report a finding.',
+          'Removing names by pattern is not perfect. Read the de-identified files before you share them; they can still hold a detail that points to someone.',
+          'The starter codebook is a draft written for this tool. Use your own for a real analysis.',
+          'Scanned PDFs have no text the tool can read.',
+        ],
+      },
+      // End of Phase 15 cha tools.
+      // Phase 15 geo (EPI-13) tools.
+      {
+        id: 'geocode_and_aggregate_addresses',
+        title: 'Count addresses by town or census tract',
+        toolset: 'epi',
+        internet: 'no',
+        files: 'optional, a file of each row with its location in your output folder',
+        does: 'Finds where the addresses in your own list are, without sending them anywhere, and gives you only counts: by town, by census tract, or by block group. It matches each address to MassGIS address points and Census street ranges inside the server, tells you how many addresses it could place exactly, by interpolation, by street only, or by ZIP code only, and hides small counts. The assistant never sees an address.',
+        when: [
+          'Mapping where cases, clients, or program participants live for a community health assessment or a grant.',
+          'Checking whether a cluster of cases falls in one neighborhood before you ask for more data.',
+          'Turning a list of home addresses into counts by census tract so you can match them to census or social vulnerability data.',
+        ],
+        provide: [
+          'A spreadsheet or CSV in your data folder with an address column (and a town and ZIP column if you have them). Other columns such as names or phone numbers can stay in the file; they are not read.',
+          'Optionally the level you want (town, tract, or block group) and whether you want a file with each row\'s location saved to your output folder.',
+        ],
+        examples: [
+          'Count the addresses in pertussis_cases.csv by census tract.',
+          'Which towns do the clients in my program list live in? Use the ZIP column if there is no town column.',
+          'Geocode the home visiting list and save the locations to a file for my own mapping, but only show me counts.',
+        ],
+        returns: [
+          'How many addresses were located at each level of precision and the match rate, then counts by town, tract, or block group with small counts shown as *.',
+          'Optionally a file in your output folder with each row\'s match level, town, tract, block group, and latitude and longitude. That file contains addresses, so it stays in your secure folder.',
+        ],
+        notes: [
+          'It works without the full street index: it counts by town from a town column, a town written in the address, or a ZIP code. Street-level matching and tract counts need the full index (about 35 MB, built once from MassGIS and Census files; see the technical notes), and four towns (Alford, Amherst, Northampton, and Pelham) are included as a sample.',
+          'ZIP codes cross town lines, so counts from ZIP codes alone are approximate. The tool only assigns a ZIP code to a town when that town holds at least 90 percent of the ZIP code\'s addresses.',
+          'Boston addresses are placed from Census street ranges only because MassGIS does not publish Boston\'s address points.',
+          'A column of names, birth dates, phone numbers, or ID numbers will not be used as the address column, and nothing from your file is repeated back.',
+          'Counts are numbers of addresses, not people or households. Divide by a population from the census to get rates.',
+        ],
+      },
+      // End of Phase 15 geo tools.
+    ],
+  },
+  // End of Phase 15 chapter.
+  // Phase 16 chapter goes below this line.
+  {
+    title: 'Program planning, evaluation, and evidence',
+    intro: 'These nine tools support planning, evaluating, and appraising a program: logic models, SMARTIE objectives with Healthy People 2030 targets, evaluation plans, Community Guide evidence, behavior change theory, tracking results against targets, study appraisal, evidence tables with PRISMA diagrams, and quality improvement planning. Six are in the planning group and three in the ebp group; the phn_leader profile includes both. The tools structure and check your own work: you give the program description and the appraisal answers, and they never judge a study or a program for you. The guidance is a draft from CDC, ODPHP, and open-access sources, pending review; the Community Guide’s own site could not be read.',
+    tools: [
+      // Phase 16 design (PLAN-01, PLAN-02, PLAN-05) tools.
+      {
+        id: 'build_logic_model',
+        title: 'Build a program logic model',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word table, a diagram (SVG and PNG), and Mermaid text in your output folder',
+        does: 'Turns your description of a program into a logic model: inputs, activities, outputs, short-term, intermediate, and long-term outcomes, assumptions, and outside factors, laid out the way CDC’s Program Evaluation Framework describes. It checks the draft (outcomes written as activities, missing outcomes or context, too many boxes), reads it as if-then statements, and draws it as a diagram with arrows plus a one-page table you can edit in Word.',
+        when: [
+          'Starting a program plan or grant application and you need a logic model.',
+          'Checking whether an existing program description hangs together.',
+          'Preparing a slide or handout that shows how activities lead to outcomes.',
+        ],
+        provide: [
+          'The program’s name and who it serves.',
+          'Its inputs, activities, outputs, and short-term, intermediate, and long-term outcomes, in your own words (the assistant will help you draft them).',
+          'Assumptions and outside factors, if you know them, and the stage: planning, implementation, or maintenance.',
+        ],
+        examples: [
+          'Build a logic model for our postpartum home visiting program for first-time parents in Springfield. We have two nurses, a hospital referral partnership, and plan to visit within 14 days of discharge.',
+          'Here is our falls prevention program description. Turn it into a logic model and tell me what is missing.',
+        ],
+        returns: [
+          'The model by column, the if-then statements, a list of things to fix or consider, a narrative outline, the diagram as Mermaid text and as an accessible image with alt text, and the files.',
+        ],
+        notes: [
+          'The assistant drafts the boxes from what you tell it; the tool checks the structure and wording but cannot tell you whether the program logic is sound. Show the draft to the people served, your staff, and your partners.',
+          'The diagram is wide. Use the image on a slide or a landscape page; the Word table has the same content on one portrait page.',
+          'The wording checks are this project’s rules of thumb, not CDC rules. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'write_smartie_objectives',
+        title: 'Write and check SMARTIE objectives',
+        toolset: 'planning',
+        internet: 'optional',
+        files: 'optional, a Word worksheet in your output folder',
+        does: 'Helps you write objectives that are specific, measurable, achievable, relevant, time-bound, inclusive, and equitable (the SMARTIE questions CDC uses). You give the parts, such as the measure, population, baseline, target, date, data source, and the group the objective is meant to reach. It writes the objective as a sentence, shows what is missing, catches a target that moves the wrong way, and works out the change from baseline to target. It can also look up Healthy People 2030 objectives and show their national baselines and targets.',
+        when: [
+          'Writing objectives for a grant, a community health improvement plan, or a program evaluation.',
+          'Checking draft objectives before sending them to a funder.',
+          'Finding the Healthy People 2030 objective that matches your topic.',
+        ],
+        provide: [
+          'Each objective in parts: what is measured, increase or decrease, who, the baseline and target with the unit, the date, and where the data come from.',
+          'If you can: why it is achievable and relevant, how the community gave input, and which group or gap the objective addresses.',
+          'Optionally a Healthy People topic or objective ID (for example D-04).',
+        ],
+        examples: [
+          'Check this objective: by December 2027, raise postpartum visit attendance from 62% to 85% for first-time parents.',
+          'Find the Healthy People 2030 objectives for adult flu vaccination and tell me the national target.',
+          'Turn these three goals into SMARTIE objectives and list what I still need to find out.',
+        ],
+        returns: [
+          'The objective as a sentence with bracketed blanks, a checklist of the seven elements, the gaps, the change from baseline to target, Healthy People objectives with national baseline, target, and data source, and CDC’s examples.',
+        ],
+        notes: [
+          'The tool counts what is there. Whether a target is achievable, relevant, inclusive, or equitable is a judgment for you, your partners, and the people the objective serves.',
+          'Healthy People targets are national. A local objective needs a local baseline; compare targets only when you measure the same thing in the same unit (some national values are age-adjusted).',
+          'Healthy People values come from the objective’s own web page when the internet is available, and from a dated copy otherwise. Every answer says which. Check the page before citing a figure.',
+          'The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'build_evaluation_plan',
+        title: 'Draft a program evaluation plan',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word plan in your output folder',
+        does: 'Drafts an evaluation plan on the six steps of CDC’s Program Evaluation Framework: the purpose, who will use the findings, the kinds of evaluation that fit the program’s stage (formative, process, outcome, impact, economic), an evaluation matrix of questions, indicators, data sources, methods, timing, and responsible roles, a timeline, and how findings will be used. It can draft questions from your logic model, using CDC’s own example questions where they fit, and can add the RE-AIM lens (reach, effectiveness, adoption, implementation, maintenance).',
+        when: [
+          'A funder asks for an evaluation plan with your grant application.',
+          'Planning how you will show whether a program works and for whom.',
+          'Turning a logic model into questions and measures.',
+        ],
+        provide: [
+          'The program name, population, and stage, and the logic model or your own evaluation questions.',
+          'Why you are evaluating and who will use the results.',
+          'The groups you want results broken down by, start and end dates, and, if you want, a staff roster in your data folder so names appear beside roles in the plan.',
+        ],
+        examples: [
+          'Draft an evaluation plan for our postpartum home visiting program, using this logic model. We need it for a state grant.',
+          'Add a RE-AIM section to the plan and break outcomes down by language.',
+          'Here are three evaluation questions I wrote. Fill in indicators, data sources, and methods.',
+        ],
+        returns: [
+          'The evaluation types and designs that fit, the matrix, a list of gaps (for example a yes/no question, no data source, no groups to break results down by), a timeline, the CDC steps with their key products, and the Word plan with blanks to fill in.',
+        ],
+        notes: [
+          'Indicators, data sources, methods, timing, and roles the tool suggests are starting points and are marked as suggestions in each row. Confirm them with your partners and the people the program serves.',
+          'Impact evaluation needs a comparison group or period. Without one, report outcomes only.',
+          'A staff roster adds names to the plan file only; phone numbers and emails are never copied, and nothing from the roster is shown in the chat.',
+          'When you report results by group, hide small counts (the server’s suppression threshold applies).',
+          'The content is waiting for review.',
+        ],
+      },
+      // End of Phase 16 design tools.
+      // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11) tools.
+      {
+        id: 'find_evidence_based_interventions',
+        title: 'Find evidence-based interventions for a health topic',
+        toolset: 'planning',
+        internet: 'optional',
+        files: 'no',
+        does: 'Looks up Community Guide evidence for a health topic: the systematic reviews, economic reviews, and Task Force recommendation statements published in journals by the Community Preventive Services Task Force. For each paper it shows the date and journal, what kind of paper it is, the evidence wording the abstract itself uses (strong evidence, sufficient evidence, insufficient evidence, the Task Force recommends), short quotations, a short excerpt of the findings, and any sentence about barriers, cost, or implementation. It never guesses a rating: when the record gives none, it says so.',
+        when: [
+          'Choosing what to put in a program plan or a grant: what does the evidence say works for your topic?',
+          'Checking whether an intervention you are considering has a Community Guide review behind it.',
+          'Finding out what is not yet established, with the insufficient-evidence filter.',
+        ],
+        provide: [
+          'A health topic in your own words, such as childhood obesity, smoking, or colorectal cancer screening. Related words are searched too.',
+          'Optionally a population (adolescents, older adults), a setting (school, worksite, health care, community, home), the kinds of paper you want, and how many to list.',
+        ],
+        examples: [
+          'What does the Community Guide say works to increase colorectal cancer screening?',
+          'Find evidence-based interventions to reduce tobacco use in schools.',
+          'Which interventions for falls or injury have strong evidence?',
+          'What do we not know yet about interventions for adolescent mental health? Show papers with insufficient evidence.',
+        ],
+        returns: [
+          'A table of papers with the evidence wording from the abstract, the journal and date, and links, then notes from the abstracts on implementation, barriers, and cost.',
+          'A plain statement of what the tool could not read and where to check it.',
+        ],
+        notes: [
+          'This is not the Community Guide’s own list of recommendations. It holds the journal papers PubMed attributes to the Task Force (a snapshot, with a live search for newer papers when you are online). A recommendation that has no journal paper is missing, and no match does not mean no recommendation exists.',
+          'What Works for Health (County Health Rankings) is not included. Its site and the Community Guide site could not be reached when the tool was built, so open each site and search your topic before you rely on a result.',
+          'A paper can be updated or archived after it was published. Papers eight or more years old carry a reminder to check.',
+          'Insufficient evidence means not enough studies to decide. It does not mean the intervention does not work.',
+          'Only your topic words are sent to PubMed, and only for the live search. Nothing from your files is used.',
+        ],
+      },
+      {
+        id: 'apply_behavior_change_theory',
+        title: 'Apply behavior change theory to a program',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'optional, a Word or PDF worksheet in your output folder',
+        does: 'Helps you ground a program in theory. You describe the problem, the population, and what you have found in the way (barriers) or planned to do (components). The tool shows the constructs of up to three theories that fit your words, what each construct means, strategies that target it, and ideas for measuring it. It draws on the Health Belief Model, Social Cognitive Theory, the Theory of Planned Behavior, the Transtheoretical Model (stages of change), the Socio-Ecological Model, Diffusion of Innovations, COM-B with the Behaviour Change Wheel, and Self-Determination Theory.',
+        when: [
+          'Writing the theory section of a program plan, grant, or evaluation.',
+          'Working out why people are not doing a behavior and what kind of intervention matches.',
+          'Deciding what to measure so your evaluation tests the theory you used.',
+        ],
+        provide: [
+          'The problem or behavior in a sentence or two, and who the program serves.',
+          'Optionally the setting, the barriers you found (one per line, in your own words), and the activities you plan.',
+          'Optionally the theories you want, by name. Otherwise the tool picks.',
+        ],
+        examples: [
+          'Apply behavior change theory to low mammography screening among Portuguese-speaking women over 50. Barriers: cost, no transportation, family does not talk about it, forgot to book.',
+          'Show me the Socio-Ecological Model and COM-B for a school vaping prevention program.',
+          'Which constructs does a peer navigator program for diabetes prevention target? Components: peer navigators, text reminders, cooking classes.',
+          'Make a worksheet of the Health Belief Model for our flu vaccine clinic plan.',
+        ],
+        returns: [
+          'The theories shown and why, each with its constructs (the ones that match your words first), strategies marked as taken from a published source or as the tool’s own suggestion, and measure ideas.',
+          'A table of your barriers and the constructs they point to, a table of your components and the strategies they may fit, and short notes on choosing among theories.',
+          'Optionally a worksheet in your output folder.',
+        ],
+        notes: [
+          'A theory describes how change may work. It is not proof that an intervention works; for that, use the evidence tool.',
+          'The constructs were written from open-access reviews and a CDC page that were read. The National Cancer Institute’s Theory at a Glance and the original theory papers could not be reached, so check a definition in its source before you quote it.',
+          'Strategies marked as the tool’s suggestion are drafts for you to judge. Measure ideas are not validated instruments; use validated items where they exist and check their licenses.',
+          'Barriers are matched by the words you use, so a match is a lead and a barrier with no match may still fit a construct.',
+          'Describe a population, never a person. Text that looks like a name, phone number, or address is refused.',
+        ],
+      },
+      {
+        id: 'track_program_performance',
+        title: 'Track program performance against targets',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a spreadsheet of results by period; writes a report, a workbook, and charts to your output folder',
+        does: 'Reads your program’s results by period (a CSV or Excel file) and compares them with your targets. For each measure it shows the totals, progress to target, whether you are on pace for the year, and whether run chart or control chart rules flag a pattern (an unusually long run on one side of the median, a shift, a point outside the limits). It writes a dashboard report, an Excel workbook with live formulas so you can add next quarter’s row, and a chart for each measure. The assistant sees only counts by period, with small counts hidden.',
+        when: [
+          'Preparing a quarterly or annual progress report for a funder.',
+          'Checking whether you are on pace to reach a target such as 400 clients served or 80 percent screened.',
+          'Looking for a real shift in a monthly number rather than chance variation.',
+        ],
+        provide: [
+          'A spreadsheet in your data folder with one row per period (a column for each measure), or one row per period and measure, or one row per service or person to count by period.',
+          'The name of the period column and, for each measure, its target, whether higher or lower is better, and whether it is a count or a percentage (a percentage needs a denominator column).',
+          'Optionally how many periods the program year has (4 quarters, 12 months) so the tool can check your pace.',
+        ],
+        examples: [
+          'Track my program in program_metrics.csv. Period column is Month, 12 months in the year. Clients enrolled target 400. Screening rate: Participants screened over Participants eligible, target 80 percent.',
+          'Compare program_outcomes_long.csv with these targets: controlled blood pressure 70 percent, home visits 240. The period column is Quarter and the outcome column is Outcome.',
+          'Count the visits in my visit log by month and tell me whether the monthly numbers show a shift.',
+        ],
+        returns: [
+          'A table of measures with target, current, progress, status (Met, On track, Behind), and any trend signals, then the period values with small counts hidden.',
+          'A Word or PDF report, an Excel workbook (Summary and Data sheets), and charts in your output folder. These hold the full numbers from your file.',
+        ],
+        notes: [
+          'A percentage is pooled across periods (all numerators over all denominators), not an average of period percentages.',
+          '"On track" means reaching at least 90 percent of the pace needed to hit the target by the end of the program. That is this tool’s rule; change it if your funder has its own.',
+          'Trend rules need about 10 periods to be reliable, and a flag says the pattern is unlikely to be chance, not why it happened.',
+          'A count from 1 to 4 is hidden (or whatever your suppression threshold is). When one is hidden, the totals and progress for that measure are also withheld from the chat, because they would reveal it; the report and workbook still have them.',
+          'Only the columns you name are read. Other columns, such as partner contact people, are not read or shown. A column of names, phone numbers, or ID numbers cannot be used.',
+        ],
+      },
+      // End of Phase 16 interventions tools.
+      // Phase 16 appraise (EBP-03, EBP-04) tools.
+      {
+        id: 'appraise_evidence',
+        title: 'Appraise a study',
+        toolset: 'ebp',
+        internet: 'optional',
+        files: 'yes, can read a study file you choose and writes a Word record of your answers to your output folder',
+        does: 'Walks you through a critical appraisal of one study. It suggests the study design from the abstract or methods you paste (you confirm it), then lists the appraisal questions for that design, each with its source: risk-of-bias domains for randomized trials and for non-randomized program evaluations, reporting and bias prompts for cohort, case-control, and cross-sectional studies, the 16 AMSTAR 2 items for systematic reviews, questions for qualitative studies, and prompts for quality improvement reports. You answer the questions; the tool records your answers, points out the ones to look at again, and applies each instrument’s own rule for an overall rating where there is one. For a group of studies on one outcome it adds up your GRADE judgments to a certainty level, or records your GRADE-CERQual judgments for a qualitative finding. If you give a DOI it can fetch the citation from Crossref.',
+        when: [
+          'You are deciding whether a study is good enough to use in a program or a policy.',
+          'You are appraising articles for a project, a journal club, or an evidence review.',
+          'You want a written record of how you judged a study.',
+        ],
+        provide: [
+          'The abstract or methods section pasted in, or a study file in your data folder (not a client record), or the DOI.',
+          'Later, your answers to the questions, using the question names the tool gives you.',
+          'For GRADE: the outcome and your judgment of each domain.',
+        ],
+        examples: [
+          'Here is the abstract of a school asthma trial. What kind of study is it and what should I check?',
+          'Appraise this systematic review. I answered yes to the PICO question, no to the protocol question, and yes to the rest.',
+          'I have four cohort studies on home visiting and low birth weight. Help me rate the certainty with GRADE: serious risk of bias, no other concerns.',
+        ],
+        returns: [
+          'The suggested design with the words that pointed to it, the questions with their sources, your answers, the ones to look at again, the instrument’s overall rating, a GRADE or CERQual summary, a link to CASP, and a Word record.',
+        ],
+        notes: [
+          'The tool never answers a question for you. Appraisal is a judgment, and GRADE ratings are not calculations.',
+          'The questions are not the CASP checklists. They were written from open-access papers; CASP is linked, and its license terms could not be checked, so read them on the checklist you download.',
+          'The design suggestion is a guess from words. Confirm it before relying on the questions.',
+          'A file that looks like a client record (Social Security number, birth date, medical record number) is refused. The study text is never repeated back.',
+          'Offline, the DOI is used as you typed it and the tool says so.',
+          'The content is waiting for your review. Some parts come from journal abstracts only; the notes say which.',
+        ],
+      },
+      {
+        id: 'build_evidence_synthesis_table',
+        title: 'Build an evidence table and PRISMA flow diagram',
+        toolset: 'ebp',
+        internet: 'no',
+        files: 'yes, writes Word and Excel files and the diagram to your output folder',
+        does: 'Turns your list of appraised studies into a synthesis table (study, design, population, sample size, intervention, outcome, effect, quality rating) with a summary of how many studies there are by design and by quality rating. The Excel file has live formulas, so the totals update when you edit the table. From the counts you enter it also draws a PRISMA 2020 flow diagram, as an accessible picture with a written description and as Mermaid text, and it checks that the numbers add up. If they do not, it tells you exactly which do not.',
+        when: [
+          'Writing up an evidence review for a project, a thesis, or a program proposal.',
+          'Keeping a running table of the studies you have appraised.',
+          'You need a PRISMA flow diagram and want the arithmetic checked.',
+        ],
+        provide: [
+          'Your studies: how you cite each one, design, population, sample size, intervention, outcome, effect as reported, and your quality rating and the tool it came from.',
+          'For the diagram: records identified, duplicates removed, records screened and excluded, reports assessed, reports excluded with reasons, and studies included.',
+        ],
+        examples: [
+          'Build a synthesis table from these six studies and give me an Excel version.',
+          'Draw a PRISMA flow diagram: 1,333 records, 241 duplicates removed, 1,092 screened, 1,050 excluded, 42 reports sought, 2 not retrieved, 40 assessed, 34 excluded for the reasons below, 6 included.',
+        ],
+        returns: [
+          'The table, the summary, the checked flow counts, the diagram as text, SVG, and Mermaid, and Word and Excel files in your output folder.',
+        ],
+        notes: [
+          'Everything in the table is what you typed. The tool does not look up, rate, or summarize studies.',
+          'Quality ratings from different tools are counted separately, because “low” means different things in different tools.',
+          'The diagram follows the written PRISMA 2020 guidance, not the official picture, which could not be read. For a publication, use the official template at the PRISMA website.',
+          'The content is waiting for your review.',
+        ],
+      },
+      // End of Phase 16 appraise tools.
+      // Phase 16 qi (EBP-05) tools.
+      {
+        id: 'plan_quality_improvement',
+        title: 'Plan a quality improvement project',
+        toolset: 'ebp',
+        internet: 'no',
+        files: 'yes, a plan (Word), a tracker (Excel), diagrams, and a chart in your output folder; reads your measure file if you give one',
+        does: 'Walks you through a quality improvement project with the Model for Improvement. It turns what you tell it into an aim statement (how much, for whom, by when) with checks, a set of outcome, process, and balancing measures, a driver diagram, a cause-and-effect (fishbone) diagram, a process map, PDSA cycle plans, and a checklist for writing it up with the SQUIRE 2.0 guideline. If you give it your measure numbers, it draws a run chart or control chart and tells you whether the pattern looks like real change, using the rules taught by IHI and a second rule set that did better in published testing. It writes a Word plan and an Excel tracker whose formulas keep checking the rules as you add each month.',
+        when: [
+          'Starting a quality improvement project for a clinic, school health office, or program (a capstone or practicum project, for example).',
+          'Checking whether a change you made moved your measure, from monthly numbers.',
+          'Preparing to write up an improvement project for a journal or a meeting.',
+        ],
+        provide: [
+          'Whatever you have: the aim (what is changing, for whom, from what number to what number, by when), your measures, the drivers and change ideas your team came up with, the steps of the process, and the small tests you plan. Leave anything out and the tool gives you a blank scaffold and tells you what is missing.',
+          'Optionally your measure data: numbers typed in, a file with one row per visit or event and a date column, or a file with one row per month.',
+        ],
+        examples: [
+          'Help me plan a project to raise on-time vaccination at our clinic from 68 percent to 80 percent by June 2027.',
+          'Here are our monthly counts, with the reminder letters starting in October. Did anything change?',
+          'Make a driver diagram and a fishbone for late immunization records, and give me the SQUIRE checklist.',
+        ],
+        returns: [
+          'The aim statement and what is still missing from it, the measures, the three diagrams (as Mermaid text, pictures with descriptions, and outlines), the PDSA plans with checks, the SQUIRE items, and any run chart or control chart signals with a plain-language reading.',
+          'A Word plan, an Excel tracker, the diagrams, and the chart in your output folder.',
+        ],
+        notes: [
+          'Only totals by month or week are shown. Counts under your suppression threshold are hidden, and then the median and limits are hidden too, because they would give the hidden number away. Your output folder keeps everything.',
+          'A signal means the pattern is unlikely to be chance, not why it happened. The tool shows both rule sets because the IHI rules (6 in a row on one side, 5 in a row going one way) give more false alarms than the other set; follow your course or agency if it names a rule set.',
+          'Use roles, not names, for who owns a measure, and keep names and record numbers out of the tracker.',
+          'The wording comes from open-access articles; IHI\'s own pages could not be reached, and the SQUIRE guideline is copyrighted (the tool paraphrases and links to it). The content is waiting for your review.',
+          'It does not decide whether a project is quality improvement or research. Ask your agency or IRB.',
+        ],
+      },
+      // End of Phase 16 qi tools.
+    ],
+  },
+  // End of Phase 16 chapter.
+  // Phase 17 chapter goes below this line.
+  {
+    title: 'Grants and finance',
+    intro: 'These seven tools support finding funding, responding to it, and managing the money: grant and bid searches, a checklist from a funding announcement, a grant narrative drafted from your own facts, a program budget, cost and benefit calculations, analysis of the department’s budget, and nurse staffing estimates. Five are in the planning group and two in the leadership group; the phn_leader profile includes both, and a guided “prepare a grant application” prompt uses them in order. Budget files are read in your data folder and only category totals come back, but salaries you type into the chat go to the AI company, so keep them in a file. The federal grant search needs your own API key, and the budget rules and staffing defaults are drafts pending review.',
+    tools: [
+      // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08) tools.
+      {
+        id: 'search_grant_opportunities',
+        title: 'Search for grants and bids',
+        toolset: 'planning',
+        internet: 'optional',
+        files: 'no',
+        does: 'Looks for funding a health department could apply for. For federal grants it searches Simpler.Grants.gov, which needs a free key that you set once; without it the tool says it is in snapshot mode and has no federal listings. For Massachusetts it reads the state’s weekly list of new COMMBUYS bids (or a dated copy), tags each by topic, and tells you whether the title looks like a grant, a request for response, or a purchase. You can filter by topic, who may apply, closing dates, and award size. It also lists where else to look and what DPH says about how it buys programs.',
+        when: [
+          'Looking for money for a new program or a gap in your budget.',
+          'Checking what Massachusetts agencies have posted that could fit a board of health.',
+          'Deciding whether an opportunity is worth an application.',
+        ],
+        provide: [
+          'A topic in plain words, such as immunization or overdose prevention. Never a client or a case.',
+          'Optionally who you are (local health department, state agency, tribal health), a closing-date window, and an award size.',
+        ],
+        examples: [
+          'What grants could a board of health apply for on overdose prevention that close in the next 60 days?',
+          'Show Massachusetts bids from health and human services agencies that close before December 20.',
+          'Which open opportunities are only for state agencies?',
+        ],
+        returns: [
+          'For each source, whether it was live or a snapshot and its date; the opportunities soonest closing first with number, agency, closing date, days left, and award range; where else to look; and Massachusetts procurement facts.',
+        ],
+        notes: [
+          'The Massachusetts list shows only the bid’s title, agency, closing time, and bid number: read the solicitation on COMMBUYS for who may respond and how much it is worth.',
+          'Grants.gov and COMMBUYS could not be reached when the server was built, so the federal search was never tested against the real service and the Massachusetts list is a weekly copy.',
+          'A match is a lead, not a decision about whether your agency is eligible. The topic words and filters are all that leave your computer.',
+        ],
+      },
+      {
+        id: 'analyze_funding_announcement',
+        title: 'Turn a funding announcement into a checklist',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word and an Excel checklist in your output folder',
+        does: 'Reads a notice of funding opportunity or a Massachusetts request for response that you saved in your data folder and pulls out what you must do: who may apply, every date, page limits and format rules, required forms and attachments, and the scoring criteria with their points. It matches each criterion to the narrative section that answers it and suggests a response outline in the order the funder scores. It works by pattern matching, so it also tells you what it could not find.',
+        when: [
+          'You have a NOFO or RFR and need to know what the application must contain.',
+          'Planning your time before a deadline.',
+          'Starting to write: you want the scoring criteria in a list.',
+        ],
+        provide: [
+          'The announcement as a PDF or Word file in your data folder (not a scanned image).',
+        ],
+        examples: [
+          'Analyze funding/nofo.pdf and make me a checklist.',
+          'What is the deadline, the page limit, and the scoring in this RFR?',
+          'List every attachment this announcement requires.',
+        ],
+        returns: [
+          'Counts, the submission deadline, all dates, limits, attachments, criteria with points, applicant types named, dollar amounts, the outline, and a list of what was not found. Word and Excel checklists go to your output folder.',
+        ],
+        notes: [
+          'Check every row against the announcement and its amendments: the tool can miss items in tables or images and can misread a sentence.',
+          'It returns short labels and counts, not the announcement’s text, and never the contact people named in it.',
+          'It was tried on made-up announcements and public Massachusetts ones, not on a real federal NOFO.',
+        ],
+      },
+      {
+        id: 'draft_grant_narrative',
+        title: 'Draft a grant narrative',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word draft in your output folder',
+        does: 'Builds a first draft of the needs statement, project narrative, and sustainability section around the funder’s scoring criteria. It fills the draft only with the facts and statistics you give it, each statistic shown with its place, source, and year. Anything you have not given it becomes a [NURSE: ...] placeholder that says what to add. It never invents a number, a program detail, or a citation.',
+        when: [
+          'You have the scoring criteria (from the checklist tool, or typed) and need a skeleton to fill.',
+          'Turning your community data and program plan into the sections reviewers score.',
+        ],
+        provide: [
+          'The scoring criteria and points, or the checklist file the announcement tool wrote.',
+          'Your statistics with their sources and years, and the facts about the project: the problem, the people, the activities, the partners, the evaluation, and how it will continue.',
+        ],
+        examples: [
+          'Draft the needs statement and sustainability section using my checklist and these asthma numbers.',
+          'Make a project narrative skeleton for a 12-page limit with these five criteria.',
+        ],
+        returns: [
+          'The draft text by section, which parts are filled and which are placeholders, how each criterion is answered, and a Word file in your output folder.',
+        ],
+        notes: [
+          'The draft is a scaffold: you replace every placeholder with your own words.',
+          'Budget and form criteria are not drafted here; use the budget tool and the checklist’s attachments.',
+          'A number without a source and year gets a placeholder. Client identifiers in your input are refused.',
+        ],
+      },
+      // End of Phase 17 grants tools.
+      // Phase 17 budget (PLAN-09, PLAN-10) tools.
+      {
+        id: 'build_program_budget',
+        title: 'Build a program budget',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, writes an Excel budget and a Word budget justification to your output folder; reads a costs file if you give one',
+        does: 'Builds a line-item budget for a grant application, sorted into the usual federal cost categories (personnel, fringe benefits, travel, equipment, supplies, contractual, other, and indirect costs). It handles several years with yearly raises, a cost share or match, and indirect costs on the right base. For an organization without a negotiated rate, it uses the de minimis rate (up to 15 percent of modified total direct costs, which excludes equipment, participant support, rental, and anything over $50,000 of each subaward). It writes an Excel workbook with live formulas, so changing a rate or a line recalculates everything, and a Word justification drafted from your lines with bracketed notes for what only you know.',
+        when: [
+          'Pricing out a grant or contract proposal for a nursing program.',
+          'Checking whether a budget meets a required match.',
+          'Turning a list of costs into the budget justification the funder asks for.',
+        ],
+        provide: [
+          'Your costs: for each staff role the annual salary and percent of time, and for everything else the item, number, and cost each. Say which costs are cost share (your match).',
+          'Your fringe rate (from your finance office), any yearly raise, and the indirect rate if you have a negotiated one. Leave the indirect rate out to use the de minimis rate.',
+          'To keep salaries off the AI, put the costs in a spreadsheet in your data folder and give the file name. Use job titles, not names; a file with names or contact details is refused.',
+        ],
+        examples: [
+          'Build a 3-year budget for our immunization outreach grant from budget_lines.csv, fringe 28 percent, 3 percent raises, and check it against a 20 percent match.',
+          'Make a one-year budget: half-time nurse at $80,000, a $12,000 vaccine refrigerator, $3,000 supplies, 25 percent fringe.',
+          'Start me a blank budget workbook for a 2-year project.',
+        ],
+        returns: [
+          'The totals by cost category and year (no individual salaries), the indirect base and amount, the match check, the rules used with where they come from, and what to check with the funder.',
+          'An Excel workbook with live formulas and a Word justification with placeholders to fill in, in your output folder.',
+        ],
+        notes: [
+          'The funder\'s announcement controls. It may cap indirect costs, limit salaries, or count cost share differently. Check it before you submit.',
+          'The de minimis rate was 10 percent before October 2024 and is up to 15 percent now; older templates may still say 10.',
+          'The line letters on the federal budget form (6a to 6k) could not be checked against the form itself. Check them against the form your funder uses.',
+          'Salaries you type into the chat are seen by the AI. Salaries in a file stay on your computer and go only into the two files in your output folder.',
+          'The content is waiting for your review.',
+        ],
+      },
+      {
+        id: 'economic_evaluation_calculator',
+        title: 'Economic evaluation calculator',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, writes a sensitivity chart (picture and SVG) to your output folder',
+        does: 'Works out what a program costs and what it returns from numbers you type in: cost per participant, cost per outcome (for example per case averted), the extra cost for each extra outcome compared with another option (the ICER), net benefit, benefit-cost ratio, return on investment, how long until it pays back, and the break-even point. It can spread costs and benefits over several years and discount them (3 percent a year unless you say otherwise). It then changes each number one at a time to show which ones matter most (a tornado table and chart) and tells you in plain language what the results do and do not show.',
+        when: [
+          'Making the case for a program to a board, a funder, or a course instructor.',
+          'Comparing a new program with what you do now.',
+          'Checking how sensitive a cost-benefit result is to your assumptions.',
+        ],
+        provide: [
+          'The program cost (a total, or a list by year), the number of participants, and the outcomes (a total, or by year).',
+          'If you want benefit measures: the dollar value of one outcome (with where it comes from) or other savings.',
+          'If you want a comparison: the cost and outcomes of the alternative (use 0 outcomes for "no program").',
+          'Optional: your discount rate, the ranges to test, and a willingness to pay per outcome if your funder or course names one.',
+        ],
+        examples: [
+          'Our program costs $100,000 a year for 3 years, serves 600 people, and averts 40 cases a year worth $3,500 each. What are the benefit-cost ratio and break-even value?',
+          'Compare a $120,000 outreach program that prevents 30 cases with a $40,000 usual-care program that prevents 10.',
+          'Which of my assumptions matters most? Show a tornado chart.',
+        ],
+        returns: [
+          'The costs, outcomes, and benefits (before and after discounting), the ratios, the break-even values, the comparison, the tornado table, and a plain-language reading.',
+          'A tornado chart as a picture and SVG with a description, in your output folder.',
+        ],
+        notes: [
+          'These are calculations from your numbers. They do not show that the program caused the outcomes, and benefits you did not put a dollar value on are left out.',
+          'If one option costs less and achieves more, the tool says so instead of giving a ratio, because the size of a negative ratio does not mean anything.',
+          'The tool does not decide what counts as cost-effective. Enter a willingness to pay only if someone with authority gave you one.',
+          'The 3 percent discount rate follows how CDC applied the Second Panel on Cost-Effectiveness; the Panel report and the federal guidance on discount rates could not be read. Use the rate your funder requires. The default test ranges (20 percent either way) are the tool\'s own.',
+          'The content is waiting for your review.',
+        ],
+      },
+      // End of Phase 17 budget tools.
+      // Phase 17 finance (LEAD-01, LEAD-02) tools.
+      {
+        id: 'analyze_health_department_budget',
+        title: 'Analyze the health department budget',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, reads your budget or ledger file; writes a workbook with live formulas and a summary report (Word) to your output folder',
+        does: 'Reads your budget or ledger file and shows where the year stands. For each budget category it compares what has been spent or collected with the share of the fiscal year that has passed (July 1 start by default, the Massachusetts municipal year), subtracts encumbrances, and flags lines that are over budget or well ahead of or behind pace. It splits revenue into fees and revolving funds, municipal appropriation, state Public Health Excellence (PHE) grants, other state funds, federal funds, and other grants. It works out cost per service from the volumes you give it, and forecasts the year end two ways, straight line and (if the file has months) recent run rate, each with its assumptions spelled out. Only category totals come back: it never reads vendor, employee, or payee columns, and all salary and wage lines are combined into one row that is hidden when fewer than three positions stand behind it.',
+        when: [
+          'Checking the budget before a board of health or finance committee meeting.',
+          'Finding out whether grant revenue and fees are keeping pace, and what share of revenue comes from the town, the state PHE grants, and fees.',
+          'Working out what an immunization clinic or an inspection actually costs per unit.',
+          'Seeing where the year will end if spending continues as it has.',
+        ],
+        provide: [
+          'A CSV or Excel file in your data folder with one row per account line: a category, whether it is revenue or expense, the fund or source, the budgeted amount, the year-to-date actual, and (if you track them) encumbrances. A monthly ledger works too, with a month column and an account column.',
+          'Optionally: the date to analyze as of, the month your fiscal year starts if it is not July, the number of positions on each salary line, the volumes for the services you want costed, and the population you serve.',
+        ],
+        examples: [
+          'Analyze health_budget_FY27.xlsx as of October 31 and tell me where we are ahead of or behind pace.',
+          'What share of our revenue is PHE grant money, and what is the cost per flu clinic dose if we gave 640 doses and 25 percent of nursing time went to it?',
+          'Using the monthly ledger, where will supplies and contracted services end the year at the recent run rate?',
+        ],
+        returns: [
+          'Totals and a table by category (budgeted, spent, encumbered, percent used, points ahead or behind pace, status, year-end forecasts), the revenue mix, cost per service, budget per resident beside the figures DPH published, and a list of flags.',
+          'A workbook with live formulas (change the as-of date, tolerance, or an input and everything recalculates) and a Word summary in your output folder.',
+        ],
+        notes: [
+          'The figures come from your file as it is; the tool cannot check them against the general ledger. Pace is a straight-line yardstick: payroll is even, but vaccine orders and grant payments are not.',
+          'If the salary and wage lines have fewer than three positions (from a positions column, a headcount you give, or, failing both, the number of salary accounts, which can overstate it), their amounts are hidden in the answer, the workbook, and the report, and totals leave them out.',
+          'The PHE description comes from DPH\'s public pages and is waiting for your review. The award contract was not read, so the tool does not say which costs PHE may pay. The revenue groups come from words in your fund labels; check them, and place any label it could not classify.',
+          'DPH\'s published budget per resident figures are for shared services arrangements in 2022-2023, and the $36.98 estimate comes from research DPH does not name. Treat them as context.',
+        ],
+      },
+      {
+        id: 'model_staffing_needs',
+        title: 'Model nurse staffing needs',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, writes a workbook with live formulas and a summary report (Word) to your output folder; can read a file of service volumes',
+        does: 'Estimates how many full-time public health nurses your services need. You give it each service, how many units you deliver in a year, and how many nurse minutes each unit takes. It turns that into hours of work, works out how many productive hours one full-time nurse really has (paid hours minus holidays, vacation, sick and personal time, and training, less the share spent on meetings, supervision, and travel), and divides. It compares scenarios (your current volumes, growth, added services), shows the gap to your current staff, and shows residents and clients per nurse.',
+        when: [
+          'Making the case for another nurse, or for part-time hours, in a budget request.',
+          'Testing what a new program (a diabetes prevention series, school screenings) does to the workload.',
+          'Checking whether current staffing fits the volumes in your annual report.',
+        ],
+        provide: [
+          'Your services with annual volumes and minutes per unit, typed in or in a file with one row per service.',
+          'Optionally your own figures for leave, training, and non-service time (the defaults are placeholders), your current FTE, the population served and active clients, scenarios, and a benchmark you want to compare with.',
+        ],
+        examples: [
+          'We do 1,200 home visits at 45 minutes, 3,000 clinic doses at 6 minutes, and 150 case investigations at an hour. How many nurses is that?',
+          'What happens to our FTE need if volumes grow 10 percent, or if we add a 120-session diabetes prevention series at 90 minutes each?',
+          'We have 1.5 FTE for 24,000 residents. How does the workload compare with our capacity?',
+        ],
+        returns: [
+          'The productive-hours calculation with where each number came from, hours and share of hours by service, and FTE needed (and rounded up) for each scenario, with the gap to your current staff and residents and clients per nurse.',
+          'A workbook with live formulas and a Word summary in your output folder.',
+        ],
+        notes: [
+          'The answer is only as good as your minutes per unit; a time study or agency productivity data beats an estimate. The leave and training defaults are placeholders with no published source: replace them with your contract and policy.',
+          'No public health nurse staffing benchmark is bundled. None could be read from a source this server could fetch (NACCHO and PHAB pages were blocked, and DPH\'s capacity assessment and the SAPHE 2.0 guidance give no nurse ratio). If you have a benchmark, give it with its source and the tool compares with it without vouching for it.',
+          'Scenarios change volumes or add services; they do not model hiring time or coverage for leave. Staffing decisions also depend on skill mix, licensure, and budget.',
+        ],
+      },
+      // End of Phase 17 finance tools.
+    ],
+  },
+  // End of Phase 17 chapter.
+  // Phase 18 chapter goes below this line.
+  {
+    title: 'Leadership, accreditation, and professional practice',
+    intro: 'These nine tools support running a department and meeting professional standards: a gap analysis against the Massachusetts local public health standards, a crosswalk to PHAB accreditation, strategic plans, workforce competencies, board of health meetings under the Open Meeting Law, standing orders, a QI-or-research screening aid, ethics analysis, and scope of practice rules. Six are in the leadership group, one in ebp, and two in policy; the phn_leader profile includes all three. They produce drafts, checklists, and citations for your decisions; they do not decide, give legal advice, or replace your medical director, town counsel, the Board of Registration in Nursing, or your IRB. The content is a draft pending review, and PHAB’s own standards document could not be read.',
+    tools: [
+      // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05) tools.
+      {
+        id: 'assess_foundational_public_health_services',
+        title: 'Check your department against the state local public health standards',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, a self-assessment worksheet and a gap analysis (Word and Excel) in your output folder; optionally reads the worksheet you filled in',
+        does: 'Helps you find the gaps between what your health department does and what Massachusetts expects: the mandated local responsibilities in DPH’s Performance Standards, DPH’s workforce standards, the Foundational Public Health Services framework, and the programs named in the State Action for Public Health Excellence law (G.L. c. 111, s. 27D). You rate each standard yourself (met, partly met, not met, not applicable). The tool never fills in an answer. It then totals your ratings, lists the gaps in priority order (legal mandates first), and shows shared-service options, including the shared service arrangement DPH lists for your town.',
+        when: [
+          'Preparing your annual compliance report to DPH, due August 31.',
+          'Deciding where to ask for staff, grant funds, or a shared service.',
+          'Briefing your board of health or town leaders on gaps.',
+        ],
+        provide: [
+          'The first time, nothing: the tool writes a worksheet listing every standard.',
+          'Then the worksheet with its Status column filled in (met, partial, not_met, not_applicable), saved as CSV or Excel in your data folder. You can also type a few statuses in the chat.',
+          'Optionally your town, who delivers each service (own, shared, contract, state), and your own priority for any item.',
+        ],
+        examples: [
+          'Make me a self-assessment worksheet for our local public health standards.',
+          'Here is my filled worksheet (fphs_self_assessment.xlsx). Show the gaps and what to do first.',
+          'Which shared service arrangement is Amherst in, and what could it cover for us?',
+        ],
+        returns: [
+          'Counts by set and area, the percent met, a gap table, a priority view in three tiers with the rules shown, shared-service options with their legal basis, and the files.',
+        ],
+        notes: [
+          'This is decision support, not a compliance finding. DPH’s workbook has no scoring; the statuses, tiers, and priorities are yours and this tool’s, not DPH’s.',
+          'The law is the 2020 SAPHE law, G.L. c. 111, s. 27D. A “2024 SAPHE 2.0” law was not found on any DPH page; ask the Office of Local and Regional Health if you have a source.',
+          'Your notes stay in the files in your output folder; the chat sees counts and the public standard IDs.',
+          'The content is a draft waiting for review. Some standards are marked as possibly outdated in DPH’s workbook.',
+        ],
+      },
+      {
+        id: 'phab_accreditation_crosswalk',
+        title: 'Match your documents to the PHAB accreditation standards',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, reads a folder of your documents; writes a crosswalk (Word and Excel) to your output folder',
+        does: 'Looks through the policies, plans, reports, and minutes in a folder you choose and shows which of the 20 Public Health Accreditation Board (PHAB) standards in Version 2022 your documents appear to support, and which have no evidence yet. For each standard you see the documents (by your own file names), the words that matched, and a short passage of up to 20 words. Files that look like client records or interview transcripts are never used.',
+        when: [
+          'Starting or updating an accreditation readiness review.',
+          'Finding out which plan or policy is missing before a PHAB site visit.',
+          'Showing the board of health what you already have.',
+        ],
+        provide: [
+          'The folder of documents in your data folder (the default is your policies folder).',
+          'Optionally a list of PHAB measures from your own copy of the PHAB document (Measure ID, Short title, Keywords) to map measures too.',
+        ],
+        examples: [
+          'Which PHAB standards are covered by the documents in our accreditation folder?',
+          'Which domains have no documents at all?',
+          'Use my measures list (phab_measures.xlsx) and show which measures have evidence.',
+        ],
+        returns: [
+          'Strong, some, or no evidence for each standard, the documents and words behind it, the gaps, and a Word and Excel crosswalk.',
+        ],
+        notes: [
+          'A match means a document mentions the topic. It does not mean the document meets a PHAB measure; PHAB’s own rules on dates, approval, and content decide.',
+          'PHAB’s measures are PHAB’s copyrighted text. The tool could not read them, so it does not include measure numbers or text; use your own copy and check PHAB’s terms.',
+          'Scanned documents with no text are not read.',
+          'The standard titles come from a CDC toolkit and the keywords are this project’s; the content is waiting for review.',
+        ],
+      },
+      {
+        id: 'build_strategic_plan',
+        title: 'Draft a strategic plan with a stakeholder grid',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, a draft plan (Word) and the stakeholder grid (picture files) in your output folder',
+        does: 'Gives your planning team a structure for a health department strategic plan and fills it only with what you provide. It lays out a SWOT or SOAR analysis, places your stakeholders on a power and interest grid (a picture with a text key, and a table), organizes strategic priorities with goals, objectives, and strategies, links them to your community health improvement plan (CHIP), and points out blanks.',
+        when: [
+          'Starting a new three to five year strategic plan.',
+          'Preparing a planning retreat with the board of health.',
+          'Checking that every CHIP priority has something in the strategic plan behind it.',
+        ],
+        provide: [
+          'Your mission, vision, and values, and the years of the plan.',
+          'Short SWOT or SOAR entries from your team.',
+          'Stakeholders with power and interest rated from 1 to 5.',
+          'Priorities, goals, objectives (measure, target, due date), and strategies (who is responsible), as far as you have them.',
+          'Your CHIP priorities.',
+        ],
+        examples: [
+          'Help me start a 2027 to 2031 strategic plan for our board of health. Here are our strengths and weaknesses.',
+          'Place these eight stakeholders on a power and interest grid.',
+          'We have three priorities and a CHIP with four priorities. Which CHIP priorities have nothing behind them?',
+        ],
+        returns: [
+          'The analysis scaffold, the stakeholder table and grid, coded priorities, goals, objectives, and strategies, the CHIP link, a list of blanks to fill, and a draft Word plan.',
+        ],
+        notes: [
+          'The tool adds no facts and does not judge quality. Every priority, objective, and rating comes from you.',
+          'PHAB’s strategic plan requirements could not be checked, so the result says they are unverified and lists what to look up in PHAB’s document. It never says a plan meets PHAB requirements.',
+          'Use roles and organization names for stakeholders. Phone numbers and other personal details in your answers are flagged.',
+          'The SWOT, SOAR, and grid wording is a draft waiting for review.',
+        ],
+      },
+      // End of Phase 18 strategy tools.
+      // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08) tools.
+      {
+        id: 'assess_workforce_competencies',
+        title: 'Assess your team’s competencies and track required credentials',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, reads a ratings file and a credentials file you keep in your data folder; writes a workbook (Excel, with formulas) and a Word training plan to your output folder',
+        does: 'Helps your team rate itself against the eight domains and three tiers of the national Core Competencies for Public Health Professionals (2021) or the public health nursing competencies (2018). It combines the ratings into team results, ranks the domains where the team falls short of your target, and drafts a team training plan. It can also track the Massachusetts local public health workforce standards (for example, MAVEN training within 6 months and the Foundations course within a year for a public health nurse) from each person’s hire date.',
+        when: [
+          'Writing or updating your workforce development plan.',
+          'Preparing for accreditation, which asks how the agency assesses and develops its workforce.',
+          'Checking who is due for required DPH trainings.',
+        ],
+        provide: [
+          'The first time, nothing: the tool writes a blank self-assessment workbook for staff to fill in.',
+          'Then the filled ratings file (CSV or Excel in your data folder): a staff code, tier, domain, and rating from 1 to 4 for each person. Use codes such as S01, never names.',
+          'Optionally a credentials file: staff code, position, hire date, and each credential completed with its date.',
+          'Optionally your own target rating (the default is 3, “knowledgeable”).',
+        ],
+        examples: [
+          'Make me a self-assessment workbook for our staff using the core competencies.',
+          'Here are our ratings (team_ratings.csv). Which domains need training first?',
+          'Who is overdue for MAVEN training or the Foundations course? The file is staff_credentials.csv.',
+        ],
+        returns: [
+          'Team averages by domain and tier, the gap to your target, a ranked training plan with blanks for the action, owner, and due date, credential status by position, and the workbook and Word plan.',
+        ],
+        notes: [
+          'Privacy: staff are identified by code, never by name. No result is shown for fewer than 3 people, so nobody’s rating can be read from the team results. Individual rows stay in the workbook on your computer.',
+          'The numbered competency statements could not be read from the national sites, so ratings are by domain, not by individual competency. The tool does not copy the frameworks’ text.',
+          'The credential deadlines come from DPH’s workforce standards (July 2024 version). Waivers, prior service, and equivalents are not applied.',
+          'This is workforce planning support, not a personnel evaluation or a finding of compliance. The wording is a draft waiting for review.',
+        ],
+      },
+      {
+        id: 'board_of_health_meeting_assistant',
+        title: 'Run board of health meetings under the Open Meeting Law',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, can read a notes file from your data folder; writes agendas, report templates, and draft minutes (Word) to your output folder',
+        does: 'Works out the latest time you can post a meeting notice so it is out 48 hours ahead, not counting Saturdays, Sundays, and Massachusetts legal holidays (2026 through 2028). It checks a posting time, the notice contents, the topics, and executive session items. It builds the agenda and notice, a staff report template, and draft minutes from your notes, and checks the minutes for the parts the law requires.',
+        when: [
+          'Setting a meeting date and the deadline to give the notice to the town clerk.',
+          'Preparing the agenda, a staff report for the board, or an executive session.',
+          'Turning your meeting notes into draft minutes.',
+        ],
+        provide: [
+          'The meeting date and time, and the place (or how to join if it is remote).',
+          'The topics, as specific as the public will need them to be. Leave out residents’ names.',
+          'For executive session, the purpose numbers (1 to 10) from the law.',
+          'For minutes, a text file of your notes with lines such as Present:, Item:, Motion:, Vote:, and Exhibit:.',
+        ],
+        examples: [
+          'Our board meets Monday, December 7 at 6:30 pm. When must the notice be posted?',
+          'Build the agenda for the December 7 meeting with the flu clinic plan, the budget, and an executive session for litigation strategy.',
+          'Draft minutes from my notes in bohnotes.txt and tell me what is missing.',
+        ],
+        returns: [
+          'The post-by time with the days left out, checks on the notice, an agenda and notice draft with staff pages (chair’s checklist and executive session script), a staff report template, or draft minutes with the required parts checked and a 30-day approval target.',
+        ],
+        notes: [
+          'Your notes are never shown to the assistant. It sees counts, which required parts were found, and the line numbers of anything that looks like an identifier.',
+          'This is not legal advice. How the 48 hours are counted across a weekend is this tool’s reading of the statute; ask your clerk or town counsel. The clerk may need the notice earlier, and other laws may require longer notice.',
+          'Boards in Suffolk county (Boston, Chelsea, Revere, Winthrop) also skip two local holidays. Remote participation rules are not checked.',
+          'The wording is a draft waiting for review.',
+        ],
+      },
+      {
+        id: 'draft_standing_orders',
+        title: 'Draft a standing order for your medical director to sign',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, writes a Word draft to your output folder',
+        does: 'Builds the skeleton of a standing order or protocol with every section the Board of Registration in Nursing requires (Advisory Ruling 9324, and 9804 for vaccines): the substance or activity, dose and route, who is included and excluded, contraindications and precautions, emergency steps, documentation, reporting, review, authentication, and the medical director’s signature block. You supply the clinical content and the source for it; the tool never invents it. Everything else is a placeholder marked for you or the medical director.',
+        when: [
+          'Setting up a vaccine, naloxone, or other nursing protocol that needs a prescriber’s order.',
+          'Renewing a standing order and checking that each required element is there.',
+        ],
+        provide: [
+          'The type: vaccine, medication, or activity.',
+          'Text for the sections you have drafted, each clinical section with the guideline, package insert, or template you took it from (name, edition, date).',
+          'Optionally the effective date and how often your medical director reviews the order.',
+        ],
+        examples: [
+          'Start a vaccine standing order for the fall flu clinic. I will paste the criteria from the current guidance.',
+          'Check my naloxone standing order against the Board’s required elements.',
+        ],
+        returns: [
+          'A Word draft with placeholders and signature lines, which sections are done, which of the Board’s elements are still open, wording that may conflict with the Board’s limits, and, for vaccines, DPH’s signed standing orders for local boards of health to check first.',
+        ],
+        notes: [
+          'DPH issues signed standing orders for boards of health for influenza, COVID-19, and anaphylaxis medication. Use them if they fit instead of writing your own.',
+          'The tool bundles no clinical content. It cannot say your doses or criteria are right. Check each against the current source.',
+          'Only the medical director can authorize the order. If you adapt an Immunize.org template, acknowledge it as the source.',
+          'The wording is a draft waiting for review.',
+        ],
+      },
+      // End of Phase 18 workforce tools.
+      // Phase 18 ethics (EBP-07, POL-05, POL-06) tools.
+      {
+        id: 'qi_vs_research_determination',
+        title: 'Decide whether a project is QI, evaluation, or research',
+        toolset: 'ebp',
+        internet: 'no',
+        files: 'yes, a draft IRB determination request in your output folder',
+        does: 'Helps you sort a project into quality improvement, program evaluation, public health practice or surveillance, or possible human subjects research. You answer short questions (yes, no, or unsure) and it shows, for each one, why it matters and where the rule comes from: the federal definitions of research and human subject (45 CFR 46.102), CDC’s guidelines for public health research versus non-research, and two sources from the quality improvement ethics literature. It gives a provisional reading only when the key questions are answered, flags overlap and unsure answers, and drafts a project description and IRB determination request with blanks for you to fill.',
+        when: [
+          'You are starting a project and are not sure whether it needs IRB review.',
+          'Your team wants to publish a program evaluation or a quality improvement project.',
+          'A funder, a partner, or a journal asks for a determination.',
+        ],
+        provide: [
+          'A short project title and a few sentences about the purpose, setting, and activities (describe groups, not individual people).',
+          'Your answers to the questions. Call the tool with no answers first to see the questions.',
+          'Optionally the name of your IRB or human research protection office.',
+        ],
+        examples: [
+          'We want to review how many children in our clinic are up to date on immunizations and change our reminder process. Is that QI or research?',
+          'We are piloting a new home visiting approach and will compare it with usual visits. Does that need IRB review?',
+          'Walk me through the questions for an outbreak investigation by our board of health.',
+        ],
+        returns: [
+          'The questions with their sources, your answers, a provisional reading with the reasoning, cautions, next steps, the definitions quoted briefly, and a draft Word document for your IRB.',
+        ],
+        notes: [
+          'This is a screening aid, not a determination. Your institution’s IRB decides whether a project is research, whether it involves human subjects, and whether it is exempt.',
+          'No Massachusetts institution’s IRB policy or forms were reviewed. Many institutions want their own form or a written confirmation even for QI.',
+          'The federal OHRP decision charts could not be read, so this follows the regulation text, CDC’s 1999 guidelines, and the published QI ethics sources instead. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'public_health_ethics_analysis',
+        title: 'Work through the ethics of a public health decision',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'yes, a worksheet in your output folder',
+        does: 'Structures an ethics analysis of a decision such as quarantine or isolation, excluding children from school, or allocating a scarce resource like vaccine or shelter space. It gives you the six questions of the Kass framework with prompts and facts to gather, the kinds of burden to look for (privacy, liberty, justice), a table of options from least to most restrictive for you to assess, a justification checklist, and the core values of the APHA Public Health Code of Ethics, then puts it in a Word worksheet. You supply the facts and do the weighing.',
+        when: [
+          'A board of health or health department is deciding on exclusion, quarantine, or isolation.',
+          'Allocating limited vaccine, antivirals, or shelter space.',
+          'Preparing for an ethics consultation or a public explanation of a hard decision.',
+        ],
+        provide: [
+          'The kind of decision and the decision itself in a sentence.',
+          'The facts you have, and your responses to any of the six questions you have already worked through.',
+          'Any options you are considering, in any order.',
+        ],
+        examples: [
+          'Our board of health is considering excluding unimmunized students for a measles outbreak. Structure the ethics analysis.',
+          'We have 400 doses and about 2,000 eligible people. Help us think through allocation fairly.',
+          'Start a worksheet for a decision about isolating exposed contacts at a shelter.',
+        ],
+        returns: [
+          'The six questions with prompts, what is still open, the burden categories and balancing criteria, a least restrictive alternatives table, a justification checklist, the APHA values with prompts, and the Word worksheet.',
+        ],
+        notes: [
+          'It never recommends a decision, and it does not cover Massachusetts law on quarantine, isolation, or school exclusion; ask counsel and use the communicable disease tools for the rules.',
+          'The APHA code and Kass’s full article could not be read; the frameworks come from an abstract and open-access papers that describe them, and each item shows its confidence. The options in the table are drafting aids, not a list of what is legally allowed.',
+          'The sources are copyrighted and paraphrased; read the originals for the authors’ reasoning. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'nursing_scope_of_practice_guide',
+        title: 'Look up nursing scope of practice and delegation rules',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'no',
+        does: 'Finds the Massachusetts rules that bear on a scope of practice, delegation, or standing order question: sections of the Board of Registration in Nursing regulations (244 CMR), the nurse practice act (M.G.L. c. 112, section 80B), and the Board’s advisory rulings. Each comes with its citation, a short quotation, and a plain summary, along with the Board’s own six decision questions. It does not tell you that a particular act is within your scope; it shows you the rules and the questions and points you to the Board.',
+        when: [
+          'Writing or checking a standing order for a vaccine clinic or a school.',
+          'Deciding what you may delegate to a community health worker or health aide.',
+          'Checking RN and LPN roles in a program, or whether a new procedure needs added competence.',
+        ],
+        provide: [
+          'Your question in your own words, or a topic name (delegation, standing orders, vaccines, harm reduction, APRN, and others).',
+          'Optionally your role (RN, LPN, or APRN).',
+        ],
+        examples: [
+          'Can an LPN give flu vaccines at a community clinic under a standing order?',
+          'What must I do before I delegate a task to an unlicensed health aide?',
+          'What do the Board’s rules say about naloxone standing orders for nurses?',
+        ],
+        returns: [
+          'The matching provisions with citations and short quotations, the Board’s decision questions and flow chart, the advisory rulings cited, what was and was not read, and how to contact the Board.',
+        ],
+        notes: [
+          'This is a partial snapshot taken on 2026-11-12: some regulations and most advisory rulings were not read, and the coverage is shown every time. Rulings change; check the Board’s page.',
+          'It is not legal advice. The Board decides questions about its rules, and your employer’s policies and other laws also apply. The regulation copies on mass.gov are not the official text.',
+          'The content is waiting for review.',
+        ],
+      },
+      // End of Phase 18 ethics tools.
+    ],
+  },
+  // End of Phase 18 chapter.
+  // Phase 19 chapter goes below this line.
+  {
+    title: 'Policy and law',
+    intro: 'These five tools support policy work and legal questions: Massachusetts bills on public health topics, federal proposed rules and comment deadlines, a search of Massachusetts public health law, policy briefs, and which rules govern sharing a health record. All are in the policy group, which the phn_leader profile includes. The bill and federal rule tools need the internet (the federal tool works only live), and the law search uses a dated, partial copy of M.G.L. c. 111, 105 CMR, and 244 CMR plus any regulations you save in your data folder. None gives legal advice or says what a bill would do; they give citations, short quotations, and cautions, and send you to agency counsel. The content is pending review.',
+    tools: [
+      // Phase 19 tracking (POL-01, POL-03) tools.
+      {
+        id: 'track_ma_legislation',
+        title: 'Follow Massachusetts bills on public health topics',
+        toolset: 'policy',
+        internet: 'optional',
+        files: 'yes, a watchlist you can save and read back',
+        does: 'Finds bills in the Massachusetts Legislature (the 2025-2026 session) on topics such as vaccines, tobacco and vaping, substance use, mental health, maternal and child health, school health, older adults, environmental health, and local public health, or on words or bill numbers you give. For each bill it shows the stage, the committee, hearing dates, the committee’s reporting deadline, the last action, a link, and a short quotation from the bill text, along with questions to ask of any bill. It can read a topic watchlist from your folder and save one. It does not tell you what a bill would do; that is your analysis.',
+        when: [
+          'Checking what is pending on a topic before a board of health meeting or a legislative briefing.',
+          'Finding out when a committee hearing is, so you can submit testimony in time.',
+          'Following the bills you care about from one week to the next.',
+        ],
+        provide: [
+          'Topics (for example vaccines or school health), your own title words, or bill numbers such as H3444.',
+          'Optionally the stage you care about, only upcoming hearings, or a watchlist file.',
+        ],
+        examples: [
+          'Which bills on vaccines are still in committee, and are any hearings coming up?',
+          'Track H3444 and S2518 and save a watchlist for me.',
+          'Find bills with PFAS or lead paint in the title that have been reported out of committee.',
+        ],
+        returns: [
+          'The bills with stage, committee, hearing dates and days until, reporting deadline, last action, link, and a cited excerpt of 25 words or fewer; the questions to ask of a bill; and whether the data was live or from the dated offline copy.',
+        ],
+        notes: [
+          'Bills are found by words in their titles only. A bill on your topic with a different title will not appear; the Legislature’s own search (malegislature.gov/Bills/Search) covers the full text.',
+          'The stage is this project’s reading of the bill’s history, not an official status. Read the last action and the bill itself. Sponsors’ names are on the bill page and are not repeated here.',
+          'Offline, the dated copy (built 2026-11-13) may be out of date. It is not legal advice. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'monitor_federal_rules',
+        title: 'Watch federal rules and comment deadlines',
+        toolset: 'policy',
+        internet: 'yes',
+        files: 'yes, a comment outline in your output folder',
+        does: 'Watches the Federal Register for proposed rules, final rules, and notices from CDC, CMS, HRSA, EPA, USDA, and HHS (and a few other agencies), filtered by topic and date, and counts down each comment deadline against today’s date. If you have a free Regulations.gov key it also checks the comment period there. It can write a Word outline for a public comment, with placeholders for you to complete, based on the tips EPA publishes for effective comments.',
+        when: [
+          'Seeing which federal proposals are open for comment right now and how many days are left.',
+          'Preparing a comment from your health department on a proposed rule.',
+          'Checking whether a proposed rule on lead, vaccines, or school meals affects your programs.',
+        ],
+        provide: [
+          'Optionally the agencies, a topic, and dates; the document number for a comment outline.',
+          'Optionally a small file in your folder with your organization’s position and evidence to fill into the outline.',
+        ],
+        examples: [
+          'Which CDC, CMS, and HRSA proposals are open for comment, soonest deadline first?',
+          'What EPA proposals on lead in drinking water are open, and how many days are left?',
+          'Draft a comment outline for document 2026-20001, and tell me the deadline.',
+        ],
+        returns: [
+          'The documents with agency, type, dates, comment deadline and days left, docket, and links; the Regulations.gov check when a key is set; a Word outline with placeholders; and a clear statement when live data was unavailable.',
+        ],
+        notes: [
+          'This works only with live data. If the Federal Register cannot be reached, the tool says so and lists nothing; an empty list then does not mean there are no open comment periods.',
+          'The Federal Register document itself states the deadline and its time of day; confirm it there. The tool does not file comments.',
+          'The outline follows one agency’s published tips (EPA); other agencies may want something different. Some agency names (CDC, CMS, HRSA) were not verified against the Federal Register. The content is waiting for review.',
+        ],
+      },
+      // End of Phase 19 tracking tools.
+      // Phase 19 law (POL-02, POL-04, POL-07) tools.
+      {
+        id: 'search_public_health_law',
+        title: 'Search Massachusetts public health law',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'optional',
+        does: 'Searches a bundled copy of Massachusetts public health law and answers with citations: M.G.L. chapter 111 (Public Health), the Department of Public Health regulations (105 CMR), and the nursing regulations (244 CMR). If you keep your board of health’s own regulations in a folder, it searches those too. Each answer gives the section number, title, a link, the dates, and a short excerpt of 25 words or fewer; it never returns long passages. It says plainly which sections it has in full text and which it only has as a title and link.',
+        when: [
+          'Finding the section that gives a board of health authority to issue an isolation or quarantine order.',
+          'Looking up what 105 CMR 300.000 or the lead or sanitary code regulations say about a topic before you read the full text.',
+          'Checking your town’s own regulation next to the state rule.',
+        ],
+        provide: [
+          'A citation (for example 105 CMR 300.200 or M.G.L. c. 111, section 95) or words describing the question.',
+          'Optionally the folder under your data folder that holds your board of health’s regulations (by default a folder named local_regulations).',
+        ],
+        examples: [
+          'Which sections of M.G.L. c. 111 cover a board of health order to isolate a person with a dangerous disease?',
+          'What does 105 CMR 300.120 say about confidentiality?',
+          'Search our town’s tobacco regulation and the state tobacco rules for the minimum age to buy.',
+        ],
+        returns: [
+          'The matching sections with citations, links, chapter dates, short excerpts, topic starting points, and what the bundled copy covers.',
+        ],
+        notes: [
+          'The bundled copy is partial and dated 2026-11-12: some sections are in full text and the rest are a title and link only; each result says which. Not finding a section does not mean no rule applies.',
+          'The regulation copies on mass.gov are not the official text, and the text came from PDFs, so tables and forms may be missing. Read the section at its link and ask your agency’s counsel; this is not legal advice.',
+          'Files in your regulations folder that look like client records are refused. An optional larger copy can be installed by your administrator.',
+          'The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'draft_policy_brief',
+        title: 'Draft a policy brief',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'no',
+        does: 'Drafts a one-page or longer policy brief as a Word document or Markdown file, in the order of the Eightfold Path of policy analysis: the problem, the evidence, the options, the criteria, a table that compares each option against each criterion, the trade-offs, and your recommendation. It is a template that you fill in: it uses only what you give it, and everything else is a marked placeholder. It does not make up facts, numbers, or citations. It also checks how easy your own wording is to read.',
+        when: [
+          'Preparing a short brief for the board of health, the select board, or the school committee.',
+          'Laying out two or three options side by side with the same criteria before a decision.',
+        ],
+        provide: [
+          'The problem in your words, the evidence you have with its sources, and the options to compare.',
+          'Optionally the criteria, your ratings of each option, the trade-offs, and your recommendation.',
+        ],
+        examples: [
+          'Draft a one-page brief for the board of health on adopting a rule on mold in rental housing, comparing a new rule, an education program, and doing nothing.',
+          'Make a full brief with a comparison table using health impact, equity, cost, and feasibility.',
+        ],
+        returns: [
+          'A draft document in your output folder, the status of each step, the comparison table, how many placeholders remain, and a readability check with plain-language suggestions.',
+        ],
+        notes: [
+          'The tool does not research the problem or check your evidence. Every number and citation must come from you.',
+          'The method is described from open-access articles and abstracts; the textbook it comes from was not read. Two of the suggested criteria are this project’s own suggestions and are marked.',
+          'The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'health_information_sharing_guide',
+        title: 'Work out which rules govern sharing a health record',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'no',
+        does: 'Asks who holds a record, what kind of record it is, who wants it, and why, and then lists the rules that may govern it: HIPAA, FERPA (school health records), the federal rules for substance use disorder records (42 CFR Part 2), the Massachusetts public records law, the confidentiality section of 105 CMR 300.000, and Massachusetts statutes on HIV test results, venereal disease records, and the immunization registry. Each rule comes with its citation, a short quotation, a plain summary, and cautions. It never tells you that sharing is or is not allowed.',
+        when: [
+          'A school asks for a child’s clinic immunization record, or a school nurse is asked to share a health office record.',
+          'A reporter or resident files a public records request that touches health information held by the health department.',
+          'You hold substance use treatment or HIV information and someone asks for it.',
+        ],
+        provide: [
+          'Who holds the record and in what role, and the kind of record.',
+          'Who wants it, the purpose, whether there is signed consent, and whether the person is a minor.',
+        ],
+        examples: [
+          'I am a school nurse in a public school. A parent’s doctor sent an immunization record. Who may I share it with and what governs it?',
+          'Our board of health got a public records request for a disease investigation file. Which rules apply?',
+        ],
+        returns: [
+          'The questions if you have not answered them yet; otherwise the rules that likely govern, may apply, or need checking, with citations and cautions, and the facts about your organization that you must confirm.',
+        ],
+        notes: [
+          'It is not legal advice and never gives a yes or no. Take the decision to your agency’s counsel or privacy officer.',
+          'It is a partial snapshot: the FERPA statute, federal guidance on HIPAA and FERPA, and the Massachusetts student records regulation could not be read, and some rules were amended recently. Each result lists what was and was not read.',
+          'The content is waiting for review.',
+        ],
+      },
+      // End of Phase 19 law tools.
+    ],
+  },
+  // End of Phase 19 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------

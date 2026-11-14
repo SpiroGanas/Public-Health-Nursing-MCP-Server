@@ -10,14 +10,21 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.15.0 — Phases 0 to 14 of the [project plan](project_plan.md) (see
-> [CHANGELOG.md](CHANGELOG.md)).** 110 of the 148
-> planned tools are available. Bundled reference content (reportable conditions, disease rules,
-> immunization schedules and school requirements, school health and maternal-child health rules,
-> screening instruments, aging and preparedness guidance, ICS forms, COOP, HSEEP, and CERC
-> material, environmental health and housing guidance, and the other items listed by
-> `get_data_source_status`) is a **draft pending
-> review** by the subject matter expert; every answer from it says so. All clinical and legal output is decision support only.
+> **Status: v1.0.0 — all 20 phases (0 to 19) of the [project plan](project_plan.md) (see
+> [CHANGELOG.md](CHANGELOG.md)).** All 148 planned tools are available. Bundled reference content
+> (reportable conditions, disease rules, immunization schedules and school requirements, school
+> health and maternal-child health rules, screening instruments, aging and preparedness guidance,
+> ICS forms, COOP, HSEEP, and CERC material, environmental health and housing guidance, chronic
+> disease prevention, program planning, evidence appraisal, grants and budgeting rules,
+> leadership and accreditation content, Massachusetts law and policy sources, and the other items
+> listed by `get_data_source_status`) is a **draft pending review** by the subject matter expert;
+> every answer from it says so. No release has been tagged or published yet, and no phase has
+> had its acceptance script run by a nurse. All clinical and legal output is decision support
+> only.
+
+For IT staff and security reviewers, the [threat model](docs/security/threat-model.md) and the
+[administrator guide](docs/admin-guide.md) are the places to start. The content that still
+needs a person's review is listed in [`docs/content-review-sweep.md`](docs/content-review-sweep.md).
 
 ## Tools
 
@@ -110,7 +117,6 @@ output folder instead of being sent to the AI model.
 | `monitor_school_absenteeism` | SCH-06 | school | EARS signals for influenza-like or gastrointestinal absences by school, with when to call the board of health. |
 | `build_school_health_annual_report` | SCH-07 | school | Year-end statistics from local logs in DPH's published reporting categories, plus a school committee summary. |
 | `child_care_health_consultation_checklist` | SCH-08 | school | Health consultant checklist against EEC licensing rules (606 CMR 7.00). |
-<!-- Phase 7 rows go above this line. -->
 
 ### Phase 8: maternal, child, and family health
 
@@ -124,7 +130,6 @@ output folder instead of being sent to the AI model.
 | `estimate_benefit_eligibility` | EQ-06 | equity | Income screen for WIC, SNAP, MassHealth, the Health Safety Net, and heating assistance from household size and income (2026 poverty guidelines; a screen, not a determination) |
 | `map_lead_risk` | MCH-05 | mch | Ranks towns or tracts for lead outreach from pre-1950/1980 housing, low income, young children, DPH screening rates and prevalence, and DPH high-risk status, with a choropleth map |
 | `maternal_infant_health_profile` | MCH-06 | mch | Births, low birthweight, preterm, prenatal care, infant mortality, and PRAMS indicators by community and race/ethnicity, compared with MA and the U.S. |
-<!-- Phase 8 rows go above this line. -->
 
 ### Phase 9: PHN practice toolkit and case management
 
@@ -138,7 +143,6 @@ output folder instead of being sent to the AI model.
 | `nursing_documentation_template` | CORE-03 | core | SOAP, DAR, and narrative templates with required elements, and a check of a local note that never returns its text. |
 | `find_community_resources` | EQ-07 | equity | Searches the nurse's resource directory and HRSA health centers by town, service, language, and hours. |
 | `newcomer_health_navigator` | EQ-11 | equity | Refugee and immigrant health: CDC domestic screening, DPH/ORI programs, MassHealth coverage by status (October 2026 changes), and shelter resources. |
-<!-- Phase 9 rows go above this line. -->
 
 ### Phase 10: healthy aging and mental health screening
 
@@ -153,7 +157,6 @@ output folder instead of being sent to the AI model.
 | `nursing_home_quality_lookup` | AGE-06 | aging | CMS star ratings, staffing, infection control citations, and staff and resident vaccination for Massachusetts nursing homes. |
 | `map_older_adult_vulnerability` | AGE-05 | aging | Older adults living alone, with disabilities, without a vehicle, with limited English, or in poverty, by tract or town, with a map. |
 | `advance_care_planning_toolkit` | AGE-07 | aging | Health care proxy rules (c.201D) and template filled locally, MOLST status, and a community session script and handout. |
-<!-- Phase 10 rows go above this line. -->
 
 ### Phase 11: substance use, crisis resources, and health communication
 
@@ -168,7 +171,6 @@ output folder instead of being sent to the AI model.
 | `translate_health_material` | COMM-02 | comms | Translation workflow (no bundled translations): language priorities, agency translations, translator brief, glossary and back-translation checks, review worksheet. |
 | `create_social_media_campaign` | COMM-03 | comms | Posting calendar tied to health observances, checks of draft posts (length, alt text, hashtags, readability, safe messaging), XLSX calendar. |
 | `draft_press_materials` | COMM-04 | comms | Press release, media advisory, talking points, or spokesperson Q&A with CDC CERC checks and a Word export. |
-<!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning
 
@@ -182,7 +184,6 @@ output folder instead of being sent to the AI model.
 | `functional_needs_shelter_intake` | EPR-03 | epr | CMIST shelter intake form, local fill to the output folder, and estimates of support needs and staff for a shelter population. |
 | `get_electricity_dependent_population` | EPR-04 | epr | HHS emPOWER counts of electricity-dependent Medicare beneficiaries by town, county, and ZIP code for outage planning. |
 | `plan_casper_assessment` | EPR-11 | epr | CDC CASPER cluster sample of census blocks, team materials, and weighted analysis with confidence intervals. |
-<!-- Phase 12 rows go above this line. -->
 
 ### Phase 13: emergency preparedness II: ICS, plans, and exercises
 
@@ -193,7 +194,6 @@ output folder instead of being sent to the AI model.
 | `design_hseep_exercise` | EPR-08 | epr | HSEEP exercise design: SMART objectives mapped to PHEP and FEMA core capabilities, measles, coastal storm, and heat tabletop scenarios, SitMan, EEGs, feedback form, and MSEL. |
 | `build_after_action_report` | EPR-09 | epr | HSEEP after-action report and improvement plan from hotwash findings, with corrective-action checks and suppressed feedback-form totals. |
 | `crisis_risk_communication_builder` | EPR-10 | epr | CDC CERC message maps (27/9/3 checks), holding statements, FAQs, spokesperson prep, and phase tasks for seven pre-scripted hazards or your own, with a language plan (agency translations or translator briefs). |
-<!-- Phase 13 rows go above this line. -->
 
 ### Phase 14: environmental health and climate
 
@@ -207,7 +207,69 @@ output folder instead of being sent to the AI model.
 | `housing_conditions_health_guide` | ENV-07 | env | State Sanitary Code (105 CMR 410.000) guide to mold, pests, heat, hot water, lead, alarms, and trash: code sections, owner and occupant duties, health effects, how to get a board of health inspection, tenant protections, readable tenant teaching sheets, and locally filled request letters. |
 | `chemical_exposure_reference` | ENV-08 | env | NIOSH Pocket Guide entry, current IDLH, ATSDR minimal risk levels, and ToxFAQs links for a chemical (name, synonym, or CAS number), with scenario notes and Massachusetts contacts; always says occupational limits are not community limits and MRLs are screening levels. |
 | `food_access_mapper` | CHR-06 | chronic | USDA Food Access Research Atlas low-income/low-access tracts (four definitions, straight-line or driving) for a town, county, or the state, with people affected, vehicle and SNAP context, HIP and SNAP information, counts of your pantries, SNAP retailers, and HIP vendors by town, a tract map, and a resource list. |
-<!-- Phase 14 rows go above this line. -->
+
+### Phase 15: chronic disease prevention and community assessment
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `community_bp_screening_toolkit` | CHR-02 | chronic | Community blood pressure screening kit for adults: measurement technique checklist, the current ACC/AHA categories (with the sources' wording and confidence), severe-range wording and referral tiers marked as tool defaults pending review, a screening log template, follow-up letters filled locally, and a plain-language handout; a screening log is summarized only as suppressed counts. |
+| `diabetes_prevention_finder` | CHR-03 | chronic | Scores the CDC Prediabetes Risk Test, checks CDC's eligibility rules for the National Diabetes Prevention Program, lists the Massachusetts program sites DPH publishes (not CDC's registry, which could not be reached), explains delivery modes and Medicare's program, and writes a plain-language handout. |
+| `preventive_services_lookup` | CHR-04 | chronic | USPSTF grade A and B recommendations for a person's age, sex at birth, pregnancy status, and risk factors, each with its grade, statement date, the Task Force's population wording, what to confirm, a plain-language client summary, and a handout option; Massachusetts options (MBCCP, the colorectal program, 1-800-QUIT-NOW) and MyHealthfinder's live list. |
+| `asthma_home_assessment` | CHR-05 | chronic | CDC/EPA/HUD home asthma trigger checklist (pointing at the housing code content), DPH's asthma control categories with a classifier, the NHLBI asthma action plan template with peak flow zones, Massachusetts home-based asthma services from DPH's directory, and action plans filled from a local file. |
+| `community_health_assessment_builder` | EQ-08 | equity | MAPP 2.0 community health assessment: the three phases and assessments, community status data assembled from the profile, PLACES, SVI, language, environmental justice, climate, food, and water tools, a partner sector checklist (your roster counted by sector), nearby hospitals with the federal and Massachusetts CHNA rules and links to find each CHNA, priority lists read from CHNA reports you save, and draft report sections in DOCX. |
+| `prioritize_health_issues` | EQ-09 | equity | Ranks community health issues with the Hanlon method (BPR = ((A + B) x C / 3) x D) and the PEARL test, a strategy grid, and nominal group scoring from vote totals; ties and missing ratings are explicit; writes the method and rationale to DOCX or PDF. |
+| `analyze_qualitative_data` | EQ-10 | equity | Reads focus group and interview transcripts locally, removes names and other identifiers, codes them with your codebook (or a draft starter), and returns theme counts only (a theme raised by fewer than three participants is withheld); the de-identified coded excerpt matrix and theme summary go to the output folder. |
+| `geocode_and_aggregate_addresses` | EPI-13 | epi | Locates the addresses in your own file offline (MassGIS address points and Census TIGER address ranges; an optional full street index, a four-town sample bundled) and returns only counts by town, census tract, or block group with small counts suppressed; reports how many addresses matched at each precision (exact point, interpolated, street only, ZIP only); never returns an address. |
+
+### Phase 16: program planning, evaluation, and evidence
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `build_logic_model` | PLAN-01 | planning | Builds a program logic model (inputs, activities, outputs, short-term, intermediate, and long-term outcomes, assumptions, external factors) following CDC's Program Evaluation Framework, checks it, reads it as if-then statements, and draws it as Mermaid text and an accessible SVG, with a one-page Word table. |
+| `write_smartie_objectives` | PLAN-02 | planning | Assembles and checks SMARTIE objectives (flags a missing baseline, target, date, population, data source, or equity dimension) and looks up Healthy People 2030 objectives with national baselines and targets, live or from a dated snapshot. |
+| `build_evaluation_plan` | PLAN-05 | planning | Drafts an evaluation plan on CDC's six steps: questions, indicators, data sources, methods, timing, responsible roles, process, outcome, and impact types, a timeline, and an optional RE-AIM lens, as a Word plan with blanks. |
+| `find_evidence_based_interventions` | PLAN-03 | planning | Finds Community Guide systematic reviews, economic reviews, and Task Force recommendation statements for a health topic from a bundled PubMed snapshot (with an optional live PubMed search for newer papers): the evidence wording each abstract uses (never inferred), source, date, short excerpts, and implementation notes; says plainly that the Community Guide's own list and What Works for Health could not be read. |
+| `apply_behavior_change_theory` | PLAN-04 | planning | Maps a program's problem, barriers, and planned components onto the constructs of eight behavior change theories and frameworks (Health Belief Model, Social Cognitive Theory, Theory of Planned Behavior, Transtheoretical Model, Socio-Ecological Model, Diffusion of Innovations, COM-B, Self-Determination Theory), with strategies (marked as from a source or this tool's suggestion) and measure ideas. |
+| `track_program_performance` | PLAN-11 | planning | Compares your program's results by period (a local file) with your targets: progress, pace, and run-chart or p-chart trend flags; returns only counts with small cells suppressed, and writes a dashboard report, a workbook with live formulas, and charts to the output folder. |
+| `appraise_evidence` | EBP-03 | ebp | Guided critical appraisal of a study you describe or supply: suggests the design, lists that design's appraisal questions (Cochrane 2011 risk-of-bias domains, ROBINS-I, STROBE, AMSTAR 2, qualitative, SQUIRE 2.0) from open-access sources, records your answers, applies each instrument's own overall rating rule, structures a GRADE or GRADE-CERQual certainty judgment, optional Crossref citation lookup, and a Word record. Never answers a question for you. |
+| `build_evidence_synthesis_table` | EBP-04 | ebp | Builds a synthesis table (Word and Excel with live summary formulas) from the studies you appraised and a PRISMA 2020 flow diagram (Mermaid, accessible SVG, text alternative) from counts you enter, with every arithmetic error reported. |
+| `plan_quality_improvement` | EBP-05 | ebp | Guided QI project planning with the Model for Improvement: aim statement, outcome/process/balancing measures, driver diagram, fishbone diagram, process map (Mermaid, accessible SVG with text alternatives), PDSA cycle plans, and a SQUIRE 2.0 checklist; run charts (IHI/Perla and Anhøj rules) and control charts from your measure data with small counts hidden; writes a DOCX plan and an XLSX tracker with live formulas. |
+
+### Phase 17: grants and finance
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `search_grant_opportunities` | PLAN-06 | planning | Open funding opportunities for a health agency: federal (Simpler.Grants.gov, with your own API key; says when it is in snapshot mode) and the Massachusetts COMMBUYS weekly bid list, filtered by topic, eligibility, closing dates, and award size, with where else to look and DPH procurement facts. |
+| `analyze_funding_announcement` | PLAN-07 | planning | Reads a NOFO or Massachusetts RFR you saved (PDF or Word) into a compliance checklist: eligibility, deadlines, page limits, required attachments, scoring criteria with points, and a response outline; says what it could not find; writes DOCX and XLSX checklists. |
+| `draft_grant_narrative` | PLAN-08 | planning | Drafts a needs statement, project narrative, and sustainability section from templates and the facts and cited statistics you supply, organized by the scoring criteria, with [NURSE: ...] placeholders and no invented data; writes a DOCX. |
+| `build_program_budget` | PLAN-09 | planning | Builds a line-item program budget in federal object classes (personnel, fringe, travel, equipment, supplies, contractual, other, indirect) with multi-year escalation, cost share and a match check, and indirect costs on the right base (the de minimis rate of up to 15 percent of MTDC per 2 CFR 200.414(f), or a negotiated rate); salary figures can stay in a local file (files with identifier columns are refused). Writes an XLSX workbook with live formulas and a DOCX budget justification with `[NURSE: ...]` placeholders to `/data/output`; the response has category totals only. |
+| `economic_evaluation_calculator` | PLAN-10 | planning | Cost per participant and per outcome, cost-effectiveness ratio and ICER (with dominance), net benefit, benefit-cost ratio, return on investment, payback, and break-even, with multi-year discounting (default 3 percent) and one-way sensitivity analysis (tornado table and an accessible chart with a text alternative); the plain-language reading is guarded against over-claiming. |
+| `analyze_health_department_budget` | LEAD-01 | leadership | Analyzes your budget or ledger file (a local file) and returns category totals only: year-to-date variance against the share of the fiscal year passed (July 1 start by default), revenue mix (fees, municipal appropriation, state Public Health Excellence grants, other state, federal), cost per service from volumes you give, and straight-line and run-rate year-end forecasts. Vendor and employee columns are never read, and salary lines are combined and hidden below three positions. Writes a workbook with live formulas and a Word summary. |
+| `model_staffing_needs` | LEAD-02 | leadership | Estimates public health nurse FTE from service volumes and minutes per unit that you supply, with an adjustable productive-hours calculation, scenarios (growth, added services), the gap to current staffing, and residents or clients per nurse. No staffing benchmark is bundled (none could be read from a fetchable source); it compares only with one you give. Writes a workbook with live formulas and a Word summary. |
+
+### Phase 18: leadership, accreditation, and professional practice
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `assess_foundational_public_health_services` | LEAD-03 | leadership | Gap analysis against the Massachusetts local public health standards (G.L. c. 111, s. 27D; DPH's Performance Standards, workforce standards) and the Foundational Public Health Services framework: you record each status, it returns the gap table, a three-tier priority view, and shared-service options (including your town's DPH-listed arrangement), and writes a worksheet and report (DOCX/XLSX). |
+| `phab_accreditation_crosswalk` | LEAD-04 | leadership | Maps your own policies, plans, and reports to the 20 standards in 10 domains of PHAB Version 2022 with the document index: strong, some, or no evidence per standard, 20-word passages, gaps, optional measure-level mapping from your own list; client files are never used. DOCX/XLSX crosswalk. |
+| `build_strategic_plan` | LEAD-05 | leadership | Scaffolds a strategic plan from your content: SWOT or SOAR, an accessible stakeholder power and interest grid, priorities, goals, objectives, and strategies linked to your CHIP, blank checks, and a draft DOCX; PHAB requirements are reported as unverified. |
+| `assess_workforce_competencies` | LEAD-06 | leadership | Self-assessment against the Council on Linkages Core Competencies (2021) or the Quad Council public health nursing competencies (2018) by domain and tier, with team results (nothing shown for fewer than 3 people), a team training plan, and a tracker for DPH's local public health workforce standards by position (workbook with live formulas and DOCX). |
+| `board_of_health_meeting_assistant` | LEAD-07 | leadership | Open Meeting Law helper: the latest time to post a notice (48 hours excluding weekends and Massachusetts legal holidays, 2026-2028), notice and executive session checks, agendas, staff report templates, and draft minutes from your notes with the required parts checked. Notes are never returned. |
+| `draft_standing_orders` | LEAD-08 | leadership | Drafts a standing order or protocol skeleton from Board of Registration in Nursing Advisory Rulings 9324 and 9804, with your cited clinical text and [NURSE]/[MEDICAL DIRECTOR] placeholders for the medical director's signature. No clinical content is bundled. |
+| `qi_vs_research_determination` | EBP-07 | ebp | Screening aid for sorting a project into quality improvement, program evaluation, public health practice or surveillance, or possible human subjects research, from your answers and 45 CFR 46.102 and CDC's guidelines, with the reasoning for each question and a draft IRB determination request (the IRB decides). |
+| `public_health_ethics_analysis` | POL-05 | policy | Structures an ethics analysis of quarantine, school exclusion, scarce-resource allocation, or another decision with Kass's six questions and the APHA Public Health Code of Ethics: prompts, a least restrictive alternatives table, a justification checklist, and a worksheet. It never recommends a decision. |
+| `nursing_scope_of_practice_guide` | POL-06 | policy | Finds the 244 CMR, M.G.L. c. 112 section 80B, and Board of Registration in Nursing advisory ruling provisions that bear on scope, delegation, and standing-order questions, with citations, short quotations, and the Board's decision questions. A partial snapshot; it never says an act is in scope. |
+
+### Phase 19: policy and law
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `track_ma_legislation` | POL-01 | policy | Tracks Massachusetts bills (194th General Court) on public health topics from the Legislature's public data: stage, committee, hearing dates, last action, and a short cited excerpt, with questions for your own analysis and a topic watchlist you can save. It never says what a bill would do. Live, with a dated offline snapshot. |
+| `monitor_federal_rules` | POL-03 | policy | Watches the Federal Register for CDC, CMS, HRSA, EPA, USDA, and HHS proposed rules, final rules, and notices, with comment deadlines counted down against today, an optional Regulations.gov cross-check, and a draft public comment outline (Word) built from EPA's tips. Says plainly when live data is unavailable. |
+| `search_public_health_law` | POL-02 | policy | Searches M.G.L. c. 111, 105 CMR, 244 CMR (a bundled snapshot with full text for core sections and a title and link index for the rest) and your board of health's regulations in a local folder, and answers with citations, dates, links, and excerpts of 25 words or fewer. |
+| `draft_policy_brief` | POL-04 | policy | Drafts a one-page or longer policy brief in the order of the Eightfold Path (problem, evidence, options, criteria, an accessible options-by-criteria table, trade-offs, recommendation) from what you supply, with `[NURSE: ...]` placeholders and a readability check; it never invents facts. |
+| `health_information_sharing_guide` | POL-07 | policy | Asks who holds a record, what kind it is, who wants it, and why, then lists the rules that may govern it (HIPAA, FERPA, 42 CFR Part 2, the Massachusetts public records law, 105 CMR 300.000 and state confidentiality statutes) with citations and cautions; never a yes or no on sharing. |
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
@@ -230,16 +292,16 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0
 ```
 
-On networks that block GHCR, download `phn-mcp-server-v0.15.0-amd64.tar.gz` (or `-arm64` for
+On networks that block GHCR, download `phn-mcp-server-v1.0.0-amd64.tar.gz` (or `-arm64` for
 Apple silicon) from the GitHub release. Load it, then give the image the name the configuration
 below uses:
 
 ```sh
-docker load -i phn-mcp-server-v0.15.0-amd64.tar.gz
-docker tag phn-mcp-server:v0.15.0-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0
+docker load -i phn-mcp-server-v1.0.0-amd64.tar.gz
+docker tag phn-mcp-server:v1.0.0-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0
 ```
 
 (Use `arm64` in both commands on Apple silicon.) Without the second command Docker does not find
@@ -248,7 +310,7 @@ the image under that name and tries to download it from GHCR.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0 .
 ```
 
 ### 3. Create your data folder
@@ -273,7 +335,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0"
       ]
     }
   }
@@ -292,7 +354,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0"
       ]
     }
   }
@@ -321,7 +383,7 @@ Then try, for example:
 File names are relative to your data folder: say `line_list.csv` or `rosters/kindergarten.xlsx`,
 not `PHN-Data/line_list.csv`.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration
@@ -342,6 +404,9 @@ settings saved by `configure_jurisdiction` in `/cache/phn-settings.toml`.
 | `PHN_LOG` | `info` | Log level. Logs go to stderr; stdout carries the MCP protocol. |
 | `TZ` | `America/New_York` (set in the image) | Time zone for "today" and for dates and times printed on documents. Set another zone with, for example, `-e TZ=America/Chicago`. |
 | `PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` | none | Optional free API keys. Everything works without them (bundled snapshots or lower rate limits); the Census key is needed for live ACS data from some networks, and the AirNow key adds the AirNow API to the public AirNow files. |
+| `PHN_GRANTS_GOV_API_KEY` | none | Optional Simpler.Grants.gov API key for the federal listings in `search_grant_opportunities`; without it the federal source is in snapshot mode (the snapshot has no federal listings). |
+| `PHN_REGULATIONS_GOV_API_KEY` | none | Optional free api.data.gov key for the Regulations.gov cross-check in `monitor_federal_rules`; it is never shown in any output. |
+| `PHN_CROSSREF_MAILTO` | none | Optional email address (your own) that `appraise_evidence` sends to Crossref's polite pool when it looks up a DOI; nothing is sent without it. |
 
 **Profiles and toolsets.** Exposing every tool at once crowds the model's context, so tools are
 grouped into toolsets (`core`, `cd`, `vax`, `school`, `mch`, `aging`, `bh`, `epr`, `env`,

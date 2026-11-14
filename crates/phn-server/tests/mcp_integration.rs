@@ -1040,6 +1040,1281 @@ async fn no_row_level_data_is_returned_by_default() {
         ),
         // ---- End of Phase 14 chemfood.
         // ---- End of Phase 14 data tools.
+        // ---- Phase 15 data tools go below this line.
+        // ---- Phase 15 screen (CHR-02, CHR-03).
+        // Client files given as the screening log: a line list and other client files have no
+        // blood pressure columns (a tool error that must not echo values); the fictional
+        // screening log has names, addresses, and phone numbers that may go only into letters
+        // in /data/output.
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "hrsn_screenings.csv"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "shelter_registrations.csv", "write_letters": true}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "bp_screening_log.csv"}),
+            "data/bp_screening_log.csv",
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "bp_screening_log.csv", "write_letters": true}),
+            "data/bp_screening_log.csv",
+        ),
+        // An organization list with contact people given as the log.
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "food_pantries.csv", "write_letters": true}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "growth_measurements.csv"}),
+            "data/growth_measurements.csv",
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "prediabetes_responses.csv", "handout": true}),
+            "data/prediabetes_responses.csv",
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        // ---- End of Phase 15 screen.
+        // ---- Phase 15 prevent (CHR-04, CHR-05).
+        // CHR-04 takes only age, sex at birth, pregnancy status, and risk factors (no file
+        // arguments); the handout has no name or identifier.
+        (
+            "preventive_services_lookup",
+            json!({"age_years": 47, "sex_at_birth": "female", "write_handout": true,
+                   "include_myhealthfinder": false}),
+            ll,
+        ),
+        // CHR-05 fills action plans from a client file into /data/output only. A person file
+        // that legitimately has the plan details, an identifiable line list, a shelter roster,
+        // and an organization list with contact people are all accepted or refused without
+        // echoing a value.
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "asthma_plans.csv"}),
+            "data/asthma_plans.csv",
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "line_list.csv",
+                   "write_documents": false}),
+            ll,
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "shelter_registrations.csv",
+                   "write_documents": false}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "cooling_centers.csv",
+                   "write_documents": false}),
+            "data/cooling_centers.csv",
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["checklist", "control", "services"], "town": "Springfield",
+                   "control_answers": {"symptom_days_past_30": 12, "nights_waking_past_30": 4}}),
+            ll,
+        ),
+        // ---- End of Phase 15 prevent.
+        // ---- Phase 15 cha (EQ-08, EQ-09, EQ-10).
+        // EQ-10 reads transcripts with seeded participant names, phone numbers, emails, an
+        // address, and an employer. Only counts may come back, with or without a names file
+        // and a codebook, and with the de-identified files written.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"]}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "names_path": "participant_names.txt",
+                   "write_deidentified_transcripts": true}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["key_informant_interview.txt"],
+                   "names_path": "participant_names.txt"}),
+            "data/key_informant_interview.txt",
+        ),
+        // Both transcripts together, and a names file that is a client list.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt", "key_informant_interview.txt"]}),
+            "data/key_informant_interview.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "names_path": "line_list.csv"}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "names_path": "line_list.csv"}),
+            ll,
+        ),
+        // A line list given as a transcript, and as the codebook.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["line_list.csv"]}),
+            ll,
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "codebook_path": "line_list.csv"}),
+            ll,
+        ),
+        // A client note given as a transcript: read locally, nothing returned.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["client_note.txt"]}),
+            "data/client_note.txt",
+        ),
+        // A person-level file given as the codebook or the names file.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["client_note.txt"], "codebook_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"], "names_path": "hrsn_screenings.csv"}),
+            "data/hrsn_screenings.csv",
+        ),
+        // EQ-08: client files given as CHNA reports and partner rosters are refused without
+        // echoing values; a partner roster with contact people is counted and the contacts
+        // never returned.
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "chna_paths": ["client_note.txt"],
+                   "write_document": false}),
+            "data/client_note.txt",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "chna_paths": ["line_list.csv"]}),
+            ll,
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "chna_paths": ["51a_notes.txt"]}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "hrsn_screenings.csv"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "cooling_centers.csv"}),
+            "data/cooling_centers.csv",
+        ),
+        // A transcript given as a CHNA report is a document, so it is read for priority lines.
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"],
+                   "chna_paths": ["focus_group_transcript.txt"]}),
+            "data/focus_group_transcript.txt",
+        ),
+        // EQ-09 reads no files; one case checks that nothing seeded appears.
+        (
+            "prioritize_health_issues",
+            json!({"issues": [
+                {"name": "Housing cost burden", "size": 7, "seriousness": 12, "effectiveness": 5,
+                 "pearl": {"propriety": true, "economics": true, "acceptability": true, "resources": true, "legality": true}},
+                {"name": "Food insecurity", "size": 5, "seriousness": 9, "effectiveness": 6}],
+                "write_document": false}),
+            ll,
+        ),
+        // ---- End of Phase 15 cha.
+        // ---- Phase 15 geo (EPI-13).
+        // A client list (it has a street address, town, and ZIP column next to names, phones, and
+        // IDs): counts by town only, and the other columns are never read.
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "line_list.csv", "write_matched_file": true}),
+            ll,
+        ),
+        // A file of contact people (names, phones, emails, street addresses).
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        // The seeded fictional address list, with the output file requested.
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "address_list.csv", "write_matched_file": true, "level": "block_group"}),
+            "data/address_list.csv",
+        ),
+        // Identifier columns named as the address, town, or ZIP column are refused without
+        // echoing a value, and files without address columns fail without echoing any.
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "line_list.csv", "address_column": "Last Name"}),
+            ll,
+        ),
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "line_list.csv", "zip_column": "Phone"}),
+            ll,
+        ),
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "church_supper_outbreak.csv"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        // ---- End of Phase 15 geo.
+        // ---- End of Phase 15 data tools.
+        // ---- Phase 16 data tools go below this line.
+        // ---- Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+        // PLAN-01 and PLAN-02 take no file arguments: they work only from the program
+        // description in the request and return no client data.
+        (
+            "build_logic_model",
+            json!({"program_name": "Leak test program", "activities": ["Provide home visits"],
+                   "short_term_outcomes": ["Increase knowledge of warning signs"]}),
+            ll,
+        ),
+        (
+            "write_smartie_objectives",
+            json!({"objectives": [{"measure": "screening rate", "direction": "increase"}],
+                   "healthy_people_queries": ["diabetes"], "refresh_live": false}),
+            ll,
+        ),
+        // PLAN-05 reads a staff roster only to put names beside roles in the plan file. A
+        // roster with contact people is accepted (names and contacts stay in the file); a client
+        // line list and a shelter registration file are refused or ignored without echoing any
+        // value.
+        (
+            "build_evaluation_plan",
+            json!({"program_name": "Leak test program", "stage": "implementation",
+                   "roles": ["Incident Commander"], "roster_path": "staff_roster.csv",
+                   "logic_model": {"activities": ["Provide home visits"],
+                                   "short_term_outcomes": ["Increase knowledge"]}}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "build_evaluation_plan",
+            json!({"program_name": "Leak test program", "roster_path": "line_list.csv",
+                   "write_document": false,
+                   "logic_model": {"activities": ["Provide home visits"]}}),
+            ll,
+        ),
+        (
+            "build_evaluation_plan",
+            json!({"program_name": "Leak test program", "roster_path": "shelter_registrations.csv",
+                   "write_document": false,
+                   "logic_model": {"activities": ["Provide home visits"]}}),
+            "data/shelter_registrations.csv",
+        ),
+        // ---- End of Phase 16 design.
+        // ---- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+        // PLAN-03 and PLAN-04 take only typed text (no file arguments). Identifier-like text in
+        // a description is refused without being repeated.
+        (
+            "find_evidence_based_interventions",
+            json!({"topic": "colorectal cancer screening", "population": "adults over 50",
+                   "include_live": false}),
+            ll,
+        ),
+        (
+            "find_evidence_based_interventions",
+            json!({"topic": "Maria Garcia 413-555-0100", "include_live": false}),
+            ll,
+        ),
+        (
+            "apply_behavior_change_theory",
+            json!({"problem": "Low screening among women over 50",
+                   "barriers": ["cost", "no ride", "forgot to book"],
+                   "program_components": ["text message reminders"], "write_document": true}),
+            ll,
+        ),
+        (
+            "apply_behavior_change_theory",
+            json!({"problem": "Maria Garcia, 837 Elm Street, skips visits",
+                   "barriers": ["call 413-555-0100"]}),
+            ll,
+        ),
+        // PLAN-11 reads a results file by period. A file that legitimately has partner contact
+        // people and a staff column are accepted, and only the named columns are read.
+        (
+            "track_program_performance",
+            json!({"path": "program_metrics.csv", "period_column": "Month",
+                   "periods_in_program": 12,
+                   "targets": [{"measure": "Clients enrolled", "target": 400},
+                               {"measure": "Participants screened", "kind": "percent",
+                                "denominator": "Participants eligible", "target": 80},
+                               {"measure": "Housing referrals", "target": 60}]}),
+            "data/program_metrics.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Quarter",
+                   "measure_column": "Outcome", "value_column": "Value",
+                   "denominator_column": "Denominator",
+                   "targets": [{"measure": "Adults with controlled blood pressure",
+                                "kind": "percent", "target": 70},
+                               {"measure": "Home visits completed", "target": 240}]}),
+            "data/program_outcomes_long.csv",
+        ),
+        // The contact columns of the results file are named as the period, measure, value, or
+        // denominator column: refused without echoing a value.
+        (
+            "track_program_performance",
+            json!({"path": "program_metrics.csv", "period_column": "Contact Person",
+                   "targets": [{"measure": "Clients enrolled", "target": 400}]}),
+            "data/program_metrics.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "program_metrics.csv", "period_column": "Month",
+                   "targets": [{"measure": "Contact Cell", "target": 1}]}),
+            "data/program_metrics.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Quarter",
+                   "measure_column": "Reported By", "value_column": "Value",
+                   "targets": [{"measure": "Cases", "target": 1}]}),
+            "data/program_outcomes_long.csv",
+        ),
+        // An identifiable line list: rows counted by month (counts only), and every identifier
+        // column refused as period, measure, value, or denominator.
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date", "count_rows": true,
+                   "targets": [{"measure": "Records", "target": 20}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "measure_column": "Diagnosis",
+                   "targets": [{"measure": "Pertussis", "target": 10}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "measure_column": "Last Name", "targets": [{"measure": "Cases", "target": 1}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Last Name", "count_rows": true,
+                   "targets": [{"measure": "Records", "target": 1}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "targets": [{"measure": "Phone", "target": 1}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "targets": [{"measure": "SSN", "kind": "percent", "denominator": "MRN",
+                                "target": 1}]}),
+            ll,
+        ),
+        // Staff names under a header the detector does not know, used as the period column,
+        // and an organization list with contact people used as the results file: refused
+        // without echoing a value.
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Reported By",
+                   "count_rows": true, "targets": [{"measure": "Records", "target": 5}]}),
+            "data/program_outcomes_long.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "food_pantries.csv", "period_column": "Type", "count_rows": true,
+                   "targets": [{"measure": "Records", "target": 5}]}),
+            "data/food_pantries.csv",
+        ),
+        // ---- End of Phase 16 interventions.
+        // ---- Phase 16 appraise (EBP-03, EBP-04).
+        // EBP-03 reads a published study. A fictional abstract legitimately has a corresponding
+        // author (name, email, phone): the design words and the answers come back, never the
+        // text, and the contact details are never repeated.
+        (
+            "appraise_evidence",
+            json!({"path": "study_abstract.txt"}),
+            "data/study_abstract.txt",
+        ),
+        (
+            "appraise_evidence",
+            json!({"path": "study_abstract.txt", "design": "randomized_trial",
+                   "answers": [{"question": "rct_sequence", "answer": "low", "note": "Computer-generated sequence"},
+                               {"question": "rct_concealment", "answer": "low"}],
+                   "grade": {"outcome": "Emergency visits", "judgments": [{"domain": "imprecision", "change": -1}]},
+                   "title": "School asthma trial"}),
+            "data/study_abstract.txt",
+        ),
+        // A note that carries an email address or phone number is redacted before it is echoed
+        // or recorded (names are redacted only where the detector can recognise them).
+        (
+            "appraise_evidence",
+            json!({"design": "randomized_trial",
+                   "answers": [{"question": "rct_sequence", "answer": "low",
+                                "note": "Ask perdita.stonehallow@example.org or call 413-555-0191"}]}),
+            "data/study_abstract.txt",
+        ),
+        // A client note is refused without echoing a value; a line list and a roster are not
+        // study documents.
+        (
+            "appraise_evidence",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        ("appraise_evidence", json!({"path": "line_list.csv"}), ll),
+        (
+            "appraise_evidence",
+            json!({"path": "shelter_registrations.csv", "design": "cohort"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "appraise_evidence",
+            json!({"path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        // EBP-04 has no file arguments (the studies and counts are typed in); its output and
+        // files hold only what was typed.
+        (
+            "build_evidence_synthesis_table",
+            json!({"question": "School asthma programs",
+                   "studies": [{"citation": "Fictional trial 2020", "design": "randomized trial",
+                                "sample_size": 1208, "outcome": "ED visits", "effect": "RR 0.73",
+                                "quality_rating": "low risk of bias", "quality_tool": "Cochrane 2011"}],
+                   "prisma": {"records_identified": 100, "duplicates_removed": 10, "records_screened": 90,
+                              "records_excluded": 80, "reports_assessed": 10,
+                              "reports_excluded": [{"reason": "Wrong population", "reports": 9}],
+                              "studies_included": 1}}),
+            "data/study_abstract.txt",
+        ),
+        // ---- End of Phase 16 appraise.
+        // ---- Phase 16 qi (EBP-05).
+        // The analysis groups a client file's rows into periods and returns only aggregates; the
+        // identifier columns of a line list are never read (a tool error that must not echo a
+        // value).
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Onset Date",
+                   "period": "week", "measure_kind": "count"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Onset Date",
+                   "measure_kind": "mean", "value_column": "Age", "baseline_points": 2}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Onset Date",
+                   "measure_kind": "proportion", "flag_column": "Hospitalized", "period": "week"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "period_column": "Last Name",
+                   "numerator_column": "Age"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "period_column": "Onset Date",
+                   "numerator_column": "Phone"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Street Address",
+                   "measure_kind": "count"}),
+            ll,
+        ),
+        // A measure log that legitimately has contact people (data-entry names, cell phones,
+        // emails): only the period results may come back, and the file's contact columns are
+        // refused when named.
+        (
+            "plan_quality_improvement",
+            json!({"path": "qi_clinic_measure.csv", "period_column": "Month",
+                   "numerator_column": "Children Up To Date", "denominator_column": "Children Seen",
+                   "baseline_points": 9, "phase_starts": ["2025-10"],
+                   "measure_name": "% up to date"}),
+            "data/qi_clinic_measure.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "qi_clinic_measure.csv", "period_column": "Month",
+                   "numerator_column": "Contact Cell"}),
+            "data/qi_clinic_measure.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "qi_clinic_measure.csv",
+                   "period_column": "Contact Person", "numerator_column": "Children Seen"}),
+            "data/qi_clinic_measure.csv",
+        ),
+        // Organization and staff lists with contact people given as the measure file.
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "food_pantries.csv", "period_column": "Town",
+                   "numerator_column": "Contact Person"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "staff_roster.csv", "period_column": "Agency",
+                   "numerator_column": "Radio"}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "shelter_registrations.csv",
+                   "date_column": "Arrival", "measure_kind": "count"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "client_note.txt", "date_column": "Date"}),
+            "data/client_note.txt",
+        ),
+        // ---- End of Phase 16 qi.
+        // ---- End of Phase 16 data tools.
+        // ---- Phase 17 data tools go below this line.
+        // ---- Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+        // Announcements that legitimately name procurement and program contacts (names, phones,
+        // emails): only structure, dates, and short labels may come back.
+        (
+            "analyze_funding_announcement",
+            json!({"path": "synthetic_nofo.docx"}),
+            "data/synthetic_nofo.docx",
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "synthetic_rfr.pdf"}),
+            "data/synthetic_rfr.pdf",
+        ),
+        // Client files given as the announcement: a data file is refused as not a document, and
+        // free-text client notes and letters are read for structure only (no label may quote them).
+        (
+            "analyze_funding_announcement",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "51a_notes.txt"}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "client_letter.html"}),
+            "data/client_letter.html",
+        ),
+        // A client file or a staff roster given as the checklist file.
+        (
+            "draft_grant_narrative",
+            json!({"criteria_file": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "draft_grant_narrative",
+            json!({"criteria_file": "staff_roster.csv"}),
+            "data/staff_roster.csv",
+        ),
+        // The search reads no local files; nothing seeded may appear.
+        (
+            "search_grant_opportunities",
+            json!({"topic": "immunization", "source": "commbuys"}),
+            ll,
+        ),
+        // ---- End of Phase 17 grants.
+        // ---- Phase 17 budget (PLAN-09, PLAN-10).
+        // PLAN-09 reads a costs file locally. A file that legitimately holds salaries (roles and
+        // costs only) never has them returned; a line list, a staff roster with names and
+        // contacts, a shelter roster, and an organization list with contact people are refused
+        // without echoing a value.
+        (
+            "build_program_budget",
+            json!({"line_items_path": "program_budget_lines.csv", "fringe_rate_percent": 24.5,
+                   "years": 3, "salary_escalation_percent": 2}),
+            "data/program_budget_lines.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "program_budget_lines.csv", "fringe_rate_percent": 24.5,
+                   "years": 3, "indirect": {"method": "negotiated", "rate_percent": 30},
+                   "required_cost_share": {"percent": 20, "basis": "total_project"},
+                   "write_workbook": false, "write_justification": false}),
+            "data/program_budget_lines.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "line_list.csv", "fringe_rate_percent": 20}),
+            ll,
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "staff_roster.csv", "fringe_rate_percent": 20}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "shelter_registrations.csv", "fringe_rate_percent": 20}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "food_pantries.csv", "fringe_rate_percent": 20}),
+            "data/food_pantries.csv",
+        ),
+        // PLAN-10 reads no file; typed numbers only.
+        (
+            "economic_evaluation_calculator",
+            json!({"program_cost": 100000, "participants": 400, "outcomes": 25,
+                   "benefit_per_outcome": 5000, "write_chart": false}),
+            ll,
+        ),
+        // ---- End of Phase 17 budget.
+        // ---- Phase 17 finance (LEAD-01, LEAD-02).
+        // A client line list given as the budget: identifier columns are refused when named and
+        // no budget column can be found without a name; no value may appear in either case.
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv", "category_column": "Last Name", "budget_column": "Age",
+                   "actual_column": "Age"}),
+            ll,
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv", "category_column": "Town", "budget_column": "Age",
+                   "actual_column": "Phone"}),
+            ll,
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv", "category_column": "Town", "budget_column": "Age",
+                   "actual_column": "Age", "account_column": "SSN", "positions_column": "Age"}),
+            ll,
+        ),
+        // A real budget file that legitimately holds vendor names, vendor contacts, and employee
+        // names: only category totals may come back, and the vendor and employee columns are
+        // refused when named.
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "positions_column": "Positions",
+                   "services": [{"name": "Clinics", "volume": 100,
+                                 "costs": [{"category": "Supplies"}, {"category": "Personnel"}]}]}),
+            "data/health_dept_budget.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "category_column": "Vendor"}),
+            "data/health_dept_budget.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "category_column": "Employee"}),
+            "data/health_dept_budget.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "account_column": "Vendor Contact Email", "source_column": "Vendor Phone"}),
+            "data/health_dept_budget.csv",
+        ),
+        // One-person salary lines must not come back as numbers.
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget_small.csv", "as_of_date": "2026-10-31",
+                   "positions_column": "Positions"}),
+            "data/health_dept_budget_small.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_ledger_monthly.csv", "as_of_date": "2026-10-31",
+                   "period_column": "Month", "account_column": "Account",
+                   "positions_column": "Positions"}),
+            "data/health_dept_ledger_monthly.csv",
+        ),
+        // Staffing: a client file as the volumes file, and a volumes file with contact people.
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "line_list.csv", "service_column": "Last Name",
+                   "volume_column": "Age", "minutes_column": "Age"}),
+            ll,
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "line_list.csv", "service_column": "Town",
+                   "volume_column": "Age", "minutes_column": "Phone"}),
+            ll,
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "staffing_volumes.csv", "current_fte": 1.5,
+                   "population": 24000}),
+            "data/staffing_volumes.csv",
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "staffing_volumes.csv", "service_column": "Contact Person"}),
+            "data/staffing_volumes.csv",
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "staffing_volumes.csv", "volume_column": "Contact Email"}),
+            "data/staffing_volumes.csv",
+        ),
+        // ---- End of Phase 17 finance.
+        // ---- End of Phase 17 data tools.
+        // ---- Phase 18 data tools go below this line.
+        // ---- Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+        // LEAD-03 reads only the ID, Status, Delivered by, Priority, and Notes columns of a
+        // self-assessment worksheet. A worksheet whose other columns hold contact people (names,
+        // phones, emails) is accepted and none of them comes back; a client line list, a
+        // shelter file, a roster, and a client note are refused or ignored without echoing a value.
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "fphs_assessment.csv", "write_documents": false}),
+            "data/fphs_assessment.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "fphs_assessment.csv"}),
+            "data/fphs_assessment.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "line_list.csv", "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "shelter_registrations.csv", "write_documents": false}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "staff_roster.csv", "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "client_note.txt", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"statuses": [{"standard_id": "PS-ADM-001", "status": "met",
+                                 "note": "Ask perdita.stonehallow@example.org or call 413-555-0191"}],
+                   "write_documents": false}),
+            "data/study_abstract.txt",
+        ),
+        // LEAD-04 indexes a folder of the nurse's documents. Pointed at the whole data folder
+        // it meets every client file and transcript in the corpus: each is left out (client
+        // records and transcripts) or its passages are redacted (the study abstract, whose
+        // contact details never come back).
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/client_letter.html",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "."}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/key_informant_interview.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/study_abstract.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "write_documents": false}),
+            "data/policies/needlestick_exposure.md",
+        ),
+        // The measures list given as a line list, a roster, a pantry list, and a client note.
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "line_list.csv", "write_documents": false}),
+            ll,
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "staff_roster.csv", "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "food_pantries.csv", "write_documents": false}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "client_note.txt", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        // LEAD-05 has no file arguments: the plan holds only what was typed. Contact details in
+        // a typed field are reported, not repeated as findings.
+        (
+            "build_strategic_plan",
+            json!({"department": "Leak test department", "period_start": 2027, "period_end": 2031,
+                   "swot": {"strengths": ["Trusted nurses"]},
+                   "stakeholders": [{"name": "Board of health", "power": 5, "interest": 4,
+                                     "owner": "Director"}],
+                   "priorities": [{"title": "Workforce", "goals": [{"statement": "Fill positions"}]}],
+                   "chip_priorities": ["Behavioral health"], "write_document": false}),
+            ll,
+        ),
+        // ---- End of Phase 18 strategy.
+        // ---- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+        // LEAD-06 reads only the staff code, tier, domain, and rating columns of a ratings file
+        // (and the code, position, hire date, credential, and completed columns of a credentials
+        // file). A file whose other columns hold contact people (supervisor names, emails,
+        // phones) is accepted and none of them comes back; name, phone, and email columns used as
+        // the staff, domain, or rating column are refused; client files are refused.
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv", "write_documents": false}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv"}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv", "staff_column": "Supervisor Name",
+                   "write_documents": false}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv", "rating_column": "Supervisor Email",
+                   "write_documents": false}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "workforce_credentials.csv", "as_of_date": "2026-11-12"}),
+            "data/workforce_credentials.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "workforce_credentials.csv", "cred_staff_column": "Supervisor Phone",
+                   "write_documents": false}),
+            "data/workforce_credentials.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "line_list.csv", "staff_column": "Last Name",
+                   "domain_column": "Town", "rating_column": "Age", "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "line_list.csv", "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "line_list.csv", "cred_staff_column": "Case ID",
+                   "cred_position_column": "Last Name", "cred_hire_date_column": "DOB",
+                   "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "staff_roster.csv", "staff_column": "Name",
+                   "domain_column": "ICS Position", "rating_column": "Radio", "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "staff_roster.csv", "cred_staff_column": "Name",
+                   "cred_position_column": "ICS Position", "cred_hire_date_column": "Radio",
+                   "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "client_note.txt", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        // LEAD-07 reads notes and returns only counts and line numbers. The notes with a
+        // resident's name, address, and phone, client notes, a 51A note, and a transcript are
+        // never echoed; a spreadsheet is refused.
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "board_meeting_notes.txt"}),
+            "data/board_meeting_notes.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "board_meeting_notes.txt", "write_document": false}),
+            "data/board_meeting_notes.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "51a_notes.txt"}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "focus_group_transcript.txt"}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "study_abstract.txt"}),
+            "data/study_abstract.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_text": "Item: Complaint\nCall from 837 Elm Street, 413-555-0100, maria.garcia@example.org\nVote: 3-0",
+                   "write_document": false}),
+            ll,
+        ),
+        // Typed topics and report text with identifiers are refused without repeating them.
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "agenda", "meeting_date": "2026-12-07", "meeting_time": "18:00",
+                   "location": "Town Hall", "topics": [{"title": "Hearing for Maria Garcia at 837 Elm Street"}]}),
+            ll,
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "staff_report", "report_sections": [{"heading": "Findings",
+                   "text": "Maria Garcia, DOB 1953-04-11, MRN400000, 413-555-0100"}]}),
+            ll,
+        ),
+        // LEAD-08 has no file arguments; typed text with identifiers is refused.
+        (
+            "draft_standing_orders",
+            json!({"order_type": "vaccine", "title": "Order for Maria Garcia, 837 Elm Street"}),
+            ll,
+        ),
+        (
+            "draft_standing_orders",
+            json!({"order_type": "activity", "write_document": false,
+                   "sections": [{"section_id": "title_scope",
+                                 "text": "Applies to Maria Garcia, DOB 04/11/1953, 413-555-0100, maria.garcia@example.org"}]}),
+            ll,
+        ),
+        // ---- End of Phase 18 workforce.
+        // ---- Phase 18 ethics (EBP-07, POL-05, POL-06).
+        // These tools read no files. Free-text arguments that carry a client's identifiers (a
+        // seeded phone number, street address, SSN, or e-mail) must be refused without echoing
+        // them, and ordinary calls must return nothing from client or contact files.
+        (
+            "qi_vs_research_determination",
+            json!({"description": "Clients at 837 Elm Street, phone 413-555-0100", "write_document": true}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"project_title": "Chart review for 929-87-6117", "write_document": true}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"answers": [{"question_id": "extra_burden", "answer": "no",
+                                "note": "ask maria.garcia@example.org"}]}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"project_title": "Clinic reminder process", "description": "Reminder calls for a clinic",
+                   "answers": [
+                       {"question_id": "generalizable_intent", "answer": "no"},
+                       {"question_id": "new_intervention", "answer": "no"},
+                       {"question_id": "extra_burden", "answer": "no"},
+                       {"question_id": "local_improvement", "answer": "yes"}]}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"answers": [{"question_id": "generalizable_intent", "answer": "yes"}],
+                   "write_document": true}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "public_health_ethics_analysis",
+            json!({"decision_type": "quarantine", "situation": "The family at 837 Elm Street, 413-555-0100"}),
+            ll,
+        ),
+        (
+            "public_health_ethics_analysis",
+            json!({"decision_type": "school exclusion", "decision": "Whether to exclude unimmunized students",
+                   "responses": [{"question": "burdens", "response": "Lost school days; families without childcare"}],
+                   "alternatives": ["Vaccination clinic first"]}),
+            ll,
+        ),
+        (
+            "public_health_ethics_analysis",
+            json!({"decision_type": "allocation of scarce resources",
+                   "responses": [{"question": "1", "response": "Call 413-555-0100"}]}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "nursing_scope_of_practice_guide",
+            json!({"question": "Can the nurse who saw 837 Elm Street delegate? Phone 413-555-0100"}),
+            ll,
+        ),
+        (
+            "nursing_scope_of_practice_guide",
+            json!({"question": "What must a delegating nurse do before delegating to an unlicensed aide?"}),
+            ll,
+        ),
+        (
+            "nursing_scope_of_practice_guide",
+            json!({"topics": ["standing_orders", "vaccines"], "list_all_rulings": true}),
+            "data/shelter_registrations.csv",
+        ),
+        // ---- End of Phase 18 ethics.
+        // ---- End of Phase 18 data tools.
+        // ---- Phase 19 data tools go below this line.
+        // ---- Phase 19 tracking (POL-01, POL-03).
+        // The offline snapshot and the topic index return nothing from client or contact files;
+        // a client file given as the watchlist or the fill file is refused without its values;
+        // free-text arguments with identifiers are refused without echoing them.
+        (
+            "track_ma_legislation",
+            json!({"topics": ["vaccines", "mental_health"], "max_bills": 10}),
+            ll,
+        ),
+        ("track_ma_legislation", json!({}), ll),
+        (
+            "track_ma_legislation",
+            json!({"topics": ["vaccines"], "watchlist_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "track_ma_legislation",
+            json!({"watchlist_path": "food_pantries.csv", "save_watchlist": true}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "track_ma_legislation",
+            json!({"keywords": ["clinic for 837 Elm Street, phone 413-555-0100"]}),
+            ll,
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"topic": "family at 837 Elm Street 413-555-0100"}),
+            ll,
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"draft_comment_outline": true, "document_title": "Proposed rule on school meals",
+                   "fill_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"draft_comment_outline": true, "document_title": "Proposed rule on school meals",
+                   "comment_deadline": "2026-12-14", "fill_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"draft_comment_outline": true, "document_title": "Proposed rule on school meals",
+                   "comment_deadline": "2026-12-14"}),
+            ll,
+        ),
+        // ---- End of Phase 19 tracking.
+        // ---- Phase 19 law (POL-02, POL-04, POL-07).
+        // POL-02 searches a bundled corpus and, optionally, a local folder of documents: free text
+        // with seeded identifiers is refused, a client file given as the folder is an error, and a
+        // folder that holds client documents (the whole synthetic data folder) must return nothing
+        // from them. POL-04 and POL-07 read no files; their free text is checked for identifiers.
+        (
+            "search_public_health_law",
+            json!({"query": "quarantine order for the family at 837 Elm Street, phone 413-555-0100"}),
+            ll,
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "quarantine order", "local_folder": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "quarantine order", "local_folder": "staff_roster.csv"}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "exposure tuberculosis screening report immunization", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/client_note.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "exposure tuberculosis screening report immunization", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "exposure tuberculosis screening report immunization", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/client_letter.html",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "family interview needs transcript participants", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "family interview needs transcript participants", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/participant_names.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "needlestick exposure reporting tuberculosis", "local_folder": "policies"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "105 CMR 300.200"}),
+            ll,
+        ),
+        (
+            "draft_policy_brief",
+            json!({"problem": "Clients at 837 Elm Street, phone 413-555-0100 report mold"}),
+            ll,
+        ),
+        (
+            "draft_policy_brief",
+            json!({"title": "Mold in rental housing", "problem": "Many renters report mold. Mold can make asthma worse.",
+                   "options": [{"name": "Adopt a rule", "description": "Set a repair deadline."}],
+                   "evidence": [{"finding": "Indoor dampness is linked to asthma", "citation": "Journal article, 2020"}],
+                   "output": "both"}),
+            ll,
+        ),
+        (
+            "draft_policy_brief",
+            json!({"evidence": [{"finding": "Email the family at maria.garcia@example.org"}]}),
+            "data/health_office_visits.csv",
+        ),
+        (
+            "health_information_sharing_guide",
+            json!({"situation": "The student at 837 Elm Street, phone 413-555-0100, born 03/02/2015"}),
+            ll,
+        ),
+        (
+            "health_information_sharing_guide",
+            json!({"holder_role": "school_nurse_public", "record_type": "school_health_record",
+                   "recipient": "public_health_authority", "purpose": "disease_investigation"}),
+            "data/health_office_visits.csv",
+        ),
+        (
+            "health_information_sharing_guide",
+            json!({"holder_role": "substance_use_program", "record_type": "substance_use_treatment_record",
+                   "recipient": "law_enforcement_or_court", "purpose": "legal_process"}),
+            "data/staff_roster.csv",
+        ),
+        // ---- End of Phase 19 law.
+        // ---- End of Phase 19 data tools.
         // ---- Path arguments that had no row before the peer review.
         // A translated draft and a back-translation read from client files.
         (

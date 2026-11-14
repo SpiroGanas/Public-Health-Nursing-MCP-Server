@@ -30,3 +30,8 @@ pub use two_by_two::{TwoByTwoArgs, TwoByTwoResult, analyze_two_by_two};
 // Phase 4 modules (EPI-12) go below this line.
 pub mod choropleth;
 pub use choropleth::{ChoroplethResult, CreateChoroplethArgs, create_choropleth_map};
+
+// Phase 15 geo (EPI-13): add `pub mod` and `pub use` lines below.
+pub mod geocode;
+pub use geocode::{GeocodeArgs, GeocodeResult, geocode_and_aggregate_addresses};
+// End of Phase 15 geo.

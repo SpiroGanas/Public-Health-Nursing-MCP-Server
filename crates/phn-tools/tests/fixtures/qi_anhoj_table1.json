@@ -1,0 +1,460 @@
+{
+ "description": "Table 1 of PLoS One 2014;9(11):e113825 (doi:10.1371/journal.pone.0113825, CC BY 4.0): prediction limits for the longest run, round(log2(n)+3), and the number of crossings, qbinom(0.05, n-1, 0.5), by the number of useful observations n.",
+ "rows": [
+  {
+   "n": 10,
+   "longest_run_limit": 6,
+   "crossings_limit": 2
+  },
+  {
+   "n": 11,
+   "longest_run_limit": 6,
+   "crossings_limit": 2
+  },
+  {
+   "n": 12,
+   "longest_run_limit": 7,
+   "crossings_limit": 3
+  },
+  {
+   "n": 13,
+   "longest_run_limit": 7,
+   "crossings_limit": 3
+  },
+  {
+   "n": 14,
+   "longest_run_limit": 7,
+   "crossings_limit": 4
+  },
+  {
+   "n": 15,
+   "longest_run_limit": 7,
+   "crossings_limit": 4
+  },
+  {
+   "n": 16,
+   "longest_run_limit": 7,
+   "crossings_limit": 4
+  },
+  {
+   "n": 17,
+   "longest_run_limit": 7,
+   "crossings_limit": 5
+  },
+  {
+   "n": 18,
+   "longest_run_limit": 7,
+   "crossings_limit": 5
+  },
+  {
+   "n": 19,
+   "longest_run_limit": 7,
+   "crossings_limit": 6
+  },
+  {
+   "n": 20,
+   "longest_run_limit": 7,
+   "crossings_limit": 6
+  },
+  {
+   "n": 21,
+   "longest_run_limit": 7,
+   "crossings_limit": 6
+  },
+  {
+   "n": 22,
+   "longest_run_limit": 7,
+   "crossings_limit": 7
+  },
+  {
+   "n": 23,
+   "longest_run_limit": 8,
+   "crossings_limit": 7
+  },
+  {
+   "n": 24,
+   "longest_run_limit": 8,
+   "crossings_limit": 8
+  },
+  {
+   "n": 25,
+   "longest_run_limit": 8,
+   "crossings_limit": 8
+  },
+  {
+   "n": 26,
+   "longest_run_limit": 8,
+   "crossings_limit": 8
+  },
+  {
+   "n": 27,
+   "longest_run_limit": 8,
+   "crossings_limit": 9
+  },
+  {
+   "n": 28,
+   "longest_run_limit": 8,
+   "crossings_limit": 9
+  },
+  {
+   "n": 29,
+   "longest_run_limit": 8,
+   "crossings_limit": 10
+  },
+  {
+   "n": 30,
+   "longest_run_limit": 8,
+   "crossings_limit": 10
+  },
+  {
+   "n": 31,
+   "longest_run_limit": 8,
+   "crossings_limit": 11
+  },
+  {
+   "n": 32,
+   "longest_run_limit": 8,
+   "crossings_limit": 11
+  },
+  {
+   "n": 33,
+   "longest_run_limit": 8,
+   "crossings_limit": 11
+  },
+  {
+   "n": 34,
+   "longest_run_limit": 8,
+   "crossings_limit": 12
+  },
+  {
+   "n": 35,
+   "longest_run_limit": 8,
+   "crossings_limit": 12
+  },
+  {
+   "n": 36,
+   "longest_run_limit": 8,
+   "crossings_limit": 13
+  },
+  {
+   "n": 37,
+   "longest_run_limit": 8,
+   "crossings_limit": 13
+  },
+  {
+   "n": 38,
+   "longest_run_limit": 8,
+   "crossings_limit": 14
+  },
+  {
+   "n": 39,
+   "longest_run_limit": 8,
+   "crossings_limit": 14
+  },
+  {
+   "n": 40,
+   "longest_run_limit": 8,
+   "crossings_limit": 14
+  },
+  {
+   "n": 41,
+   "longest_run_limit": 8,
+   "crossings_limit": 15
+  },
+  {
+   "n": 42,
+   "longest_run_limit": 8,
+   "crossings_limit": 15
+  },
+  {
+   "n": 43,
+   "longest_run_limit": 8,
+   "crossings_limit": 16
+  },
+  {
+   "n": 44,
+   "longest_run_limit": 8,
+   "crossings_limit": 16
+  },
+  {
+   "n": 45,
+   "longest_run_limit": 8,
+   "crossings_limit": 17
+  },
+  {
+   "n": 46,
+   "longest_run_limit": 9,
+   "crossings_limit": 17
+  },
+  {
+   "n": 47,
+   "longest_run_limit": 9,
+   "crossings_limit": 17
+  },
+  {
+   "n": 48,
+   "longest_run_limit": 9,
+   "crossings_limit": 18
+  },
+  {
+   "n": 49,
+   "longest_run_limit": 9,
+   "crossings_limit": 18
+  },
+  {
+   "n": 50,
+   "longest_run_limit": 9,
+   "crossings_limit": 19
+  },
+  {
+   "n": 51,
+   "longest_run_limit": 9,
+   "crossings_limit": 19
+  },
+  {
+   "n": 52,
+   "longest_run_limit": 9,
+   "crossings_limit": 20
+  },
+  {
+   "n": 53,
+   "longest_run_limit": 9,
+   "crossings_limit": 20
+  },
+  {
+   "n": 54,
+   "longest_run_limit": 9,
+   "crossings_limit": 21
+  },
+  {
+   "n": 55,
+   "longest_run_limit": 9,
+   "crossings_limit": 21
+  },
+  {
+   "n": 56,
+   "longest_run_limit": 9,
+   "crossings_limit": 21
+  },
+  {
+   "n": 57,
+   "longest_run_limit": 9,
+   "crossings_limit": 22
+  },
+  {
+   "n": 58,
+   "longest_run_limit": 9,
+   "crossings_limit": 22
+  },
+  {
+   "n": 59,
+   "longest_run_limit": 9,
+   "crossings_limit": 23
+  },
+  {
+   "n": 60,
+   "longest_run_limit": 9,
+   "crossings_limit": 23
+  },
+  {
+   "n": 61,
+   "longest_run_limit": 9,
+   "crossings_limit": 24
+  },
+  {
+   "n": 62,
+   "longest_run_limit": 9,
+   "crossings_limit": 24
+  },
+  {
+   "n": 63,
+   "longest_run_limit": 9,
+   "crossings_limit": 25
+  },
+  {
+   "n": 64,
+   "longest_run_limit": 9,
+   "crossings_limit": 25
+  },
+  {
+   "n": 65,
+   "longest_run_limit": 9,
+   "crossings_limit": 25
+  },
+  {
+   "n": 66,
+   "longest_run_limit": 9,
+   "crossings_limit": 26
+  },
+  {
+   "n": 67,
+   "longest_run_limit": 9,
+   "crossings_limit": 26
+  },
+  {
+   "n": 68,
+   "longest_run_limit": 9,
+   "crossings_limit": 27
+  },
+  {
+   "n": 69,
+   "longest_run_limit": 9,
+   "crossings_limit": 27
+  },
+  {
+   "n": 70,
+   "longest_run_limit": 9,
+   "crossings_limit": 28
+  },
+  {
+   "n": 71,
+   "longest_run_limit": 9,
+   "crossings_limit": 28
+  },
+  {
+   "n": 72,
+   "longest_run_limit": 9,
+   "crossings_limit": 29
+  },
+  {
+   "n": 73,
+   "longest_run_limit": 9,
+   "crossings_limit": 29
+  },
+  {
+   "n": 74,
+   "longest_run_limit": 9,
+   "crossings_limit": 29
+  },
+  {
+   "n": 75,
+   "longest_run_limit": 9,
+   "crossings_limit": 30
+  },
+  {
+   "n": 76,
+   "longest_run_limit": 9,
+   "crossings_limit": 30
+  },
+  {
+   "n": 77,
+   "longest_run_limit": 9,
+   "crossings_limit": 31
+  },
+  {
+   "n": 78,
+   "longest_run_limit": 9,
+   "crossings_limit": 31
+  },
+  {
+   "n": 79,
+   "longest_run_limit": 9,
+   "crossings_limit": 32
+  },
+  {
+   "n": 80,
+   "longest_run_limit": 9,
+   "crossings_limit": 32
+  },
+  {
+   "n": 81,
+   "longest_run_limit": 9,
+   "crossings_limit": 33
+  },
+  {
+   "n": 82,
+   "longest_run_limit": 9,
+   "crossings_limit": 33
+  },
+  {
+   "n": 83,
+   "longest_run_limit": 9,
+   "crossings_limit": 34
+  },
+  {
+   "n": 84,
+   "longest_run_limit": 9,
+   "crossings_limit": 34
+  },
+  {
+   "n": 85,
+   "longest_run_limit": 9,
+   "crossings_limit": 34
+  },
+  {
+   "n": 86,
+   "longest_run_limit": 9,
+   "crossings_limit": 35
+  },
+  {
+   "n": 87,
+   "longest_run_limit": 9,
+   "crossings_limit": 35
+  },
+  {
+   "n": 88,
+   "longest_run_limit": 9,
+   "crossings_limit": 36
+  },
+  {
+   "n": 89,
+   "longest_run_limit": 9,
+   "crossings_limit": 36
+  },
+  {
+   "n": 90,
+   "longest_run_limit": 9,
+   "crossings_limit": 37
+  },
+  {
+   "n": 91,
+   "longest_run_limit": 10,
+   "crossings_limit": 37
+  },
+  {
+   "n": 92,
+   "longest_run_limit": 10,
+   "crossings_limit": 38
+  },
+  {
+   "n": 93,
+   "longest_run_limit": 10,
+   "crossings_limit": 38
+  },
+  {
+   "n": 94,
+   "longest_run_limit": 10,
+   "crossings_limit": 39
+  },
+  {
+   "n": 95,
+   "longest_run_limit": 10,
+   "crossings_limit": 39
+  },
+  {
+   "n": 96,
+   "longest_run_limit": 10,
+   "crossings_limit": 39
+  },
+  {
+   "n": 97,
+   "longest_run_limit": 10,
+   "crossings_limit": 40
+  },
+  {
+   "n": 98,
+   "longest_run_limit": 10,
+   "crossings_limit": 40
+  },
+  {
+   "n": 99,
+   "longest_run_limit": 10,
+   "crossings_limit": 41
+  },
+  {
+   "n": 100,
+   "longest_run_limit": 10,
+   "crossings_limit": 41
+  }
+ ]
+}

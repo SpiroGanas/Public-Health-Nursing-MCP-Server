@@ -1,0 +1,85 @@
+ccn,name,address,town,zip,county,type,ownership,emergency_services
+221303,Athol Memorial Hospital,2033 Main Street,Athol,01331,Worcester,Critical Access Hospitals,Voluntary non-profit - Private,Yes
+220008,Sturdy Memorial Hospital,211 Park Street,Attleboro,02703,Bristol,Acute Care Hospitals,Voluntary non-profit - Other,Yes
+220098,Nashoba Valley Medical Center,200 Groton Road,Ayer,01432,Middlesex,Acute Care Hospitals,Proprietary,Yes
+22001F,Bedford VA Medical Center,200 Springs Road,Bedford,01730,Middlesex,Acute Care - Veterans Administration,Veterans Health Administration,No
+224007,McLean Hospital Corporation,115 Mill Street,Belmont,02478,Middlesex,Psychiatric,Voluntary non-profit - Private,No
+220033,Northeast Hospital Corporation,85 Herrick Street,Beverly,01915,Essex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224013,Arbour Hospital,49 Robinwood Avenue,Boston,02130,Suffolk,Psychiatric,Proprietary,No
+220086,Beth Israel Deaconess Medical Center,330 Brookline Avenue,Boston,02215,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+223302,Boston Children's Hospital,300 Longwood Avenue,Boston,02115,Suffolk,Childrens,Voluntary non-profit - Private,Yes
+220031,Boston Medical Center,1 Boston Medical Center Place,Boston,02118,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220110,Brigham and Women's Hospital,75 Francis Street,Boston,02115,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220017,Carney Hospital,2100 Dorchester Avenue,Boston,02124,Suffolk,Acute Care Hospitals,Proprietary,Yes
+224040,Dr Solomon Carter Fuller Mental Health Center,85 East Newton Street,Boston,02118,Suffolk,Psychiatric,Government - State,No
+220075,Massachusetts Eye and Ear Infirmary,243 Charles Street,Boston,02114,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220071,Massachusetts General Hospital,55 Fruit Street,Boston,02114,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220088,New England Baptist Hospital,125 Parker Hill Avenue,Boston,02120,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,No
+223304,The Shriners' Hospital for Children - Boston,51 Blossom Street,Boston,02114,Suffolk,Childrens,Proprietary,No
+220116,Tufts Medical Center,800 Washington Street,Boston,02111,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220036,Boston Medical Center-Brighton,"736 Cambridge Street, Nevins Building",Boston,02135,Suffolk,Acute Care Hospitals,Proprietary,Yes
+223300,Franciscan Children's Hospital & Rehab Center,30 Warren Street,Boston,02135,Suffolk,Childrens,Voluntary non-profit - Private,No
+220111,Good Samaritan Medical Center,235 North Pearl Street,Brockton,02301,Plymouth,Acute Care Hospitals,Proprietary,Yes
+220052,Signature Healthcare Brockton Hospital,680 Center Street,Brockton,02302,Plymouth,Acute Care Hospitals,Voluntary non-profit - Other,Yes
+224018,Arbour Human Resource Institute,227 Babcock Street,Brookline,02446,Norfolk,Psychiatric,Proprietary,No
+224022,Bournewood Hospital,300 South Street,Brookline,02467,Middlesex,Psychiatric,Proprietary,No
+220171,"Lahey Hospital & Medical Center, Burlington",41 & 45 Mall Road,Burlington,01803,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220011,Cambridge Health Alliance,1493 Cambridge Street,Cambridge,02139,Middlesex,Acute Care Hospitals,Government - Local,Yes
+220002,Mount Auburn Hospital,330 Mount Auburn Street,Cambridge,02138,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224041,Southcoast Behavioral Health,581 Faunce Corner Road,Dartmouth,02747,Bristol,Psychiatric,Proprietary,No
+224038,"Walden Behavioral Care, Llc",10 Carematrix Dr,Dedham,02026,Norfolk,Psychiatric,Government - Federal,No
+224043,Taravista Behavioral Health Center,85 Patton Road,Devens,01434,Worcester,Psychiatric,Proprietary,No
+224028,Dr John C Corrigan Mental Health Center,49 Hillside Street,Fall River,02720,Bristol,Psychiatric,Government - State,No
+220020,Saint Anne's Hospital,795 Middle Street,Fall River,02721,Bristol,Acute Care Hospitals,Proprietary,Yes
+220074,Southcoast Hospitals Group,363 Highland Avenue,Fall River,02720,Bristol,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220135,Falmouth Hospital,67 & 100 Ter Heun Drive,Falmouth,02540,Barnstable,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220175,Metrowest Medical Center,115 Lincoln Street,Framingham,01701,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220095,Heywood Hospital,242 Green Street,Gardner,01440,Worcester,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+221302,Fairview Hospital,29 Lewis Avenue,Great Barrington,01230,Berkshire,Critical Access Hospitals,Voluntary non-profit - Private,Yes
+220016,Baystate Franklin Medical Center,164 High Street,Greenfield,01301,Franklin,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224039,Whittier Pavilion,76 Summer Street,Haverhill,01830,Essex,Psychiatric,Proprietary,No
+220024,Holyoke Medical Center,575 Beech Street,Holyoke,01040,Hampden,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224046,Miravista Behavioral Health Center,1233 Main Street,Holyoke,01040,Hampden,Psychiatric,Proprietary,No
+224047,Valley Springs Behavioral Health Hospital,45 Lower Westfield Road,Holyoke,01040,Hampden,Psychiatric,Proprietary,No
+220012,Cape Cod Hospital,27 Park Street,Barnstable,02601,Barnstable,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220119,Brigham and Women Faulkner Hospital,1153 Centre Street,Boston,02130,Suffolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+22010F,VA Boston Healthcare System - Jamaica Plain,150 S. Huntington Avenue,Boston,02130,Suffolk,Acute Care - Veterans Administration,Veterans Health Administration,Yes
+220010,Merrimack Health Lawrence Hospital,One General Street,Lawrence,01841,Essex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+22009F,Northampton VA Medical Center,421 N Main St,Northampton,01053,Hampshire,Acute Care - Veterans Administration,Veterans Health Administration,No
+220001,UMASS Memorial Healthalliance Hospitals,60 Hospital Road,Leominster,01453,Worcester,Acute Care Hospitals,Voluntary non-profit - Other,Yes
+220063,Lowell General Hospital,295 Varnum Avenue,Lowell,01854,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220049,Marlborough Hospital,157 Union Street,Marlborough,01752,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220070,Melrosewakefield Healthcare,585 Lebanon Street,Melrose,02176,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220080,Holy Family Hospital,70 East Street,Methuen,01844,Essex,Acute Care Hospitals,Proprietary,Yes
+220090,Milford Regional Medical Center,14 Prospect Street,Milford,01757,Worcester,Acute Care Hospitals,Voluntary non-profit - Other,Yes
+220108,Beth Israel Deaconess Hospital - Milton,199 Reedsdale Road,Milton,02186,Norfolk,Acute Care Hospitals,Government - Federal,Yes
+220177,Nantucket Cottage Hospital,57 Prospect Street,Nantucket,02554,Nantucket,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220083,Beth Israel Deaconess Hospital - Needham,148 Chestnut Street,Needham,02494,Norfolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220029,Anna Jaques Hospital,25 Highland Avenue,Newburyport,01950,Essex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220101,Newton-Wellesley Hospital,2014 Washington Street,Newton,02462,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+221304,North Adams Regional Hospital Corporation,71 Hospital Avenue,North Adams,01247,Berkshire,Critical Access Hospitals,Government - Federal,Yes
+220015,"Cooley Dickinson Hospital Inc,the",30 Locust Street,Northampton,01061,Hampshire,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220126,Norwood Hospital,800 Washington Street,Norwood,02062,Norfolk,Acute Care Hospitals,Proprietary,Yes
+221300,Martha's Vineyard Hospital Inc,"One Hospital Road, First Fl, Wing 5, Po Box 1477",Oak Bluffs,02557,Dukes,Critical Access Hospitals,Voluntary non-profit - Private,Yes
+220030,Baystate Wing Hospital,40 Wright Street,Palmer,01069,Hampden,Acute Care Hospitals,Voluntary non-profit - Other,Yes
+220046,Berkshire Medical Center,725 North Street,Pittsfield,01201,Berkshire,Acute Care Hospitals,Voluntary non-profit - Other,Yes
+220060,Beth Israel Deaconess Hospital Plymouth,275 Sandwich Street,Plymouth,02360,Plymouth,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224031,Cape Cod & Islands Community Mental Health Center,830 County Road,Bourne,02559,Barnstable,Psychiatric,Government - State,No
+220035,North Shore Medical Center,81 Highland Avenue,Salem,01970,Essex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224021,Arbour-Fuller Hospital,200 May Street,Attleboro,02703,Bristol,Psychiatric,Proprietary,No
+220100,South Shore Hospital,55 Fogg Road,Weymouth,02190,Norfolk,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220019,UMASS Memorial Health - Harrington Hospital,100 South Street,Southbridge,01550,Worcester,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220077,Baystate Medical Center,759 Chestnut Street,Springfield,01199,Hampden,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220066,Mercy Medical Ctr,271 Carew Street,Springfield,01104,Hampden,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220073,Brown University Health Morton Hospital,88 Washington Street,Taunton,02780,Bristol,Acute Care Hospitals,Proprietary,Yes
+224001,Taunton State Hospital,"60 Hodges Avenue, Box 151",Taunton,02780,Bristol,Psychiatric,Government - State,No
+220084,Emerson Hospital,133 Old Road To 9 Acre Corner,Concord,01742,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224044,Westborough Behavioral Healthcare Hospital Llc,300 Friberg Parkway,Westborough,01581,Worcester,Psychiatric,Proprietary,No
+220065,Baystate Noble Hospital,115 West Silver Street,Westfield,01086,Hampden,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224023,Westwood Pembroke Health Systems,45 Clapboardtree Street,Westwood,02090,Norfolk,Psychiatric,Proprietary,Yes
+220105,Winchester Hospital,41 Highland Avenue,Winchester,01890,Middlesex,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+220062,Adcare Hospital of Worcester Inc,107 Lincoln Street,Worcester,01605,Worcester,Acute Care Hospitals,Proprietary,No
+224045,Hospital for Behavioral Medicine,100 Century Drive,Worcester,01606,Worcester,Psychiatric,Proprietary,No
+220176,St Vincent Hospital,123 Summer Street,Worcester,01608,Worcester,Acute Care Hospitals,Proprietary,Yes
+220163,UMASS Memorial Medical Center/university Campus,55 Lake Avenue North,Worcester,01655,Worcester,Acute Care Hospitals,Voluntary non-profit - Private,Yes
+224032,Worcester Recovery Center and Hospital,309 Belmont Street,Worcester,01604,Worcester,Psychiatric,Government - State,No

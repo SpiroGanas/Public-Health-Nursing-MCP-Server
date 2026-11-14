@@ -1,0 +1,504 @@
+# Community blood pressure screening kit: measurement technique checklist, blood pressure
+# categories, severe-range thresholds and referral tiers, screening log template, follow-up
+# letter templates, and a client handout, for community_bp_screening_toolkit (CHR-02).
+#
+# REVIEW STATUS: pending. Drafted from the sources below, retrieved 2026-11-12. The referral
+# tiers and every "tool default" are this project's drafts, not guideline text.
+# Schema: content/schemas/chronic_bp_screening.schema.json
+meta:
+  id: chronic-bp-screening
+  title: Community blood pressure screening kit (categories, severe range, technique, log, letters)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2025-09-16
+  source:
+    title: 2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Guideline for the Prevention, Detection, Evaluation and Management of High Blood Pressure in Adults
+    publisher: American Heart Association and American College of Cardiology (Circulation 2025;152:e114-e218)
+    url: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001356
+  related_sources:
+    - title: CDC pages on high blood pressure (about, measuring, high blood pressure during pregnancy)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/high-blood-pressure/about/index.html
+    - title: Updates in the 2025 AHA/ACC Hypertension Guideline (Curr Hypertens Rep 2026)
+      publisher: Springer Nature (open access in PubMed Central, PMC12995957)
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12995957/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The 2025 AHA/ACC guideline retires and replaces the 2017 guideline (stated in its PubMed
+    abstract, read 2026-11-12), so the 2025 text is the current ACC/AHA source. Its full text
+    could NOT be read: ahajournals.org, professional.heart.org, acc.org, heart.org, nhlbi.nih.gov,
+    and the PMC web pages were blocked. What was read: CDC's pages (public domain; updated
+    2026-10-13) for normal below 120/80, elevated 120-129/below 80, high at 130/80 or above, the
+    technique steps, and the pregnancy severe range of 160/110; and two open-access
+    peer-reviewed papers that state the 2025 guideline's four categories (PMC13732403,
+    PMC13683027) and a review whose last author chaired the writing committee that states the
+    2025 term "severe hypertension" (above 180 systolic or above 120 diastolic, without acute
+    target organ damage) and the pregnancy thresholds (PMC12995957). The stage 1 and stage 2
+    ranges and the severe range are therefore MEDIUM confidence (secondary reports of the
+    guideline, not the guideline's own table); check them against the guideline before use.
+    Corrections to the guideline were published in Circulation and Hypertension in 2026 and
+    were not reviewed. The referral tiers, the follow-up letters, the screening log columns,
+    and the handout are THIS PROJECT'S DRAFTS (tool default, pending review). The list of
+    emergency symptoms is from general patient guidance and is LOW confidence: it was not
+    verified at a source. Referral timing is left to the agency's protocol and medical director.
+
+sources:
+  aha-acc-2025:
+    title: 2025 AHA/ACC/AANP/AAPA/ABC/ACCP/ACPM/AGS/AMA/ASPC/NMA/PCNA/SGIM Guideline for the Prevention, Detection, Evaluation and Management of High Blood Pressure in Adults (Circulation 2025;152:e114-e218; doi 10.1161/CIR.0000000000001356; PubMed 40811497)
+    publisher: American Heart Association and American College of Cardiology
+    url: https://pubmed.ncbi.nlm.nih.gov/40811497/
+    effective_date: 2025-09-16
+    retrieved: 2026-11-12
+  review-2025-guideline:
+    title: Updates in the 2025 AHA/ACC Hypertension Guideline (Current Hypertension Reports, 2026; PMC12995957)
+    publisher: Springer Nature, Current Hypertension Reports (peer-reviewed review of the guideline)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12995957/
+    effective_date: 2026-03-17
+    retrieved: 2026-11-12
+  papers-2025-categories:
+    title: Two open-access papers that state the 2025 AHA/ACC blood pressure categories (PMC13732403, Front Neurosci 2026; PMC13683027, 2026)
+    publisher: Peer-reviewed journals indexed in PubMed Central
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC13732403/
+    effective_date: 2026-01-01
+    retrieved: 2026-11-12
+  cdc-hbp-about:
+    title: About High Blood Pressure (page updated October 13, 2026)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/high-blood-pressure/about/index.html
+    effective_date: 2026-10-13
+    retrieved: 2026-11-12
+  cdc-hbp-measure:
+    title: Measuring Your Blood Pressure (page updated October 13, 2026)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/high-blood-pressure/measure/index.html
+    effective_date: 2026-10-13
+    retrieved: 2026-11-12
+  cdc-hbp-pregnancy:
+    title: High Blood Pressure During Pregnancy (page updated October 13, 2026)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/high-blood-pressure/about/high-blood-pressure-during-pregnancy.html
+    effective_date: 2026-10-13
+    retrieved: 2026-11-12
+  cdc-copyright:
+    title: CDC and ATSDR copyright and agency materials policy
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/other/agencymaterials.html
+    effective_date: 2026-10-28
+    retrieved: 2026-11-12
+  project-default:
+    title: This project's draft (tool default, pending review)
+    publisher: Public Health Nursing MCP Server
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+    effective_date: null
+    retrieved: 2026-11-12
+
+guideline_note: >-
+  The categories below are the ACC/AHA categories for adults. The 2025 guideline keeps the
+  2017 categories and retires and replaces the 2017 guideline. They apply to adults (the
+  guideline is for adults); this kit does not classify children or teenagers. A category is
+  decision support for a screening, not a diagnosis: a diagnosis needs measurement
+  confirmation by a clinician (the 2025 guideline recommends home or ambulatory monitoring to
+  confirm hypertension, per its 2026 review).
+
+# One reading rule: the category of an average takes the higher category when the systolic and
+# diastolic numbers fall in different ones (the usual ACC/AHA rule; stated in the guideline and
+# reported by secondary sources; medium confidence).
+categories:
+  - id: normal
+    label: Normal
+    letter_label: normal
+    systolic: below 120
+    diastolic: below 80
+    meaning: Below 120 over 80 is normal blood pressure.
+    plain: Your blood pressure is in the normal range.
+    source: cdc-hbp-about
+    section: Overview
+    confidence: high
+  - id: elevated
+    label: Elevated
+    letter_label: a little above normal
+    systolic: 120 to 129
+    diastolic: below 80
+    meaning: Systolic 120-129 and diastolic below 80. CDC lists elevated blood pressure (120-129 over below 80) as a condition that can increase the risk of developing high blood pressure.
+    plain: Your blood pressure is a little above normal. Healthy habits can help keep it from rising.
+    source: cdc-hbp-about
+    section: Risk factors
+    confidence: high
+  - id: stage1
+    label: Stage 1 hypertension range
+    letter_label: higher than normal (stage 1 range)
+    systolic: 130 to 139
+    diastolic: 80 to 89 (either number puts the reading in this range)
+    meaning: Systolic 130-139 or diastolic 80-89. CDC says high blood pressure is consistently at or above 130/80. A screening reading cannot diagnose it.
+    plain: Your blood pressure is higher than normal. Please see your health care team to check it again.
+    source: papers-2025-categories
+    section: Blood pressure classification as stated in the text
+    confidence: medium
+  - id: stage2
+    label: Stage 2 hypertension range
+    letter_label: high (stage 2 range)
+    systolic: 140 or higher
+    diastolic: 90 or higher (either number puts the reading in this range)
+    meaning: Systolic 140 or higher, or diastolic 90 or higher.
+    plain: Your blood pressure is high. Please see your health care team soon to check it again.
+    source: papers-2025-categories
+    section: Blood pressure classification as stated in the text
+    confidence: medium
+  - id: severe
+    label: Severe range
+    letter_label: very high
+    systolic: above 180
+    diastolic: above 120 (either number puts the reading in this range)
+    meaning: The 2025 guideline replaced the term hypertensive urgency with severe hypertension, for blood pressure above 180 systolic or above 120 diastolic without acute target organ damage. This kit labels any reading above 180 or above 120 as severe range.
+    plain: Your blood pressure is very high. Please get medical care today.
+    source: review-2025-guideline
+    section: Structural and terminology updates; hospital management of severe hypertension
+    confidence: medium
+
+pregnancy:
+  note: >-
+    In pregnancy the adult categories are not used. CDC says high blood pressure during
+    pregnancy is diagnosed at 140/90 or higher on two readings at least 4 hours apart, and
+    that 160/110 or higher is severe and needs prompt medical attention. The 2025 guideline
+    review says to start treatment promptly for 160 or higher systolic or 110 or higher
+    diastolic confirmed on repeat measurement within 15 minutes.
+  high_systolic: 140
+  high_diastolic: 90
+  severe_systolic: 160
+  severe_diastolic: 110
+  source: cdc-hbp-pregnancy
+  section: Types of high blood pressure during pregnancy
+  confidence: high
+
+severe_range_wording:
+  - text: "The 2025 guideline replaced the term hypertensive urgency with severe hypertension, a blood pressure above 180/120 mm Hg without acute target organ damage."
+    source: review-2025-guideline
+    section: Structural and terminology updates
+    confidence: medium
+  - text: "For adults with a systolic pressure above 180 or a diastolic pressure above 120 without acute target organ damage, the guideline advises against the intermittent use of intravenous or oral antihypertensive medicine solely to lower the pressure quickly (a recommendation for hospitalized patients, not a screening instruction)."
+    source: review-2025-guideline
+    section: Management in hospitalized adults
+    confidence: medium
+  - text: "In pregnancy, a blood pressure of 160/110 or higher is severe and requires prompt medical attention."
+    source: cdc-hbp-pregnancy
+    section: Types of high blood pressure during pregnancy
+    confidence: high
+
+# Referral tiers: THIS PROJECT'S DEFAULTS. The guideline sources above do not give community
+# screening referral timing. The agency's standing orders or medical director decide.
+referral_tiers:
+  - id: emergency
+    applies_to: severe range (above 180 or above 120) with symptoms
+    action: Call 911 (emergency services). Do not send the person home to wait.
+    symptoms_note: "Symptoms that raise concern in a very high reading: chest pain, trouble breathing, a sudden severe headache, back pain, numbness or weakness, a change in vision, or trouble speaking. LOW confidence: general patient guidance, not verified at a source."
+    status: tool default, pending review
+    confidence: low
+    log_value: Emergency services called
+  - id: same_day
+    applies_to: severe range (above 180 or above 120) without symptoms; pregnancy at 160/110 or higher
+    action: Repeat the reading after a rest, then refer for same-day evaluation by a clinician (agency protocol). CDC says 160/110 or higher in pregnancy needs prompt medical attention.
+    status: tool default, pending review
+    confidence: low
+    log_value: Referred same day
+  - id: refer
+    applies_to: stage 2 range (140 or higher, or 90 or higher) below the severe range; pregnancy at 140/90 or higher
+    action: Advise follow-up with a primary care clinician to confirm the reading. Set the timing in your protocol. One screening visit cannot diagnose hypertension.
+    status: tool default, pending review
+    confidence: low
+    log_value: Referred routine
+  - id: advise
+    applies_to: stage 1 range (130-139 or 80-89)
+    action: Advise follow-up with a primary care clinician to check again, with home blood pressure monitoring if available. Give lifestyle information.
+    status: tool default, pending review
+    confidence: low
+    log_value: Referred routine
+  - id: inform
+    applies_to: elevated (120-129 and below 80) and normal (below 120 and below 80)
+    action: Give the result and lifestyle information. Recheck at the next routine screening or visit; set the interval in your protocol.
+    status: tool default, pending review
+    confidence: low
+    log_value: Not referred
+
+referral_status_values: [Not referred, Referred routine, Referred same day, Emergency services called, Declined referral, Already under care]
+
+technique:
+  - group: Before the reading
+    text: Ask the person not to eat or drink anything for 30 minutes before the reading.
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: Before the reading
+    text: Smoking, drinking alcohol or caffeine, or exercising within 30 minutes of the reading can raise it. Ask about these and write them in the log.
+    source: cdc-hbp-measure
+    section: Things that can affect your blood pressure reading
+    confidence: high
+    verified: true
+  - group: Before the reading
+    text: Ask the person to empty their bladder.
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: Position
+    text: Seat the person in a comfortable chair with the back supported for at least 5 minutes before the reading.
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: Position
+    text: Both feet flat on the floor and legs uncrossed. Crossing the legs can raise the reading.
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: Position
+    text: Rest the arm on a table so the cuff is at chest height. An arm drooping at the side can raise the reading.
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: Cuff
+    text: Put the cuff on the bare upper arm so that it fits snugly (not over clothing).
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: Cuff
+    text: Choose a cuff size that fits the person's upper arm (use the cuff size guide for your monitor) and note the size and the arm used in the log. This step is standard practice but is not on the CDC page and was not verified here.
+    source: project-default
+    section: Technique checklist
+    confidence: low
+    verified: false
+  - group: During the reading
+    text: The person does not talk while the blood pressure is measured.
+    source: cdc-hbp-measure
+    section: Tips for an accurate blood pressure reading
+    confidence: high
+    verified: true
+  - group: During the reading
+    text: Take at least two readings, 1 or 2 minutes apart, and record each one. CDC gives this advice for home measurement; many screening protocols average two readings.
+    source: cdc-hbp-measure
+    section: How to measure your blood pressure at home
+    confidence: medium
+    verified: true
+  - group: After the reading
+    text: Record the readings, the arm, and the cuff size in the log, and give the person their numbers on paper.
+    source: project-default
+    section: Technique checklist
+    confidence: low
+    verified: false
+  - group: After the reading
+    text: As many as 1 in 3 people with a high reading at a clinic may have normal readings outside it ("white coat" effect). A screening reading is a reason to follow up, not a diagnosis.
+    source: cdc-hbp-measure
+    section: Things that can affect your blood pressure reading
+    confidence: high
+    verified: true
+
+# Rules the tool applies to a local screening log. A category column is NOT used: the tool
+# classifies from the numbers so every row uses the same rule.
+reading_rules:
+  average_note: Two or more readings are averaged (mean) and the average is rounded to a whole number; one reading is used as is and counted as a single reading. Severe range is flagged when the average or any single reading is above 180 or above 120 (tool default).
+  plausible_systolic: [50, 300]
+  plausible_diastolic: [30, 200]
+
+log_template:
+  title: Community blood pressure screening log
+  instructions:
+    - Use one row per screening visit. Use a participant code, not a name, in the first columns. Keep names and addresses in a separate locked file, or fill the contact columns only if you will send follow-up letters.
+    - Record the readings in mm Hg. Leave the second reading blank if there was only one.
+    - Use only these words in Referral status so summaries can count them - Not referred, Referred routine, Referred same day, Emergency services called, Declined referral, Already under care.
+    - The category is worked out for you by the tool from the numbers. You do not type it.
+  columns:
+    - name: Screening date
+      description: Date of the screening (YYYY-MM-DD).
+      group: Visit
+    - name: Site
+      description: Where the screening happened (a site name, not a street address).
+      group: Visit
+    - name: Participant code
+      description: A code you assign. Do not use a name or medical record number here.
+      group: Participant
+    - name: Age
+      description: Age in years.
+      group: Participant
+    - name: Systolic 1
+      description: First reading, top number (mm Hg).
+      group: Readings
+    - name: Diastolic 1
+      description: First reading, bottom number (mm Hg).
+      group: Readings
+    - name: Systolic 2
+      description: Second reading, top number (mm Hg).
+      group: Readings
+    - name: Diastolic 2
+      description: Second reading, bottom number (mm Hg).
+      group: Readings
+    - name: Arm and cuff size
+      description: Arm used and cuff size.
+      group: Readings
+    - name: Symptoms reported
+      description: Yes or no. Chest pain, trouble breathing, sudden severe headache, or similar.
+      group: Readings
+    - name: Referral status
+      description: One of the referral status words above.
+      group: Follow-up
+    - name: Follow-up done
+      description: Yes, no, or unknown, once you know.
+      group: Follow-up
+    - name: Name
+      description: Only if you will send follow-up letters. Keep this file locked.
+      group: Contact (letters only)
+    - name: Address
+      description: Mailing address, only if you will send follow-up letters.
+      group: Contact (letters only)
+    - name: Town
+      description: Town for the mailing address.
+      group: Contact (letters only)
+
+letters:
+  placeholders: [date, participant_name, address, town, screening_date, site, systolic, diastolic, category_label, category_plain, program_phone]
+  routine:
+    kind: bp_followup_routine
+    description: Result letter for normal and elevated readings (healthy habits, recheck at the next screening).
+    markdown: |
+      # Your Blood Pressure Screening Result
+
+      Date: {{date}}
+
+      {{participant_name}}
+
+      {{address}}
+
+      {{town}}
+
+      Dear {{participant_name}},
+
+      Thank you for having your blood pressure checked on {{screening_date}} at {{site}}.
+
+      Your blood pressure was {{systolic}} over {{diastolic}}. That is {{category_label}}.
+
+      {{category_plain}}
+
+      One reading does not tell you if you have high blood pressure. The only way to know is to check it. Please keep checking your blood pressure on a regular basis.
+
+      Healthy habits can help keep your blood pressure in a healthy range:
+
+      - Be active. Aim for about 30 minutes a day, 5 days a week.
+      - Do not smoke.
+      - Eat healthy foods and limit salt and alcohol.
+      - Keep a healthy weight.
+      - Find ways to manage stress.
+
+      If you have questions, call us at {{program_phone}}.
+  refer:
+    kind: bp_followup_refer
+    description: Follow-up letter for stage 1 and stage 2 range readings (see a clinician to check the reading again).
+    markdown: |
+      # Please Follow Up On Your Blood Pressure Screening
+
+      Date: {{date}}
+
+      {{participant_name}}
+
+      {{address}}
+
+      {{town}}
+
+      Dear {{participant_name}},
+
+      Thank you for having your blood pressure checked on {{screening_date}} at {{site}}.
+
+      Your blood pressure was {{systolic}} over {{diastolic}}. That is {{category_label}}.
+
+      {{category_plain}}
+
+      One reading cannot tell you if you have high blood pressure. Only your health care team can check it again and tell you for sure.
+
+      Please make an appointment with your doctor or nurse. Bring this letter with you. Talk with your health care team right away if you think you have high blood pressure.
+
+      If you do not have a doctor or nurse, call us at {{program_phone}} and we will help you find one.
+  urgent:
+    kind: bp_followup_urgent
+    description: Letter for a severe-range reading (get medical care today). Tool default wording, pending review.
+    markdown: |
+      # Your Blood Pressure Was Very High
+
+      Date: {{date}}
+
+      {{participant_name}}
+
+      {{address}}
+
+      {{town}}
+
+      Dear {{participant_name}},
+
+      Your blood pressure was {{systolic}} over {{diastolic}} on {{screening_date}} at {{site}}. This is very high.
+
+      Please see a doctor or nurse today, even if you feel fine.
+
+      Call 911 if you have chest pain, trouble breathing, a sudden bad headache, weakness or numbness, a change in your vision, or trouble speaking.
+
+      If you have questions, call us at {{program_phone}}.
+
+handout:
+  id: bp_handout
+  title: Understanding your blood pressure numbers
+  sources: [cdc-hbp-about, cdc-hbp-measure]
+  markdown: |
+    # Understanding Your Blood Pressure Numbers
+
+    Your screening on: {{screening_date}}
+
+    Your blood pressure: ______ over ______
+
+    Blood pressure is the force of blood pushing on the walls of your arteries. It is written as two numbers, such as 120 over 80.
+
+    ## What the numbers mean
+
+    - Normal is below 120 over 80.
+    - Elevated is 120 to 129 over below 80.
+    - High blood pressure is 130 over 80 or higher.
+    - A reading above 180 or above 120 is very high. Get medical care today.
+
+    ## One reading is not a diagnosis
+
+    High blood pressure often has no signs or symptoms. Checking your blood pressure is the only way to know. Only your health care team can tell you if you have high blood pressure.
+
+    ## Get a good reading
+
+    - Do not eat or drink for 30 minutes before.
+    - Sit with your back supported for 5 minutes.
+    - Keep your feet flat and your legs uncrossed.
+    - Rest your arm on a table at chest height.
+    - Do not talk while it is checked.
+
+    ## Healthy habits that help
+
+    - Be active about 30 minutes a day, 5 days a week.
+    - Do not smoke.
+    - Eat healthy foods and limit salt and alcohol.
+    - Keep a healthy weight.
+    - Find ways to manage stress.
+
+    ## What to do next
+
+    Talk with your doctor or nurse about your numbers. Write down your readings and bring them to your visits.
+
+    For help, call: {{program_phone}}
+
+notices:
+  decision_support: >-
+    This kit is decision support for community screening, not medical advice or a diagnosis.
+    Referral tiers and timing are this project's defaults and are pending review: follow your
+    agency's standing orders and medical director, and use clinical judgment.
+  copyright: >-
+    CDC material is generally in the public domain; the CDC and ATSDR policy page asks for
+    attribution, a no-endorsement disclaimer, and no change to substantive content. The
+    wording here is this project's plain-language draft built from the facts on CDC's pages,
+    not a copy of CDC text. This is not an endorsement by CDC, HHS, the AHA, or the ACC.

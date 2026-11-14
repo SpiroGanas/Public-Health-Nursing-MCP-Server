@@ -1,0 +1,346 @@
+# GRADE certainty-of-evidence domains and GRADE-CERQual components for appraise_evidence (EBP-03).
+# The tool never rates evidence itself: it lists the questions GRADE asks, takes the nurse's
+# judgment for each domain, and adds up the nurse's rating changes from the starting level.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12 from PubMed abstracts (retrieved through the NCBI
+# E-utilities) of the GRADE guidelines series (J Clin Epidemiol 2011-2013) and the Core GRADE
+# series (BMJ 2025), the full text of GRADE guidance 24 (2022), and the full text of the
+# GRADE-CERQual series (Implementation Science 2018).
+# Schema: content/schemas/ebp_grade_certainty.schema.json
+meta:
+  id: ebp-grade-certainty
+  title: GRADE certainty of evidence and GRADE-CERQual confidence in qualitative findings
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: "GRADE guidelines: 3. Rating the quality of evidence (J Clin Epidemiol 2011)"
+    publisher: Journal of Clinical Epidemiology
+    url: https://pubmed.ncbi.nlm.nih.gov/21208779/
+  related_sources:
+    - title: Core GRADE 1 to 7 (BMJ 2025)
+      publisher: BMJ
+      url: https://pubmed.ncbi.nlm.nih.gov/40262844/
+    - title: Applying GRADE-CERQual to qualitative evidence synthesis findings, introduction and paper 2 (Implementation Science 2018)
+      publisher: Implementation Science
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5791040/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The GRADE Handbook and the BMJ Core GRADE full texts were not reachable from the build
+    environment (the GRADE and BMJ sites were blocked; the JCE series and Core GRADE are not in
+    PubMed Central), so the domain descriptions come from PubMed ABSTRACTS only, which state the
+    main points but not every detail. Items marked confidence low are not stated in the text that
+    was read: the number of levels to rate down for a serious or very serious concern in the
+    domains other than indirectness, and the levels to rate up for a dose-response gradient or
+    opposing plausible confounding. The wording of the four certainty levels beyond "our
+    confidence that the estimate of effect is correct" was not verified. The CERQual definitions
+    are from the full text (high confidence). Check the current GRADE Handbook before relying
+    on a rating, and remember GRADE ratings are judgments, not sums.
+
+sources:
+  grade_1:
+    title: "GRADE guidelines: 1. Introduction - GRADE evidence profiles and summary of findings tables"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2010.04.026
+    url: https://pubmed.ncbi.nlm.nih.gov/21195583/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_3:
+    title: "GRADE guidelines: 3. Rating the quality of evidence"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2010.07.015
+    url: https://pubmed.ncbi.nlm.nih.gov/21208779/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_4:
+    title: "GRADE guidelines: 4. Rating the quality of evidence - study limitations (risk of bias)"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2010.07.017
+    url: https://pubmed.ncbi.nlm.nih.gov/21247734/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_5:
+    title: "GRADE guidelines: 5. Rating the quality of evidence - publication bias"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2011.01.011
+    url: https://pubmed.ncbi.nlm.nih.gov/21802904/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_6:
+    title: "GRADE guidelines 6. Rating the quality of evidence - imprecision"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2011.01.012
+    url: https://pubmed.ncbi.nlm.nih.gov/21839614/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_7:
+    title: "GRADE guidelines: 7. Rating the quality of evidence - inconsistency"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2011.03.017
+    url: https://pubmed.ncbi.nlm.nih.gov/21803546/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_8:
+    title: "GRADE guidelines: 8. Rating the quality of evidence - indirectness"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2011.04.014
+    url: https://pubmed.ncbi.nlm.nih.gov/21802903/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_9:
+    title: "GRADE guidelines: 9. Rating up the quality of evidence"
+    publisher: Journal of Clinical Epidemiology (2011), doi 10.1016/j.jclinepi.2011.06.004
+    url: https://pubmed.ncbi.nlm.nih.gov/21802902/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_11:
+    title: "GRADE guidelines: 11. Making an overall rating of confidence in effect estimates for a single outcome and for all outcomes"
+    publisher: Journal of Clinical Epidemiology (2013), doi 10.1016/j.jclinepi.2012.01.006
+    url: https://pubmed.ncbi.nlm.nih.gov/22542023/
+    read: abstract
+    retrieved: 2026-11-12
+  core_2:
+    title: "Core GRADE 2: choosing the target of certainty rating and assessing imprecision"
+    publisher: BMJ (2025), doi 10.1136/bmj-2024-081904
+    url: https://pubmed.ncbi.nlm.nih.gov/40300802/
+    read: abstract
+    retrieved: 2026-11-12
+  core_3:
+    title: "Core GRADE 3: rating certainty of evidence - assessing inconsistency"
+    publisher: BMJ (2025), doi 10.1136/bmj-2024-081905
+    url: https://pubmed.ncbi.nlm.nih.gov/40328467/
+    read: abstract
+    retrieved: 2026-11-12
+  core_4:
+    title: "Core GRADE 4: rating certainty of evidence - risk of bias, publication bias, and reasons for rating up certainty"
+    publisher: BMJ (2025), doi 10.1136/bmj-2024-083864
+    url: https://pubmed.ncbi.nlm.nih.gov/40360206/
+    read: abstract
+    retrieved: 2026-11-12
+  core_5:
+    title: "Core GRADE 5: rating certainty of evidence - assessing indirectness"
+    publisher: BMJ (2025), doi 10.1136/bmj-2024-083865
+    url: https://pubmed.ncbi.nlm.nih.gov/40393729/
+    read: abstract
+    retrieved: 2026-11-12
+  grade_24:
+    title: GRADE guidance 24, optimizing the integration of randomized and non-randomized studies of interventions in evidence syntheses
+    publisher: Journal of Clinical Epidemiology (2022), doi 10.1016/j.jclinepi.2021.11.026
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8982640/
+    read: full text
+    retrieved: 2026-11-12
+  cerqual_1:
+    title: "Applying GRADE-CERQual to qualitative evidence synthesis findings: introduction to the series"
+    publisher: Implementation Science (2018), doi 10.1186/s13012-017-0688-3
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5791040/
+    read: full text
+    retrieved: 2026-11-12
+  cerqual_2:
+    title: "Applying GRADE-CERQual to qualitative evidence synthesis findings, paper 2: how to make an overall CERQual assessment of confidence and create a Summary of Qualitative Findings table"
+    publisher: Implementation Science (2018), doi 10.1186/s13012-017-0689-2
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5791047/
+    read: full text
+    retrieved: 2026-11-12
+
+# GRADE applies to a body of evidence for one outcome, not to a single study.
+scope_note: >-
+  GRADE rates the certainty of a BODY of evidence for each important outcome, not an individual
+  study (GRADE guidelines 3). One study you have just appraised does not have a GRADE rating by
+  itself; use this section when you are summarising several studies for one outcome.
+  Certainty reflects confidence that the estimate of effect is correct. GRADE separates rating
+  the evidence from making a recommendation, which depends on more than certainty.
+
+levels:
+  - {id: high, rank: 4, label: High}
+  - {id: moderate, rank: 3, label: Moderate}
+  - {id: low, rank: 2, label: Low}
+  - {id: very_low, rank: 1, label: Very low}
+
+# The starting level depends on the study designs in the body of evidence.
+starting_levels:
+  - evidence_type: randomized_trials
+    label: Randomized trials
+    start: high
+    source: grade_3
+    section: abstract ("Randomized trials begin as high-quality evidence, observational studies as low quality")
+    confidence: high
+  - evidence_type: observational
+    label: Non-randomized and observational studies
+    start: low
+    source: core_4
+    section: abstract ("RCTs begin as high certainty evidence and NRSI as low certainty")
+    confidence: high
+
+# Reasons to rate down (change 0, -1, or -2) and to rate up (change 0 to the stated maximum).
+domains:
+  - id: risk_of_bias
+    direction: down
+    max_change: 2
+    label: Risk of bias (study limitations)
+    ask: "Do most of the studies that contribute to this outcome have a high risk of bias?"
+    consider:
+      - text: "Rate down when most of the relevant evidence comes from studies at high risk of bias."
+        source: grade_4
+        section: abstract
+      - text: "Judge risk of bias for each outcome, because it can differ between outcomes (for example loss to follow-up matters less for death than for quality of life)."
+        source: grade_4
+        section: abstract
+      - text: "Do not average across studies. When some studies are at high and some at low risk of bias, consider using only the lower-risk studies for the outcome."
+        source: grade_4
+        section: abstract
+      - text: "Core GRADE: classify each study as low or high risk of bias, then decide using the weights of high- and low-risk studies and whether their results differ."
+        source: core_4
+        section: abstract
+    confidence: high
+  - id: inconsistency
+    direction: down
+    max_change: 2
+    label: Inconsistency
+    ask: "Are the results across studies unexplainedly different?"
+    consider:
+      - text: "Look at how similar the point estimates are, how much the confidence intervals overlap, and statistical measures such as tests of heterogeneity and I squared."
+        source: grade_7
+        section: abstract
+      - text: "Large, unexplained inconsistency is a reason to rate down, particularly when some studies show substantial benefit and others no effect or harm."
+        source: grade_7
+        section: abstract
+      - text: "Explore differences with a small number of hypotheses set in advance about patients, interventions, outcomes, and methods; apparent subgroup effects may be spurious."
+        source: grade_7
+        section: abstract
+      - text: "Core GRADE: for yes-or-no outcomes judge consistency of relative effects; for continuous outcomes judge the absolute effects; see where individual study estimates fall relative to the threshold (the minimal important difference or the null)."
+        source: core_3
+        section: abstract
+    confidence: high
+  - id: indirectness
+    direction: down
+    max_change: 2
+    label: Indirectness
+    ask: "Does the evidence differ from your question in the population, the intervention, the outcomes, or the comparison?"
+    consider:
+      - text: "Evidence is direct when it compares the interventions you care about, in the populations you care about, and measures outcomes that matter to patients."
+        source: grade_8
+        section: abstract
+      - text: "Evidence can be indirect in four ways: different patients (applicability), a different intervention, surrogate outcomes, or no head-to-head comparison of the options."
+        source: grade_8
+        section: abstract
+      - text: "For comparisons not tested head to head, the abstract says to rate down one or two levels depending on how much the populations, co-interventions, outcome measures, and methods differ."
+        source: grade_8
+        section: abstract
+      - text: "Core GRADE: state your target population, intervention, comparison, and outcome; for each substantial difference between the target and the studies, judge how likely it is that the size of the effect differs."
+        source: core_5
+        section: abstract
+    confidence: high
+  - id: imprecision
+    direction: down
+    max_change: 2
+    label: Imprecision
+    ask: "Is the confidence interval wide enough that your decision would differ at its two ends, or is the total sample or number of events small?"
+    consider:
+      - text: "Examine the 95% confidence interval. Rate down when clinical action would differ if the upper or lower end of the interval were the truth."
+        source: grade_6
+        section: abstract
+      - text: "When the effect is large but the sample is small, consider the optimal information size (the number needed for an adequately powered single trial)."
+        source: grade_6
+        section: abstract
+      - text: "For a review, a rough guide is that an interval that includes an appreciable benefit or harm (a relative risk below 0.75 or above 1.25) may justify rating down even if the optimal information size is met."
+        source: grade_6
+        section: abstract
+      - text: "Core GRADE: set the target using the minimal important difference (or the null) and rate down for imprecision if the 95% confidence interval crosses that threshold for benefit or harm."
+        source: core_2
+        section: abstract
+    confidence: high
+  - id: publication_bias
+    direction: down
+    max_change: 2
+    label: Publication bias
+    ask: "Is it likely that studies with unfavorable or null results were not published or not found?"
+    consider:
+      - text: "Suspect publication bias when the evidence is a number of small studies, most of them commercially funded."
+        source: grade_5
+        section: abstract
+      - text: "Funnel plots and similar methods help but all have substantial limitations; early results from small studies call for caution."
+        source: grade_5
+        section: abstract
+    confidence: high
+  - id: large_effect
+    direction: up
+    max_change: 2
+    label: Large effect
+    ask: "Do methodologically rigorous observational studies show a large or very large effect?"
+    consider:
+      - text: "GRADE suggests rating up one level for at least a two-fold reduction or increase in risk, and two levels for at least a five-fold change, when the observational studies are methodologically rigorous."
+        source: grade_9
+        section: abstract
+      - text: "Core GRADE: well-conducted non-randomized studies whose pooled risk ratios suggest large or very large effects can be rated up."
+        source: core_4
+        section: abstract
+    confidence: high
+  - id: dose_response
+    direction: up
+    max_change: 1
+    label: Dose-response gradient
+    ask: "Is there a dose-response gradient (more exposure, bigger effect)?"
+    consider:
+      - text: "A dose-response gradient is a reason to consider rating up. The abstract read does not state how many levels; one level is used here (confidence low)."
+        source: grade_9
+        section: abstract
+    confidence: low
+  - id: plausible_confounding
+    direction: up
+    max_change: 1
+    label: Plausible confounding would reduce the effect
+    ask: "Would all plausible confounders or biases make the apparent effect smaller (or create a spurious effect when the result shows no effect)?"
+    consider:
+      - text: "When every plausible confounder or bias would decrease the apparent effect, or would create a spurious effect where results show none, consider rating up. The abstract read does not state how many levels; one level is used here (confidence low)."
+        source: grade_9
+        section: abstract
+    confidence: low
+
+overall_notes:
+  - text: "The tool adds your rating changes to the starting level and stops at 'very low' and 'high'. GRADE's authors say the scale is ordinal but confidence is a continuum, so the final rating may differ from the sum of separate domain ratings; record your final rating and why if it differs."
+    source: grade_11
+    section: abstract
+  - text: "An overall rating across outcomes (used when making recommendations) is generally based on the critical outcome with the lowest confidence."
+    source: grade_11
+    section: abstract
+  - text: "When randomized trials give high certainty evidence for the critical outcomes, GRADE guidance 24 suggests not searching for or using non-randomized studies; with low or very low certainty trial evidence, non-randomized studies may help raise overall certainty."
+    source: grade_24
+    section: "Highlights and 'When to include non-randomized studies'"
+
+# GRADE-CERQual: confidence in a finding from a synthesis of qualitative studies.
+cerqual:
+  start: high
+  start_note: "Every review finding starts at high confidence and is rated down one or more levels when there are concerns about any of the four components (paper 2)."
+  source: cerqual_2
+  components:
+    - id: methodological_limitations
+      label: Methodological limitations
+      definition: "The extent to which there are concerns about the design or conduct of the primary studies that contributed evidence to the finding."
+    - id: coherence
+      label: Coherence
+      definition: "How clear and cogent (well supported or compelling) the fit is between the data from the primary studies and the review finding that synthesises it."
+    - id: adequacy
+      label: Adequacy of data
+      definition: "An overall determination of how rich and how plentiful the data supporting the finding are."
+    - id: relevance
+      label: Relevance
+      definition: "The extent to which the body of evidence supporting the finding applies to the context (perspective or population, phenomenon of interest, setting) in the review question."
+  definitions_source: cerqual_1
+  definitions_section: "Table 2"
+  concern_levels:
+    - {id: none, label: "No or very minor concerns (unlikely to reduce confidence)"}
+    - {id: minor, label: "Minor concerns (may reduce confidence)"}
+    - {id: moderate, label: "Moderate concerns (will probably reduce confidence)"}
+    - {id: serious, label: "Serious concerns (very likely to reduce confidence)"}
+  concern_source: cerqual_2
+  confidence_levels:
+    - {id: high, label: High confidence, definition: "It is highly likely that the review finding is a reasonable representation of the phenomenon of interest."}
+    - {id: moderate, label: Moderate confidence, definition: "It is likely that the review finding is a reasonable representation of the phenomenon of interest."}
+    - {id: low, label: Low confidence, definition: "It is possible that the review finding is a reasonable representation of the phenomenon of interest."}
+    - {id: very_low, label: Very low confidence, definition: "It is not clear whether the review finding is a reasonable representation of the phenomenon of interest."}
+  confidence_source: cerqual_1
+  confidence_section: "Table 3"
+  notes:
+    - text: "Assess each review finding separately, not the synthesis as a whole. The overall confidence is based on the judgments made for each of the four components; the text read gives no arithmetic rule for combining them, so the level is the reviewers' judgment."
+      source: cerqual_2
+      section: "Making an overall CERQual assessment"
+    - text: "Very minor concerns need not be listed. Findings with very low confidence still belong in a Summary of Qualitative Findings table."
+      source: cerqual_2
+      section: "Making an overall CERQual assessment"

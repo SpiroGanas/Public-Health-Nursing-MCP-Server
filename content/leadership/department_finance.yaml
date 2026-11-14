@@ -1,0 +1,345 @@
+# Reference content for analyze_health_department_budget (LEAD-01): the fiscal year, what the
+# state's Public Health Excellence (PHE) grants are (as DPH describes them), the words the tool
+# uses to sort a budget file's rows into revenue groups and to recognize salary lines, column
+# name aliases, and the published per-capita budget figures from DPH's capacity assessment.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12.
+# Schema: content/schemas/leadership_department_finance.schema.json
+# Nothing here is a regulation about how a board of health must keep its books. The revenue
+# group words, the personnel words, the pace tolerance, and the small-group rule are this
+# project's defaults (basis: tool_default), not published standards.
+meta:
+  id: leadership-department-finance
+  title: Health department budget analysis (fiscal year, PHE grants, revenue groups, benchmarks)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Public Health Excellence Grant Program
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/info-details/public-health-shared-services
+  related_sources:
+    - title: Municipal Finance Glossary
+      publisher: Massachusetts Department of Revenue, Division of Local Services
+      url: https://www.mass.gov/info-details/municipal-finance-glossary
+    - title: 2022-2023 Capacity Assessment Summary Report
+      publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+      url: https://www.mass.gov/doc/2022-2023-capacity-assessment-summary-report-0/download
+    - title: SAPHE 2.0 Guidance Document
+      publisher: Massachusetts Association of Health Boards
+      url: https://www.mass.gov/doc/saphe-20-guidance-document/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Read on 2026-11-12: DPH's Public Health Excellence page, DPH's archived SAPHE program page,
+    DLS's Municipal Finance Glossary, G.L. c. 44, section 56, DPH's 2022-2023 Capacity Assessment
+    Summary Report, and the Massachusetts Association of Health Boards guidance on SAPHE 2.0.
+    NOT read: the PHE request for responses and award terms (which costs PHE may pay, how awards
+    are paid, reporting requirements), the Massachusetts Municipal Association notice (the host
+    was blocked), and the research behind the $36.98 per capita figure, which DPH's report cites
+    without naming it (medium confidence). DPH's PHE page gives different counts of grantees and
+    arrangements in different places (54, 56, and 57), so no count is bundled. The revenue group
+    words, salary words, and thresholds are this project's defaults and need the nurse's review
+    against the agency's own chart of accounts.
+
+sources:
+  dls_glossary:
+    title: Municipal Finance Glossary
+    publisher: Massachusetts Department of Revenue, Division of Local Services
+    url: https://www.mass.gov/info-details/municipal-finance-glossary
+    effective_date: null
+    retrieved: 2026-11-12
+  mgl_44_56:
+    title: General Laws, Part I, Title VII, Chapter 44, Section 56 (Towns; fiscal year)
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter44/Section56
+    effective_date: null
+    retrieved: 2026-11-12
+  phe_page:
+    title: Public Health Excellence Grant Program
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/info-details/public-health-shared-services
+    effective_date: null
+    retrieved: 2026-11-12
+  saphe_archived:
+    title: State Action for Public Health Excellence (SAPHE) Program (Archived)
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/info-details/state-action-for-public-health-excellence-saphe-program-archived
+    effective_date: null
+    retrieved: 2026-11-12
+  capacity_assessment:
+    title: 2022-2023 Capacity Assessment Summary Report
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/doc/2022-2023-capacity-assessment-summary-report-0/download
+    effective_date: null
+    retrieved: 2026-11-12
+  saphe2_guidance:
+    title: SAPHE 2.0 Guidance Document
+    publisher: Massachusetts Association of Health Boards
+    url: https://www.mass.gov/doc/saphe-20-guidance-document/download
+    effective_date: null
+    retrieved: 2026-11-12
+
+fiscal_year:
+  default_start_month: 7
+  default_start_day: 1
+  statements:
+    - text: >-
+        Massachusetts towns' fiscal year begins July 1 and ends the following June 30. DLS says the
+        Commonwealth and municipalities share this fiscal year and name it for the calendar year in
+        which it ends (FY2027 runs July 1, 2026 to June 30, 2027).
+      source: dls_glossary
+      section: Fiscal Year (FY)
+      confidence: high
+    - text: Chapter 44, section 56 sets the town fiscal year as July 1 through the following June 30.
+      source: mgl_44_56
+      section: Section 56
+      confidence: high
+    - text: >-
+        The tool starts the fiscal year on July 1 by default. A grant or a regional shared services
+        arrangement can run on another year (the federal government's begins October 1), so the start
+        month can be changed for a file whose year is not the municipal one.
+      source: dls_glossary
+      section: Fiscal Year (FY)
+      confidence: medium
+
+definitions:
+  - text: >-
+      An encumbrance reserves money for a purchase order, contract, or salary commitment that is
+      charged to an appropriation account but not yet paid. The tool therefore reports money
+      'available' as budget minus spending to date minus encumbrances.
+    source: dls_glossary
+    section: Encumbrance
+    confidence: high
+  - text: >-
+      An appropriation is an authorization from town meeting, a city council, or another legislative
+      body to spend money and take on obligations for a public purpose, usually limited in amount
+      and in the time in which it can be spent.
+    source: dls_glossary
+    section: Appropriation
+    confidence: high
+  - text: >-
+      A revolving fund lets a community use revenue that comes directly from providing a specific
+      service, such as user fees, to support that service without a new appropriation.
+    source: dls_glossary
+    section: Revolving Fund
+    confidence: high
+
+phe_program:
+  statements:
+    - text: >-
+        The Public Health Excellence (PHE) Grant Program is run by DPH's Office of Local and Regional
+        Health. For FY2027 DPH says up to $26.6 million in state and federal funding will be
+        awarded through that office, to support the local public health workforce, shared services,
+        and community-driven capacity-building.
+      source: phe_page
+      section: Public Health Excellence Grant Program
+      confidence: high
+    - text: >-
+        For FY2026 DPH lists what PHE grants fund, by position: 77 environmental inspectors, 46
+        public health nurses, 21 epidemiologists, 19 community health workers, health educators and
+        behavioral health staff, 7 agency leadership staff, 22 operations staff, 51 program
+        coordinators, and 16 other specialized roles. PHE funding therefore pays for positions as
+        well as shared services.
+      source: phe_page
+      section: Strengthening the public health workforce
+      confidence: high
+    - text: >-
+        Municipalities take part through Shared Service Arrangements, which pool staff and
+        services, and DPH also funds three standalone municipalities (Boston, Springfield, and
+        Worcester).
+      source: phe_page
+      section: Expanding shared services
+      confidence: high
+    - text: >-
+        The program began in January 2020 as the Massachusetts Municipal Public Health Shared
+        Services grant program and was renamed the State Action for Public Health Excellence
+        (SAPHE) Grant Program in April 2020. A ledger may therefore label the same state money
+        'SAPHE', 'shared services', or 'PHE'.
+      source: saphe_archived
+      section: Funding
+      confidence: high
+    - text: >-
+        The SAPHE 2.0 law (Chapter 238 of the Acts of 2024) requires DPH and DEP to fund boards of
+        health to meet the Performance Standards and to offer grants, subject to appropriation, and
+        asks boards of health to supply specific health department cost data so DPH can make
+        informed funding requests.
+      source: saphe2_guidance
+      section: DPH and DEP requirements; Conclusion
+      confidence: high
+    - text: >-
+        In DPH's 2022-2023 capacity assessment, the 50 shared services arrangements reported 93.92
+        FTE of shared staff paid by PHE grants in fall 2022, and the program requires each
+        arrangement to hire a Shared Services Coordinator.
+      source: capacity_assessment
+      section: Shared Staffing
+      confidence: high
+  label_words:
+    - public health excellence
+    - phe
+    - saphe
+    - shared services
+  note: >-
+    The tool treats a fund or source label that contains one of these words as PHE money. That is a
+    label match, not a check against DPH's award records. What PHE may pay for, how awards are paid
+    to the municipality or the arrangement's lead, and the reporting terms of an award come from
+    the request for responses and the award contract, which were not read.
+
+revenue_groups:
+  - id: phe
+    label: State Public Health Excellence (PHE) grants
+    words: [public health excellence, phe, saphe, shared services]
+    note: Matched by label (see phe_program).
+  - id: federal
+    label: Federal funds and federal pass-through grants
+    words: [federal, cdc, hrsa, samhsa, fema, hhs, usda, phep]
+    note: Tool default word list.
+  - id: state_other
+    label: Other state funds
+    words: [state, dph, commonwealth, mdph]
+    note: Tool default word list. A label that names the state and PHE is counted as PHE.
+  - id: fees
+    label: Fees, permits, licenses, and revolving funds
+    words: [fee, fees, permit, permits, license, licenses, licence, inspection, inspections, charges for services, user charges, revolving]
+    note: >-
+      Includes revolving funds because DLS describes them as user-fee revenue spent on the
+      service that earned it.
+  - id: municipal
+    label: Municipal appropriation (general fund)
+    words: [general fund, appropriation, tax levy, municipal, town, city, operating budget]
+    note: Tool default word list.
+  - id: other_grants
+    label: Other grants and gifts (foundation, donations)
+    words: [grant, grants, foundation, donation, donations, gift, gifts]
+    note: Grants that name neither the state nor the federal government.
+  - id: other
+    label: Other or not classified
+    words: []
+    note: Labels that matched no group. Name them in revenue_group_overrides to place them.
+
+personnel_words:
+  - salary
+  - salaries
+  - wage
+  - wages
+  - payroll
+  - personnel
+  - personal services
+  - stipend
+  - stipends
+  - compensation
+  - overtime
+  - longevity
+  - per diem
+  - fringe
+  - employee benefits
+
+revenue_type_words: [revenue, revenues, receipt, receipts, income, rev, r, collected]
+expense_type_words: [expense, expenses, expenditure, expenditures, exp, e, disbursement, disbursements, spending]
+
+blocked_header_words:
+  - name
+  - employee
+  - employee id
+  - vendor
+  - payee
+  - supplier
+  - staff
+  - person
+  - contact
+  - ssn
+  - social security
+  - email
+  - phone
+  - address
+  - invoice
+  - check number
+  - check no
+
+column_aliases:
+  - field: category
+    aliases: [category, account category, expense category, expenditure category, object class, object, budget category, line category, class]
+  - field: type
+    aliases: [type, line type, revenue or expense, revenue/expense, rev/exp, record type, kind]
+  - field: source
+    aliases: [fund, fund/source, source, funding source, revenue source, fund name]
+  - field: budget
+    aliases: [budgeted, budget, annual budget, adopted budget, original budget, revised budget, amended budget, appropriation]
+  - field: actual
+    aliases: [actual, actuals, ytd, ytd actual, ytd actuals, year to date, expended, expenditures, spent, actual ytd, ytd expended, collected, received]
+  - field: encumbrance
+    aliases: [encumbrance, encumbrances, encumbered, enc, open commitments, committed]
+  - field: account
+    aliases: [account, account number, account code, acct, acct no, gl account, line item, line]
+  - field: period
+    aliases: [period, month, posting date, fiscal month, accounting period]
+  - field: positions
+    aliases: [positions, position count, headcount, fte, ftes, number of positions]
+
+defaults:
+  - id: pace_tolerance_points
+    label: Spending or revenue this many percentage points ahead of or behind the share of the year elapsed is flagged
+    value: 10
+    unit: percentage points
+    basis: tool_default
+    source: null
+    note: This project's convention. Change it with pace_tolerance_points, or use your finance director's rule.
+  - id: min_personnel_group
+    label: Fewest positions in the personnel group before its amounts are shown
+    value: 3
+    unit: positions
+    basis: tool_default
+    source: null
+    note: >-
+      A privacy rule of this tool: a salary line for one or two people is close to personal data,
+      so personnel amounts are combined into one row and hidden below this number of positions.
+  - id: run_rate_months
+    label: Months of recent spending averaged for the run-rate forecast
+    value: 3
+    unit: months
+    basis: tool_default
+    source: null
+    note: Needs a month column. Change it with run_rate_months.
+
+per_capita_benchmarks:
+  - id: basic_capacity_budget
+    label: Municipal local health department budget estimated to establish basic public health capacities
+    value: 36.98
+    unit: dollars per person
+    source: capacity_assessment
+    section: Funding (Figure 7 text)
+    confidence: medium
+    note: >-
+      DPH's report says 'according to current research' that municipal budgets should be at least
+      $36.98 per capita (adjusted for inflation) to establish even basic capacities within a shared
+      services arrangement. The research is not named in the report, so the figure's origin and
+      inflation year are not known. The report found only two of 50 arrangements above it.
+  - id: ssa_average_municipal
+    label: Average municipal health budget per capita across the 50 shared services arrangements (2022-2023)
+    value: 17.56
+    unit: dollars per person
+    source: capacity_assessment
+    section: Funding (Figure 7 text)
+    confidence: high
+    note: Half of the arrangements fell between $11.88 and $20.45 per capita.
+  - id: ssa_average_combined
+    label: Average combined municipal and grant funding per capita across the arrangements (2022-2023)
+    value: 26.61
+    unit: dollars per person
+    source: capacity_assessment
+    section: Funding
+    confidence: high
+    note: The reported range was $1.57 to $137.41 per capita. These are self-reported budgets of arrangements, not of single towns.
+
+not_verified:
+  - item: What PHE grant funds may pay for, and how awards are paid and reported
+    detail: The request for responses and award contract were not read, so the tool does not say which costs are allowable.
+  - item: The Massachusetts Municipal Association notice of the reopened PHE program
+    detail: The host was blocked on 2026-11-12.
+  - item: The research behind the $36.98 per capita figure
+    detail: DPH's report does not name it.
+  - item: A published fiscal year start for regional shared services arrangements
+    detail: None found; the nurse should confirm the grant year of each award.

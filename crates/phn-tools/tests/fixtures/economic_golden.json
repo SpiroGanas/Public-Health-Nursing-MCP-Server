@@ -1,0 +1,423 @@
+{
+ "generated_by": "economic_golden.py",
+ "cases": [
+  {
+   "costs": [
+    100000,
+    100000,
+    100000
+   ],
+   "outcomes": [
+    40,
+    40,
+    40
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": 3500,
+   "participants": 600,
+   "comp_costs": null,
+   "comp_outcomes": null,
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "level_three_years_with_benefits",
+   "expected": {
+    "pv_cost": "291346.969554152",
+    "pv_outcomes": "116.538787821661",
+    "total_cost": "300000",
+    "total_outcomes": "120",
+    "cost_per_outcome_pv": "2500",
+    "cost_per_participant": "500",
+    "pv_benefits": "407885.757375813",
+    "net_benefit": "116538.787821661",
+    "bcr": "1.4",
+    "roi": "0.4",
+    "payback_year": 1,
+    "break_even_value": "2500"
+   },
+   "sensitivity_bcr": [
+    {
+     "parameter": "program_cost",
+     "low": 240000,
+     "high": 360000,
+     "bcr_low": "1.75",
+     "bcr_high": "1.16666666666667"
+    },
+    {
+     "parameter": "benefit_per_outcome",
+     "low": 2800,
+     "high": 4200,
+     "bcr_low": "1.12",
+     "bcr_high": "1.68"
+    },
+    {
+     "parameter": "outcomes",
+     "low": 96,
+     "high": 144,
+     "bcr_low": "1.12",
+     "bcr_high": "1.68"
+    },
+    {
+     "parameter": "discount_rate",
+     "low": 0,
+     "high": 7,
+     "bcr_low": "1.4",
+     "bcr_high": "1.4"
+    }
+   ]
+  },
+  {
+   "costs": [
+    50000,
+    20000,
+    20000,
+    20000
+   ],
+   "outcomes": [
+    0,
+    30,
+    30,
+    30
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": 2500,
+   "participants": 250,
+   "comp_costs": null,
+   "comp_outcomes": null,
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": true,
+   "willingness_to_pay": null,
+   "name": "first_year_also_discounted",
+   "expected": {
+    "pv_cost": "103468.18164844",
+    "pv_outcomes": "82.3867384920781",
+    "total_cost": "110000",
+    "total_outcomes": "90",
+    "cost_per_outcome_pv": "1255.88393887433",
+    "cost_per_participant": "440",
+    "pv_benefits": "205966.846230195",
+    "net_benefit": "102498.664581755",
+    "bcr": "1.99062980472606",
+    "roi": "0.990629804726058",
+    "payback_year": 2,
+    "break_even_value": "1255.88393887433"
+   }
+  },
+  {
+   "costs": [
+    75000
+   ],
+   "outcomes": [
+    25
+   ],
+   "other_benefits": [
+    30000
+   ],
+   "benefit_per_outcome": 1200,
+   "participants": 300,
+   "comp_costs": null,
+   "comp_outcomes": null,
+   "rate": 0,
+   "outcome_rate": 0,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "zero_discount_rate",
+   "expected": {
+    "pv_cost": "75000",
+    "pv_outcomes": "25",
+    "total_cost": "75000",
+    "total_outcomes": "25",
+    "cost_per_outcome_pv": "3000",
+    "cost_per_participant": "250",
+    "pv_benefits": "60000",
+    "net_benefit": "-15000",
+    "bcr": "0.8",
+    "roi": "-0.2",
+    "payback_year": null,
+    "break_even_value": "1800"
+   }
+  },
+  {
+   "costs": [
+    80000,
+    30000,
+    30000,
+    30000,
+    30000
+   ],
+   "outcomes": [],
+   "other_benefits": [
+    0,
+    45000,
+    60000,
+    60000,
+    60000
+   ],
+   "benefit_per_outcome": null,
+   "participants": 420,
+   "comp_costs": null,
+   "comp_outcomes": null,
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "other_savings_only_five_years",
+   "expected": {
+    "pv_cost": "191512.952084311",
+    "pv_outcomes": "0",
+    "total_cost": "200000",
+    "total_outcomes": "0",
+    "cost_per_outcome_pv": null,
+    "cost_per_participant": "476.190476190476",
+    "pv_benefits": "208462.797372506",
+    "net_benefit": "16949.8452881946",
+    "bcr": "1.08850495542846",
+    "roi": "0.0885049554284592",
+    "payback_year": 5
+   }
+  },
+  {
+   "costs": [
+    120000,
+    120000
+   ],
+   "outcomes": [
+    30,
+    30
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": null,
+   "participants": 400,
+   "comp_costs": [
+    40000,
+    40000
+   ],
+   "comp_outcomes": [
+    10,
+    10
+   ],
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": 5000,
+   "name": "icer_more_costly_more_effective",
+   "expected": {
+    "pv_cost": "236504.854368932",
+    "pv_outcomes": "59.126213592233",
+    "total_cost": "240000",
+    "total_outcomes": "60",
+    "cost_per_outcome_pv": "4000",
+    "cost_per_participant": "600",
+    "break_even_value": "4000",
+    "delta_cost": "157669.902912621",
+    "delta_outcomes": "39.4174757281553",
+    "classification": "more_costly_more_effective",
+    "icer": "4000",
+    "nmb": "39417.4757281553"
+   }
+  },
+  {
+   "costs": [
+    60000
+   ],
+   "outcomes": [
+    35
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": null,
+   "participants": 200,
+   "comp_costs": [
+    90000
+   ],
+   "comp_outcomes": [
+    20
+   ],
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "icer_dominant",
+   "expected": {
+    "pv_cost": "60000",
+    "pv_outcomes": "35",
+    "total_cost": "60000",
+    "total_outcomes": "35",
+    "cost_per_outcome_pv": "1714.28571428571",
+    "cost_per_participant": "300",
+    "break_even_value": "1714.28571428571",
+    "delta_cost": "-30000",
+    "delta_outcomes": "15",
+    "classification": "dominant",
+    "icer": null
+   }
+  },
+  {
+   "costs": [
+    90000
+   ],
+   "outcomes": [
+    20
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": null,
+   "participants": 200,
+   "comp_costs": [
+    60000
+   ],
+   "comp_outcomes": [
+    35
+   ],
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "icer_dominated",
+   "expected": {
+    "pv_cost": "90000",
+    "pv_outcomes": "20",
+    "total_cost": "90000",
+    "total_outcomes": "20",
+    "cost_per_outcome_pv": "4500",
+    "cost_per_participant": "450",
+    "break_even_value": "4500",
+    "delta_cost": "30000",
+    "delta_outcomes": "-15",
+    "classification": "dominated",
+    "icer": null
+   }
+  },
+  {
+   "costs": [
+    50000,
+    50000
+   ],
+   "outcomes": [
+    8,
+    8
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": null,
+   "participants": 150,
+   "comp_costs": [
+    90000,
+    90000
+   ],
+   "comp_outcomes": [
+    15,
+    15
+   ],
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "icer_less_costly_less_effective",
+   "expected": {
+    "pv_cost": "98543.6893203884",
+    "pv_outcomes": "15.7669902912621",
+    "total_cost": "100000",
+    "total_outcomes": "16",
+    "cost_per_outcome_pv": "6250",
+    "cost_per_participant": "666.666666666667",
+    "break_even_value": "6250",
+    "delta_cost": "-78834.9514563107",
+    "delta_outcomes": "-13.7961165048544",
+    "classification": "less_costly_less_effective",
+    "icer": "5714.28571428571"
+   }
+  },
+  {
+   "costs": [
+    50000
+   ],
+   "outcomes": [
+    10
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": null,
+   "participants": null,
+   "comp_costs": [
+    40000
+   ],
+   "comp_outcomes": [
+    10
+   ],
+   "rate": 0.03,
+   "outcome_rate": 0.03,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "icer_no_difference",
+   "expected": {
+    "pv_cost": "50000",
+    "pv_outcomes": "10",
+    "total_cost": "50000",
+    "total_outcomes": "10",
+    "cost_per_outcome_pv": "5000",
+    "cost_per_participant": null,
+    "break_even_value": "5000",
+    "delta_cost": "10000",
+    "delta_outcomes": "0",
+    "classification": "no_difference",
+    "icer": null
+   }
+  },
+  {
+   "costs": [
+    100000,
+    100000,
+    100000
+   ],
+   "outcomes": [
+    10,
+    10,
+    10
+   ],
+   "other_benefits": [],
+   "benefit_per_outcome": null,
+   "participants": 90,
+   "comp_costs": null,
+   "comp_outcomes": null,
+   "rate": 0.03,
+   "outcome_rate": 0.05,
+   "first_year_discounted": false,
+   "willingness_to_pay": null,
+   "name": "cost_per_outcome_distinct_rates",
+   "expected": {
+    "pv_cost": "291346.969554152",
+    "pv_outcomes": "28.59410430839",
+    "total_cost": "300000",
+    "total_outcomes": "30",
+    "cost_per_outcome_pv": "10189.0573809184",
+    "cost_per_participant": "3333.33333333333",
+    "break_even_value": "10000"
+   }
+  }
+ ],
+ "published": {
+  "source": "CDC MMWR 2024;73(31):682-685, Table 2 (https://www.cdc.gov/mmwr/volumes/73/wr/mm7331a2.htm)",
+  "note": "Totals in billions of dollars, already discounted at 3 percent by the authors.",
+  "cases": [
+   {
+    "name": "societal",
+    "cost": 268,
+    "benefits": 2931,
+    "published_bcr": 10.9,
+    "published_net": 2663,
+    "computed_bcr": "10.9365671641791",
+    "computed_net": 2663,
+    "computed_roi": "9.9365671641791"
+   },
+   {
+    "name": "payer",
+    "cost": 240,
+    "benefits": 780,
+    "published_bcr": 3.3,
+    "published_net": 540,
+    "computed_bcr": "3.25",
+    "computed_net": 540,
+    "computed_roi": "2.25"
+   }
+  ]
+ }
+}

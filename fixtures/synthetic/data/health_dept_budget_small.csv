@@ -1,0 +1,7 @@
+Account,Category,Type,Fund/Source,Budgeted,YTD Actual,Encumbrances,Positions,Vendor,Employee,Vendor Contact Email,Vendor Phone
+5110,Salaries and Wages,Expense,General Fund,101000,33900,0,1,,Cordelia Wrenfield,,
+5111,Salaries and Wages,Expense,PHE Grant,64000,21300,0,1,,Evander Pellworth,,
+5200,Supplies,Expense,General Fund,9000,3100,200,,Brindlemoor Janitorial Supply,,orders@brindlemoor.example.org,413-555-0301
+5300,Contracted Services,Expense,PHE Grant,12000,4000,2500,,Quillon Office Systems,,ar@quillon.example.org,413-555-0303
+4200,State Grants,Revenue,State Public Health Excellence (PHE) Grant,70000,35000,,,,,,
+4400,Municipal Appropriation,Revenue,General Fund,120000,60000,,,,,,

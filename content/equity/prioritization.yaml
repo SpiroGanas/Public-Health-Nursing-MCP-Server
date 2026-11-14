@@ -1,0 +1,299 @@
+# Methods for ranking community health issues, for prioritize_health_issues (EQ-09): the Hanlon
+# method (basic priority rating and the PEARL test), the nominal group technique, and a strategy
+# grid. This file holds the method definitions the tool uses and cites; the arithmetic is in
+# crates/phn-tools/src/equity/prioritize.rs.
+#
+# REVIEW STATUS: pending. NACCHO's own Hanlon page (naccho.org) could not be fetched from the build
+# environment, so the formula and factors were verified against the peer-reviewed papers below,
+# which quote the original Hanlon and Pickett equation (1984). Retrieved 2026-11-12.
+# Schema: content/schemas/equity_prioritization.schema.json
+meta:
+  id: equity-prioritization
+  title: Prioritization methods for community health issues (Hanlon method, PEARL, nominal group technique, strategy grid)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: The Pan American Health Organization-adapted Hanlon method for prioritization of health programs (Rev Panam Salud Publica 2019;43:e61)
+    publisher: Pan American Health Organization (Revista Panamericana de Salud Pública)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6611209/
+  related_sources:
+    - title: Setting health priorities in a community - a case example (Rev Saude Publica 2017)
+      publisher: Revista de Saúde Pública
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5336317/
+    - title: A systematized review of prioritization methods used in community health needs assessments among nonprofit hospital systems in the US (J Public Health Manag Pract 2026)
+      publisher: Journal of Public Health Management and Practice
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12998767/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The Hanlon formula, the ranges of its components, the four seriousness factors, the five PEARL
+    factors and their questions were read in the three open-access papers listed (high confidence
+    for what those papers say). NACCHO's Hanlon method page and the original 1984 textbook were not
+    reachable, so whether NACCHO's worksheet divides by 3, scores seriousness 0-20 from four 0-5
+    factors, or uses another range for effectiveness was not checked; the Illinois IPLAN
+    variant (effectiveness 0.5-1.5) described in the 2017 paper is NOT implemented. The strategy
+    grid is this project's own two-axis grid (importance by feasibility); the sources name strategy
+    grids as a common method but do not describe one in a form that could be copied (low
+    confidence). No scoring anchors (for example what percent of the population earns a size of 8)
+    were found in a readable source, so none are bundled: the nurse sets her own and records
+    them.
+
+sources:
+  rpsp-2019:
+    title: The Pan American Health Organization-adapted Hanlon method for prioritization of health programs (Rev Panam Salud Publica 2019;43:e61)
+    publisher: Pan American Health Organization (Revista Panamericana de Salud Pública)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6611209/
+    effective_date: "2019"
+    retrieved: 2026-11-12
+  rsp-2017:
+    title: Setting health priorities in a community - a case example (Rev Saude Publica 2017;51:17)
+    publisher: Revista de Saúde Pública
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5336317/
+    effective_date: "2017"
+    retrieved: 2026-11-12
+  jphmp-2026:
+    title: A systematized review of prioritization methods used in community health needs assessments among nonprofit hospital systems in the US (J Public Health Manag Pract 2026)
+    publisher: Journal of Public Health Management and Practice
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12998767/
+    effective_date: "2026"
+    retrieved: 2026-11-12
+
+# Notes the tool shows with every ranking.
+method_notes:
+  - text: >-
+      The Hanlon method was first described in 1954 and extended with a basic priority rating
+      (BPR) equation by Hanlon and Pickett in 1984. It ranks problems on their size, their
+      seriousness, and how effective an intervention could be, and uses the PEARL test to decide
+      whether a problem can be acted on.
+    source: rpsp-2019
+    section: Introduction; Original Hanlon method and its revisions
+    confidence: high
+  - text: >-
+      Scores are a structured way to record a group's judgment, not a measurement: the ranking is
+      only as good as the ratings and the people who made them. Rate the size of each problem from
+      your data (for example percent of the population affected), and write down why each rating
+      was given.
+    source: jphmp-2026
+    section: Discussion (Hanlon method is formulaic and objective but lacks group consensus)
+    confidence: medium
+  - text: >-
+      Some groups use PEARL as a screen applied before scoring, and others multiply the score by
+      it; both are available here. A problem that fails PEARL may still matter: it may need a
+      different partner, funding, or a policy change before action is possible.
+    source: rpsp-2019
+    section: Original Hanlon method and its revisions (the Neiger revision)
+    confidence: high
+
+hanlon:
+  formula: "BPR = ((A + B) x C / 3) x D"
+  formula_source: rpsp-2019
+  formula_section: Original Hanlon method and its revisions (equation published in 1984)
+  formula_confidence: high
+  divisor_note: >-
+    Dividing by 3 puts the score on a 0-100 scale (the product has a range of 0-300). It does not
+    change the order of the problems; a worksheet that leaves it out ranks them the same way.
+  components:
+    - id: A
+      label: Size of the problem
+      min: 0
+      max: 10
+      question: How many people does the problem affect (for example the percent of the population, or the number of people)?
+      source: rpsp-2019
+      section: Original Hanlon method and its revisions
+      confidence: high
+    - id: B
+      label: Seriousness of the problem
+      min: 0
+      max: 20
+      question: How serious is it? The sum of urgency, severity, economic loss, and effect on others.
+      source: rpsp-2019
+      section: Original Hanlon method and its revisions
+      confidence: high
+    - id: C
+      label: Effectiveness of the intervention
+      min: 0
+      max: 10
+      question: How effective could an available intervention be at reducing the problem?
+      source: rpsp-2019
+      section: Original Hanlon method and its revisions
+      confidence: high
+    - id: D
+      label: Feasibility (the PEARL test)
+      min: 0
+      max: 1
+      question: Is the problem feasible to act on? 1 only when all five PEARL factors are yes; 0 when any is no.
+      source: rpsp-2019
+      section: Original Hanlon method and its revisions
+      confidence: high
+  seriousness_factors:
+    - id: urgency
+      label: Urgency
+      max: 5
+      question: How soon must something be done (is the problem getting worse)?
+      source: rpsp-2019
+      section: PAHO-adapted method (B1 to B4, each 0-5)
+      confidence: high
+    - id: severity
+      label: Severity of the consequences
+      max: 5
+      question: How severe are the consequences (illness, disability, death)?
+      source: rpsp-2019
+      section: PAHO-adapted method (B1 to B4, each 0-5)
+      confidence: high
+    - id: economic_loss
+      label: Economic loss
+      max: 5
+      question: How large is the economic loss from the problem?
+      source: rpsp-2019
+      section: PAHO-adapted method (B1 to B4, each 0-5)
+      confidence: high
+    - id: impact_on_others
+      label: Effect on other people
+      max: 5
+      question: How much does the problem affect people beyond those who have it?
+      source: rpsp-2019
+      section: PAHO-adapted method (B1 to B4, each 0-5)
+      confidence: high
+  seriousness_factors_note: >-
+    The four factors are each worth 0-5 so that their sum stays within 0-20 (the original paper
+    text says 0-10 each, which could exceed the 0-20 range of B; the 0-5 range is the Vilnius and
+    Dandoy change that the 2019 paper describes).
+  pearl:
+    - id: propriety
+      label: Propriety
+      question: Is it appropriate (relevant) for the health department and its partners to act on this problem?
+      source: rsp-2017
+      section: Table 1 (Hanlon method components, pertinence)
+      confidence: high
+    - id: economics
+      label: Economics
+      question: Is it economically feasible to carry out an intervention?
+      source: rsp-2017
+      section: Table 1 (economic feasibility)
+      confidence: high
+    - id: acceptability
+      label: Acceptability
+      question: Does the community accept and want an intervention on this problem?
+      source: rsp-2017
+      section: Table 1 (acceptability)
+      confidence: high
+    - id: resources
+      label: Resources
+      question: Are resources available to carry out an intervention?
+      source: rsp-2017
+      section: Table 1 (resources availability)
+      confidence: high
+    - id: legality
+      label: Legality
+      question: Does the law allow the intervention?
+      source: rsp-2017
+      section: Table 1 (legality)
+      confidence: high
+  pearl_note: >-
+    Answering no to any one factor makes the problem not feasible (D = 0).
+  variants:
+    - id: original
+      label: Original equation, PEARL as a multiplier (default)
+      formula: "BPR = ((A + B) x C / 3) x D"
+      implemented: true
+      note: A problem that fails PEARL scores 0 and ranks last.
+      source: rpsp-2019
+      confidence: high
+    - id: prescreen
+      label: PEARL as a screen before scoring (Neiger revision)
+      formula: "BPR = (A + B) x C / 3, for problems that pass PEARL"
+      implemented: true
+      note: Problems that fail PEARL are listed as screened out and are not ranked.
+      source: rpsp-2019
+      confidence: high
+    - id: illinois
+      label: Illinois IPLAN worksheet (effectiveness scored 0.5 to 1.5)
+      formula: "(A + B) x C x D"
+      implemented: false
+      note: Described in a 2017 case study; not implemented because its component ranges differ from the original.
+      source: rsp-2017
+      confidence: medium
+    - id: vilnius-dandoy
+      label: Vilnius and Dandoy change (adds a benefit-cost ratio)
+      formula: "BPR = ((A + B) x (C + benefit-cost ratio) / 6) x D"
+      implemented: false
+      note: Not implemented.
+      source: rpsp-2019
+      confidence: medium
+    - id: paho
+      label: PAHO-adapted method (adds inequity and institutional positioning, drops PEARL)
+      formula: "BPR = ((A + B + E) x C / 5.25) x F"
+      implemented: false
+      note: Not implemented; designed for ranking the programs of an international organization.
+      source: rpsp-2019
+      confidence: high
+
+nominal_group:
+  steps:
+    - text: Silent generation of ideas.
+      source: jphmp-2026
+      section: Discussion (five steps of the nominal group technique)
+      confidence: medium
+    - text: Sharing of ideas.
+      source: jphmp-2026
+      section: Discussion (five steps of the nominal group technique)
+      confidence: medium
+    - text: Group discussion.
+      source: jphmp-2026
+      section: Discussion (five steps of the nominal group technique)
+      confidence: medium
+    - text: Voting and ranking.
+      source: jphmp-2026
+      section: Discussion (five steps of the nominal group technique)
+      confidence: medium
+    - text: Compilation of votes and feedback to the group.
+      source: jphmp-2026
+      section: Discussion (five steps of the nominal group technique)
+      confidence: medium
+  scoring_text: >-
+    This tool scores the voting step as a ranked-choice (Borda-style) count: with each participant
+    ranking their top N issues, an issue gets N points for each first-place rank, N-1 for each
+    second-place rank, and so on down to 1 point for an Nth-place rank. Enter totals only (how many
+    participants gave the issue each rank); never enter who voted. The point scheme is this
+    project's choice; the sources describe the steps but not a scoring rule (medium confidence).
+  scoring_confidence: medium
+
+strategy_grid:
+  text: >-
+    A two-axis grid: importance (how large and serious the problem is) against feasibility (how
+    effective an intervention could be). Here, importance is (A + B) / 30 and feasibility is
+    C / 10, both from the Hanlon ratings, and a threshold (0.5 by default) splits each axis.
+  confidence: low
+  source: jphmp-2026
+  section: Methods (strategy grids are one of five commonly used methods; no description of a grid was available)
+  quadrants:
+    - id: act_now
+      label: Act now
+      important: true
+      feasible: true
+      advice: Large and serious, and an effective intervention exists. Candidates for the improvement plan.
+    - id: build_capacity
+      label: Important but hard
+      important: true
+      feasible: false
+      advice: Large and serious, but intervention is weak or not yet available. Consider partners, funding, policy change, or evidence building before committing.
+    - id: quick_win
+      label: Quick win
+      important: false
+      feasible: true
+      advice: Smaller or less serious, but easy to improve. Consider only if it costs little or supports a larger effort.
+    - id: revisit
+      label: Revisit later
+      important: false
+      feasible: false
+      advice: Lower on both axes for now. Monitor and revisit at the next assessment.
+
+not_verified:
+  - "NACCHO's Hanlon method worksheet (naccho.org was not reachable): whether it divides by 3, how it scores seriousness, and its anchors for each rating."
+  - "The 1984 Hanlon and Pickett text."
+  - "A published description of a strategy grid."
+  - "Scoring anchors for the size of the problem."

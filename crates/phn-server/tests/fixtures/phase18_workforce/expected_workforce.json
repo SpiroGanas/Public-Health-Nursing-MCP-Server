@@ -1,0 +1,107 @@
+{
+  "domains": [
+    {
+      "domain": "Data Analytics and Assessment Skills",
+      "raters": 6,
+      "mean": 2.83,
+      "gap": 0.17,
+      "below": null
+    },
+    {
+      "domain": "Policy Development and Program Planning Skills",
+      "raters": 6,
+      "mean": 3.17,
+      "gap": -0.17,
+      "below": 0
+    },
+    {
+      "domain": "Communication Skills",
+      "raters": 5,
+      "mean": 3.0,
+      "gap": 0.0,
+      "below": null
+    },
+    {
+      "domain": "Health Equity Skills",
+      "raters": 6,
+      "mean": 2.83,
+      "gap": 0.17,
+      "below": null
+    },
+    {
+      "domain": "Community Partnership Skills",
+      "raters": 5,
+      "mean": 3.4,
+      "gap": -0.4,
+      "below": 0
+    },
+    {
+      "domain": "Public Health Sciences Skills",
+      "raters": 6,
+      "mean": 3.17,
+      "gap": -0.17,
+      "below": null
+    },
+    {
+      "domain": "Management and Finance Skills",
+      "raters": 5,
+      "mean": 2.2,
+      "gap": 0.8,
+      "below": 3
+    },
+    {
+      "domain": "Leadership and Systems Thinking Skills",
+      "raters": null,
+      "mean": null
+    }
+  ],
+  "tiers": {
+    "1": {
+      "staff": 4,
+      "mean": 2.69
+    },
+    "2": null
+  },
+  "target": 3.0,
+  "team_size": 6,
+  "overall": 2.94,
+  "credential_statuses": {
+    "MAVEN-trained": {
+      "N01": "complete",
+      "N02": "complete",
+      "N03": "complete",
+      "N04": "complete",
+      "N05": "complete",
+      "N06": "complete",
+      "N07": "complete"
+    },
+    "Foundations course": {
+      "N01": "due soon",
+      "N02": "complete",
+      "N03": "upcoming",
+      "N04": "overdue",
+      "N05": "complete",
+      "N06": "complete",
+      "N07": "complete"
+    },
+    "ICS 100 and NIMS 700": {
+      "N01": "due soon",
+      "N02": "overdue",
+      "N03": "upcoming",
+      "N04": "overdue",
+      "N05": "complete",
+      "N06": "complete",
+      "N07": "complete"
+    }
+  },
+  "credential_summary": {
+    "MAVEN-trained": {
+      "staff": 7,
+      "complete": 7,
+      "attention": 0,
+      "upcoming": 0
+    },
+    "Foundations course": null,
+    "ICS 100 and NIMS 700": null
+  }
+}

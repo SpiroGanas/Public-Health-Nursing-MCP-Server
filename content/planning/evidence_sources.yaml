@@ -1,0 +1,172 @@
+# Search aids and notes for find_evidence_based_interventions (PLAN-03): how the tool reads the
+# evidence rating words in the Community Guide papers it bundles, which health topics it
+# recognizes (so a search for "smoking" also finds "tobacco"), and what could not be read
+# (the Community Guide and What Works for Health web sites).
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12.
+# Schema: content/schemas/planning_evidence_sources.schema.json
+# The records themselves are in snapshots/cpstf_publications.json (builder:
+# xtask/scripts/build_interventions_snapshots.py). Nothing in this file is a rating.
+meta:
+  id: planning-evidence-sources
+  title: Evidence search aids and source notes (Community Guide papers, What Works for Health)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Papers attributed to the Community Preventive Services Task Force, as indexed in PubMed
+    publisher: National Library of Medicine (PubMed); Community Preventive Services Task Force
+    url: https://pubmed.ncbi.nlm.nih.gov/
+  related_sources:
+    - title: The Community Guide (Community Preventive Services Task Force recommendations)
+      publisher: Community Preventive Services Task Force and CDC
+      url: https://www.thecommunityguide.org/
+    - title: What Works for Health (strategies and evidence ratings)
+      publisher: County Health Rankings & Roadmaps, University of Wisconsin Population Health Institute
+      url: https://www.countyhealthrankings.org/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The Community Guide (www.thecommunityguide.org) and What Works for Health
+    (www.countyhealthrankings.org) were both refused by the build network's egress policy on
+    2026-11-12 (HTTP 403 to the connection request), so neither site, nor its terms of use, was
+    read. The wording of the rating key comes from sentences in the PubMed abstracts of Community
+    Guide papers (read on 2026-11-12) and is medium confidence: the exact Community Guide
+    definitions of 'strong' and 'sufficient' evidence were not read. The topic list is this
+    project's search aid (medium confidence): each topic's terms were chosen from the titles and
+    MeSH headings of the papers in the snapshot, not from a Community Guide topic list. The two
+    web addresses given for the sites were not opened; they are the sites' home pages and the
+    nurse should search each site for the topic.
+
+rating_key:
+  - term: strong_evidence
+    label: strong evidence of effectiveness
+    meaning: >-
+      The abstract says the review found 'strong evidence' (Community Guide papers describe this
+      as a judgment from the number of studies, the size of the effect, and the consistency of the
+      findings). Where the Task Force recommends an intervention it is on the basis of strong or
+      sufficient evidence.
+  - term: sufficient_evidence
+    label: sufficient evidence of effectiveness
+    meaning: The abstract says 'sufficient evidence' of effectiveness for the intervention.
+  - term: insufficient_evidence
+    label: insufficient evidence to determine effectiveness
+    meaning: >-
+      The abstract says there is not enough evidence to decide. The papers themselves note that
+      this should not be read as evidence that the intervention does not work.
+  - term: recommended
+    label: Task Force recommends (in the abstract)
+    meaning: The abstract says the Task Force recommends the intervention or a group of interventions.
+  - term: recommended_against
+    label: Task Force recommends against
+    meaning: The abstract says the Task Force recommends against the intervention.
+
+not_read:
+  - id: community_guide
+    name: The Community Guide
+    url: https://www.thecommunityguide.org/
+    reason: The site refused the connection from the build network (HTTP 403 to the proxy connection request), so its recommendation pages, ratings, and terms of use were not read.
+    how_to_check: Search the site for your topic and open the recommendation page. It shows the Task Force's finding, the evidence summary, applicability, barriers, economic evidence, and any update or archive notice.
+  - id: what_works_for_health
+    name: What Works for Health (County Health Rankings and Roadmaps)
+    url: https://www.countyhealthrankings.org/
+    reason: The site refused the connection from the build network (HTTP 403 to the proxy connection request), so none of its strategies or evidence ratings are bundled and no live lookup exists.
+    how_to_check: On the County Health Rankings site, open its strategies and solutions section and search What Works for Health for your topic; it rates strategies by evidence and lists what is known about equity and implementation.
+
+settings:
+  - id: school
+    terms: [school, schools, classroom, student, students, preschool, kindergarten]
+  - id: worksite
+    terms: [worksite, workplace, employer, employee, employees, occupational]
+  - id: health_care
+    terms: [clinic, clinics, health care, healthcare, provider, providers, primary care, health system, hospital, patient, patients]
+  - id: community
+    terms: [community, communities, neighborhood, neighborhoods, community-wide, citywide]
+  - id: home
+    terms: [home, household, home visit, home visits, home-based]
+
+topics:
+  - id: alcohol
+    label: Alcohol
+    terms: [alcohol, drinking, binge drinking, alcohol-impaired driving, drunk driving, dram shop, sobriety checkpoint]
+  - id: tobacco
+    label: Tobacco and smoking
+    terms: [tobacco, smoking, smoke, smokefree, smoke-free, cigarette, cessation, quit, secondhand smoke, vaping]
+  - id: cancer_screening
+    label: Cancer screening
+    terms: [cancer screening, screening, mammography, breast cancer, cervical cancer, colorectal cancer, colon cancer, pap, mammogram, colonoscopy]
+  - id: vaccination
+    label: Vaccination
+    terms: [vaccination, vaccine, vaccines, immunization, immunisation, immunizations, flu shot, hepatitis b]
+  - id: physical_activity
+    label: Physical activity
+    terms: [physical activity, exercise, walking, active travel, stair, stairs, sedentary, screen time]
+  - id: nutrition
+    label: Nutrition and food
+    terms: [nutrition, diet, healthy eating, food, fruit, vegetable, vegetables, school meals, beverage, food insecurity, sugar]
+  - id: obesity
+    label: Obesity and weight
+    terms: [obesity, overweight, weight, body mass index, bmi, weight loss]
+  - id: diabetes
+    label: Diabetes
+    terms: [diabetes, prediabetes, type 2 diabetes, glycemic]
+  - id: cardiovascular
+    label: Heart disease and blood pressure
+    terms: [cardiovascular, heart disease, blood pressure, hypertension, cholesterol, stroke, team-based care]
+  - id: mental_health
+    label: Depression and mental health
+    terms: [depression, mental health, anxiety, trauma, psychological, behavioral health, mental illness]
+  - id: violence
+    label: Violence
+    terms: [violence, aggression, bullying, intimate partner, sexual violence, child abuse, maltreatment, firearm, firearms, abuse]
+  - id: injury
+    label: Injury and traffic safety
+    terms: [injury, injuries, motor vehicle, seat belt, safety belt, car seat, child safety seat, helmet, crash, crashes, traffic, falls]
+  - id: oral_health
+    label: Oral health
+    terms: [oral health, dental, caries, fluoride, fluoridation, sealant, sealants, teeth, tooth]
+  - id: asthma
+    label: Asthma
+    terms: [asthma, home environment, trigger, triggers]
+  - id: sexual_health
+    label: HIV, STI, and teen pregnancy
+    terms: [hiv, sexually transmitted, sti, teen pregnancy, adolescent pregnancy, pregnancy prevention, condom, prep, pre-exposure prophylaxis, sexual health]
+  - id: adolescent_health
+    label: Adolescent and youth health
+    terms: [adolescent, adolescents, teen, teens, teenager, youth, young people, parenting]
+  - id: early_childhood
+    label: Early childhood and child development
+    terms: [early childhood, preschool, child care, childcare, home visiting, home visitation, kindergarten, child development]
+  - id: education
+    label: Education and school completion
+    terms: [education, high school completion, school completion, graduation, academic, out-of-school, school calendar, instructional time]
+  - id: worksite_health
+    label: Worksite health
+    terms: [worksite, workplace, employee, occupational health, wellness program]
+  - id: housing
+    label: Housing and homelessness
+    terms: [housing, homeless, homelessness, housing voucher, supportive housing, residential]
+  - id: health_equity
+    label: Health equity and social determinants
+    terms: [health equity, equity, social determinants, poverty, income, disparities, racial, minority]
+  - id: community_health_workers
+    label: Community health workers and patient navigation
+    terms: [community health worker, community health workers, promotora, patient navigation, navigator, lay health worker]
+  - id: skin_cancer
+    label: Skin cancer and sun protection
+    terms: [skin cancer, sun protection, sunscreen, ultraviolet, tanning]
+  - id: medication
+    label: Medication adherence and costs
+    terms: [medication, adherence, pharmacist, pharmacy, prescription, medication cost]
+  - id: media
+    label: Mass media and health communication
+    terms: [mass media, media campaign, health communication, campaign, social media]
+  - id: substance_use
+    label: Substance use
+    terms: [substance use, drug use, drugs, opioid, opioids, marijuana, cannabis]
+  - id: health_insurance
+    label: Health insurance and costs
+    terms: [insurance, coverage, benefits legislation, cost sharing, out-of-pocket]

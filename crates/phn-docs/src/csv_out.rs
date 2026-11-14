@@ -27,6 +27,12 @@ fn neutralize(cell: &str) -> String {
     }
 }
 
+/// The same protection for code that writes its own CSV: text a spreadsheet would run as a
+/// formula gets a leading apostrophe; plain numbers are unchanged.
+pub fn neutralize_cell(cell: &str) -> String {
+    neutralize(cell)
+}
+
 /// Write a table as UTF-8 CSV with a byte-order mark so Excel opens it correctly.
 ///
 /// Cells that a spreadsheet would read as formulas are written as text, with

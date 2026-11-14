@@ -422,6 +422,104 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     ),
     // End of Phase 14 chemfood.
     // End of Phase 14 snapshot files.
+    // Phase 15 snapshot files go below this line.
+    // Phase 15 screen (CHR-02, CHR-03).
+    (
+        "ma_dpp_programs.csv",
+        include_str!("../../../snapshots/ma_dpp_programs.csv"),
+    ),
+    // End of Phase 15 screen.
+    // Phase 15 prevent (CHR-04, CHR-05).
+    (
+        "uspstf_ab_recommendations.json",
+        include_str!("../../../snapshots/uspstf_ab_recommendations.json"),
+    ),
+    // End of Phase 15 prevent.
+    // Phase 15 cha (EQ-08, EQ-09, EQ-10).
+    (
+        "ma_hospitals.csv",
+        include_str!("../../../snapshots/ma_hospitals.csv"),
+    ),
+    // End of Phase 15 cha.
+    // Phase 15 geo (EPI-13).
+    (
+        "ma_geocoder_sample.idx",
+        include_str!("../../../snapshots/ma_geocoder_sample.idx"),
+    ),
+    (
+        "ma_geocoder_crosswalk.csv",
+        include_str!("../../../snapshots/ma_geocoder_crosswalk.csv"),
+    ),
+    // End of Phase 15 geo.
+    // End of Phase 15 snapshot files.
+    // Phase 16 snapshot files go below this line.
+    // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+    (
+        "healthy_people_2030_objectives.json",
+        include_str!("../../../snapshots/healthy_people_2030_objectives.json"),
+    ),
+    // End of Phase 16 design.
+    // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+    (
+        "cpstf_publications.json",
+        include_str!("../../../snapshots/cpstf_publications.json"),
+    ),
+    // End of Phase 16 interventions.
+    // Phase 16 appraise (EBP-03, EBP-04).
+    // End of Phase 16 appraise.
+    // Phase 16 qi (EBP-05).
+    // End of Phase 16 qi.
+    // End of Phase 16 snapshot files.
+    // Phase 17 snapshot files go below this line.
+    // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+    (
+        "commbuys_weekly_bids.json",
+        include_str!("../../../snapshots/commbuys_weekly_bids.json"),
+    ),
+    // End of Phase 17 grants.
+    // Phase 17 budget (PLAN-09, PLAN-10).
+    // End of Phase 17 budget.
+    // Phase 17 finance (LEAD-01, LEAD-02).
+    // End of Phase 17 finance.
+    // End of Phase 17 snapshot files.
+    // Phase 18 snapshot files go below this line.
+    // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+    (
+        "ma_performance_standards.json",
+        include_str!("../../../snapshots/ma_performance_standards.json"),
+    ),
+    (
+        "ma_shared_service_arrangements.csv",
+        include_str!("../../../snapshots/ma_shared_service_arrangements.csv"),
+    ),
+    // End of Phase 18 strategy.
+    // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+    // End of Phase 18 workforce.
+    // Phase 18 ethics (EBP-07, POL-05, POL-06).
+    // End of Phase 18 ethics.
+    // End of Phase 18 snapshot files.
+    // Phase 19 snapshot files go below this line.
+    // Phase 19 tracking (POL-01, POL-03).
+    (
+        "ma_legislation_194.json",
+        include_str!("../../../snapshots/ma_legislation_194.json"),
+    ),
+    // End of Phase 19 tracking.
+    // Phase 19 law (POL-02, POL-04, POL-07).
+    (
+        "ma_law_mgl_c111.json",
+        include_str!("../../../snapshots/ma_law_mgl_c111.json"),
+    ),
+    (
+        "ma_law_105_cmr.json",
+        include_str!("../../../snapshots/ma_law_105_cmr.json"),
+    ),
+    (
+        "ma_law_244_cmr.json",
+        include_str!("../../../snapshots/ma_law_244_cmr.json"),
+    ),
+    // End of Phase 19 law.
+    // End of Phase 19 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

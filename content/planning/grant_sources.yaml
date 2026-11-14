@@ -1,0 +1,294 @@
+# Where grant and bid opportunities are posted, how this server tags and filters them, and what
+# could and could not be reached while it was built, for search_grant_opportunities (PLAN-06).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-12).
+# Schema: content/schemas/planning_grant_sources.schema.json
+meta:
+  id: planning-grant-sources
+  title: Grant and bid sources, topic tags, and eligibility mapping
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Simpler.Grants.gov API (OpenAPI specification, api/openapi.generated.yml)
+    publisher: U.S. Department of Health and Human Services (Simpler.Grants.gov project)
+    url: https://raw.githubusercontent.com/HHS/simpler-grants-gov/main/api/openapi.generated.yml
+  related_sources:
+    - title: Doing business with DPH
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/doing-business-with-dph
+    - title: Learn about COMMBUYS Resources
+      publisher: Massachusetts Operational Services Division
+      url: https://www.mass.gov/learn-about-commbuys-resources
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The federal search filters (applicant types, funding categories, statuses) and the response
+    fields come from the Simpler.Grants.gov OpenAPI file as published on 2026-11-12 (high
+    confidence for the names; the host api.simpler.grants.gov, grants.gov, and simpler.grants.gov
+    were blocked from the build environment, so the live search was never run against the real
+    service). The COMMBUYS facts come from DPH's and OSD's mass.gov pages. commbuys.com was also
+    blocked. THE TOPIC KEYWORDS AND THE MAPPING OF YOUR AGENCY TYPE TO FEDERAL APPLICANT TYPES ARE
+    THIS PROJECT'S OWN (low confidence): they decide which listings are shown, so read the
+    announcement itself before concluding that your agency is, or is not, eligible. The funder
+    directory lists pages that were fetched; it is not a complete list of funders.
+
+sources:
+  simpler-openapi:
+    title: Simpler.Grants.gov API (OpenAPI specification)
+    publisher: U.S. Department of Health and Human Services (Simpler.Grants.gov project)
+    url: https://raw.githubusercontent.com/HHS/simpler-grants-gov/main/api/openapi.generated.yml
+    effective_date: null
+    retrieved: 2026-11-12
+  simpler-api-docs:
+    title: Simpler.Grants.gov API documentation (authentication)
+    publisher: U.S. Department of Health and Human Services (Simpler.Grants.gov project)
+    url: https://raw.githubusercontent.com/HHS/simpler-grants-gov/main/documentation/api/README.md
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-business:
+    title: Doing business with DPH
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/doing-business-with-dph
+    effective_date: null
+    retrieved: 2026-11-12
+  osd-commbuys:
+    title: Learn about COMMBUYS Resources
+    publisher: Massachusetts Operational Services Division
+    url: https://www.mass.gov/learn-about-commbuys-resources
+    effective_date: null
+    retrieved: 2026-11-12
+  osd-weekly:
+    title: COMMBUYS weekly list of new bids (New Bids Available)
+    publisher: Massachusetts Operational Services Division
+    url: https://www.mass.gov/doc/commbuys-home-page-bid-count/download
+    effective_date: 2026-11-09
+    retrieved: 2026-11-12
+  cdc-grants:
+    title: CDC Grants (about, how to apply for a NOFO)
+    publisher: Centers for Disease Control and Prevention, Office of Financial Resources
+    url: https://www.cdc.gov/grants/
+    effective_date: null
+    retrieved: 2026-11-12
+  epa-grants:
+    title: EPA Grants
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/grants
+    effective_date: null
+    retrieved: 2026-11-12
+  obhpp-grant:
+    title: Announcing the Behavioral Health Promotion & Prevention Grant (10/10/2025)
+    publisher: Massachusetts Department of Mental Health, Office of Behavioral Health Promotion and Prevention
+    url: https://www.mass.gov/news/announcing-the-behavioral-health-promotion-prevention-grant
+    effective_date: 2025-10-10
+    retrieved: 2026-11-12
+  obhpp-recent:
+    title: Recent Grant Opportunities (Office of Behavioral Health Promotion and Prevention)
+    publisher: Massachusetts Department of Mental Health
+    url: https://www.mass.gov/info-details/community-grants
+    effective_date: null
+    retrieved: 2026-11-12
+
+# Federal search: how the nurse's agency type becomes the API's applicant_type filter. The
+# applicant_type names are the API's (OpenAPI enum); which ones fit each agency type is a tool default.
+eligibility:
+  - id: local_health_agency
+    label: Local (municipal or county) health department or board of health
+    applicant_types: [city_or_township_governments, county_governments, special_district_governments, unrestricted]
+    note: A Massachusetts board of health is a municipal agency, so city or township governments is the closest federal category; a regional health district may be a special district.
+    confidence: low
+  - id: state_agency
+    label: State health agency
+    applicant_types: [state_governments, unrestricted]
+    note: Massachusetts agencies apply through their own grants offices; this lists federal opportunities open to state governments.
+    confidence: low
+  - id: tribal_health
+    label: Tribal health program
+    applicant_types: [federally_recognized_native_american_tribal_governments, other_native_american_tribal_organizations, unrestricted]
+    note: ""
+    confidence: low
+  - id: any
+    label: Do not filter by applicant type
+    applicant_types: []
+    note: Shows every health opportunity; read each announcement's eligibility section.
+    confidence: high
+
+# Topic words the nurse can use. keywords are matched as whole words or phrases (lower case) in
+# COMMBUYS titles and organizations; the first keyword set is also sent to the federal search as
+# its query. funding_categories are the API's category names.
+topics:
+  - id: public_health
+    label: Public health and prevention (general)
+    keywords: [public health, health department, board of health, prevention, health equity, community health, population health, wellness]
+    funding_categories: [health]
+  - id: behavioral_health
+    label: Behavioral health, mental health, substance use
+    keywords: [behavioral health, mental health, substance use, opioid, overdose, recovery, suicide, harm reduction, addiction]
+    funding_categories: [health]
+  - id: maternal_child
+    label: Maternal, child, and family health
+    keywords: [maternal, infant, child health, early childhood, family, perinatal, pregnancy, home visiting, newborn]
+    funding_categories: [health]
+  - id: communicable_disease
+    label: Immunization and communicable disease
+    keywords: [immunization, vaccine, vaccination, communicable disease, infectious disease, tuberculosis, hiv, sexually transmitted, outbreak, surveillance]
+    funding_categories: [health]
+  - id: chronic_disease
+    label: Chronic disease, nutrition, and physical activity
+    keywords: [chronic disease, diabetes, hypertension, obesity, nutrition, physical activity, tobacco, cancer, heart disease]
+    funding_categories: [health, food_and_nutrition]
+  - id: older_adults
+    label: Older adults, aging, and long-term care
+    keywords: [older adult, aging, senior, elder, long-term care, dementia, caregiver, nursing home]
+    funding_categories: [health, income_security_and_social_services]
+  - id: environmental_health
+    label: Environmental health and climate
+    keywords: [environmental health, lead, water, air quality, mosquito, vector, climate, heat, housing conditions, sanitary]
+    funding_categories: [health, environment]
+  - id: emergency_preparedness
+    label: Emergency preparedness and response
+    keywords: [emergency preparedness, public health emergency, disaster, response, medical reserve corps, hazard mitigation]
+    funding_categories: [health, disaster_prevention_and_relief]
+  - id: housing_social
+    label: Housing, food access, and social needs
+    keywords: [housing, homeless, supportive housing, food access, food security, social needs, social services]
+    funding_categories: [housing, food_and_nutrition, income_security_and_social_services, health]
+  - id: workforce_capacity
+    label: Workforce, accreditation, and health department capacity
+    keywords: [workforce, accreditation, capacity building, quality improvement, public health infrastructure]
+    funding_categories: [health]
+
+# A COMMBUYS bid is called a possible grant or funding offer when its title has one of these
+# (lower case, whole words or phrases); otherwise it is called a contract or purchase.
+funding_kind_keywords: [grant, grants, nofa, nofo, notice of funding, funding opportunity, request for applications, rfa, rfr, request for response, request for responses, request for proposals, rfp]
+# Only the first group is a strong sign of a grant; "rfr"/"rfp" also describe contracts.
+strong_grant_keywords: [grant, grants, nofa, nofo, notice of funding, funding opportunity, request for applications, rfa]
+
+# Organizations on the COMMBUYS list that count as health or human services agencies.
+health_agency_keywords: [health, human services, mental health, public health, developmental services, elder affairs, children and families, mass health, masshealth, veterans services, disability, massability, hospital, board of health, department of public health, medical]
+
+# Where to look. reached says whether the page could be fetched while building this file.
+directory:
+  - id: simpler-grants-gov
+    name: Simpler.Grants.gov (federal discretionary grants and cooperative agreements)
+    level: federal
+    url: https://simpler.grants.gov/
+    what: The federal search site that replaces the Grants.gov search. Its public API (used by this tool when you set PHN_GRANTS_GOV_API_KEY) filters by applicant type, funding category, agency, closing date, and award size.
+    how_to_use: Filter funding category to Health and applicant type to the closest government type for your agency; sort by closing date; open each opportunity's announcement and read the eligibility section.
+    reached: false
+    source: simpler-openapi
+    section: info and the search endpoint's filters
+    confidence: medium
+  - id: cdc-nofos
+    name: CDC grants and cooperative agreements
+    level: federal
+    url: https://www.cdc.gov/grants/
+    what: CDC's grants pages explain the award life cycle and how to apply for a notice of funding opportunity (NOFO).
+    how_to_use: Read the How to Apply page, then search Simpler.Grants.gov for the CDC opportunities in your topic (filter by agency).
+    reached: true
+    source: cdc-grants
+    section: Grants landing page
+    confidence: medium
+  - id: epa-grants
+    name: EPA grants
+    level: federal
+    url: https://www.epa.gov/grants
+    what: EPA lists its grant opportunities through a link to Grants.gov and offers a listserv for applicants; useful for environmental health, water, air, and lead projects.
+    how_to_use: Use the Grant Opportunities link on the page, and subscribe to the EPA grants listserv.
+    reached: true
+    source: epa-grants
+    section: Grant Opportunities, Subscribe to Our Listserv
+    confidence: medium
+  - id: dph-rfrs
+    name: DPH requests for response (RFRs) on COMMBUYS
+    level: state
+    url: https://www.mass.gov/info-details/doing-business-with-dph
+    what: DPH funds programs through publicly posted, competitive procurements and cannot accept unsolicited proposals. It posts its RFRs on COMMBUYS, and posts a Notice of Intent there when it applies for a federal grant and names partners.
+    how_to_use: Register as a COMMBUYS vendor and list the commodity or service codes that fit your work; COMMBUYS then emails you when a matching bid is posted.
+    reached: true
+    source: dph-business
+    section: Competitive bid requirements; COMMBUYS requirements
+    confidence: high
+  - id: commbuys
+    name: COMMBUYS (the Commonwealth's e-procurement system)
+    level: state
+    url: https://www.commbuys.com/bso/
+    what: Where state agencies and many municipalities post bids, including grants issued as RFRs, RFAs, or NOFAs. OSD says its Browse Open Bid Opportunities and Search for Bids pages are free to use.
+    how_to_use: Search by bid number from this tool's results, or browse open bids by organization or category.
+    reached: false
+    source: osd-commbuys
+    section: COMMBUYS Resources
+    confidence: medium
+  - id: osd-weekly
+    name: OSD weekly list of new bids
+    level: state
+    url: https://www.mass.gov/doc/commbuys-home-page-bid-count/download
+    what: A PDF on mass.gov listing the bids posted that week, with the closing date and COMMBUYS bid number. This tool's COMMBUYS snapshot is a copy of one week's list.
+    how_to_use: Open the PDF for the current week; copy a bid number into COMMBUYS to read the solicitation.
+    reached: true
+    source: osd-weekly
+    section: whole list
+    confidence: high
+  - id: obhpp
+    name: Office of Behavioral Health Promotion and Prevention (Department of Mental Health)
+    level: state
+    url: https://www.mass.gov/info-details/community-grants
+    what: Issued a community-based behavioral health promotion and prevention grant in fall 2025 (applications closed November 17, 2025; 23 recipients were selected in summer 2026 per the office's page). That round is closed; the office posts its grants through COMMBUYS.
+    how_to_use: Watch the office's page and COMMBUYS for a next round. Eligibility in the closed round was Massachusetts community-based organizations, so check whether a municipal health department could apply.
+    reached: true
+    source: obhpp-recent
+    section: Recent Grant Opportunities
+    confidence: high
+
+massachusetts_notes:
+  - text: DPH contracts are awarded through a competitive bid process, with very few exceptions such as emergency contracts. DPH cannot accept unsolicited proposals, so a program idea cannot be sent to DPH on its own.
+    source: dph-business
+    section: Competitive bid requirements
+    confidence: high
+  - text: DPH posts Requests for Response and other bid documents on COMMBUYS. Registering as a COMMBUYS vendor, and naming the types of commodities or services you provide, makes COMMBUYS email you when matching bid opportunities are posted.
+    source: dph-business
+    section: COMMBUYS requirements
+    confidence: high
+  - text: Most bids need an electronic response through COMMBUYS, and only COMMBUYS-registered vendors can respond electronically. The OSD Help Desk is at (888) 627-8283 (Monday to Friday, 8 a.m. to 5 p.m.) or OSDHelpDesk@mass.gov.
+    source: dph-business
+    section: COMMBUYS requirements
+    confidence: high
+  - text: DPH funds pilot programs only through publicly posted competitive procurements, except when DPH itself applies for a federal grant and names partners; then it posts a Notice of Intent on COMMBUYS.
+    source: dph-business
+    section: Competitive bid requirements
+    confidence: high
+  - text: COMMBUYS provides free internet access to all public procurement information posted in the system.
+    source: osd-commbuys
+    section: Benefits to Using COMMBUYS
+    confidence: high
+
+how_to_search:
+  - Name a topic in plain words (for example "immunization" or "overdose prevention"). Never put a client, a family, or a case in the search.
+  - For federal opportunities, set PHN_GRANTS_GOV_API_KEY (a key from your Simpler.Grants.gov account) so the tool can search live; without it the tool says it used its snapshot, which holds no federal listings.
+  - For state opportunities, check the closing date on the COMMBUYS bid itself and read the "who may respond" section; the weekly list has no eligibility or amount.
+  - Register with COMMBUYS and set up email notices; most Massachusetts human-services RFRs are only posted there.
+  - Before spending time on an application, confirm that a local board of health is an eligible applicant (many state grants are for community-based organizations or for municipalities in a named list).
+
+# What could and could not be reached on 2026-11-12 from the environment this file was built in.
+reach_log:
+  - host: raw.githubusercontent.com
+    result: reached
+    used_for: Simpler.Grants.gov OpenAPI file and API documentation
+  - host: www.mass.gov
+    result: reached
+    used_for: DPH and OSD pages, the weekly bid list PDF, OBHPP pages (plain curl works; browser-like agents get 403)
+  - host: www.cdc.gov, www.epa.gov
+    result: reached
+    used_for: grants landing pages (descriptions only)
+  - host: api.simpler.grants.gov, simpler.grants.gov, www.grants.gov, api.grants.gov
+    result: blocked (the proxy refused the connection)
+    used_for: nothing; the federal live search is untested against the real service
+  - host: www.commbuys.com, commbuys.com
+    result: blocked (the proxy refused the connection)
+    used_for: nothing; bid details were not read
+  - host: www.hrsa.gov, www.samhsa.gov, www.acf.gov, www.acf.hhs.gov, grants.nih.gov, www.acl.gov, www.ihs.gov, api.sam.gov, www.usaspending.gov, www.federalregister.gov
+    result: blocked (the proxy refused the connection)
+    used_for: nothing; no federal opportunity could be listed in the snapshot

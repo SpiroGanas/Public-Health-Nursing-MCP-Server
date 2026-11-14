@@ -48,7 +48,7 @@ A tool goes to **Appendix A** if it cannot be built without one of the following
 
 ## 5. Architecture
 
-This section describes the architecture as built through Phase 14 (version 0.15.0). Where the build departed from the original plan, the architecture decision record (ADR) in [`docs/adr/`](docs/adr/) that made the change is named. [`STATUS.md`](STATUS.md) has the current state of the work.
+This section describes the architecture as built through Phase 19 (version 1.0.0). Where the build departed from the original plan, the architecture decision record (ADR) in [`docs/adr/`](docs/adr/) that made the change is named. [`STATUS.md`](STATUS.md) has the current state of the work.
 
 ### 5.1 Cargo workspace
 
@@ -96,7 +96,7 @@ Every tool returns a markdown `summary` for the model and a structured `data` ob
 - `privacy`: whether any row-level data is included, whether suppression was applied and at what threshold, which kinds of identifiers were detected, and which files were written;
 - a decision-support `notice` on clinical and legal answers.
 
-Reference content and snapshots are also exposed as MCP **resources**. Common multi-tool workflows are exposed as MCP **prompts**. Two exist so far: "investigate an outbreak" (Phase 3) and "plan a tabletop exercise" (Phase 13). Others, such as "build a community health assessment" and "prepare a grant application", come with their phases.
+Reference content and snapshots are also exposed as MCP **resources**. Common multi-tool workflows are exposed as MCP **prompts**. Four exist: "investigate an outbreak" (Phase 3), "plan a tabletop exercise" (Phase 13), "community health assessment" (a MAPP 2.0 workflow, Phase 15), and "prepare a grant application" (Phase 17).
 
 ### 5.4 Toolsets and role profiles
 
@@ -138,7 +138,7 @@ Example client configuration (Claude Desktop, macOS). The README has the current
         "-v", "/Users/nurse/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0"
       ]
     }
   }
@@ -163,7 +163,15 @@ Docker Desktop requires a paid subscription for larger organizations, which may 
 5. A versioned, signed multi-architecture image is published to GHCR.
 6. The nurse has accepted the phase using a short script of realistic prompts.
 
-Phases 0–13 are built. Items 3, 5, and 6 are still open for every one of them: the reference content is drafted with citations but has not yet been reviewed by the nurse, no signed image has been published, and no acceptance script has been run. `STATUS.md` tracks these open items.
+Phases 0–19 are built (version 1.0.0, 148 tools; no version has been tagged or published yet). Items 3, 5, and 6 are still open for every one of them: the reference content is drafted with citations but has not yet been reviewed by the nurse, no signed image has been published, and no acceptance script has been run. `STATUS.md` tracks these open items, and [`docs/content-review-sweep.md`](docs/content-review-sweep.md) lists every content file and snapshot added in Phases 15–19 for the nurse's review. The v1.0 hardening documents are [`docs/security/threat-model.md`](docs/security/threat-model.md), [`docs/admin-guide.md`](docs/admin-guide.md), the user guide in `docs/user-guide/`, and the content review sweep.
+
+Where Phases 15–19 departed from the plan (details in `STATUS.md` and `CHANGELOG.md`):
+
+- **Phase 15:** no USPSTF API adapter (the Task Force's hosts were blocked), so the A and B recommendations are a snapshot built from the published statements read through PubMed; no National DPP registry snapshot (CDC's registry hosts were blocked), so the tool uses DPH's list of active program sites. The offline geocoder bundles a four-town sample and a ZIP crosswalk and builds the full index as an optional file (ADR 0011).
+- **Phase 16:** ODPHP has no public Healthy People JSON API that could be found, so the adapter reads each objective's page; the Community Guide and *What Works for Health* sites were blocked, so the evidence snapshot holds the journal papers PubMed attributes to the Community Preventive Services Task Force and *What Works for Health* has no data; CASP is linked, not bundled.
+- **Phase 17:** the Grants.gov adapter targets Simpler.Grants.gov and was never run against the live service; the Massachusetts source is the Operational Services Division's weekly COMMBUYS bid list (commbuys.com was blocked).
+- **Phase 18:** PHAB's own document and the competency frameworks' numbered statements could not be read, so no measure text or competency statements are bundled; the plan's name "SAPHE 2.0" was not found on the DPH or statute pages read (the law is the 2020 SAPHE law, G.L. c. 111, s. 27D, and the grants are now the Public Health Excellence program).
+- **Phase 19:** the Federal Register and Regulations.gov adapters were never run against the live services (both hosts were blocked); the law corpus has full text for part of M.G.L. c. 111 and 105 CMR and an index for the rest, with an optional larger corpus.
 
 ## 6. Roadmap at a glance
 

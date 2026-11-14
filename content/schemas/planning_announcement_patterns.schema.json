@@ -1,0 +1,457 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/planning_announcement_patterns.schema.json",
+  "title": "Funding announcement reading patterns",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "kind_cues",
+    "deadline_cues",
+    "limit_cues",
+    "format_cues",
+    "eligibility_cues",
+    "eligibility_categories",
+    "submission_methods",
+    "required_list_cues",
+    "attachment_prefixes",
+    "rating_scale_cues",
+    "cost_share_cues",
+    "funding_cues",
+    "term_cues",
+    "criterion_types",
+    "default_outline"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "planning-announcement-patterns"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    },
+    "cited": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "kind_cues": {
+      "type": "object",
+      "required": [
+        "federal_nofo",
+        "ma_rfr",
+        "other_call"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "federal_nofo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ma_rfr": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "other_call": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "deadline_cues": {
+      "type": "object",
+      "required": [
+        "submission",
+        "questions",
+        "conference",
+        "intent",
+        "award",
+        "start"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "submission": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "conference": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "intent": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "award": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "start": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "limit_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "format_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "eligibility_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "eligibility_categories": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "keywords"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "submission_methods": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "keywords"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "required_list_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "attachment_prefixes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rating_scale_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cost_share_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "funding_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "term_cues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "criterion_types": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "keywords",
+          "narrative_section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "narrative_section": {
+            "enum": [
+              "needs_statement",
+              "project_narrative",
+              "sustainability",
+              "other"
+            ]
+          }
+        }
+      }
+    },
+    "default_outline": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "criterion_type",
+          "purpose"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "criterion_type": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

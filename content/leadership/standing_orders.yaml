@@ -1,0 +1,397 @@
+# Standing order skeleton for draft_standing_orders (LEAD-08): what the Massachusetts Board of
+# Registration in Nursing requires every standing order or protocol to contain (Advisory Ruling 9324)
+# and a vaccine standing order to contain (Advisory Ruling 9804), the outline of Immunize.org's and DPH's
+# vaccine standing orders, and where DPH's own signed standing orders for local boards of health are.
+# NO CLINICAL CONTENT is bundled: no vaccine, drug, dose, route, inclusion or exclusion criterion,
+# contraindication, or precaution. Those come from the nurse's cited source and the medical director signs.
+#
+# REVIEW STATUS: pending. Advisory Rulings 9324 (revised April 11, 2018) and 9804 (revised September 9,
+# 2015) were read in full on 2026-11-12 (mass.gov Word files); Immunize.org's influenza vaccine standing
+# order for adults (Item P3074, dated 9/14/2026), DPH's 2026-2027 influenza standing order for local
+# boards of health (Standing Order 2026-01), and DPH's "Vaccine Model Standing Orders" page were read on
+# the same date. The 244 CMR provisions about orders are bundled by the nursing_scope_of_practice_guide
+# tool (content id policy-nursing-scope-of-practice); this file points to them and does not repeat them.
+# Schema: content/schemas/leadership_standing_orders.schema.json
+meta:
+  id: leadership-standing-orders
+  title: Standing order skeleton (Board of Registration in Nursing Advisory Rulings 9324 and 9804; no clinical content)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: "2018-04-11"
+  source:
+    title: "Advisory Ruling 9324: Accepting, Verifying, Transcribing and Implementing Prescriber Orders (revised April 11, 2018)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9324-accepting-verifying-transcribing-and-implementing-medication-orders/download
+  related_sources:
+    - title: "Advisory Ruling 9804: Administration of Immunizing Agents and Vaccines (revised September 9, 2015)"
+      publisher: Massachusetts Board of Registration in Nursing
+      url: https://www.mass.gov/doc/ar-9804-administration-of-immunizing-agents-and-vaccines/download
+    - title: Vaccine Model Standing Orders
+      publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+      url: https://www.mass.gov/lists/vaccine-model-standing-orders
+    - title: Standing Orders Templates
+      publisher: Immunize.org
+      url: https://www.immunize.org/clinical/topic/standing-orders-templates/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The ten required elements, the three limits, and the vaccine elements are paraphrased from the two
+    advisory rulings as read on 2026-11-12 (high confidence); the Board revises its rulings, so check the
+    current versions. The outline of a vaccine standing order (eight numbered steps and an authorization
+    block) is read from one Immunize.org template and one DPH template and is a structure only (medium
+    confidence: other templates may differ). The skeleton's section list, the placeholder wording, and
+    which sections are filled by whom are this project's design, not the Board's or DPH's. NOT verified:
+    any federal or state time limit for a prescriber to authenticate a standing order (AR 9324 says "not
+    to exceed Federal or State requirements" without naming them), the requirements of your agency, your
+    insurer, or a collaborating pharmacy, other licensing boards' rules, and anything in
+    Immunize.org's other 39 templates. Immunize.org's current template says it "may be adapted per a
+    practice's discretion without obtaining permission" and asks that Immunize.org be acknowledged as
+    its source; that statement was read in one template and is not a verified license for every
+    Immunize.org document. This tool copies none of their text.
+
+sources:
+  ar9324:
+    title: "Advisory Ruling 9324: Accepting, Verifying, Transcribing and Implementing Prescriber Orders (revised April 11, 2018)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9324-accepting-verifying-transcribing-and-implementing-medication-orders/download
+    effective_date: "2018-04-11"
+    retrieved: 2026-11-12
+  ar9804:
+    title: "Advisory Ruling 9804: Administration of Immunizing Agents and Vaccines (revised September 9, 2015)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9804-administration-of-immunizing-agents-and-vaccines/download
+    effective_date: "2015-09-09"
+    retrieved: 2026-11-12
+  dph_hub:
+    title: Vaccine Model Standing Orders
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    url: https://www.mass.gov/lists/vaccine-model-standing-orders
+    effective_date: null
+    retrieved: 2026-11-12
+  dph_lboh_flu:
+    title: "Standing Order for Local Board of Health Administration of Influenza Vaccine: 2026-2027 (Massachusetts Department of Public Health Standing Order 2026-01, dated September 24, 2026)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-influenza-vaccine-2026-2027-0/download
+    effective_date: "2026-09-24"
+    retrieved: 2026-11-12
+  immunize_template:
+    title: "Standing Orders for Administering Influenza Vaccine to Adults (Item P3074, 9/14/2026)"
+    publisher: Immunize.org
+    url: https://www.immunize.org/catg.d/p3074.pdf
+    effective_date: "2026-09-14"
+    retrieved: 2026-11-12
+  immunize_hub:
+    title: "Clinical Resources: Standing Orders Templates (40 provider templates listed)"
+    publisher: Immunize.org
+    url: https://www.immunize.org/clinical/topic/standing-orders-templates/
+    effective_date: null
+    retrieved: 2026-11-12
+
+required_elements:
+  - id: e1_name
+    number: 1
+    text: The name of each substance or activity to be given or done.
+    section_ids: [substance_or_activity]
+  - id: e2_dose_route
+    number: 2
+    text: For a substance, the route or method and the specific dose.
+    section_ids: [dose_route]
+  - id: e3_criteria
+    number: 3
+    text: The inclusion and exclusion criteria the nurse checks before giving the substance or doing the activity.
+    section_ids: [inclusion_criteria, exclusion_criteria]
+  - id: e4_signature
+    number: 4
+    text: The signature or approval of a duly authorized prescriber, either on the standing order or on file with the facility, agency, or program that employs the nurse.
+    section_ids: [authorization]
+  - id: e5_presentation
+    number: 5
+    text: The details of the patient's presentation (subjective signs and symptoms).
+    section_ids: [presentation]
+  - id: e6_parameters
+    number: 6
+    text: As appropriate to the situation, when the substance or activity is given, including dosing tied to specific objective measures (for example laboratory results, blood pressure, reported chest pain, signs of overdose) and the follow-up measures to check the response.
+    section_ids: [objective_parameters]
+  - id: e7_emergency
+    number: 7
+    text: The circumstances in which the nurse must seek emergency help (for example call 911).
+    section_ids: [emergency]
+  - id: e8_records
+    number: 8
+    text: How accurate and detailed records of the encounter are kept.
+    section_ids: [documentation]
+  - id: e9_review
+    number: 9
+    text: A way for medical, pharmacy, and nursing staff to review, approve, and monitor the standing order on defined occasions, to confirm it is still current, useful, and safe.
+    section_ids: [review_mechanism]
+  - id: e10_authentication
+    number: 10
+    text: A way to make sure a duly authorized prescriber authenticates it within a defined time frame, not to exceed federal or state requirements.
+    section_ids: [authentication]
+required_elements_source: ar9324
+required_elements_section: Standing Order / Protocol
+required_elements_confidence: high
+
+limits:
+  - id: no_alteration
+    text: A standing order cannot let the nurse alter it once it has been started (for example start a new medication on her own).
+  - id: no_menu
+    text: A standing order cannot let the nurse choose the intervention from a menu of medications, dosing instructions, or actions.
+  - id: no_prescribing
+    text: A standing order cannot let the nurse prescribe, renew, refill, or extend a prescription.
+limits_source: ar9324
+limits_section: Standing Order / Protocol
+limits_confidence: high
+limits_note: >-
+  The Board also says a range order (a dose or interval that varies over a range) needs specific
+  objective measures to be collected and assessed first; a range order without them involves diagnosing
+  and prescribing and is outside RN and LPN practice. Read the full ruling.
+
+vaccine_elements:
+  - id: v_name
+    text: The name of each immunizing agent or vaccine.
+  - id: v_dose_route
+    text: The dose and the route or method of administration.
+  - id: v_criteria
+    text: Inclusion and exclusion criteria (indications, contraindications, precautions).
+  - id: v_signature
+    text: The signature or approval of a duly authorized prescriber, on the order or on file with the facility, agency, or program giving individual or mass immunizations.
+  - id: v_education
+    text: Education of the patient, parent, or guardian about the vaccine, including the risks and benefits of accepting or refusing it.
+  - id: v_consent
+    text: Permission of a parent or guardian when the patient is a child, as local, state, and federal rules require.
+  - id: v_miis
+    text: Reporting to the Massachusetts Immunization Information System as M.G.L. c. 111, s. 24M requires.
+  - id: v_vis
+    text: Giving the current federal Vaccine Information Statement before the vaccine (42 U.S.C. 300aa-26), with its edition date and the date it was given documented.
+  - id: v_documentation
+    text: Documentation of at least the VIS edition date and date given, the office address and the name and title of the person who gave the vaccine, the date given, and the vaccine manufacturer, lot number, and expiration date.
+vaccine_source: ar9804
+vaccine_section: Advisory (nurse's responsibilities)
+vaccine_confidence: high
+nurse_manager_note: >-
+  Advisory Ruling 9804 also tells a nurse in a management role to make sure the agency has written
+  policies for informed consent, competency of staff who give vaccines, VIS, MIIS reporting, reporting
+  errors and adverse events, and nursing care for complications and emergencies.
+
+outline_vaccine:
+  note: >-
+    The numbered steps in Immunize.org's and DPH's vaccine standing orders (the headings only; their
+    clinical text is not bundled). Both templates give the clinical details; this tool leaves them to you.
+  steps:
+    - Assess for need of vaccination
+    - Screen for contraindications and precautions
+    - Provide Vaccine Information Statements
+    - Prepare to administer the vaccine (product, dose, route, site, needle)
+    - Administer the vaccine (DPH's order lists approved products and doses)
+    - Document the vaccination
+    - Be prepared to manage medical emergencies
+    - Report all adverse events to VAERS
+    - Authorization (practice or clinic name, effective date, expiry or rescind date, medical director's name, signature, date)
+  source: immunize_template
+  section: Procedure; Standing Orders Authorization
+  second_source: dph_lboh_flu
+  confidence: medium
+  license_statement: >-
+    The Immunize.org template says it "may be adapted per a practice's discretion without obtaining
+    permission from Immunize.org" and asks that the practice acknowledge Immunize.org as its source (read
+    in Item P3074; not verified for other templates).
+  license_confidence: medium
+
+dph_orders:
+  note: >-
+    DPH's "Vaccine Model Standing Orders" page (read 2026-11-12) lists standing orders already signed
+    by the DPH Commissioner for local boards of health (influenza and COVID-19 vaccine, and medication
+    for managing anaphylaxis in children and adolescents and in adults, to support giving vaccines,
+    each for 2026-2027), signed orders for pharmacies, and model standing orders in Word for influenza and
+    COVID-19. A board of health that gives these vaccines should start from the DPH order for its season
+    rather than draft its own; check the page for the current versions. DPH says the most current
+    Immunize.org templates are at immunize.org/standing-orders.
+  source: dph_hub
+  section: Local Board of Health Standing Orders; Model Standing Orders
+  confidence: high
+  items:
+    - title: "Standing Order for Local Board of Health Administration of Influenza Vaccine: 2026-2027"
+      url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-influenza-vaccine-2026-2027-0/download
+    - title: "Standing Order for Local Board of Health Administration of COVID-19 Vaccine: 2026-2027"
+      url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-covid-19-vaccine-2026-2027/download
+    - title: "Standing Order for Local Board of Health Administration of Medication for Managing Anaphylaxis in Children and Adolescents to Support Administration of Vaccines: 2026-2027"
+      url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-medication-for-managing-anaphylaxis-in-children-and-adolescents-to-support-administration-of-vaccines-2026-2027/download
+    - title: "Standing Order for Local Board of Health Administration of Medication for Managing Anaphylaxis in Adults to Support Administration of Vaccines: 2026-2027"
+      url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-medication-for-managing-anaphylaxis-in-adults-to-support-administration-of-vaccines-2026-2027/download
+
+order_types:
+  - id: vaccine
+    label: Vaccine administration
+    uses: [ar9324, ar9804]
+    sections: [title_scope, substance_or_activity, dose_route, inclusion_criteria, exclusion_criteria, contraindications_precautions, vis_education_consent, procedure_notes, emergency, documentation, reporting, review_mechanism, authentication, authorization]
+  - id: medication
+    label: Other medication (for example naloxone or epinephrine)
+    uses: [ar9324]
+    sections: [title_scope, substance_or_activity, dose_route, inclusion_criteria, exclusion_criteria, contraindications_precautions, presentation, objective_parameters, procedure_notes, emergency, documentation, reporting, review_mechanism, authentication, authorization]
+  - id: activity
+    label: Nursing activity without a medication (for example a screening or point-of-care test)
+    uses: [ar9324]
+    sections: [title_scope, substance_or_activity, inclusion_criteria, exclusion_criteria, presentation, objective_parameters, procedure_notes, emergency, documentation, reporting, review_mechanism, authentication, authorization]
+
+skeleton:
+  - id: title_scope
+    label: Title, purpose, and who may use it
+    kind: nurse
+    clinical: false
+    guidance: Say what the order is for, which staff (by role and qualification) may act under it, where, and for which patients.
+    placeholder: "[NURSE: purpose, staff roles and qualifications, setting, and patient population]"
+  - id: substance_or_activity
+    label: Substance or activity
+    kind: nurse
+    clinical: true
+    element: e1_name
+    guidance: The name of each substance or activity, as your source names it.
+    placeholder: "[NURSE: name of each substance or activity; cite your source]"
+  - id: dose_route
+    label: Dose, route, or method
+    kind: nurse
+    clinical: true
+    element: e2_dose_route
+    guidance: The specific dose and the route or method, as your source gives them.
+    placeholder: "[NURSE: specific dose and route or method; cite your source]"
+  - id: inclusion_criteria
+    label: Inclusion criteria
+    kind: nurse
+    clinical: true
+    element: e3_criteria
+    guidance: Who may be treated or screened under this order, as your source gives it.
+    placeholder: "[NURSE: inclusion criteria; cite your source]"
+  - id: exclusion_criteria
+    label: Exclusion criteria
+    kind: nurse
+    clinical: true
+    element: e3_criteria
+    guidance: Who must not be treated or screened under this order; refer them to the prescriber.
+    placeholder: "[NURSE: exclusion criteria; cite your source]"
+  - id: contraindications_precautions
+    label: Contraindications and precautions
+    kind: nurse
+    clinical: true
+    element: e3_criteria
+    guidance: The contraindications and precautions the nurse screens for, as your cited source lists them.
+    placeholder: "[NURSE: contraindications and precautions; cite your source (name, edition, date)]"
+  - id: presentation
+    label: Patient presentation (subjective signs and symptoms)
+    kind: nurse
+    clinical: true
+    element: e5_presentation
+    guidance: The signs and symptoms that bring the patient under this order.
+    placeholder: "[NURSE: presenting signs and symptoms; cite your source]"
+  - id: objective_parameters
+    label: Objective measures, dosing conditions, and follow-up
+    kind: nurse
+    clinical: true
+    element: e6_parameters
+    guidance: Measures the nurse collects first (blood pressure, laboratory values, and so on), the dosing that goes with each, and how the response is checked. A range order needs these.
+    placeholder: "[NURSE: objective measures, the dosing tied to each, and follow-up; cite your source, or write 'not applicable' with the reason]"
+  - id: vis_education_consent
+    label: Vaccine Information Statement, education, and consent
+    kind: nurse
+    clinical: false
+    guidance: Giving the current VIS, telling the patient or parent about risks and benefits of accepting or refusing, and getting a parent or guardian's permission for a child (Advisory Ruling 9804).
+    placeholder: "[NURSE: how the current VIS is given and documented; education about risks and benefits; consent and parent or guardian permission for a child]"
+  - id: procedure_notes
+    label: Procedure and handling
+    kind: nurse
+    clinical: true
+    guidance: Preparation, product handling, site, equipment, and observation steps, from your source.
+    placeholder: "[NURSE: procedure steps from your cited source, or write 'see attached protocol' and attach it]"
+  - id: emergency
+    label: When to call for emergency help, and managing emergencies
+    kind: nurse
+    clinical: true
+    element: e7_emergency
+    guidance: The circumstances in which the nurse seeks emergency help (for example calls 911) and the emergency medical protocol that applies (for a vaccine, the anaphylaxis protocol).
+    placeholder: "[NURSE: circumstances for emergency help and the emergency protocol; cite your source]"
+  - id: documentation
+    label: Documentation and record keeping
+    kind: nurse
+    clinical: false
+    element: e8_records
+    guidance: What is recorded in which record, by whom, and how it is kept. For a vaccine, at least the VIS edition and date, the vaccinator's name and title and the office address, the date, and the vaccine manufacturer, lot number, and expiration date (Advisory Ruling 9804).
+    placeholder: "[NURSE: the record used and what is documented for each encounter]"
+  - id: reporting
+    label: Reporting
+    kind: nurse
+    clinical: false
+    guidance: "Reports the nurse makes: for a vaccine, the immunization registry (MIIS, M.G.L. c. 111, s. 24M) and adverse events (VAERS); other adverse events, errors, and reportable conditions as your agency and the law require."
+    placeholder: "[NURSE: reports the nurse makes (MIIS and VAERS for a vaccine) and to whom; adverse events and errors]"
+  - id: review_mechanism
+    label: Review by medical, pharmacy, and nursing staff
+    kind: medical_director
+    clinical: false
+    element: e9_review
+    guidance: How often and by whom the order is reviewed to confirm it is current, useful, and safe.
+    placeholder: "[MEDICAL DIRECTOR: who reviews this order (medical, pharmacy, nursing), how often, and how changes are approved]"
+  - id: authentication
+    label: Authentication by the prescriber
+    kind: medical_director
+    clinical: false
+    element: e10_authentication
+    guidance: The defined time frame in which the prescriber authenticates each use of the order, not to exceed federal or state requirements.
+    placeholder: "[MEDICAL DIRECTOR: time frame for authentication of each use, within federal and state requirements]"
+  - id: authorization
+    label: Authorization
+    kind: medical_director
+    clinical: false
+    element: e4_signature
+    guidance: The prescriber's printed name, signature, and date; the effective date; and the date it ends or is reviewed. The signature may be on the order or on file with the agency.
+    placeholder: "[MEDICAL DIRECTOR: printed name, signature, date, effective date, and review date]"
+
+sectional_checks:
+  menu_phrases:
+    - nurse may choose
+    - nurse can choose
+    - nurse chooses
+    - nurse selects
+    - at the nurse's discretion
+    - at the discretion of the nurse
+    - nurse's judgment
+    - nurse judgment
+    - choose from
+    - choose between
+    - select from
+    - may substitute
+  alteration_phrases:
+    - may increase the dose
+    - may change the dose
+    - may adjust the dose
+    - may start a new medication
+    - may initiate a new
+    - may add another medication
+  prescribing_phrases:
+    - prescribe
+    - renew
+    - refill
+    - extend the prescription
+  note: >-
+    These phrase lists are this project's word cues for the three limits in Advisory Ruling 9324. A
+    match means "read this section again against the ruling"; no match does not mean the section complies.
+
+related_tools:
+  - tool: nursing_scope_of_practice_guide
+    content_id: policy-nursing-scope-of-practice
+    text: Bundled 244 CMR and Board advisory ruling content (including Advisory Ruling 9324's standing order section, its range-order paragraph, and Advisory Ruling 9804); use it for citations and the full wording.
+
+not_verified:
+  - item: Prescriber authentication time frame
+    detail: AR 9324 says the time frame must not exceed federal or state requirements and names none; this tool does not state one.
+  - item: Collaborating pharmacy, insurer, and agency requirements
+    detail: Not read.
+  - item: Other Immunize.org and DPH templates
+    detail: One Immunize.org template and one DPH template were read for structure; the other 39 Immunize.org templates were not.
+  - item: Immunize.org license for other documents
+    detail: Read only in Item P3074.
+  - item: Federal rules
+    detail: Federal rules that may apply to a given medication or program (for example controlled substances, vaccine programs) were not searched.
+  - item: Clinical content
+    detail: None is bundled by design; every clinical statement in a draft comes from the source you cite.

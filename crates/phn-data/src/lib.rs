@@ -73,3 +73,56 @@ pub mod chemicals;
 pub mod food_access;
 // End of Phase 14 chemfood.
 // End of Phase 14 adapters.
+// Phase 15 adapters go below this line.
+// Phase 15 screen (CHR-02, CHR-03).
+pub mod dpp;
+// End of Phase 15 screen.
+// Phase 15 prevent (CHR-04, CHR-05).
+pub mod preventive;
+// End of Phase 15 prevent.
+// Phase 15 cha (EQ-08, EQ-09, EQ-10).
+// End of Phase 15 cha.
+// Phase 15 geo (EPI-13).
+pub mod geocoder;
+// End of Phase 15 geo.
+// End of Phase 15 adapters.
+// Phase 16 adapters go below this line.
+// Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+pub mod healthy_people;
+// End of Phase 16 design.
+// Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+pub mod cpstf;
+// End of Phase 16 interventions.
+// Phase 16 appraise (EBP-03, EBP-04).
+pub mod crossref;
+// End of Phase 16 appraise.
+// Phase 16 qi (EBP-05).
+// End of Phase 16 qi.
+// End of Phase 16 adapters.
+// Phase 17 adapters go below this line.
+// Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+pub mod grants;
+// End of Phase 17 grants.
+// Phase 17 budget (PLAN-09, PLAN-10).
+// End of Phase 17 budget.
+// Phase 17 finance (LEAD-01, LEAD-02).
+// End of Phase 17 finance.
+// End of Phase 17 adapters.
+// Phase 18 adapters go below this line.
+// Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+pub mod strategy;
+// End of Phase 18 strategy.
+// Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+// End of Phase 18 workforce.
+// Phase 18 ethics (EBP-07, POL-05, POL-06).
+// End of Phase 18 ethics.
+// End of Phase 18 adapters.
+// Phase 19 adapters go below this line.
+// Phase 19 tracking (POL-01, POL-03).
+pub mod fedreg;
+pub mod malegislature;
+// End of Phase 19 tracking.
+// Phase 19 law (POL-02, POL-04, POL-07).
+pub mod law;
+// End of Phase 19 law.
+// End of Phase 19 adapters.

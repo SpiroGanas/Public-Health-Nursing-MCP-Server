@@ -1,0 +1,215 @@
+# Word lists the funding-announcement reader uses to find eligibility, deadlines, page limits,
+# attachments, and scoring criteria in a notice of funding opportunity (NOFO) or a Massachusetts
+# request for response (RFR), plus how scoring criteria map to narrative sections and the default
+# response outline, for analyze_funding_announcement (PLAN-07) and draft_grant_narrative (PLAN-08).
+#
+# REVIEW STATUS: pending. THESE ARE THIS PROJECT'S OWN HEURISTICS (tool defaults), tried on two
+# public Massachusetts announcements (retrieved 2026-11-12) and on synthetic fixtures; no federal
+# NOFO could be fetched, because Grants.gov and the federal grant sites were blocked.
+# Schema: content/schemas/planning_announcement_patterns.schema.json
+meta:
+  id: planning-announcement-patterns
+  title: Funding announcement reading patterns, criterion types, and default response outline
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: This project's heuristics, calibrated on public Massachusetts announcements
+    publisher: Public Health Nursing MCP Server (draft)
+    url: https://www.mass.gov/doc/phn-2025-12-cafo-request-for-response-rfr/download
+  related_sources:
+    - title: "Notice of Funding Opportunity: FY2027 Transitional Crossing Site Selections"
+      publisher: Massachusetts Division of Ecological Restoration
+      url: https://www.mass.gov/doc/fy27-transitional-crossing-site-selections-notice-of-funding-opportunity/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Nothing here is regulatory or clinical content: it is word lists and a generic outline that
+    decide what the reader looks for. They were written by this project (low confidence for
+    federal NOFOs, which could not be fetched; medium for Massachusetts RFRs, tried on one public
+    RFR from the Executive Office of Housing and Livable Communities, PHN 2025-12, and one
+    notice of funding opportunity from the Division of Ecological Restoration). The reader can
+    miss items written in tables, images, or linked documents, and can mistake a sentence for a
+    requirement; the checklist it writes says what it could not find. Always read the
+    announcement itself, and its amendments, before relying on the checklist.
+
+sources:
+  rfr-calibration:
+    title: "Request for Responses: Pre-qualification of Entities to Serve as Chief Financial and Administrative Officer (PHN 2025-12), calibration document (not bundled)"
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/doc/phn-2025-12-cafo-request-for-response-rfr/download
+    effective_date: 2025-09-19
+    retrieved: 2026-11-12
+  nofo-calibration:
+    title: "Notice of Funding Opportunity: FY2027 Transitional Crossing Site Selections, calibration document (not bundled)"
+    publisher: Massachusetts Division of Ecological Restoration
+    url: https://www.mass.gov/doc/fy27-transitional-crossing-site-selections-notice-of-funding-opportunity/download
+    effective_date: null
+    retrieved: 2026-11-12
+
+# Phrases (lower case) that point to the kind of announcement. Counted, not decisive.
+kind_cues:
+  federal_nofo: [notice of funding opportunity, nofo, grants.gov, sam.gov, unique entity identifier, uei, assistance listing, sf-424, 2 cfr 200, cooperative agreement, merit review, funding opportunity number, authorizing legislation, applicant eligibility]
+  ma_rfr: [request for response, request for responses, rfr, commbuys, 801 cmr 21, bidder, bidders, osd, commonwealth of massachusetts, sbpp, procurement contact, bid number, small business purchasing program]
+  other_call: [request for proposals, request for applications, call for proposals, letter of inquiry, foundation, rfp, rfa]
+
+# What kind of date a line is about (first group that matches the line or the line before it wins).
+deadline_cues:
+  submission: [responses due, response due, proposals due, applications due, application due, application deadline, submission deadline, must be received, no later than, due date, deadline for submission, submit by, closing date, closes, bid opening, due by]
+  questions: [questions due, bidder questions, written questions, questions must, inquiries, q&a, question deadline]
+  conference: [bidders conference, bidders' conference, applicants conference, applicant conference, pre-application, pre-bid, information session, webinar, technical assistance call, conference call]
+  intent: [notice of intent, letter of intent, intent to apply, intent to respond, letter of inquiry]
+  award: [award notification, notice of award, anticipated award, awards announced, notification of award, evaluative meeting, evaluative meetings, selection, contract start, negotiation]
+  start: [project start, period of performance begins, start date, anticipated start, contract term begins, project period]
+
+# Phrases that introduce a page, word, or character limit, and style rules to report.
+limit_cues: [not exceed, no more than, maximum of, limited to, up to, page limit, must not be longer than, not to exceed, at most, maximum length, limit of]
+format_cues: [font, times new roman, arial, calibri, point size, double spaced, double-spaced, single spaced, single-spaced, margin, margins, 8.5 x 11, letter size, pdf format, file format, pdf, docx, file name, naming convention]
+
+eligibility_cues: [eligible applicant, eligible applicants, eligibility, who may apply, who can apply, may apply, must be a, are eligible, is eligible, not eligible, ineligible, only .* may, open to, eligible entities, applicants must]
+# Applicant categories reported when a keyword appears in an eligibility passage.
+eligibility_categories:
+  - id: municipality
+    label: Municipality (city or town)
+    keywords: [municipality, municipalities, municipal, city, cities, town, towns, local government, local governments, board of health, boards of health, local health department, local health departments, health department, health departments]
+  - id: county
+    label: County government
+    keywords: [county, counties, county government]
+  - id: regional
+    label: Regional agency or district
+    keywords: [regional planning, regional health, health district, health districts, public health district, public health districts, special district, council of governments, regional collaborative, regional collaboratives]
+  - id: state_agency
+    label: State agency
+    keywords: [state agency, state agencies, state government, state governments, commonwealth agency, executive office]
+  - id: tribal
+    label: Tribal government or organization
+    keywords: [tribal, tribe, tribes, native american]
+  - id: nonprofit
+    label: Nonprofit organization
+    keywords: [nonprofit, non-profit, 501(c)(3), 501(c), community-based organization, community based organization, cbo, cbos, charitable]
+  - id: higher_ed
+    label: College or university
+    keywords: [institution of higher education, institutions of higher education, college, university, universities]
+  - id: school
+    label: School district
+    keywords: [school district, school districts, public school, charter school]
+  - id: health_care
+    label: Hospital, health center, or health system
+    keywords: [hospital, hospitals, health center, health centers, federally qualified, health system, health care provider, healthcare provider]
+  - id: for_profit
+    label: For-profit business
+    keywords: [for-profit, for profit, business, businesses, vendor, vendors, small business, sbpp]
+  - id: individual
+    label: Individuals
+    keywords: [individuals, sole proprietor, sole proprietors, individual consultant]
+
+# How the announcement says it is submitted.
+submission_methods:
+  - id: commbuys
+    label: COMMBUYS (Massachusetts)
+    keywords: [commbuys]
+  - id: grants_gov
+    label: Grants.gov
+    keywords: [grants.gov, simpler.grants.gov]
+  - id: sam_registration
+    label: SAM.gov registration and a unique entity identifier
+    keywords: [sam.gov, unique entity identifier, uei]
+  - id: grantsolutions
+    label: GrantSolutions
+    keywords: [grantsolutions]
+  - id: email
+    label: Email
+    keywords: [by email, via email, e-mail to, emailed to, email to]
+  - id: portal
+    label: Online portal
+    keywords: [online portal, web portal, application portal, submission portal]
+  - id: paper
+    label: Paper or hard copy
+    keywords: [hard copy, paper copy, paper copies, original and, mailed to, hand deliver, hand-deliver]
+
+# Lines that start a list of things to include in the response.
+required_list_cues: [must include, must submit, should include, shall include, include the following, required documents, required attachments, submission requirements, application components, response must contain, the following documents, the application must]
+attachment_prefixes: [appendix, attachment, exhibit, enclosure, schedule, form]
+rating_scale_cues: [highly advantageous, advantageous, not advantageous, meets expectations, does not meet, exceeds, fully meets, partially meets, unacceptable, acceptable]
+cost_share_cues: [cost sharing, cost-sharing, cost share, matching funds, match requirement, in-kind, non-federal share, leverage]
+funding_cues: [award, awards, funding, maximum, ceiling, floor, total, per year, up to, budget, available, anticipated, approximately, estimated, not to exceed, range]
+term_cues: [period of performance, project period, budget period, contract term, term of the contract, initial term, performance period, grant period, award period]
+
+# What kind of narrative section a scoring criterion belongs to. keywords are matched as whole
+# words or word starts in the criterion label (lower case); the first type that matches wins, in
+# this order. narrative_section is one of needs_statement, project_narrative, sustainability, other.
+criterion_types:
+  - id: sustainability
+    label: Sustainability and continuation
+    keywords: [sustainab, continuation, long-term, long term, future funding, after the grant, beyond the grant, institutionalize]
+    narrative_section: sustainability
+  - id: budget
+    label: Budget and cost
+    keywords: [budget, cost, fee, fees, price, pricing, value, cost-effective, financial]
+    narrative_section: other
+  - id: evaluation
+    label: Evaluation and performance measures
+    keywords: [evaluation plan, evaluation, performance measure, performance measures, outcomes, outcome, data collection, monitoring, measurement, impact, accountab]
+    narrative_section: project_narrative
+  - id: capacity
+    label: Organizational capacity and experience
+    keywords: [capacity, organizational, experience, qualifications, qualification, staff, staffing, personnel, management, resumes, references, track record, readiness]
+    narrative_section: project_narrative
+  - id: partnerships
+    label: Partnerships and collaboration
+    keywords: [partnership, partnerships, collaboration, collaborat, coalition, stakeholder, stakeholders, community engagement, letters of support, coordination]
+    narrative_section: project_narrative
+  - id: equity
+    label: Health equity and priority populations
+    keywords: [equity, disparit, priority population, priority populations, underserved, culturally, language access, inclusion, reach]
+    narrative_section: needs_statement
+  - id: need
+    label: Statement of need
+    keywords: [need, needs, problem, background, community profile, data, rationale, justification, significance, population served, target population]
+    narrative_section: needs_statement
+  - id: approach
+    label: Approach, work plan, and activities
+    keywords: [approach, work plan, workplan, project design, program design, methodology, methods, activities, implementation, strategy, strategies, scope of services, scope of work, project description, narrative, goals, objectives, timeline, deliverables, innovation]
+    narrative_section: project_narrative
+  - id: cover
+    label: Cover letter, abstract, and forms
+    keywords: [cover letter, abstract, summary, forms, certifications, assurances, compliance, required documents, submission requirements]
+    narrative_section: other
+
+# Used when the announcement's own scoring criteria cannot be found.
+default_outline:
+  - id: summary
+    label: Cover letter or project summary
+    criterion_type: cover
+    purpose: Who you are, what you will do, for whom, and the amount requested, in one page.
+  - id: need
+    label: Statement of need
+    criterion_type: need
+    purpose: The health problem in your community, cited data with source and year, who is most affected, and the gap in current services.
+  - id: approach
+    label: Project approach and work plan
+    criterion_type: approach
+    purpose: Goals and objectives, activities, timeline, staff and partners, and why the approach is expected to work (evidence).
+  - id: evaluation
+    label: Evaluation and performance measures
+    criterion_type: evaluation
+    purpose: How you will know the project worked, what you will measure, who collects it, and how results are used.
+  - id: capacity
+    label: Organizational capacity
+    criterion_type: capacity
+    purpose: Your agency's experience, staff, systems, and fiscal management for this kind of project.
+  - id: sustainability
+    label: Sustainability
+    criterion_type: sustainability
+    purpose: How the work continues after this funding ends.
+  - id: budget
+    label: Budget and budget narrative
+    criterion_type: budget
+    purpose: Costs by category with the basis for each (see build_program_budget).
+  - id: attachments
+    label: Required forms and attachments
+    criterion_type: cover
+    purpose: Every form, letter, and attachment the announcement requires.
