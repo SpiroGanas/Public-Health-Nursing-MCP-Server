@@ -15,7 +15,7 @@ toml.workspace = true
 thiserror.workspace = true
 strsim.workspace = true
 unicode-normalization.workspace = true
-chrono.workspace = true
+jiff.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

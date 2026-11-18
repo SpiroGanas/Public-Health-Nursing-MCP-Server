@@ -11,8 +11,8 @@
 use std::collections::BTreeMap;
 use std::sync::LazyLock;
 
-use chrono::{Datelike, Duration, NaiveDate, Weekday};
 use phn_content::ContentMeta;
+use phn_core::time::{Date, Weekday, WeekdayExt};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use phn_docs::model::{Block, Document, TableBlock};
 use schemars::JsonSchema;
@@ -183,49 +183,51 @@ pub struct SocialCampaignResult {
 
 fn weekday(n: u32) -> Weekday {
     match n {
-        1 => Weekday::Mon,
-        2 => Weekday::Tue,
-        3 => Weekday::Wed,
-        4 => Weekday::Thu,
-        5 => Weekday::Fri,
-        6 => Weekday::Sat,
-        _ => Weekday::Sun,
+        1 => Weekday::Monday,
+        2 => Weekday::Tuesday,
+        3 => Weekday::Wednesday,
+        4 => Weekday::Thursday,
+        5 => Weekday::Friday,
+        6 => Weekday::Saturday,
+        _ => Weekday::Sunday,
     }
 }
 
-fn last_day(year: i32, month: u32) -> NaiveDate {
+fn last_day(year: i32, month: u32) -> Date {
     let (y, m) = if month == 12 {
         (year + 1, 1)
     } else {
         (year, month + 1)
     };
-    NaiveDate::from_ymd_opt(y, m, 1).expect("valid date") - Duration::days(1)
+    phn_core::time::ymd(y, m, 1).expect("valid date") - phn_core::time::days(1)
 }
 
 /// Start and end dates of an observance in a year.
-pub(crate) fn observance_dates(o: &Observance, year: i32) -> Option<(NaiveDate, NaiveDate)> {
-    let first = NaiveDate::from_ymd_opt(year, o.month, 1)?;
+pub(crate) fn observance_dates(o: &Observance, year: i32) -> Option<(Date, Date)> {
+    let first = phn_core::time::ymd(year, o.month, 1)?;
     match o.kind.as_str() {
         "month" => Some((first, last_day(year, o.month))),
         "day" => {
-            let d = NaiveDate::from_ymd_opt(year, o.month, o.day?)?;
+            let d = phn_core::time::ymd(year, o.month, o.day?)?;
             Some((d, d))
         }
         // A full week runs Sunday to Saturday.
         "first_full_week" => {
             let off = (7 - first.weekday().num_days_from_sunday()) % 7;
-            let s = first + Duration::days(i64::from(off));
-            Some((s, s + Duration::days(6)))
+            let s = first + phn_core::time::days(i64::from(off));
+            Some((s, s + phn_core::time::days(6)))
         }
         "last_full_week" => {
             let last = last_day(year, o.month);
             let off = (last.weekday().num_days_from_sunday() + 1) % 7;
-            let e = last - Duration::days(i64::from(off));
-            Some((e - Duration::days(6), e))
+            let e = last - phn_core::time::days(i64::from(off));
+            Some((e - phn_core::time::days(6), e))
         }
         "nth_weekday" => {
             let wd = weekday(o.weekday?);
-            let d = NaiveDate::from_weekday_of_month_opt(year, o.month, wd, o.nth? as u8)?;
+            let d = phn_core::time::ymd(year, o.month, 1)?
+                .nth_weekday_of_month(i8::try_from(o.nth?).ok()?, wd)
+                .ok()?;
             Some((d, d))
         }
         _ => None,
@@ -405,8 +407,8 @@ fn check_post(
     })
 }
 
-fn parse_date(s: &str, what: &str) -> Result<NaiveDate> {
-    NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d")
+fn parse_date(s: &str, what: &str) -> Result<Date> {
+    phn_core::time::parse_date(s.trim(), "%Y-%m-%d")
         .map_err(|_| PhnError::InvalidInput(format!("{what} '{s}' is not a date (YYYY-MM-DD)")))
 }
 
@@ -422,11 +424,11 @@ pub fn create_social_media_campaign(
     }
     let start = match args.start_date.as_deref().filter(|s| !s.trim().is_empty()) {
         Some(s) => parse_date(s, "start_date")?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let weeks = args.weeks.unwrap_or(4).clamp(1, 26);
     let per_week = args.posts_per_week.unwrap_or(2).clamp(1, 7);
-    let end = start + Duration::days(i64::from(weeks) * 7 - 1);
+    let end = start + phn_core::time::days(i64::from(weeks) * 7 - 1);
     let target = args.target_grade.unwrap_or_else(default_target_grade);
     let mut platforms: Vec<&Platform> = Vec::new();
     let names = if args.platforms.is_empty() {
@@ -509,7 +511,7 @@ pub fn create_social_media_campaign(
         sources.push(phn_core::Source::local_file(&label));
     } else {
         for o in &c.observances {
-            for y in [start.year(), end.year()] {
+            for y in [i32::from(start.year()), i32::from(end.year())] {
                 if let Some((s, e)) = observance_dates(o, y)
                     && e >= start
                     && s <= end
@@ -539,13 +541,13 @@ pub fn create_social_media_campaign(
 
     // ---- calendar: spread posts across the week (Tue/Thu first), on related observance days when possible
     let order = [
-        Weekday::Tue,
-        Weekday::Thu,
-        Weekday::Mon,
-        Weekday::Wed,
-        Weekday::Fri,
-        Weekday::Sat,
-        Weekday::Sun,
+        Weekday::Tuesday,
+        Weekday::Thursday,
+        Weekday::Monday,
+        Weekday::Wednesday,
+        Weekday::Friday,
+        Weekday::Saturday,
+        Weekday::Sunday,
     ];
     let days: Vec<Weekday> = order.iter().take(per_week as usize).copied().collect();
     let mut calendar = Vec::new();
@@ -568,7 +570,7 @@ pub fn create_social_media_campaign(
                 });
             }
         }
-        d += Duration::days(1);
+        d += phn_core::time::days(1);
     }
     // Add single-day related observances that fall outside the regular posting days.
     for o in observances
@@ -820,8 +822,8 @@ pub fn create_social_media_campaign(
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap()
+    fn d(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%Y-%m-%d").unwrap()
     }
 
     #[test]

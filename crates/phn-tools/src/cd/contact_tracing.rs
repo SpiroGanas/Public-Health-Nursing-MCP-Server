@@ -2,8 +2,8 @@
 //! window, monitoring and PEP dates, and an XLSX contact-tracking template
 //! (with date formulas) written to the output folder.
 
-use chrono::NaiveDate;
 use phn_content::disease_rules::{self, Anchor, DayRef, Disease, Role, Rule, Setting};
+use phn_core::time::Date;
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use rust_xlsxwriter::{Format, Formula, Workbook, XlsxError};
 use schemars::JsonSchema;
@@ -419,7 +419,7 @@ pub fn plan_contact_tracing(
         ));
     }
     let inf = infectious_dates(disease, &dates);
-    let (elicit_from, elicit_through): (Option<NaiveDate>, Option<NaiveDate>) = match &inf {
+    let (elicit_from, elicit_through): (Option<Date>, Option<Date>) = match &inf {
         Some((s, e, _)) => {
             let through = match isolation {
                 Some(i) if i <= *e => {

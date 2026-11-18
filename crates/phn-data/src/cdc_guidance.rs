@@ -22,6 +22,7 @@
 //!   week, many of them old items re-indexed), so the server returns a
 //!   ready-made Stacks search link instead of results.
 
+use phn_core::time::TimestampExt;
 use phn_core::{PhnError, Result, SourceMode};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -116,7 +117,7 @@ fn clean_url(u: &str) -> String {
 
 fn date_part(s: &str) -> Option<String> {
     let d = s.get(..10)?;
-    chrono::NaiveDate::parse_from_str(d, "%Y-%m-%d")
+    phn_core::time::parse_date(d, "%Y-%m-%d")
         .ok()
         .map(|_| d.to_string())
 }
@@ -369,7 +370,7 @@ fn meta(html: &str, attr: &str, key: &str) -> Option<String> {
 /// "September 10, 2026" → "2026-09-10".
 pub fn parse_long_date(s: &str) -> Option<String> {
     let s = s.trim().trim_end_matches(',');
-    chrono::NaiveDate::parse_from_str(s, "%B %d, %Y")
+    phn_core::time::parse_date(s, "%B %d, %Y")
         .ok()
         .map(|d| d.to_string())
 }
@@ -429,7 +430,7 @@ pub async fn han_notices(
     let mut notes = Vec::new();
     let mut items: Vec<GuidanceItem> = Vec::new();
     let mut mode = SourceMode::Live;
-    let mut as_of = chrono::Utc::now().to_rfc3339();
+    let mut as_of = phn_core::time::Timestamp::now().to_rfc3339();
     let mut fallback_reason = None;
     match get_json(http, cache, HAN_ARCHIVE, 24 * 3600).await {
         Ok((v, m, a, f)) => {

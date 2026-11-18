@@ -386,6 +386,77 @@ not `PHN-Data/line_list.csv`.
 `docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
+### Running without Docker (optional)
+
+Claude Desktop can also start the server directly, with no container. Docker remains the
+recommended, more isolated setup; the native server is useful when Docker is not available or
+for development. Both can be listed in the same configuration file. Everything the server needs
+(content, data snapshots, fonts) is built into the one program file.
+
+1. Install Rust from [rustup.rs](https://rustup.rs) (version 1.88 or newer). On Windows, rustup
+   also asks for the Visual Studio C++ Build Tools ("Desktop development with C++"); install them.
+2. From a copy of this repository, build the server:
+
+   ```sh
+   cargo build --release --locked -p phn-server --bin phn-mcp-server
+   ```
+
+   The program is `target/release/phn-mcp-server` (`phn-mcp-server.exe` on Windows). Copy it to
+   a folder that does not change when you rebuild, for example `C:\Users\YOUR-NAME\PHN\bin`.
+3. Create a data folder (for example `C:\Users\YOUR-NAME\PHN-Data`) and a cache folder (for
+   example `C:\Users\YOUR-NAME\PHN\cache`), then check the setup in PowerShell:
+
+   ```powershell
+   $env:PHN_DATA_DIR = "C:\Users\YOUR-NAME\PHN-Data"
+   $env:PHN_CACHE_DIR = "C:\Users\YOUR-NAME\PHN\cache"
+   C:\Users\YOUR-NAME\PHN\bin\phn-mcp-server.exe check
+   ```
+
+4. Add a second entry next to the Docker one in `claude_desktop_config.json`. Use full paths
+   (Claude Desktop does not expand `%USERPROFILE%` or `~`) and double backslashes in JSON:
+
+   ```json
+   {
+     "mcpServers": {
+       "public-health-nursing": {
+         "command": "docker",
+         "args": ["...the Docker entry above, unchanged..."]
+       },
+       "public-health-nursing-local": {
+         "command": "C:\\Users\\YOUR-NAME\\PHN\\bin\\phn-mcp-server.exe",
+         "env": {
+           "PHN_DATA_DIR": "C:\\Users\\YOUR-NAME\\PHN-Data",
+           "PHN_CACHE_DIR": "C:\\Users\\YOUR-NAME\\PHN\\cache",
+           "PHN_PROFILE": "school_nurse"
+         }
+       }
+     }
+   }
+   ```
+
+   On macOS or Linux use paths such as `/Users/YOUR-NAME/PHN/bin/phn-mcp-server`.
+
+5. **Turn on only one of the two at a time** (Claude Desktop → Settings → Connectors, or remove
+   the other entry), then restart Claude Desktop. With both on, every tool appears twice.
+
+Differences from Docker:
+
+- The native server runs as you, without the container's read-only file system and other
+  limits. The `/data` sandbox in the code still applies: tools read only inside `PHN_DATA_DIR`
+  and write only to its `output` folder.
+- It keeps its own settings in `PHN_CACHE_DIR`, separate from the Docker `phn-cache` volume, so
+  run `configure_jurisdiction` once for it.
+- Dates follow your computer's time zone (the Docker image sets `TZ=America/New_York`).
+- Updating means pulling the repository and rebuilding, then copying the new program over the
+  old one while Claude Desktop is closed.
+- File names work the same way: `line_list.csv` or `/data/line_list.csv` both mean the file in
+  your data folder.
+- CI builds and tests on Linux only. The Windows and macOS native builds are **not yet tested by
+  this project**; if `cargo build` stops with an error about CMake or NASM on Windows, install
+  them (`winget install Kitware.CMake NASM.NASM`) and build again.
+
+See the [administrator guide](docs/admin-guide.md#43-running-without-docker) for more detail.
+
 ## Configuration
 
 Environment variables (set with `-e` in the client configuration) take precedence over the
@@ -400,9 +471,9 @@ settings saved by `configure_jurisdiction` in `/cache/phn-settings.toml`.
 | `PHN_CA_BUNDLE` | none | PEM file of extra certificate authorities, for agency networks that inspect TLS. Put it in `/cache` or `/data`. |
 | `HTTPS_PROXY`, `NO_PROXY` | none | Outbound proxy, if your agency requires one. |
 | `PHN_HTTP_TIMEOUT_SECS` | `20` | Timeout for public API calls. |
-| `PHN_DATA_DIR`, `PHN_CACHE_DIR`, `PHN_OUTPUT_DIR`, `PHN_POLICY_DIR`, `PHN_SETTINGS_FILE` | `/data`, `/cache`, `/data/output`, `/data/policies`, `/cache/phn-settings.toml` | Folder locations (rarely changed). |
+| `PHN_DATA_DIR`, `PHN_CACHE_DIR`, `PHN_OUTPUT_DIR`, `PHN_POLICY_DIR`, `PHN_SETTINGS_FILE` | `/data`, `/cache`, `/data/output`, `/data/policies`, `/cache/phn-settings.toml` | Folder locations (rarely changed with Docker; set `PHN_DATA_DIR` and `PHN_CACHE_DIR` when [running without Docker](#running-without-docker-optional)). |
 | `PHN_LOG` | `info` | Log level. Logs go to stderr; stdout carries the MCP protocol. |
-| `TZ` | `America/New_York` (set in the image) | Time zone for "today" and for dates and times printed on documents. Set another zone with, for example, `-e TZ=America/Chicago`. |
+| `TZ` | `America/New_York` (set in the image; the native server uses the computer's time zone) | Time zone for "today" and for dates and times printed on documents. Set another zone with, for example, `-e TZ=America/Chicago`. |
 | `PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` | none | Optional free API keys. Everything works without them (bundled snapshots or lower rate limits); the Census key is needed for live ACS data from some networks, and the AirNow key adds the AirNow API to the public AirNow files. |
 | `PHN_GRANTS_GOV_API_KEY` | none | Optional Simpler.Grants.gov API key for the federal listings in `search_grant_opportunities`; without it the federal source is in snapshot mode (the snapshot has no federal listings). |
 | `PHN_REGULATIONS_GOV_API_KEY` | none | Optional free api.data.gov key for the Regulations.gov cross-check in `monitor_federal_rules`; it is never shown in any output. |

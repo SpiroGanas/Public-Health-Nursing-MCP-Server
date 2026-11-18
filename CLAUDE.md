@@ -61,8 +61,9 @@ Run `cargo deny check` when you change dependencies.
 
 - Rust workspace: `crates/phn-*` plus `xtask`. Tool logic lives in `crates/phn-tools`; the MCP
   wrappers live in `crates/phn-server`.
-- Several dependencies (`rmcp` 3.9, `quick-xml` 0.42, `tantivy` 0.27, `reqwest` 0.13) have newer
-  APIs than many models know. Read their source under `~/.cargo/registry/src/` before guessing.
-  `STATUS.md` lists the pitfalls already found.
+- Several dependencies (`rmcp` 3.9, `quick-xml` 0.42, `tantivy` 0.27, `reqwest` 0.13, `jiff`
+  1.0) have newer APIs than many models know. Read their source under `~/.cargo/registry/src/`
+  before guessing. `STATUS.md` lists the pitfalls already found. Use `phn_core::time` for
+  dates, not `chrono`.
 - The user is a DNP-prepared public health nurse in Massachusetts. Write for that expert: plain
   language, with methods and sources shown.

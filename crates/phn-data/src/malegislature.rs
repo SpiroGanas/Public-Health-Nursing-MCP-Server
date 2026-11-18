@@ -109,8 +109,8 @@ pub fn bill_url(general_court: u32, bill_number: &str) -> String {
 /// a real date between 1900 and 2100.
 pub fn iso_date(s: &str) -> Option<String> {
     let head: String = s.trim().chars().take(10).collect();
-    let d = chrono::NaiveDate::parse_from_str(&head, "%Y-%m-%d").ok()?;
-    let year = chrono::Datelike::year(&d);
+    let d = phn_core::time::parse_date(&head, "%Y-%m-%d").ok()?;
+    let year = i32::from((d).year());
     ((1900..=2100).contains(&year) && head.len() == 10).then_some(head)
 }
 

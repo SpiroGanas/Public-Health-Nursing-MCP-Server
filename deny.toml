@@ -7,7 +7,15 @@ all-features = false
 [advisories]
 version = 2
 yanked = "warn"
-ignore = []
+# Each exception needs a reason and a date to look at it again (cargo-deny has no expiry, so
+# STATUS.md lists the review date as an open item).
+ignore = [
+    # RUSTSEC-2026-0543: chrono is unmaintained (not a vulnerability). Our own crates moved to
+    # jiff (phn_core::time); chrono is still pulled in by rmcp 3.9, which depends on it directly
+    # and turns on schemars' `chrono04` feature. Remove this entry when rmcp drops chrono.
+    # Review by 2027-02-01.
+    { id = "RUSTSEC-2026-0543", reason = "chrono only via rmcp (and schemars' chrono04 feature, enabled by rmcp); our code uses jiff" },
+]
 
 [licenses]
 version = 2

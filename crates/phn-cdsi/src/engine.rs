@@ -11,7 +11,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::NaiveDate;
+use phn_core::time::{Date, DateExt};
 
 use crate::data::{
     AgeSpec, AntigenData, ConditionType, CountLogic, Logic, Series, SeriesDose, SeriesType,
@@ -120,7 +120,7 @@ pub fn run_with(sd: &SupportingData, patient: &PatientInput) -> EngineResult {
 }
 
 /// Series group -> date a series in it was completed.
-type Completed = BTreeMap<String, NaiveDate>;
+type Completed = BTreeMap<String, Date>;
 
 fn group_key(g: &str) -> (u32, String) {
     (g.parse().unwrap_or(u32::MAX), g.to_string())
@@ -131,11 +131,11 @@ fn group_key(g: &str) -> (u32, String) {
 struct Ctx<'a> {
     sd: &'a SupportingData,
     p: &'a PatientInput,
-    dob: NaiveDate,
-    assess: NaiveDate,
+    dob: Date,
+    assess: Date,
     /// Patient doses sorted by date (stable), as indices into `p.doses`.
     sorted: Vec<usize>,
-    obs: BTreeMap<String, Option<NaiveDate>>,
+    obs: BTreeMap<String, Option<Date>>,
 }
 
 /// One antigen administered record.
@@ -145,7 +145,7 @@ struct AntigenDose {
     input: usize,
     /// Position in the date-sorted patient history.
     pos: usize,
-    date: NaiveDate,
+    date: Date,
     cvx: String,
 }
 
@@ -230,11 +230,11 @@ enum Phase {
     Forecast,
 }
 
-fn add(span: Option<Span>, date: NaiveDate) -> Option<NaiveDate> {
+fn add(span: Option<Span>, date: Date) -> Option<Date> {
     span.map(|s| s.add_to(date))
 }
 
-fn minus_one_day(d: NaiveDate) -> NaiveDate {
+fn minus_one_day(d: Date) -> Date {
     d.pred_opt().unwrap_or(d)
 }
 
@@ -247,7 +247,7 @@ impl<'a> Ctx<'a> {
             let code = o.code.trim().to_string();
             let entry = obs.entry(code).or_insert(None);
             if let Some(d) = o.date
-                && entry.is_none_or(|e: NaiveDate| d > e)
+                && entry.is_none_or(|e: Date| d > e)
             {
                 *entry = Some(d);
             }
@@ -266,7 +266,7 @@ impl<'a> Ctx<'a> {
         self.obs.contains_key(code.trim())
     }
 
-    fn age_date(&self, span: Option<Span>) -> Option<NaiveDate> {
+    fn age_date(&self, span: Option<Span>) -> Option<Date> {
         add(span, self.dob)
     }
 
@@ -325,7 +325,7 @@ impl<'a> Ctx<'a> {
 
     // ------------------------------------------------------ 6 evaluation
 
-    fn age_spec<'s>(&self, dose: &'s SeriesDose, on: NaiveDate) -> Option<&'s AgeSpec> {
+    fn age_spec<'s>(&self, dose: &'s SeriesDose, on: Date) -> Option<&'s AgeSpec> {
         dose.ages.iter().find(|a| a.effective.applies(on))
     }
 
@@ -357,7 +357,7 @@ impl<'a> Ctx<'a> {
         from_target: Option<usize>,
         from_most_recent: &[String],
         from_obs: Option<&String>,
-    ) -> Option<NaiveDate> {
+    ) -> Option<Date> {
         let before = match phase {
             Phase::Eval(i) => Some(i),
             Phase::Forecast => None,
@@ -379,7 +379,7 @@ impl<'a> Ctx<'a> {
                 Phase::Eval(i) => doses[i].pos,
                 Phase::Forecast => usize::MAX,
             };
-            let mut best: Option<NaiveDate> = None;
+            let mut best: Option<Date> = None;
             for (pos, &input) in self.sorted.iter().enumerate() {
                 if pos >= limit_pos {
                     break;
@@ -702,7 +702,7 @@ impl<'a> Ctx<'a> {
         doses: &[AntigenDose],
         t: usize,
         phase: Phase,
-        reference: NaiveDate,
+        reference: Date,
         completed: &Completed,
     ) -> bool {
         let sdose = ps.dose(t);
@@ -754,7 +754,7 @@ impl<'a> Ctx<'a> {
         doses: &[AntigenDose],
         c: &SkipCondition,
         phase: Phase,
-        reference: NaiveDate,
+        reference: Date,
         completed: &Completed,
     ) -> bool {
         match c.kind {
@@ -979,9 +979,9 @@ impl<'a> Ctx<'a> {
     }
 
     /// FORECASTDTCAN-1.
-    fn candidate_earliest(&self, ps: &PatientSeries, doses: &[AntigenDose], t: usize) -> NaiveDate {
+    fn candidate_earliest(&self, ps: &PatientSeries, doses: &[AntigenDose], t: usize) -> Date {
         let sdose = ps.dose(t);
-        let mut dates: Vec<NaiveDate> = Vec::new();
+        let mut dates: Vec<Date> = Vec::new();
         if let Some(a) = self.age_spec(sdose, self.assess)
             && let Some(d) = self.age_date(a.min_age)
         {
@@ -1041,13 +1041,13 @@ impl<'a> Ctx<'a> {
         ps: &mut PatientSeries,
         doses: &[AntigenDose],
         t: usize,
-        earliest: NaiveDate,
+        earliest: Date,
         ci_cvx: &BTreeSet<String>,
     ) {
         let sdose = ps.dose(t);
         let age = self.age_spec(sdose, self.assess);
-        let mut rec_int: Vec<NaiveDate> = Vec::new();
-        let mut late_int: Vec<NaiveDate> = Vec::new();
+        let mut rec_int: Vec<Date> = Vec::new();
+        let mut late_int: Vec<Date> = Vec::new();
         for iv in sdose
             .intervals
             .iter()
@@ -1295,8 +1295,7 @@ impl<'a> Ctx<'a> {
         let valid: Vec<usize> = scored.iter().map(|&k| all[k].valid_doses()).collect();
         let max_valid = valid.iter().copied().max().unwrap_or(0);
         let most_valid: Vec<bool> = valid.iter().map(|&v| v >= max_valid).collect();
-        let finish: Vec<Option<NaiveDate>> =
-            scored.iter().map(|&k| self.finish_date(&all[k])).collect();
+        let finish: Vec<Option<Date>> = scored.iter().map(|&k| self.finish_date(&all[k])).collect();
         let completable: Vec<bool> = scored
             .iter()
             .zip(&finish)
@@ -1348,7 +1347,7 @@ impl<'a> Ctx<'a> {
                 award(&mut points, &earliest_finish, 1, Some(0), -1);
             }
             _ => {
-                let starts: Vec<Option<NaiveDate>> =
+                let starts: Vec<Option<Date>> =
                     scored.iter().map(|&k| all[k].dates.earliest).collect();
                 let min_start = starts.iter().flatten().min().copied();
                 let start_earliest: Vec<bool> = starts
@@ -1366,7 +1365,7 @@ impl<'a> Ctx<'a> {
 
     /// SELECTB-12: earliest date plus the minimum intervals of the remaining
     /// target doses.
-    fn finish_date(&self, ps: &PatientSeries) -> Option<NaiveDate> {
+    fn finish_date(&self, ps: &PatientSeries) -> Option<Date> {
         let mut d = ps.dates.earliest?;
         for t in ps.current + 1..ps.targets.len() {
             let sdose = ps.dose(t);
@@ -1388,7 +1387,7 @@ impl<'a> Ctx<'a> {
     }
 
     /// SELECTB-3.
-    fn completable(&self, ps: &PatientSeries, finish: Option<NaiveDate>) -> bool {
+    fn completable(&self, ps: &PatientSeries, finish: Option<Date>) -> bool {
         let Some(finish) = finish else {
             return false;
         };
@@ -1554,7 +1553,7 @@ impl<'a> Ctx<'a> {
                 let mut dates = ForecastDates::default();
                 let mut dose_number = None;
                 if status == SeriesStatus::NotComplete && !open.is_empty() {
-                    let earliest_all: Vec<NaiveDate> =
+                    let earliest_all: Vec<Date> =
                         open.iter().filter_map(|f| f.dates.earliest).collect();
                     let earliest = if !multi {
                         earliest_all.iter().min().copied()
@@ -1591,7 +1590,7 @@ impl<'a> Ctx<'a> {
                             earliest_all.iter().max().copied()
                         }
                     };
-                    let min_of = |f: fn(&ForecastDates) -> Option<NaiveDate>| {
+                    let min_of = |f: fn(&ForecastDates) -> Option<Date>| {
                         open.iter().filter_map(|s| f(&s.dates)).min()
                     };
                     let rec = min_of(|d| d.recommended);

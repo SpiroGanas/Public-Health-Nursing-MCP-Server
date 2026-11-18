@@ -5,6 +5,7 @@
 //! levels, repeating table header rows with captions, alt text on images,
 //! real list numbering, and a letterhead header with page-numbered footer.
 
+use phn_core::time::TimestampExt;
 use std::io::{Cursor, Write};
 
 use phn_core::{Letterhead, PhnError, Result};
@@ -396,7 +397,7 @@ pub fn to_docx(doc: &Document) -> Result<Vec<u8>> {
     }
     doc_rels.push_str("</Relationships>");
 
-    let now = chrono::Utc::now().format("%Y-%m-%dT%H:%M:%SZ");
+    let now = phn_core::time::Timestamp::now().format("%Y-%m-%dT%H:%M:%SZ");
     let author = esc(doc
         .author
         .as_deref()

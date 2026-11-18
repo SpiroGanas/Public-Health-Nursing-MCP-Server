@@ -151,7 +151,7 @@ pub fn run(root: &Path, source_dir: Option<&Path>) -> Result<()> {
         "wrote snapshots/{SNAPSHOT_FILE} ({written} rows, {} bytes)",
         out.len()
     );
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let entry = SnapshotEntry {
         id: SNAPSHOT_ID.into(),
         title: "ACS 2020-2024 5-year estimates: older adults living alone, without a vehicle, with limited English, and in poverty (Massachusetts)".into(),

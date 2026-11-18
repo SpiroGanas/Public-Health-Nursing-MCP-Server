@@ -13,6 +13,7 @@
 //!   class (data.cdc.gov `xkb8-kh2a`), live → cache → snapshot.
 //! * DPH's statewide findings for 2024 from its March 2026 report.
 
+use phn_core::time::TimestampExt;
 use std::collections::BTreeMap;
 use std::sync::LazyLock;
 
@@ -695,7 +696,7 @@ pub async fn get_overdose_data(
     // ---- CDC provisional counts
     let mut caveats = Vec::new();
     let mut sources: Vec<Source> = Vec::new();
-    let now_year = chrono::Utc::now()
+    let now_year = phn_core::time::Timestamp::now()
         .format("%Y")
         .to_string()
         .parse::<i32>()

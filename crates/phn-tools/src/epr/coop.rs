@@ -12,8 +12,8 @@
 
 use std::collections::BTreeMap;
 
-use chrono::{Datelike, Months, NaiveDate};
 use phn_content::ContentMeta;
+use phn_core::time::{DateExt, Months};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use schemars::JsonSchema;
@@ -695,10 +695,10 @@ pub fn continuity_of_operations_planner(
             None => "Board of Health".to_string(),
         });
     let plan_date = match opt(&args.plan_date) {
-        Some(d) => NaiveDate::parse_from_str(d, "%Y-%m-%d").map_err(|_| {
+        Some(d) => phn_core::time::parse_date(d, "%Y-%m-%d").map_err(|_| {
             PhnError::InvalidInput(format!("plan_date '{d}' is not a date (YYYY-MM-DD)"))
         })?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let absenteeism = args
         .absenteeism_percent

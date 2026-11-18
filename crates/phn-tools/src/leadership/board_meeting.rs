@@ -9,7 +9,7 @@
 
 use std::collections::BTreeSet;
 
-use chrono::{Datelike, Duration, NaiveDate, NaiveDateTime};
+use phn_core::time::{Date, DateExt, DateTime, DateTimeExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::Block;
 use phn_local::phi;
@@ -363,8 +363,8 @@ fn topic_is_general(title: &str) -> bool {
 }
 
 struct Meeting {
-    date: NaiveDate,
-    dt: NaiveDateTime,
+    date: Date,
+    dt: DateTime,
 }
 
 fn meeting_of(args: &BoardMeetingArgs) -> Result<Meeting> {
@@ -625,7 +625,7 @@ fn notice_result(ctx_note: &str, i: &NoticeInputs, m: &Meeting) -> Result<Notice
     })
 }
 
-fn args_posted(args: &BoardMeetingArgs) -> Result<Option<NaiveDateTime>> {
+fn args_posted(args: &BoardMeetingArgs) -> Result<Option<DateTime>> {
     match args.posted_at.as_deref().filter(|s| !s.trim().is_empty()) {
         Some(s) => Ok(Some(oml::parse_datetime("posted_at", s)?)),
         None => Ok(None),
@@ -1097,7 +1097,7 @@ fn minutes_document(
     ctx: &Context,
     args: &BoardMeetingArgs,
     p: &Parsed,
-    meeting_date: Option<NaiveDate>,
+    meeting_date: Option<Date>,
     id_lines: &[usize],
 ) -> Result<phn_docs::model::Document> {
     let body = body_name(args)?;
@@ -1229,13 +1229,13 @@ fn minutes_result(
     findings: &[phi::TextFinding],
     id_lines: Vec<usize>,
     c: &OmlContent,
-) -> Result<(MinutesResult, Option<NaiveDate>)> {
+) -> Result<(MinutesResult, Option<Date>)> {
     let date = match &args.meeting_date {
         Some(d) => Some(oml::parse_date("meeting_date", d)?),
         None => p
             .date
             .as_deref()
-            .and_then(|d| NaiveDate::parse_from_str(d.trim(), "%Y-%m-%d").ok())
+            .and_then(|d| phn_core::time::parse_date(d.trim(), "%Y-%m-%d").ok())
             .filter(|d| (1900..=2100).contains(&d.year())),
     };
     let votes: Vec<&String> = p.items.iter().flat_map(|i| i.votes.iter()).collect();
@@ -1332,8 +1332,9 @@ fn minutes_result(
                 v
             },
             identifier_lines: id_lines,
-            approve_by_30_days: date
-                .map(|d| (d + Duration::days(c.minutes.approval.days_to_approve)).to_string()),
+            approve_by_30_days: date.map(|d| {
+                (d + phn_core::time::days(c.minutes.approval.days_to_approve)).to_string()
+            }),
             release_on_request_days: c.minutes.approval.days_to_release_on_request,
         },
         date,

@@ -15,7 +15,6 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::Datelike;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_epi::suppression::{SuppressionOptions, suppress};
@@ -403,7 +402,9 @@ fn read_visits(
         if !year.contains(d) {
             continue;
         }
-        let m = by_month.entry((d.year(), d.month())).or_default();
+        let m = by_month
+            .entry((i32::from(d.year()), (d.month() as u32)))
+            .or_default();
         let staff =
             who.is_some_and(|i| phn_core::text::normalize(cellv(row, Some(i))).contains("staff"));
         if staff {
@@ -545,7 +546,7 @@ pub fn build_school_health_annual_report(
     }
     let as_of = match &args.as_of {
         Some(s) => crate::vax::dates::require_date("as_of", s)?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let mut year_note: Option<String> = None;
     let year = match &args.school_year {
@@ -1343,7 +1344,7 @@ fn sum_or_star(a: &str, b: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::NaiveDate;
+
     use std::fmt::Write as _;
 
     fn ctx() -> (tempfile::TempDir, Context) {
@@ -1390,7 +1391,7 @@ mod tests {
         let (d, c) = ctx();
         let mut body = String::from("Date,Reason,Disposition\n");
         for i in 0..30 {
-            let day = NaiveDate::from_ymd_opt(2025, 9, 2).unwrap() + chrono::Duration::days(i * 7);
+            let day = phn_core::time::ymd(2025, 9, 2).unwrap() + phn_core::time::days(i * 7);
             writeln!(body, "{day},headache,returned to class").unwrap();
         }
         std::fs::write(d.path().join("data/visits.csv"), body).unwrap();
@@ -1426,7 +1427,7 @@ mod tests {
         let (d, c) = ctx();
         let mut body = String::from("Date,Student ID,Student Name,Grade,Reason,Disposition\n");
         for i in 0..120 {
-            let day = NaiveDate::from_ymd_opt(2025, 9, 2).unwrap() + chrono::Duration::days(i * 2);
+            let day = phn_core::time::ymd(2025, 9, 2).unwrap() + phn_core::time::days(i * 2);
             let (reason, disp) = match i % 6 {
                 0 => ("fell at recess", "returned to class"),
                 1 => ("stomach ache", "sent home"),

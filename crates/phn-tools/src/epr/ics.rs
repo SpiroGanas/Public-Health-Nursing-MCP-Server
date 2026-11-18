@@ -17,7 +17,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 use std::sync::LazyLock;
 
-use chrono::NaiveDateTime;
+use phn_core::time::{DateExt, DateTime, DateTimeExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, ImageBlock, Inline, TableBlock};
 use schemars::JsonSchema;
@@ -611,7 +611,7 @@ fn yes_no(b: Option<bool>) -> String {
     }
 }
 
-fn parse_dt(label: &str, s: &str) -> Result<NaiveDateTime> {
+fn parse_dt(label: &str, s: &str) -> Result<DateTime> {
     let t = s.trim();
     for f in [
         "%Y-%m-%d %H:%M",
@@ -620,11 +620,11 @@ fn parse_dt(label: &str, s: &str) -> Result<NaiveDateTime> {
         "%Y-%m-%dT%H:%M:%S",
         "%Y-%m-%d %H:%M:%S",
     ] {
-        if let Ok(d) = NaiveDateTime::parse_from_str(t, f) {
+        if let Ok(d) = phn_core::time::parse_datetime(t, f) {
             return Ok(d);
         }
     }
-    if let Ok(d) = chrono::NaiveDate::parse_from_str(t, "%Y-%m-%d") {
+    if let Ok(d) = phn_core::time::parse_date(t, "%Y-%m-%d") {
         return Ok(d.and_hms_opt(0, 0, 0).expect("midnight is valid"));
     }
     Err(PhnError::InvalidInput(format!(
@@ -632,11 +632,11 @@ fn parse_dt(label: &str, s: &str) -> Result<NaiveDateTime> {
     )))
 }
 
-fn date_s(d: &NaiveDateTime) -> String {
+fn date_s(d: &DateTime) -> String {
     d.format("%m/%d/%Y").to_string()
 }
 
-fn time_s(d: &NaiveDateTime) -> String {
+fn time_s(d: &DateTime) -> String {
     d.format("%H:%M").to_string()
 }
 
@@ -1024,10 +1024,10 @@ struct Incident<'a> {
     args: &'a IcsArgs,
     name: String,
     number: String,
-    start: Option<NaiveDateTime>,
-    end: Option<NaiveDateTime>,
-    prepared: NaiveDateTime,
-    initiated: Option<NaiveDateTime>,
+    start: Option<DateTime>,
+    end: Option<DateTime>,
+    prepared: DateTime,
+    initiated: Option<DateTime>,
     holders: Vec<Holder>,
     prepared_name: String,
     prepared_position: String,
@@ -2220,7 +2220,7 @@ pub fn generate_ics_forms(ctx: &Context, args: IcsArgs) -> Result<Envelope<IcsRe
     }
     let prepared = match opt(&args.prepared_at) {
         Some(s) => parse_dt("prepared_at", s)?,
-        None => chrono::Local::now().naive_local(),
+        None => phn_core::time::now_local(),
     };
     let initiated = opt(&args.initiated)
         .map(|s| parse_dt("initiated", s))
@@ -2940,7 +2940,7 @@ pub fn generate_ics_forms(ctx: &Context, args: IcsArgs) -> Result<Envelope<IcsRe
     Ok(env)
 }
 
-fn period_text(start: Option<NaiveDateTime>, end: Option<NaiveDateTime>) -> Option<String> {
+fn period_text(start: Option<DateTime>, end: Option<DateTime>) -> Option<String> {
     match (start, end) {
         (Some(s), Some(e)) => Some(format!(
             "{} {} to {} {}",

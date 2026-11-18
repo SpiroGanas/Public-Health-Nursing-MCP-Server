@@ -494,7 +494,7 @@ pub fn childhood_lead_screening_guide(
         ));
     }
     let result = match (args.blood_lead_level, args.sample_type) {
-        (Some(l), _) if !l.is_finite() || l < 0.0 || l > 300.0 => {
+        (Some(l), _) if !l.is_finite() || !(0.0..=300.0).contains(&l) => {
             return Err(PhnError::InvalidInput(
                 "blood_lead_level should be in ug/dL, between 0 and 300".into(),
             ));

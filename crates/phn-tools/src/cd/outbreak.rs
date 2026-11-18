@@ -2,7 +2,7 @@
 //! food- or exposure-specific attack rates with risk and odds ratios, likely
 //! vehicles, and the probable exposure window. Aggregates only.
 
-use chrono::{Duration, NaiveDateTime};
+use phn_core::time::{DateTime, DateTimeExt, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_epi::suppression::{SuppressionOptions, suppress};
 use phn_epi::two_by_two::{self, Design, Estimate, Table};
@@ -262,7 +262,7 @@ fn show(x: Option<u64>, t: u32) -> String {
     x.map(|v| v.to_string()).unwrap_or_else(|| format!("<{t}"))
 }
 
-pub(crate) fn fmt_dt(d: NaiveDateTime, times: bool) -> String {
+pub(crate) fn fmt_dt(d: DateTime, times: bool) -> String {
     if times {
         d.format("%Y-%m-%d %H:%M").to_string()
     } else {
@@ -270,7 +270,7 @@ pub(crate) fn fmt_dt(d: NaiveDateTime, times: bool) -> String {
     }
 }
 
-pub(crate) fn median_dt(v: &mut [NaiveDateTime]) -> Option<NaiveDateTime> {
+pub(crate) fn median_dt(v: &mut [DateTime]) -> Option<DateTime> {
     if v.is_empty() {
         return None;
     }
@@ -279,18 +279,18 @@ pub(crate) fn median_dt(v: &mut [NaiveDateTime]) -> Option<NaiveDateTime> {
     if v.len() % 2 == 1 {
         Some(v[m])
     } else {
-        Some(v[m - 1] + (v[m] - v[m - 1]) / 2)
+        Some(v[m - 1] + v[m].duration_since(v[m - 1]) / 2)
     }
 }
 
-fn hours(h: f64) -> Duration {
-    Duration::minutes((h * 60.0).round() as i64)
+fn hours(h: f64) -> phn_core::time::SignedDuration {
+    phn_core::time::minutes((h * 60.0).round() as i64)
 }
 
 pub(crate) fn exposure_window(
-    onsets: &[NaiveDateTime],
+    onsets: &[DateTime],
     inc: &Incubation,
-    known: Option<NaiveDateTime>,
+    known: Option<DateTime>,
     times: bool,
 ) -> Option<ExposureWindow> {
     if onsets.is_empty() {
@@ -301,7 +301,13 @@ pub(crate) fn exposure_window(
     let first = *v.first()?;
     let last = *v.last()?;
     // Without times, onset dates are treated as midday to avoid a half-day bias.
-    let adj = |d: NaiveDateTime| if times { d } else { d + Duration::hours(12) };
+    let adj = |d: DateTime| {
+        if times {
+            d
+        } else {
+            d + phn_core::time::hours(12)
+        }
+    };
     let earliest = adj(last) - hours(inc.max_h);
     let latest = adj(first) - hours(inc.min_h);
     let most = inc.typical_h.map(|t| adj(med) - hours(t));
@@ -511,7 +517,7 @@ pub fn analyze_outbreak_line_list(
             (ages[m - 1] + ages[m]) / 2.0
         }
     });
-    let mut onsets: Vec<NaiveDateTime> = cases.iter().filter_map(|r| r.onset).collect();
+    let mut onsets: Vec<DateTime> = cases.iter().filter_map(|r| r.onset).collect();
     // With only a few onsets, the median and the exposure window (first and
     // last onset minus the incubation limits) give away individual onset
     // times, so both are held back below the suppression threshold, as the
@@ -1027,11 +1033,11 @@ fn interpret(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::NaiveDate;
+    use phn_core::time::Date;
 
     #[test]
     fn window_arithmetic() {
-        let d = |s: &str| NaiveDateTime::parse_from_str(s, "%Y-%m-%d %H:%M").unwrap();
+        let d = |s: &str| phn_core::time::parse_datetime(s, "%Y-%m-%d %H:%M").unwrap();
         let onsets = vec![
             d("2026-05-03 06:00"),
             d("2026-05-03 18:00"),
@@ -1051,7 +1057,7 @@ mod tests {
         assert!(w.consistent_with_single_exposure);
         assert_eq!(w.median_incubation_hours, Some(24.0));
         assert_eq!(w.known_exposure_in_window, Some(true));
-        let _ = NaiveDate::default();
+        let _ = Date::default();
     }
 
     #[test]

@@ -315,7 +315,7 @@ pub async fn heat_health_action_planner(
                     .replace('T', " ")
             ));
         }
-        let now = chrono::Utc::now();
+        let now = phn_core::time::Timestamp::now();
         let hz: content::HazardActions = content::load(content::HAZARDS)?;
         for a in feed.alerts {
             let is_heat = hz
@@ -688,7 +688,7 @@ fn checklist(
     };
     let mut blocks = vec![p(&format!(
         "Prepared {} for {}. Decision support only: adapt to your agency's heat plan and DPH guidance.",
-        chrono::Local::now().date_naive(),
+        phn_core::time::today(),
         area.name
     ))];
     blocks.push(h("1. Situation"));

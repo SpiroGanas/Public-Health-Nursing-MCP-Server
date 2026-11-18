@@ -17,7 +17,7 @@
 //! The requests carry only topic words and filters: nothing about a client or
 //! the agency.
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use phn_core::{PhnError, Result, Source, SourceMode};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -56,8 +56,8 @@ pub struct FederalQuery {
     /// `opportunity_status` values: `posted`, `forecasted`.
     pub statuses: Vec<String>,
     /// Closing-date window.
-    pub close_from: Option<NaiveDate>,
-    pub close_to: Option<NaiveDate>,
+    pub close_from: Option<Date>,
+    pub close_to: Option<Date>,
     /// Keep awards whose ceiling is at least this many dollars.
     pub award_ceiling_min: Option<u64>,
     /// Keep awards whose floor is at most this many dollars.
@@ -317,7 +317,7 @@ pub fn federal_source() -> Source {
         publisher: "U.S. Department of Health and Human Services (Grants.gov)".into(),
         url: Some("https://simpler.grants.gov/".into()),
         effective_date: None,
-        retrieved: Some(chrono::Local::now().date_naive().to_string()),
+        retrieved: Some(phn_core::time::today().to_string()),
         mode: SourceMode::Live,
     }
 }
@@ -406,7 +406,7 @@ mod tests {
             query: Some("x".repeat(150)),
             applicant_types: vec!["county_governments".into()],
             statuses: vec!["posted".into()],
-            close_from: NaiveDate::from_ymd_opt(2026, 11, 12),
+            close_from: phn_core::time::ymd(2026, 11, 12),
             award_ceiling_min: Some(10000),
             page_size: 500,
             ..Default::default()

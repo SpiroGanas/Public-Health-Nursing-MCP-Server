@@ -8,7 +8,7 @@
 //! * Grades are PK, K, and 1-12; "ungraded" classrooms use the age rules in
 //!   105 CMR 200.000.
 
-use chrono::{Datelike, NaiveDate, Weekday};
+use phn_core::time::{Date, DateExt, Weekday};
 use phn_core::{PhnError, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -22,12 +22,12 @@ pub struct SchoolYear {
 
 impl SchoolYear {
     /// The school year containing a date.
-    pub fn of(d: NaiveDate) -> Self {
+    pub fn of(d: Date) -> Self {
         Self {
             start_year: if d.month() >= 7 {
-                d.year()
+                i32::from(d.year())
             } else {
-                d.year() - 1
+                i32::from(d.year()) - 1
             },
         }
     }
@@ -44,13 +44,13 @@ impl SchoolYear {
     }
 
     /// First day (July 1).
-    pub fn start(self) -> NaiveDate {
-        NaiveDate::from_ymd_opt(self.start_year, 7, 1).expect("valid date")
+    pub fn start(self) -> Date {
+        phn_core::time::ymd(self.start_year, 7, 1).expect("valid date")
     }
 
     /// Last day (June 30).
-    pub fn end(self) -> NaiveDate {
-        NaiveDate::from_ymd_opt(self.start_year + 1, 6, 30).expect("valid date")
+    pub fn end(self) -> Date {
+        phn_core::time::ymd(self.start_year + 1, 6, 30).expect("valid date")
     }
 
     /// The school year `n` years earlier.
@@ -61,7 +61,7 @@ impl SchoolYear {
     }
 
     /// True when the date falls in this school year.
-    pub fn contains(self, d: NaiveDate) -> bool {
+    pub fn contains(self, d: Date) -> bool {
         d >= self.start() && d <= self.end()
     }
 
@@ -153,12 +153,12 @@ impl Grade {
 }
 
 /// Age in whole years on a date.
-pub fn age_years(dob: NaiveDate, on: NaiveDate) -> i32 {
+pub fn age_years(dob: Date, on: Date) -> i32 {
     crate::vax::dates::age_years(dob, on)
 }
 
 /// Add `n` business days (Monday-Friday) to a date. Holidays are not known.
-pub fn add_business_days(d: NaiveDate, n: u32) -> NaiveDate {
+pub fn add_business_days(d: Date, n: u32) -> Date {
     let mut out = d;
     let mut left = n;
     while left > 0 {
@@ -167,7 +167,7 @@ pub fn add_business_days(d: NaiveDate, n: u32) -> NaiveDate {
             break;
         };
         out = next;
-        if !matches!(out.weekday(), Weekday::Sat | Weekday::Sun) {
+        if !matches!(out.weekday(), Weekday::Saturday | Weekday::Sunday) {
             left -= 1;
         }
     }
@@ -175,9 +175,9 @@ pub fn add_business_days(d: NaiveDate, n: u32) -> NaiveDate {
 }
 
 /// The next school-week day on or after `d` (skips Saturday and Sunday).
-pub fn next_weekday(d: NaiveDate) -> NaiveDate {
+pub fn next_weekday(d: Date) -> Date {
     let mut out = d;
-    while matches!(out.weekday(), Weekday::Sat | Weekday::Sun) {
+    while matches!(out.weekday(), Weekday::Saturday | Weekday::Sunday) {
         let Some(next) = out.succ_opt() else {
             break;
         };
@@ -190,8 +190,8 @@ pub fn next_weekday(d: NaiveDate) -> NaiveDate {
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap()
+    fn d(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%Y-%m-%d").unwrap()
     }
 
     #[test]

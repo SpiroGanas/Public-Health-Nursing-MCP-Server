@@ -13,6 +13,7 @@
 //! the parser rejects (an HTML block page from a proxy, for example) is not
 //! cached and the chain falls back to the cached copy or the snapshot.
 
+use phn_core::time::TimestampExt;
 use phn_core::{PhnError, Result, SourceMode};
 
 use crate::cache::Cache;
@@ -37,8 +38,8 @@ pub type SnapshotFallback = Box<dyn FnOnce() -> Option<(Vec<u8>, String)> + Send
 /// is already tomorrow during a Massachusetts evening), or the leading
 /// `YYYY-MM-DD` of anything else (snapshot dates).
 pub fn local_date(as_of: &str) -> String {
-    match chrono::DateTime::parse_from_rfc3339(as_of) {
-        Ok(t) => t.with_timezone(&chrono::Local).date_naive().to_string(),
+    match phn_core::time::parse_rfc3339(as_of) {
+        Ok(t) => t.local_date().to_string(),
         Err(_) => as_of.chars().take(10).collect(),
     }
 }
@@ -74,7 +75,7 @@ pub async fn fetch_with_fallback(
             return Ok(Fetched {
                 body,
                 mode: SourceMode::Live,
-                as_of: chrono::Utc::now().to_rfc3339(),
+                as_of: phn_core::time::Timestamp::now().to_rfc3339(),
                 fallback_reason: None,
             });
         }
@@ -156,13 +157,14 @@ mod tests {
 
     #[test]
     fn retrieved_dates_use_the_local_calendar() {
-        use chrono::TimeZone;
+        use phn_core::time::TimestampExt;
         // 11:30 pm local time is the next day in UTC for Massachusetts.
-        let late = chrono::Local
-            .with_ymd_and_hms(2026, 11, 10, 23, 30, 0)
-            .single()
-            .unwrap();
-        let as_of = late.with_timezone(&chrono::Utc).to_rfc3339();
+        let late = phn_core::time::and_hms(phn_core::time::ymd(2026, 11, 10).unwrap(), 23, 30, 0)
+            .unwrap()
+            .to_zoned_datetime(jiff::tz::TimeZone::system())
+            .unwrap()
+            .timestamp();
+        let as_of = late.to_rfc3339();
         assert_eq!(local_date(&as_of), "2026-11-10");
         // Snapshot dates pass through.
         assert_eq!(local_date("2026-01-01"), "2026-01-01");
@@ -178,7 +180,7 @@ mod tests {
                 "https://example.org/a",
                 b"stale",
                 1,
-                chrono::Utc::now() - chrono::Duration::days(1),
+                phn_core::time::Timestamp::now() - phn_core::time::days(1),
             )
             .unwrap();
         let r = fetch_with_fallback(&http, Some(&cache), "https://example.org/a", 1, None)

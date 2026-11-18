@@ -724,7 +724,7 @@ fn word_document(
     let p = |t: String| Block::Paragraph(vec![Inline::plain(t)]);
     let mut blocks = vec![p(format!(
         "Prepared {}. Every entry in this table was supplied by the person who appraised the studies; the tool that produced it did not look up, rate, or interpret any study.",
-        chrono::Local::now().date_naive()
+        phn_core::time::today()
     ))];
     if let Some((_, png, alt, text_alt)) = prisma {
         blocks.push(Block::Heading {

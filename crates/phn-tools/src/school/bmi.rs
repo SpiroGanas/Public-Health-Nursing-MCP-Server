@@ -6,6 +6,7 @@
 //! half-month rows. Categories compare the BMI with CDC's published 5th, 85th,
 //! and 95th percentiles for the same sex and age.
 
+use phn_core::time::DurationExt;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use statrs::function::erf::erf;
@@ -210,7 +211,7 @@ pub fn from_bmi(sex: Sex, age_months: f64, bmi: f64) -> Option<BmiResult> {
 
 /// Age in months (with fraction) between two dates, as CDC computes it
 /// (days / 30.4375).
-pub fn age_months(dob: chrono::NaiveDate, on: chrono::NaiveDate) -> f64 {
+pub fn age_months(dob: phn_core::time::Date, on: phn_core::time::Date) -> f64 {
     (on - dob).num_days() as f64 / 30.4375
 }
 

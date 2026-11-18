@@ -12,7 +12,7 @@
 use std::collections::BTreeSet;
 use std::sync::LazyLock;
 
-use chrono::NaiveDate;
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_local::extract::{Extracted, FileKind, extract};
@@ -541,7 +541,7 @@ fn month_from_name(s: &str) -> Option<u32> {
 struct FoundDate {
     start: usize,
     end: usize,
-    date: Option<NaiveDate>,
+    date: Option<Date>,
     text: String,
 }
 
@@ -554,7 +554,7 @@ fn find_dates(line: &str) -> Vec<FoundDate> {
         let year = c.name("y").and_then(|y| y.as_str().parse::<i32>().ok());
         let date = match (month, day, year) {
             (Some(m), Some(d), Some(y)) if (1900..=2100).contains(&y) => {
-                NaiveDate::from_ymd_opt(y, m, d)
+                phn_core::time::ymd(y, m, d)
             }
             _ => None,
         };
@@ -578,7 +578,7 @@ fn find_dates(line: &str) -> Vec<FoundDate> {
         }
         let date = match (m, d, y) {
             (Some(m), Some(d), Some(y)) if (1900..=2100).contains(&y) => {
-                NaiveDate::from_ymd_opt(y, m, d)
+                phn_core::time::ymd(y, m, d)
             }
             _ => None,
         };
@@ -598,7 +598,7 @@ fn find_dates(line: &str) -> Vec<FoundDate> {
             c["m"].parse::<u32>(),
             c["d"].parse::<u32>(),
         ) {
-            (Ok(y), Ok(m), Ok(d)) if (1900..=2100).contains(&y) => NaiveDate::from_ymd_opt(y, m, d),
+            (Ok(y), Ok(m), Ok(d)) if (1900..=2100).contains(&y) => phn_core::time::ymd(y, m, d),
             _ => None,
         };
         if date.is_some() {
@@ -665,7 +665,7 @@ fn head_chars(s: &str, n: usize) -> &str {
 fn extract_deadlines(
     pages: &[PageText],
     pat: &Patterns,
-    today: NaiveDate,
+    today: Date,
     withheld: &mut usize,
 ) -> Vec<DeadlineFinding> {
     let mut out: Vec<DeadlineFinding> = Vec::new();
@@ -681,7 +681,7 @@ fn extract_deadlines(
     ]
     .map(String::from)
     .to_vec();
-    let recent = |d: NaiveDate| (d - today).num_days() >= -366 && (d - today).num_days() <= 3660;
+    let recent = |d: Date| (d - today).num_days() >= -366 && (d - today).num_days() <= 3660;
     for pass in 0..2 {
         for p in pages {
             let units: Vec<(usize, &str)> = if pass == 0 {
@@ -1762,7 +1762,7 @@ fn analyze(
     ex: &Extracted,
     pat: &Patterns,
     kind: AnnouncementKind,
-    today: NaiveDate,
+    today: Date,
 ) -> Result<(AnnouncementAnalysis, Vec<EligibilityInternal>)> {
     let pages = build_pages(ex);
     let mut withheld = 0usize;
@@ -2020,7 +2020,7 @@ fn checklist_document(
         "Prepared {} from {}. This checklist was built by pattern matching, not by a person reading \
          the announcement: check every row against the announcement and its amendments before \
          relying on it. Items marked 'not found' need your own reading.",
-        chrono::Local::now().date_naive(),
+        phn_core::time::today(),
         a.file
     ))];
     blocks.push(h("Summary"));
@@ -2414,14 +2414,14 @@ pub fn analyze_funding_announcement(
     ctx: &Context,
     args: AnalyzeAnnouncementArgs,
 ) -> Result<Envelope<AnnouncementAnalysis>> {
-    analyze_at(ctx, args, chrono::Local::now().date_naive())
+    analyze_at(ctx, args, phn_core::time::today())
 }
 
 /// [`analyze_funding_announcement`] with the date to count days from (for tests).
 pub fn analyze_at(
     ctx: &Context,
     args: AnalyzeAnnouncementArgs,
-    today: NaiveDate,
+    today: Date,
 ) -> Result<Envelope<AnnouncementAnalysis>> {
     if args.path.trim().is_empty() {
         return Err(PhnError::InvalidInput(
@@ -2541,8 +2541,8 @@ mod tests {
         content::load::<Patterns>(PATTERNS).unwrap()
     }
 
-    fn today() -> NaiveDate {
-        NaiveDate::from_ymd_opt(2026, 11, 12).unwrap()
+    fn today() -> Date {
+        phn_core::time::ymd(2026, 11, 12).unwrap()
     }
 
     const SAMPLE: &str = "NOTICE OF FUNDING OPPORTUNITY\nCommunity Prevention Grants\nFunding Opportunity Number: PHX-2027-014\n\
@@ -2817,7 +2817,7 @@ Appendix A: Required Specifications https://www.mass.gov/doc/rfr-required-specif
     fn dates_outside_1900_2100_and_two_digit_years() {
         assert!(find_dates("due 3/5/1850").is_empty());
         let d = find_dates("due 3/5/27");
-        assert_eq!(d[0].date, NaiveDate::from_ymd_opt(2027, 3, 5));
+        assert_eq!(d[0].date, phn_core::time::ymd(2027, 3, 5));
         let d = find_dates("Due March 5, 2027 and May 2026");
         assert_eq!(d.len(), 1);
         assert_eq!(find_time("by 5 pm"), Some("5:00 PM".into()));

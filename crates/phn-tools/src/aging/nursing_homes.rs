@@ -555,7 +555,7 @@ pub async fn nursing_home_quality_lookup(
                         .into(),
                     url: Some(format!("https://data.cms.gov/provider-data/dataset/{id}")),
                     effective_date: Some(data.as_of.clone()),
-                    retrieved: Some(chrono::Local::now().date_naive().to_string()),
+                    retrieved: Some(phn_core::time::today().to_string()),
                     mode,
                 });
             }

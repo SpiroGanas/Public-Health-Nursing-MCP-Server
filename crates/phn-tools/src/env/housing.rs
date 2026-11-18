@@ -803,7 +803,7 @@ pub fn housing_conditions_health_guide(
         }
         let lang_col = find_column(headers, LANGUAGE_COLUMNS);
         let (dir, shown) = templates::output_folder(ctx, "housing_letters")?;
-        let today = chrono::Local::now().date_naive().to_string();
+        let today = phn_core::time::today().to_string();
         let mut households = 0usize;
         let mut blank_fields = 0usize;
         let mut fallback = 0usize;

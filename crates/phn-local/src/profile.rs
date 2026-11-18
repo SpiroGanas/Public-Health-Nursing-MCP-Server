@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::phi::{self, ColumnFinding, Identifier, is_missing, parse_date};
 use crate::table::Table;
+use phn_core::time::DateExt;
 
 /// Inferred column type.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]

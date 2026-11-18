@@ -2,8 +2,8 @@
 //! arithmetic, bundled-snapshot fallbacks for Socrata queries, and helpers
 //! for describing where data came from.
 
-use chrono::{Datelike, Duration, NaiveDate};
 use phn_core::SourceMode;
+use phn_core::time::{Date, DurationExt, WeekdayExt};
 use phn_data::fetch::SnapshotFallback;
 use phn_data::socrata::SocrataRows;
 
@@ -12,9 +12,9 @@ use crate::context::Context;
 /// First day (a Sunday) of MMWR week 1 of `year`: the Sunday of the week that
 /// contains January 4 (MMWR week 1 is the first week with at least four days
 /// in the calendar year).
-pub fn mmwr_year_start(year: i32) -> NaiveDate {
-    let jan4 = NaiveDate::from_ymd_opt(year, 1, 4).expect("valid date");
-    jan4 - Duration::days(i64::from(jan4.weekday().num_days_from_sunday()))
+pub fn mmwr_year_start(year: i32) -> Date {
+    let jan4 = phn_core::time::ymd(year, 1, 4).expect("valid date");
+    jan4 - phn_core::time::days(i64::from(jan4.weekday().num_days_from_sunday()))
 }
 
 /// Number of MMWR weeks in `year` (52 or 53).
@@ -23,13 +23,13 @@ pub fn mmwr_weeks_in_year(year: i32) -> u32 {
 }
 
 /// The Saturday that ends MMWR week `week` of `year`.
-pub fn mmwr_week_end(year: i32, week: u32) -> NaiveDate {
-    mmwr_year_start(year) + Duration::days(7 * i64::from(week) - 1)
+pub fn mmwr_week_end(year: i32, week: u32) -> Date {
+    mmwr_year_start(year) + phn_core::time::days(7 * i64::from(week) - 1)
 }
 
 /// MMWR year and week containing `date`.
-pub fn mmwr_week_of(date: NaiveDate) -> (i32, u32) {
-    let mut year = date.year() + 1;
+pub fn mmwr_week_of(date: Date) -> (i32, u32) {
+    let mut year = i32::from(date.year()) + 1;
     while mmwr_year_start(year) > date {
         year -= 1;
     }
@@ -98,8 +98,8 @@ pub fn combined_mode(modes: &[SourceMode]) -> SourceMode {
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap()
+    fn d(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%Y-%m-%d").unwrap()
     }
 
     /// Reference values from CDC's MMWR week calendars: 2026 week 1 begins

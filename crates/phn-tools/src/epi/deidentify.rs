@@ -1,6 +1,5 @@
 //! EPI-08 `deidentify_dataset`.
 
-use chrono::NaiveDate;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_local::deid::{
     self, BirthDateHandling, ColumnReport, DeidMode, DeidOptions, RareCombinations,
@@ -70,10 +69,10 @@ pub fn deidentify_dataset(
 ) -> Result<Envelope<DeidentifyResult>> {
     let (table, label) = crate::core::files::load_table(ctx, &args.path, args.sheet.as_deref())?;
     let reference_date = match &args.reference_date {
-        Some(d) => NaiveDate::parse_from_str(d, "%Y-%m-%d").map_err(|_| {
+        Some(d) => phn_core::time::parse_date(d, "%Y-%m-%d").map_err(|_| {
             PhnError::InvalidInput(format!("reference_date must be YYYY-MM-DD, got '{d}'"))
         })?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     for c in args.keep_columns.iter().chain(args.drop_columns.iter()) {
         if table.column_index(c).is_none() {
@@ -161,7 +160,7 @@ pub fn deidentify_dataset(
         .collect();
     let mut report = format!(
         "# De-identification report\n\n- Input: /data/{label}\n- Output: /data/{output_file}\n- Method: {mode_name}\n- Date: {}\n- Rows: {}\n- Columns: {} in, {} out\n- Safe Harbor compliant: {}\n\n## Column actions\n\n",
-        chrono::Local::now().format("%Y-%m-%d %H:%M"),
+        phn_core::time::ZonedDateTime::now().strftime("%Y-%m-%d %H:%M"),
         table.rows.len(),
         table.headers.len(),
         result.table.headers.len(),

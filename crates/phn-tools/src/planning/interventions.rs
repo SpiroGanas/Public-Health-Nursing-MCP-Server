@@ -16,8 +16,8 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::Datelike;
 use phn_content::ContentMeta;
+use phn_core::time::TimestampExt;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::cpstf::{self, CpstfRecord, RatingTerm, RecordKind, TitleSignal};
 use phn_data::eutils::Eutils;
@@ -561,7 +561,7 @@ pub async fn find_evidence_based_interventions(
     let c: EvidenceContent = content::load(EVIDENCE_SOURCES)?;
     let (snap, entry) = cpstf::load_snapshot(&ctx.snapshots)?;
     let q = build_query(&c, &topic, population.as_deref(), setting.as_deref());
-    let this_year = chrono::Utc::now().year();
+    let this_year = i32::from(phn_core::time::Timestamp::now().date_naive().year());
 
     // Snapshot records.
     struct Hit {

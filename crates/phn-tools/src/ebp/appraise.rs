@@ -471,7 +471,7 @@ fn record_document(
     caveats: &[String],
     casp: &CaspOut,
 ) -> Document {
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let mut blocks = vec![
         para(format!(
             "Prepared {today}. This record holds the appraiser's own answers and judgments; the \

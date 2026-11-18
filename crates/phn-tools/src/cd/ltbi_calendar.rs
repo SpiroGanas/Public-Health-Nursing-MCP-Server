@@ -5,7 +5,7 @@
 //! regimen page. Writes an adherence tracker (XLSX) and a patient calendar
 //! (DOCX) to `/data/output`. It never calculates doses (plan item CD-16).
 
-use chrono::{Datelike, Months, NaiveDate, Weekday};
+use phn_core::time::{Date, DateExt, DurationExt, Months, Weekday, WeekdayExt};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use rust_xlsxwriter::{Format, Formula, Workbook, XlsxError};
 use schemars::JsonSchema;
@@ -194,26 +194,26 @@ fn parse_weekday(s: &str) -> Option<Weekday> {
     let l = s.trim().to_ascii_lowercase();
     let k: String = l.chars().take(3).collect();
     Some(match k.as_str() {
-        "mon" => Weekday::Mon,
-        "tue" => Weekday::Tue,
-        "wed" => Weekday::Wed,
-        "thu" => Weekday::Thu,
-        "fri" => Weekday::Fri,
-        "sat" => Weekday::Sat,
-        "sun" => Weekday::Sun,
+        "mon" => Weekday::Monday,
+        "tue" => Weekday::Tuesday,
+        "wed" => Weekday::Wednesday,
+        "thu" => Weekday::Thursday,
+        "fri" => Weekday::Friday,
+        "sat" => Weekday::Saturday,
+        "sun" => Weekday::Sunday,
         _ => return None,
     })
 }
 
 /// Scheduled dose dates.
-fn schedule(r: &Regimen, start: NaiveDate, days: &[Weekday]) -> Vec<NaiveDate> {
+fn schedule(r: &Regimen, start: Date, days: &[Weekday]) -> Vec<Date> {
     let n = r.total_doses as usize;
     match r.frequency {
         Frequency::Daily => (0..n)
-            .map(|i| start + chrono::Duration::days(i as i64))
+            .map(|i| start + phn_core::time::days(i as i64))
             .collect(),
         Frequency::OnceWeekly => (0..n)
-            .map(|i| start + chrono::Duration::weeks(i as i64))
+            .map(|i| start + phn_core::time::weeks(i as i64))
             .collect(),
         Frequency::TwiceWeekly => {
             let mut out = Vec::with_capacity(n);
@@ -222,29 +222,29 @@ fn schedule(r: &Regimen, start: NaiveDate, days: &[Weekday]) -> Vec<NaiveDate> {
                 if days.contains(&d.weekday()) {
                     out.push(d);
                 }
-                d += chrono::Duration::days(1);
+                d += phn_core::time::days(1);
             }
             out
         }
     }
 }
 
-fn deadline(r: &Regimen, start: NaiveDate) -> Option<NaiveDate> {
+fn deadline(r: &Regimen, start: Date) -> Option<Date> {
     // "Within N months/days" of the first dose: the last day that still counts.
     match (r.completion.within_days, r.completion.within_months) {
-        (Some(d), _) => Some(start + chrono::Duration::days(d - 1)),
+        (Some(d), _) => Some(start + phn_core::time::days(d - 1)),
         (None, Some(m)) => start
             .checked_add_months(Months::new(m))
-            .map(|d| d - chrono::Duration::days(1)),
+            .map(|d| d - phn_core::time::days(1)),
         _ => None,
     }
 }
 
-fn visits(r: &Regimen, start: NaiveDate, end: NaiveDate) -> Vec<Visit> {
+fn visits(r: &Regimen, start: Date, end: Date) -> Vec<Visit> {
     let mut out = Vec::new();
     if let Some(weeks) = &r.monitoring_visit_weeks {
         for w in weeks {
-            let d = start + chrono::Duration::weeks(i64::from(*w) - 1);
+            let d = start + phn_core::time::weeks(i64::from(*w) - 1);
             out.push(Visit {
                 date: d.to_string(),
                 week: i64::from(*w),
@@ -286,18 +286,18 @@ fn visits(r: &Regimen, start: NaiveDate, end: NaiveDate) -> Vec<Visit> {
 #[allow(clippy::too_many_arguments)]
 fn adherence(
     r: &Regimen,
-    start: NaiveDate,
-    sched: &[NaiveDate],
-    taken: &[NaiveDate],
-    as_of: NaiveDate,
-    deadline: Option<NaiveDate>,
+    start: Date,
+    sched: &[Date],
+    taken: &[Date],
+    as_of: Date,
+    deadline: Option<Date>,
     interruption_days: i64,
     days: &[Weekday],
 ) -> Adherence {
-    let mut taken: Vec<NaiveDate> = taken.to_vec();
+    let mut taken: Vec<Date> = taken.to_vec();
     taken.sort();
     taken.dedup();
-    let mut counted: Vec<NaiveDate> = Vec::new();
+    let mut counted: Vec<Date> = Vec::new();
     let mut not_counted = 0u32;
     let mut notes = Vec::new();
     let min_gap = r.completion.min_days_between_doses;
@@ -332,7 +332,7 @@ fn adherence(
     let remaining = required.saturating_sub(n);
     let expected = sched.iter().filter(|d| **d <= as_of).count() as u32;
     let mut longest_gap = 0i64;
-    let mut prev = None::<NaiveDate>;
+    let mut prev = None::<Date>;
     for d in &counted {
         if let Some(p) = prev {
             longest_gap = longest_gap.max((*d - p).num_days());
@@ -361,13 +361,13 @@ fn adherence(
     } else {
         let next_ok = counted
             .last()
-            .map(|l| *l + chrono::Duration::days(min_gap.unwrap_or(1).max(1)))
+            .map(|l| *l + phn_core::time::days(min_gap.unwrap_or(1).max(1)))
             .unwrap_or(start)
             .max(as_of);
         let k = i64::from(remaining) - 1;
         Some(match r.frequency {
-            Frequency::Daily => next_ok + chrono::Duration::days(k),
-            Frequency::OnceWeekly => next_ok + chrono::Duration::weeks(k),
+            Frequency::Daily => next_ok + phn_core::time::days(k),
+            Frequency::OnceWeekly => next_ok + phn_core::time::weeks(k),
             Frequency::TwiceWeekly => {
                 let mut d = next_ok;
                 let mut c = 0;
@@ -378,7 +378,7 @@ fn adherence(
                             break d;
                         }
                     }
-                    d += chrono::Duration::days(1);
+                    d += phn_core::time::days(1);
                 }
             }
         })
@@ -425,7 +425,7 @@ fn xerr(e: XlsxError) -> PhnError {
     PhnError::Internal(format!("XLSX: {e}"))
 }
 
-fn to_xl(d: NaiveDate) -> std::result::Result<rust_xlsxwriter::ExcelDateTime, XlsxError> {
+fn to_xl(d: Date) -> std::result::Result<rust_xlsxwriter::ExcelDateTime, XlsxError> {
     rust_xlsxwriter::ExcelDateTime::from_ymd(d.year() as u16, d.month() as u8, d.day() as u8)
 }
 
@@ -433,10 +433,10 @@ struct TrackerSpec<'a> {
     c: &'a TbContent,
     r: &'a Regimen,
     admin: Administration,
-    sched: &'a [NaiveDate],
+    sched: &'a [Date],
     visits: &'a [Visit],
-    deadline: Option<NaiveDate>,
-    taken: &'a [NaiveDate],
+    deadline: Option<Date>,
+    taken: &'a [Date],
 }
 
 fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError> {
@@ -519,7 +519,7 @@ fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError>
     ws.set_column_width(4, 40)?;
     for (i, v) in t.visits.iter().enumerate() {
         let r = 1 + i as u32;
-        if let Ok(d) = NaiveDate::parse_from_str(&v.date, "%Y-%m-%d") {
+        if let Ok(d) = phn_core::time::parse_date(&v.date, "%Y-%m-%d") {
             ws.write_date_with_format(r, 0, &to_xl(d)?, &date)?;
         }
         ws.write_number(r, 1, v.week as f64)?;
@@ -564,16 +564,17 @@ fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError>
 }
 
 /// Month-by-month calendar tables for the patient.
-fn month_tables(sched: &[NaiveDate], visits: &[Visit]) -> Vec<phn_docs::model::Block> {
+fn month_tables(sched: &[Date], visits: &[Visit]) -> Vec<phn_docs::model::Block> {
     let mut out = Vec::new();
     let (Some(first), Some(last)) = (sched.first(), sched.last()) else {
         return out;
     };
-    let visit_dates: Vec<NaiveDate> = visits
+    let visit_dates: Vec<Date> = visits
         .iter()
-        .filter_map(|v| NaiveDate::parse_from_str(&v.date, "%Y-%m-%d").ok())
+        .filter_map(|v| phn_core::time::parse_date(&v.date, "%Y-%m-%d").ok())
         .collect();
-    let mut month = NaiveDate::from_ymd_opt(first.year(), first.month(), 1).expect("valid date");
+    let mut month =
+        phn_core::time::ymd(i32::from(first.year()), first.month() as u32, 1).expect("valid date");
     while month <= *last {
         let next = month
             .checked_add_months(Months::new(1))
@@ -594,7 +595,7 @@ fn month_tables(sched: &[NaiveDate], visits: &[Visit]) -> Vec<phn_docs::model::B
             if col == 6 {
                 rows.push(std::mem::replace(&mut week, vec![String::new(); 7]));
             }
-            d += chrono::Duration::days(1);
+            d += phn_core::time::days(1);
         }
         if week.iter().any(|c| !c.is_empty()) {
             rows.push(week);
@@ -609,7 +610,7 @@ fn month_tables(sched: &[NaiveDate], visits: &[Visit]) -> Vec<phn_docs::model::B
     out
 }
 
-fn english_instructions(c: &TbContent, r: &Regimen, deadline: Option<NaiveDate>) -> Vec<String> {
+fn english_instructions(c: &TbContent, r: &Regimen, deadline: Option<Date>) -> Vec<String> {
     let mut v = vec![
         format!(
             "Take your TB medicine on each day marked \"dose\" and check the box. You need {} \
@@ -645,10 +646,9 @@ pub fn ltbi_treatment_calendar(
         .ok_or_else(|| PhnError::Internal(format!("regimen {id:?} missing")))?;
     let start = practice::date_arg("start_date", &Some(args.start_date.clone()))?
         .ok_or_else(|| PhnError::InvalidInput("start_date is required (YYYY-MM-DD)".into()))?;
-    let as_of = practice::date_arg("as_of", &args.as_of)?
-        .unwrap_or_else(|| chrono::Local::now().date_naive());
+    let as_of = practice::date_arg("as_of", &args.as_of)?.unwrap_or_else(phn_core::time::today);
     let days: Vec<Weekday> = if args.twice_weekly_days.is_empty() {
-        vec![Weekday::Mon, Weekday::Thu]
+        vec![Weekday::Monday, Weekday::Thursday]
     } else {
         args.twice_weekly_days
             .iter()
@@ -719,7 +719,7 @@ pub fn ltbi_treatment_calendar(
     }
     let visits = visits(r, start, end);
 
-    let taken: Vec<NaiveDate> = args
+    let taken: Vec<Date> = args
         .doses_taken
         .iter()
         .enumerate()
@@ -1099,8 +1099,7 @@ mod tests {
         let mut a = args("4R", "2026-01-01");
         a.doses_taken = (0..30)
             .map(|i| {
-                (NaiveDate::from_ymd_opt(2026, 1, 1).unwrap() + chrono::Duration::days(i))
-                    .to_string()
+                (phn_core::time::ymd(2026, 1, 1).unwrap() + phn_core::time::days(i)).to_string()
             })
             .collect();
         a.as_of = Some("2026-01-31".into());

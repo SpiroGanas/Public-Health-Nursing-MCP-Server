@@ -11,6 +11,7 @@
 //!   and HRSA recommendations. It is fetched live as a cross-check and has no
 //!   offline copy (its responses are several hundred kilobytes per query).
 
+use phn_core::time::TimestampExt;
 use phn_core::{PhnError, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -181,7 +182,7 @@ pub fn parse_myhf(body: &[u8]) -> Result<Vec<MyHfTopic>> {
         let last_update = text(item, "LastUpdate")
             .parse::<i64>()
             .ok()
-            .and_then(|s| chrono::DateTime::from_timestamp(s, 0))
+            .and_then(|s| phn_core::time::Timestamp::from_second(s).ok())
             .map(|t| t.date_naive().to_string())
             // Dates outside the plausible range are not shown.
             .filter(|d| d.as_str() >= "2000-01-01" && d.as_str() <= "2100-12-31");

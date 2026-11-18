@@ -1126,11 +1126,9 @@ pub fn build_strategic_plan(
                 }
                 if let (Some(d), Some(s), Some(e)) =
                     (o.due.as_deref().and_then(read_date), start, end)
+                    && (i32::from(d.year()) < s || i32::from(d.year()) > e)
                 {
-                    use chrono::Datelike;
-                    if d.year() < s || d.year() > e {
-                        find("dates_out_of_period", "consider", format!("({})", o.code));
-                    }
+                    find("dates_out_of_period", "consider", format!("({})", o.code));
                 }
             }
             for st in &g.strategies {

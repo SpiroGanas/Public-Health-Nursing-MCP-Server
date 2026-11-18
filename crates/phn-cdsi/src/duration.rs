@@ -2,7 +2,7 @@
 //! the date arithmetic rules of the Logic Specification (§3.4, CALCDT-1 to
 //! CALCDT-6).
 
-use chrono::{Datelike, Duration, NaiveDate};
+use phn_core::time::{Date, DateExt};
 
 /// An age or interval from the supporting data.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -66,11 +66,12 @@ impl Span {
     /// month constant (CALCDT-1, CALCDT-2, CALCDT-6), moving an impossible
     /// date to the first of the next month (CALCDT-5), then days and weeks
     /// (CALCDT-3, CALCDT-4).
-    pub fn add_to(&self, date: NaiveDate) -> NaiveDate {
-        let total_months = date.year() * 12 + date.month0() as i32 + self.years * 12 + self.months;
+    pub fn add_to(&self, date: Date) -> Date {
+        let total_months =
+            i32::from(date.year()) * 12 + date.month0() as i32 + self.years * 12 + self.months;
         let year = total_months.div_euclid(12);
         let month0 = total_months.rem_euclid(12) as u32;
-        let base = match NaiveDate::from_ymd_opt(year, month0 + 1, date.day()) {
+        let base = match phn_core::time::ymd(year, month0 + 1, date.day() as u32) {
             Some(d) => d,
             None => {
                 // Not a real date: first day of the following month.
@@ -79,10 +80,10 @@ impl Span {
                 } else {
                     (year, month0 + 2)
                 };
-                NaiveDate::from_ymd_opt(y, m, 1).unwrap_or(date)
+                phn_core::time::ymd(y, m, 1).unwrap_or(date)
             }
         };
-        base.checked_add_signed(Duration::days(i64::from(self.weeks * 7 + self.days)))
+        base.checked_add_signed(phn_core::time::days(i64::from(self.weeks * 7 + self.days)))
             .unwrap_or(base)
     }
 
@@ -118,24 +119,24 @@ impl Span {
 }
 
 /// Earliest representable date used for "assumed value if empty" (01/01/1900).
-pub fn min_date() -> NaiveDate {
-    NaiveDate::from_ymd_opt(1900, 1, 1).expect("valid date")
+pub fn min_date() -> Date {
+    phn_core::time::ymd(1900, 1, 1).expect("valid date")
 }
 
 /// Latest date used for "assumed value if empty" (12/31/2999).
-pub fn max_date() -> NaiveDate {
-    NaiveDate::from_ymd_opt(2999, 12, 31).expect("valid date")
+pub fn max_date() -> Date {
+    phn_core::time::ymd(2999, 12, 31).expect("valid date")
 }
 
 /// Parse a supporting-data date: `YYYYMMDD` or `MM/DD/YYYY`.
-pub fn parse_date(text: &str) -> Option<NaiveDate> {
+pub fn parse_date(text: &str) -> Option<Date> {
     let t = text.trim();
     if t.is_empty() || t.eq_ignore_ascii_case("n/a") {
         return None;
     }
-    NaiveDate::parse_from_str(t, "%Y%m%d")
-        .or_else(|_| NaiveDate::parse_from_str(t, "%m/%d/%Y"))
-        .or_else(|_| NaiveDate::parse_from_str(t, "%Y-%m-%d"))
+    phn_core::time::parse_date(t, "%Y%m%d")
+        .or_else(|_| phn_core::time::parse_date(t, "%m/%d/%Y"))
+        .or_else(|_| phn_core::time::parse_date(t, "%Y-%m-%d"))
         .ok()
 }
 
@@ -143,8 +144,8 @@ pub fn parse_date(text: &str) -> Option<NaiveDate> {
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%m/%d/%Y").unwrap()
+    fn d(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%m/%d/%Y").unwrap()
     }
 
     #[test]
@@ -203,10 +204,7 @@ mod tests {
             Span::parse("6 months - 4 days").unwrap().describe(),
             "6 months - 4 days"
         );
-        assert_eq!(parse_date("20250701"), NaiveDate::from_ymd_opt(2025, 7, 1));
-        assert_eq!(
-            parse_date("01/01/1957"),
-            NaiveDate::from_ymd_opt(1957, 1, 1)
-        );
+        assert_eq!(parse_date("20250701"), phn_core::time::ymd(2025, 7, 1));
+        assert_eq!(parse_date("01/01/1957"), phn_core::time::ymd(1957, 1, 1));
     }
 }

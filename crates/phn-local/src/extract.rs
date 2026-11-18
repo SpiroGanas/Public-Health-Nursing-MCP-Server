@@ -1,5 +1,6 @@
 //! Text and table extraction for any supported file, plus folder listings.
 
+use phn_core::time::TimestampExt;
 use std::path::Path;
 
 use phn_core::{PhnError, Result};
@@ -315,8 +316,9 @@ pub fn list_files(
             Err(_) => continue,
         };
         let modified = meta.modified().ok().map(|t| {
-            chrono::DateTime::<chrono::Utc>::from(t)
-                .to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
+            phn_core::time::Timestamp::try_from(t)
+                .map(|t| t.to_rfc3339_secs())
+                .unwrap_or_default()
         });
         out.push(FileEntry {
             path: sandbox.display_path(entry.path()),

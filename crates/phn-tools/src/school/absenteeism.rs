@@ -12,7 +12,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_epi::aberration::{EarsMethod, EarsParams, ears};
@@ -335,8 +335,8 @@ pub fn monitor_school_absenteeism(
     let report_days = args.report_days.unwrap_or(5).clamp(1, 30);
 
     // ---- Aggregate: (school, group) -> date -> counts
-    let mut series: BTreeMap<(String, Option<String>), BTreeMap<NaiveDate, Day>> = BTreeMap::new();
-    let mut all_dates: BTreeSet<NaiveDate> = BTreeSet::new();
+    let mut series: BTreeMap<(String, Option<String>), BTreeMap<Date, Day>> = BTreeMap::new();
+    let mut all_dates: BTreeSet<Date> = BTreeSet::new();
     let mut mapping: BTreeMap<String, usize> = BTreeMap::new();
     let mut bad_rows = 0usize;
     for row in &lt.table.rows {
@@ -412,7 +412,7 @@ pub fn monitor_school_absenteeism(
             all_dates.len()
         )));
     }
-    let days: Vec<NaiveDate> = all_dates.iter().copied().collect();
+    let days: Vec<Date> = all_dates.iter().copied().collect();
     let report_from = days.len().saturating_sub(report_days);
     let threshold = ctx.suppression_threshold();
     let shown = |v: f64| -> String {
@@ -819,6 +819,7 @@ pub fn monitor_school_absenteeism(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use phn_core::time::DateExt;
     use std::fmt::Write as _;
 
     fn ctx_with(file: &str, body: &str) -> (tempfile::TempDir, Context) {
@@ -843,13 +844,13 @@ mod tests {
     fn gi_spike_signals_and_counts_are_suppressed() {
         // 20 school days, two schools; school B has a GI spike on the last two days.
         let mut body = String::from("Date,School,Count,Reason,Enrollment\n");
-        let start = NaiveDate::from_ymd_opt(2026, 10, 5).unwrap();
+        let start = phn_core::time::ymd(2026, 10, 5).unwrap();
         let mut d = start;
         let mut n = 0;
         while n < 20 {
             if !matches!(
-                chrono::Datelike::weekday(&d),
-                chrono::Weekday::Sat | chrono::Weekday::Sun
+                d.weekday(),
+                phn_core::time::Weekday::Saturday | phn_core::time::Weekday::Sunday
             ) {
                 for (school, base) in [("Alder School", 6), ("Birch School", 7)] {
                     let ili = base / 2 + (n % 3);

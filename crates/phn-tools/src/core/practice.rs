@@ -3,6 +3,7 @@
 //! local note without returning it, agency translations in
 //! `/data/templates/<language>/`, and writing documents to `/data/output`.
 
+use phn_core::time::WeekdayExt;
 use std::path::PathBuf;
 
 use phn_content::{ContentMeta, ReviewStatus};
@@ -281,22 +282,21 @@ pub(crate) fn document_markdown(doc: &Document) -> String {
 }
 
 /// Parse a YYYY-MM-DD argument (error names the argument, not other input).
-pub(crate) fn date_arg(name: &str, v: &Option<String>) -> Result<Option<chrono::NaiveDate>> {
+pub(crate) fn date_arg(name: &str, v: &Option<String>) -> Result<Option<phn_core::time::Date>> {
     match v.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
         None => Ok(None),
-        Some(s) => chrono::NaiveDate::parse_from_str(s, "%Y-%m-%d")
+        Some(s) => phn_core::time::parse_date(s, "%Y-%m-%d")
             .map(Some)
             .map_err(|_| PhnError::InvalidInput(format!("{name} must be a date (YYYY-MM-DD)"))),
     }
 }
 
 /// Add business days (Monday-Friday; holidays are not known).
-pub(crate) fn add_business_days(d: chrono::NaiveDate, n: u32) -> chrono::NaiveDate {
-    use chrono::Datelike;
+pub(crate) fn add_business_days(d: phn_core::time::Date, n: u32) -> phn_core::time::Date {
     let mut out = d;
     let mut left = n;
     while left > 0 {
-        out += chrono::Duration::days(1);
+        out += phn_core::time::days(1);
         if out.weekday().number_from_monday() <= 5 {
             left -= 1;
         }
@@ -452,7 +452,6 @@ pub(crate) fn yes(cell: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::NaiveDate;
 
     #[test]
     fn suppression_hides_small_counts_and_a_complement() {
@@ -466,14 +465,14 @@ mod tests {
     #[test]
     fn business_days_skip_weekends() {
         // Friday 2026-11-06 + 1 business day = Monday 2026-11-09.
-        let fri = NaiveDate::from_ymd_opt(2026, 11, 6).unwrap();
+        let fri = phn_core::time::ymd(2026, 11, 6).unwrap();
         assert_eq!(
             add_business_days(fri, 1),
-            NaiveDate::from_ymd_opt(2026, 11, 9).unwrap()
+            phn_core::time::ymd(2026, 11, 9).unwrap()
         );
         assert_eq!(
             add_business_days(fri, 7),
-            NaiveDate::from_ymd_opt(2026, 11, 17).unwrap()
+            phn_core::time::ymd(2026, 11, 17).unwrap()
         );
     }
 

@@ -24,7 +24,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
 use anyhow::{Context, Result, anyhow, bail};
-use chrono::{Duration, NaiveDate};
+use phn_core::time::Date;
 use serde_json::{Map, Value, json};
 
 use crate::download::{fetch, sha256};
@@ -51,7 +51,7 @@ pub fn run(root: &Path) -> Result<()> {
         &std::fs::read_to_string(&manifest_path).context("reading snapshots/manifest.json")?,
     )
     .context("parsing snapshots/manifest.json")?;
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
 
     let built = vec![
         build_nndss(today)?,
@@ -180,7 +180,7 @@ fn nndss_value(row: &Map<String, Value>, field: &str) -> String {
     }
 }
 
-fn build_nndss(today: NaiveDate) -> Result<Built> {
+fn build_nndss(today: Date) -> Result<Built> {
     let (latest, _) = get_rows(&soql(
         NNDSS,
         &[
@@ -358,8 +358,8 @@ fn build_nndss(today: NaiveDate) -> Result<Built> {
 // Respiratory (CD-09)
 // ---------------------------------------------------------------------------
 
-fn since(today: NaiveDate) -> String {
-    format!("{}T00:00:00", today - Duration::weeks(13))
+fn since(today: Date) -> String {
+    format!("{}T00:00:00", today - phn_core::time::weeks(13))
 }
 
 struct Query {
@@ -524,7 +524,7 @@ fn latest_date(contents: &[(String, String)]) -> String {
     latest
 }
 
-fn build_respiratory(today: NaiveDate) -> Result<Built> {
+fn build_respiratory(today: Date) -> Result<Built> {
     let QueryResults {
         contents,
         files,
@@ -560,7 +560,7 @@ fn build_respiratory(today: NaiveDate) -> Result<Built> {
     })
 }
 
-fn build_wastewater(today: NaiveDate) -> Result<Built> {
+fn build_wastewater(today: Date) -> Result<Built> {
     let QueryResults {
         contents,
         files,
@@ -652,7 +652,7 @@ fn pdf_words(pdf: &[u8]) -> Result<Vec<Word>> {
     Ok(words)
 }
 
-fn build_mwra(today: NaiveDate) -> Result<Built> {
+fn build_mwra(today: Date) -> Result<Built> {
     let pdf = fetch(MWRA_PDF_URL, None)?;
     let hash = sha256(&pdf);
     if hash != MWRA_PDF_SHA256 {
@@ -683,12 +683,12 @@ fn build_mwra(today: NaiveDate) -> Result<Built> {
             .or_default()
             .push(w);
     }
-    let mut series: BTreeMap<NaiveDate, [String; 4]> = BTreeMap::new();
+    let mut series: BTreeMap<Date, [String; 4]> = BTreeMap::new();
     for ws in lines.values() {
         let mut ws = ws.clone();
         ws.sort_by(|a, b| a.left.total_cmp(&b.left));
         let Some(first) = ws.first() else { continue };
-        let Ok(date) = NaiveDate::parse_from_str(&first.text, "%m/%d/%Y") else {
+        let Ok(date) = phn_core::time::parse_date(&first.text, "%m/%d/%Y") else {
             continue;
         };
         let mut vals: [String; 4] = Default::default();
@@ -726,7 +726,7 @@ fn build_mwra(today: NaiveDate) -> Result<Built> {
         .keys()
         .next_back()
         .ok_or_else(|| anyhow!("no MWRA data rows parsed"))?;
-    let start = last - Duration::days(365);
+    let start = last - phn_core::time::days(365);
     let mut csv = format!("sample_date,{}\n", MWRA_COLUMNS.join(","));
     let mut n = 0;
     for (d, v) in series.range(start..) {

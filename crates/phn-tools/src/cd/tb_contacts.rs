@@ -8,7 +8,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::{Months, NaiveDate};
+use phn_core::time::{Date, DateExt, DurationExt, Months};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use rust_xlsxwriter::{DataValidation, Format, Formula, Workbook, XlsxError};
 use schemars::JsonSchema;
@@ -280,7 +280,7 @@ pub struct TbContactPlan {
     pub workbook: Option<String>,
 }
 
-fn months_before(d: NaiveDate, m: u32) -> NaiveDate {
+fn months_before(d: Date, m: u32) -> Date {
     d.checked_sub_months(Months::new(m)).unwrap_or(d)
 }
 
@@ -346,11 +346,11 @@ fn case_type(ic: &IndexCase) -> std::result::Result<(CaseType, String), String> 
 }
 
 struct Period {
-    start: Option<NaiveDate>,
+    start: Option<Date>,
     rule: Option<String>,
-    end: Option<NaiveDate>,
-    earliest_end: Option<NaiveDate>,
-    window_through: Option<NaiveDate>,
+    end: Option<Date>,
+    earliest_end: Option<Date>,
+    window_through: Option<Date>,
 }
 
 fn infectious_period(c: &TbContent, ic: &IndexCase, caveats: &mut Vec<String>) -> Result<Period> {
@@ -392,7 +392,7 @@ fn infectious_period(c: &TbContent, ic: &IndexCase, caveats: &mut Vec<String>) -
     let r = rule(rule_id).ok_or_else(|| PhnError::Internal(format!("rule {rule_id}")))?;
     let start = anchor.map(|a| match (r.months_before, r.weeks_before) {
         (Some(m), _) => months_before(a, m),
-        (None, Some(w)) => a - chrono::Duration::weeks(i64::from(w)),
+        (None, Some(w)) => a - phn_core::time::weeks(i64::from(w)),
         _ => a,
     });
     if start.is_none() {
@@ -419,7 +419,7 @@ fn infectious_period(c: &TbContent, ic: &IndexCase, caveats: &mut Vec<String>) -
             "infectious_period_end_date is before the infectious period starts".into(),
         ));
     }
-    let earliest_end = tx.map(|t| t + chrono::Duration::days(15));
+    let earliest_end = tx.map(|t| t + phn_core::time::days(15));
     let window_through = match (end, iso) {
         (Some(e), Some(i)) => Some(e.min(i)),
         (e, i) => e.or(i),
@@ -447,10 +447,10 @@ fn group_conditions(g: &ContactGroup) -> impl Fn(Condition) -> bool + '_ {
 }
 
 struct Schedule {
-    encounter_due: Option<NaiveDate>,
+    encounter_due: Option<Date>,
     evaluation_days: Option<u32>,
-    window_opens: Option<NaiveDate>,
-    window_closes: Option<NaiveDate>,
+    window_opens: Option<Date>,
+    window_closes: Option<Date>,
     actions: Vec<String>,
 }
 
@@ -459,8 +459,8 @@ fn schedule(
     c: &TbContent,
     ct: CaseType,
     p: Priority,
-    listed: NaiveDate,
-    last_exposure: Option<NaiveDate>,
+    listed: Date,
+    last_exposure: Option<Date>,
     under_5: bool,
     medical_risk: bool,
     prior_positive: bool,
@@ -470,8 +470,8 @@ fn schedule(
     let encounter_due = tf.map(|t| practice::add_business_days(listed, t.encounter_business_days));
     let wmin = ci.testing.window_weeks_min;
     let wmax = ci.testing.window_weeks_max;
-    let window_opens = last_exposure.map(|d| d + chrono::Duration::weeks(wmin));
-    let window_closes = last_exposure.map(|d| d + chrono::Duration::weeks(wmax));
+    let window_opens = last_exposure.map(|d| d + phn_core::time::weeks(wmin));
+    let window_closes = last_exposure.map(|d| d + phn_core::time::weeks(wmax));
     let mut actions = Vec::new();
     actions.push(
         "Symptom review at the first encounter; anyone with TB symptoms needs immediate \
@@ -697,8 +697,8 @@ struct FileContact {
     setting: String,
     age: Option<f64>,
     flags: [bool; 6],
-    listed: NaiveDate,
-    last_exposure: Option<NaiveDate>,
+    listed: Date,
+    last_exposure: Option<Date>,
     test1: Option<String>,
     test2: Option<String>,
     outcome: Option<String>,
@@ -769,8 +769,7 @@ fn build_workbook(w: &WorkbookSpec<'_>) -> std::result::Result<Vec<u8>, XlsxErro
     let total = w.contacts.len() as u32 + w.blank_rows;
     let yn = DataValidation::new().allow_list_strings(&["Y", "N"])?;
     ws.add_data_validation(1, x(C_HOUSEHOLD), total.max(1), x(C_EXCEEDS_MED), &yn)?;
-    let to_xl = |d: NaiveDate| {
-        use chrono::Datelike;
+    let to_xl = |d: Date| {
         rust_xlsxwriter::ExcelDateTime::from_ymd(d.year() as u16, d.month() as u8, d.day() as u8)
     };
     for r in 1..=total {
@@ -905,8 +904,7 @@ fn build_workbook(w: &WorkbookSpec<'_>) -> std::result::Result<Vec<u8>, XlsxErro
 
 /// A date cell from a contact file. Years outside 1900-2100 (for example a
 /// two-digit year misread as the year 26) are treated as unreadable.
-fn file_date(cell: &str) -> Option<NaiveDate> {
-    use chrono::Datelike;
+fn file_date(cell: &str) -> Option<Date> {
     phn_local::phi::parse_date(cell).filter(|d| (1900..=2100).contains(&d.year()))
 }
 
@@ -966,7 +964,7 @@ fn read_contact_file(
     ct: CaseType,
     path: &str,
     sheet: Option<&str>,
-    listed_default: NaiveDate,
+    listed_default: Date,
 ) -> Result<FileOutcome> {
     let lt = crate::localdata::load(ctx, path, sheet)?;
     let t = &lt.table;
@@ -1237,7 +1235,7 @@ pub fn plan_tb_contact_investigation(
     let c = tb_content::content();
     let ci = &c.contact_investigation;
     let ic = &args.index_case;
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let listed = practice::date_arg("listed_date", &args.listed_date)?.unwrap_or(today);
     let rows = args.template_rows.unwrap_or(50);
     if rows > 500 {

@@ -33,7 +33,7 @@ pub fn run(root: &Path) -> Result<()> {
     let mut manifest: Manifest = serde_json::from_str(
         &std::fs::read_to_string(&manifest_path).context("reading snapshots/manifest.json")?,
     )?;
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let mut sets = Vec::new();
     let mut urls = Vec::new();
     for (dataset, conds, props) in ma_queries() {

@@ -2,6 +2,7 @@
 //! download (filtered to active Massachusetts service sites), cached for a
 //! week, with the bundled `hrsa-health-centers-ma` snapshot as the fallback.
 
+use phn_core::time::TimestampExt;
 use phn_core::{PhnError, Result, SourceMode};
 use serde::{Deserialize, Serialize};
 
@@ -188,7 +189,7 @@ pub async fn ma_sites(
                 return Ok(Sites {
                     sites: parse_sites(&text)?,
                     mode: SourceMode::Live,
-                    as_of: chrono::Utc::now().to_rfc3339(),
+                    as_of: phn_core::time::Timestamp::now().to_rfc3339(),
                     fallback_reason: None,
                 });
             }

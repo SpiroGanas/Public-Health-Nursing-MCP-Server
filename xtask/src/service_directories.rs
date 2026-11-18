@@ -713,7 +713,7 @@ pub fn run(root: &Path, check: bool, source_dir: Option<&Path>) -> Result<()> {
     let mut manifest: Manifest = serde_json::from_str(
         &std::fs::read_to_string(&manifest_path).context("reading snapshots/manifest.json")?,
     )?;
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let towns = Towns::load(root)?;
     let mut hashes = BTreeMap::new();
 

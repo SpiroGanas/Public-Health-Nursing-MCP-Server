@@ -12,7 +12,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::{Datelike, NaiveDate};
+use phn_core::time::{Date, DateExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_data::healthy_people::{self, HpSnapshot, Objective};
 use schemars::JsonSchema;
@@ -380,13 +380,14 @@ fn check_len(what: &str, s: &Option<String>) -> Result<()> {
 
 /// Read a start date: like [`read_date`], but a year alone is January 1 and a month is its
 /// first day (a project that starts in 2027 starts at the beginning of the period).
-pub fn read_start_date(s: &str) -> Option<NaiveDate> {
+pub fn read_start_date(s: &str) -> Option<Date> {
     let t = s.trim();
     let parts: Vec<&str> = t.split('-').collect();
     match parts.as_slice() {
-        [y] if y.len() == 4 => NaiveDate::from_ymd_opt(y.parse().ok()?, 1, 1)
-            .filter(|d| (1900..=2100).contains(&d.year())),
-        [y, m] if y.len() == 4 => NaiveDate::from_ymd_opt(y.parse().ok()?, m.parse().ok()?, 1)
+        [y] if y.len() == 4 => {
+            phn_core::time::ymd(y.parse().ok()?, 1, 1).filter(|d| (1900..=2100).contains(&d.year()))
+        }
+        [y, m] if y.len() == 4 => phn_core::time::ymd(y.parse().ok()?, m.parse().ok()?, 1)
             .filter(|d| (1900..=2100).contains(&d.year())),
         _ => read_date(t),
     }
@@ -394,14 +395,14 @@ pub fn read_start_date(s: &str) -> Option<NaiveDate> {
 
 /// Read a date written YYYY-MM-DD, YYYY-MM, YYYY, or M/D/YYYY (four-digit year). A year alone
 /// is read as December 31 and a month as its last day. Years outside 1900-2100 are refused.
-pub fn read_date(s: &str) -> Option<NaiveDate> {
+pub fn read_date(s: &str) -> Option<Date> {
     let t = s.trim();
     let ok_year = |y: i32| (1900..=2100).contains(&y);
-    let last_day = |y: i32, m: u32| -> Option<NaiveDate> {
+    let last_day = |y: i32, m: u32| -> Option<Date> {
         let next = if m == 12 {
-            NaiveDate::from_ymd_opt(y + 1, 1, 1)?
+            phn_core::time::ymd(y + 1, 1, 1)?
         } else {
-            NaiveDate::from_ymd_opt(y, m + 1, 1)?
+            phn_core::time::ymd(y, m + 1, 1)?
         };
         next.pred_opt()
     };
@@ -409,7 +410,7 @@ pub fn read_date(s: &str) -> Option<NaiveDate> {
     match parts.as_slice() {
         [y] if y.len() == 4 && y.chars().all(|c| c.is_ascii_digit()) => {
             let y: i32 = y.parse().ok()?;
-            ok_year(y).then(|| NaiveDate::from_ymd_opt(y, 12, 31))?
+            ok_year(y).then(|| phn_core::time::ymd(y, 12, 31))?
         }
         [y, m] if y.len() == 4 => {
             let (y, m): (i32, u32) = (y.parse().ok()?, m.parse().ok()?);
@@ -423,7 +424,7 @@ pub fn read_date(s: &str) -> Option<NaiveDate> {
             if !ok_year(y) {
                 return None;
             }
-            NaiveDate::from_ymd_opt(y, m, d)
+            phn_core::time::ymd(y, m, d)
         }
         _ => {
             let sl: Vec<&str> = t.split('/').collect();
@@ -435,7 +436,7 @@ pub fn read_date(s: &str) -> Option<NaiveDate> {
                 if !ok_year(y) {
                     return None;
                 }
-                return NaiveDate::from_ymd_opt(y, m, d);
+                return phn_core::time::ymd(y, m, d);
             }
             None
         }
@@ -702,7 +703,7 @@ struct Checked {
 }
 
 #[allow(clippy::too_many_lines)]
-fn check_objective(c: &SmartieContent, n: usize, o: &ObjectiveInput, today: NaiveDate) -> Checked {
+fn check_objective(c: &SmartieContent, n: usize, o: &ObjectiveInput, today: Date) -> Checked {
     let msg = |k: &str| {
         c.check_messages
             .get(k)
@@ -1082,7 +1083,7 @@ pub async fn write_smartie_objectives(
     let max_matches = args.max_matches.unwrap_or(5).clamp(1, 10) as usize;
 
     let (snap, entry) = healthy_people::load_snapshot(&ctx.snapshots)?;
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let mut reader = HpReader {
         ctx,
         snap: &snap,

@@ -11,7 +11,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::{Datelike, Duration, NaiveDate, NaiveDateTime, NaiveTime, Timelike, Weekday};
+use phn_core::time::{Date, DateExt, DateTime, Time, TimeExt, Weekday};
 use phn_core::{PhnError, Result};
 
 use super::workforce_content::{HolidayContent, HolidayRow};
@@ -25,37 +25,37 @@ const REQUIRED_MINUTES: i64 = 48 * 60;
 /// Why a day is left out of the 48-hour count.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Excluded {
-    pub date: NaiveDate,
+    pub date: Date,
     pub reason: String,
 }
 
 /// The legal holiday calendar for one body (statewide, or with the Suffolk-only days).
 #[derive(Debug, Clone)]
 pub struct Calendar {
-    holidays: BTreeMap<NaiveDate, String>,
+    holidays: BTreeMap<Date, String>,
 }
 
-fn d(t: (i32, u32, u32)) -> NaiveDate {
-    NaiveDate::from_ymd_opt(t.0, t.1, t.2).expect("constant date")
+fn d(t: (i32, u32, u32)) -> Date {
+    phn_core::time::ymd(t.0, t.1, t.2).expect("constant date")
 }
 
-pub fn first_day() -> NaiveDate {
+pub fn first_day() -> Date {
     d(FIRST_DAY)
 }
 
-pub fn last_day() -> NaiveDate {
+pub fn last_day() -> Date {
     d(LAST_DAY)
 }
 
-pub fn weekday_name(date: NaiveDate) -> &'static str {
+pub fn weekday_name(date: Date) -> &'static str {
     match date.weekday() {
-        Weekday::Mon => "Monday",
-        Weekday::Tue => "Tuesday",
-        Weekday::Wed => "Wednesday",
-        Weekday::Thu => "Thursday",
-        Weekday::Fri => "Friday",
-        Weekday::Sat => "Saturday",
-        Weekday::Sun => "Sunday",
+        Weekday::Monday => "Monday",
+        Weekday::Tuesday => "Tuesday",
+        Weekday::Wednesday => "Wednesday",
+        Weekday::Thursday => "Thursday",
+        Weekday::Friday => "Friday",
+        Weekday::Saturday => "Saturday",
+        Weekday::Sunday => "Sunday",
     }
 }
 
@@ -72,7 +72,7 @@ impl Calendar {
             if r.scope == "suffolk" && !suffolk {
                 continue;
             }
-            let date = NaiveDate::parse_from_str(&r.date, "%Y-%m-%d")
+            let date = phn_core::time::parse_date(&r.date, "%Y-%m-%d")
                 .map_err(|e| PhnError::Internal(format!("holiday date {}: {e}", r.date)))?;
             holidays.insert(date, r.name.clone());
         }
@@ -80,20 +80,20 @@ impl Calendar {
     }
 
     /// The holiday on a date, if any.
-    pub fn holiday(&self, date: NaiveDate) -> Option<&str> {
+    pub fn holiday(&self, date: Date) -> Option<&str> {
         self.holidays.get(&date).map(String::as_str)
     }
 
     /// Why the day is excluded, or `None` for a counted day.
-    pub fn exclusion(&self, date: NaiveDate) -> Option<String> {
+    pub fn exclusion(&self, date: Date) -> Option<String> {
         match date.weekday() {
-            Weekday::Sat => Some("Saturday".into()),
-            Weekday::Sun => Some("Sunday".into()),
+            Weekday::Saturday => Some("Saturday".into()),
+            Weekday::Sunday => Some("Sunday".into()),
             _ => self.holiday(date).map(|h| format!("legal holiday: {h}")),
         }
     }
 
-    fn check_range(&self, date: NaiveDate) -> Result<()> {
+    fn check_range(&self, date: Date) -> Result<()> {
         if date < first_day() || date > last_day() {
             return Err(PhnError::InvalidInput(format!(
                 "the bundled legal holiday list covers 2026-01-01 to 2028-12-31, so a notice \
@@ -106,10 +106,7 @@ impl Calendar {
 
     /// The latest time the notice can be posted (counted from the meeting back over 48
     /// countable hours), and the excluded days passed on the way.
-    pub fn posting_deadline(
-        &self,
-        meeting: NaiveDateTime,
-    ) -> Result<(NaiveDateTime, Vec<Excluded>)> {
+    pub fn posting_deadline(&self, meeting: DateTime) -> Result<(DateTime, Vec<Excluded>)> {
         self.check_range(meeting.date())?;
         let mut remaining = REQUIRED_MINUTES;
         let mut date = meeting.date();
@@ -126,18 +123,18 @@ impl Calendar {
             };
             if avail >= remaining {
                 let at = end - remaining;
-                let t = NaiveTime::from_hms_opt((at / 60) as u32, (at % 60) as u32, 0)
+                let t = phn_core::time::hms((at / 60) as u32, (at % 60) as u32, 0)
                     .expect("minute of day");
                 return Ok((date.and_time(t), skipped));
             }
             remaining -= avail;
-            date -= Duration::days(1);
+            date -= phn_core::time::days(1);
             end = 1440;
         }
     }
 
     /// Countable minutes (not Saturday, Sunday, or a legal holiday) from `posted` to `meeting`.
-    pub fn countable_minutes(&self, posted: NaiveDateTime, meeting: NaiveDateTime) -> Result<i64> {
+    pub fn countable_minutes(&self, posted: DateTime, meeting: DateTime) -> Result<i64> {
         self.check_range(posted.date())?;
         self.check_range(meeting.date())?;
         if posted >= meeting {
@@ -159,19 +156,19 @@ impl Calendar {
                 };
                 total += (to - from).max(0);
             }
-            day += Duration::days(1);
+            day += phn_core::time::days(1);
         }
         Ok(total)
     }
 }
 
-fn minutes_of(t: NaiveTime) -> i64 {
-    i64::from(t.hour() * 60 + t.minute())
+fn minutes_of(t: Time) -> i64 {
+    i64::from(t.hour()) * 60 + i64::from(t.minute())
 }
 
 /// Parse "YYYY-MM-DD" (1900 to 2100).
-pub fn parse_date(what: &str, s: &str) -> Result<NaiveDate> {
-    let d = NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d").map_err(|_| {
+pub fn parse_date(what: &str, s: &str) -> Result<Date> {
+    let d = phn_core::time::parse_date(s.trim(), "%Y-%m-%d").map_err(|_| {
         PhnError::InvalidInput(format!(
             "{what} must be a date written YYYY-MM-DD, such as 2026-12-08"
         ))
@@ -185,7 +182,7 @@ pub fn parse_date(what: &str, s: &str) -> Result<NaiveDate> {
 }
 
 /// Parse a time written 18:00, 6:00 pm, or 6 pm.
-pub fn parse_time(what: &str, s: &str) -> Result<NaiveTime> {
+pub fn parse_time(what: &str, s: &str) -> Result<Time> {
     let mut t = s.trim().to_ascii_lowercase().replace('.', "");
     // "7 pm" has no minutes: chrono needs them.
     if !t.contains(':')
@@ -196,7 +193,7 @@ pub fn parse_time(what: &str, s: &str) -> Result<NaiveTime> {
     }
     let formats = ["%H:%M", "%I:%M %p", "%I:%M%p", "%I %p", "%I%p"];
     for f in formats {
-        if let Ok(v) = NaiveTime::parse_from_str(&t, f) {
+        if let Ok(v) = phn_core::time::parse_time(&t, f) {
             return Ok(v);
         }
     }
@@ -206,7 +203,7 @@ pub fn parse_time(what: &str, s: &str) -> Result<NaiveTime> {
 }
 
 /// Parse "YYYY-MM-DD HH:MM" (or with a T).
-pub fn parse_datetime(what: &str, s: &str) -> Result<NaiveDateTime> {
+pub fn parse_datetime(what: &str, s: &str) -> Result<DateTime> {
     let t = s.trim().replace('T', " ");
     let (date, time) = t.split_once(' ').ok_or_else(|| {
         PhnError::InvalidInput(format!(
@@ -217,7 +214,7 @@ pub fn parse_datetime(what: &str, s: &str) -> Result<NaiveDateTime> {
 }
 
 /// "Thursday, November 12, 2026 at 6:00 PM".
-pub fn show(dt: NaiveDateTime) -> String {
+pub fn show(dt: DateTime) -> String {
     format!(
         "{}, {} at {}",
         weekday_name(dt.date()),
@@ -229,9 +226,10 @@ pub fn show(dt: NaiveDateTime) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use phn_core::time::DateTimeExt;
 
-    fn dt(s: &str) -> NaiveDateTime {
-        NaiveDateTime::parse_from_str(s, "%Y-%m-%d %H:%M").unwrap()
+    fn dt(s: &str) -> DateTime {
+        phn_core::time::parse_datetime(s, "%Y-%m-%d %H:%M").unwrap()
     }
 
     fn deadline(cal: &Calendar, meeting: &str) -> String {
@@ -357,17 +355,17 @@ mod tests {
     #[test]
     fn deadline_and_countable_minutes_agree_over_a_year() {
         let cal = Calendar::load(true).unwrap();
-        let mut day = NaiveDate::from_ymd_opt(2027, 1, 5).unwrap();
-        while day < NaiveDate::from_ymd_opt(2027, 12, 30).unwrap() {
+        let mut day = phn_core::time::ymd(2027, 1, 5).unwrap();
+        while day < phn_core::time::ymd(2027, 12, 30).unwrap() {
             for t in [(0, 0), (6, 30), (12, 0), (23, 59)] {
                 let m = day.and_hms_opt(t.0, t.1, 0).unwrap();
                 let (dl, _) = cal.posting_deadline(m).unwrap();
                 assert_eq!(cal.countable_minutes(dl, m).unwrap(), 2880, "{m}");
                 // One minute later is not enough.
-                let later = dl + Duration::minutes(1);
+                let later = dl + phn_core::time::minutes(1);
                 assert_eq!(cal.countable_minutes(later, m).unwrap(), 2879, "{m}");
             }
-            day += Duration::days(1);
+            day += phn_core::time::days(1);
         }
     }
 
@@ -386,15 +384,15 @@ mod tests {
         // calendar module); here the rule is applied again in Rust and compared.
         let c = HolidayContent::load().unwrap();
         for r in &c.holidays {
-            let date = NaiveDate::parse_from_str(&r.date, "%Y-%m-%d").unwrap();
+            let date = phn_core::time::parse_date(&r.date, "%Y-%m-%d").unwrap();
             assert_eq!(weekday_name(date), r.weekday, "{}", r.date);
         }
-        let mut want: Vec<(NaiveDate, String)> = Vec::new();
+        let mut want: Vec<(Date, String)> = Vec::new();
         for y in 2026..=2028 {
             let nth = |m: u32, wd: Weekday, n: u32| {
                 let mut count = 0;
                 for day in 1..=31 {
-                    if let Some(x) = NaiveDate::from_ymd_opt(y, m, day)
+                    if let Some(x) = phn_core::time::ymd(y, m, day)
                         && x.weekday() == wd
                     {
                         count += 1;
@@ -407,13 +405,13 @@ mod tests {
             };
             let last_monday_may = (1..=31)
                 .rev()
-                .filter_map(|day| NaiveDate::from_ymd_opt(y, 5, day))
-                .find(|x| x.weekday() == Weekday::Mon)
+                .filter_map(|day| phn_core::time::ymd(y, 5, day))
+                .find(|x| x.weekday() == Weekday::Monday)
                 .unwrap();
             let sunday_rule = |m: u32, day: u32| {
-                let x = NaiveDate::from_ymd_opt(y, m, day).unwrap();
-                if x.weekday() == Weekday::Sun {
-                    x + Duration::days(1)
+                let x = phn_core::time::ymd(y, m, day).unwrap();
+                if x.weekday() == Weekday::Sunday {
+                    x + phn_core::time::days(1)
                 } else {
                     x
                 }
@@ -429,21 +427,21 @@ mod tests {
             ] {
                 want.push((sunday_rule(m, day), name.to_string()));
             }
-            want.push((nth(1, Weekday::Mon, 3), "MLK Day".into()));
-            want.push((nth(2, Weekday::Mon, 3), "Washington's Birthday".into()));
-            want.push((nth(4, Weekday::Mon, 3), "Patriots' Day".into()));
+            want.push((nth(1, Weekday::Monday, 3), "MLK Day".into()));
+            want.push((nth(2, Weekday::Monday, 3), "Washington's Birthday".into()));
+            want.push((nth(4, Weekday::Monday, 3), "Patriots' Day".into()));
             want.push((last_monday_may, "Memorial Day".into()));
-            want.push((nth(9, Weekday::Mon, 1), "Labor Day".into()));
-            want.push((nth(10, Weekday::Mon, 2), "Columbus Day".into()));
-            want.push((nth(11, Weekday::Thu, 4), "Thanksgiving Day".into()));
+            want.push((nth(9, Weekday::Monday, 1), "Labor Day".into()));
+            want.push((nth(10, Weekday::Monday, 2), "Columbus Day".into()));
+            want.push((nth(11, Weekday::Thursday, 4), "Thanksgiving Day".into()));
         }
         want.sort();
-        let mut have: Vec<(NaiveDate, String)> = c
+        let mut have: Vec<(Date, String)> = c
             .holidays
             .iter()
             .map(|r| {
                 (
-                    NaiveDate::parse_from_str(&r.date, "%Y-%m-%d").unwrap(),
+                    phn_core::time::parse_date(&r.date, "%Y-%m-%d").unwrap(),
                     r.name.clone(),
                 )
             })
@@ -462,15 +460,12 @@ mod tests {
             ("2027-05-31", "Memorial Day"),
         ] {
             assert_eq!(
-                cal.holiday(NaiveDate::parse_from_str(date, "%Y-%m-%d").unwrap()),
+                cal.holiday(phn_core::time::parse_date(date, "%Y-%m-%d").unwrap()),
                 Some(name)
             );
         }
         // Not a holiday: a Saturday Independence Day (2026) is not moved to Friday.
-        assert_eq!(
-            cal.holiday(NaiveDate::from_ymd_opt(2026, 7, 3).unwrap()),
-            None
-        );
+        assert_eq!(cal.holiday(phn_core::time::ymd(2026, 7, 3).unwrap()), None);
     }
 
     #[test]

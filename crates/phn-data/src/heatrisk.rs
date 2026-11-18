@@ -10,6 +10,7 @@
 //! `data/FileTimes.js`. There is no snapshot: a forecast is useful only when
 //! current.
 
+use phn_core::time::DateTimeExt;
 use std::io::Cursor;
 
 use phn_core::{PhnError, Result, SourceMode};
@@ -172,9 +173,9 @@ pub fn parse_file_times(js: &str) -> (Vec<(u8, String)>, Option<String>) {
 }
 
 /// WPC's "last updated" text ("2026-11-08 19:49 UTC") as a UTC time.
-pub fn parse_updated(s: &str) -> Option<chrono::DateTime<chrono::Utc>> {
+pub fn parse_updated(s: &str) -> Option<phn_core::time::Timestamp> {
     let t = s.trim().strip_suffix("UTC")?.trim();
-    chrono::NaiveDateTime::parse_from_str(t, "%Y-%m-%d %H:%M")
+    phn_core::time::parse_datetime(t, "%Y-%m-%d %H:%M")
         .ok()
         .map(|n| n.and_utc())
 }
@@ -289,6 +290,7 @@ pub async fn fetch(http: &HttpClient, cache: Option<&Cache>, days: u8) -> Result
 #[cfg(test)]
 mod tests {
     use super::*;
+    use phn_core::time::TimestampExt;
 
     const PNG: &[u8] = include_bytes!("../tests/fixtures/heatrisk_day1.png");
     const KML: &str = include_str!("../tests/fixtures/heatrisk_day1.kml");
@@ -322,13 +324,13 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
         let cache = Cache::in_memory().unwrap();
-        let now = chrono::Utc::now();
-        let updated = now - chrono::Duration::hours(2);
+        let now = phn_core::time::Timestamp::now();
+        let updated = now - phn_core::time::hours(2);
         let times = format!(
             "var file_times = {{\"1\":\"11/08/2026\"}};\nvar last_updated = '{}';",
             updated.format("%Y-%m-%d %H:%M UTC")
         );
-        let times_at = now - chrono::Duration::minutes(90);
+        let times_at = now - phn_core::time::minutes(90);
         cache
             .put_at(
                 &format!("{DATA_BASE}/FileTimes.js"),
@@ -349,14 +351,14 @@ mod tests {
 
         // The image was cached an hour before WPC's update: not used.
         cache
-            .put_at(&png_key, PNG, TTL_SECS, now - chrono::Duration::hours(3))
+            .put_at(&png_key, PNG, TTL_SECS, now - phn_core::time::hours(3))
             .unwrap();
         assert!(fetch(&http, Some(&cache), 1).await.is_err());
 
         // An image cached after the update is used, and the result reports
         // the oldest retrieval time and why cached copies were used.
         cache
-            .put_at(&png_key, PNG, TTL_SECS, now - chrono::Duration::minutes(30))
+            .put_at(&png_key, PNG, TTL_SECS, now - phn_core::time::minutes(30))
             .unwrap();
         let hr = fetch(&http, Some(&cache), 1).await.unwrap();
         assert_eq!(hr.grids.len(), 1);

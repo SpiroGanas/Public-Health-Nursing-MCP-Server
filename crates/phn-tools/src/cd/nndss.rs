@@ -609,7 +609,7 @@ pub async fn get_notifiable_disease_trends(
             "week must be 1-53 (got {w})"
         )));
     }
-    let this_year = chrono::Datelike::year(&chrono::Local::now().date_naive());
+    let this_year = i32::from(phn_core::time::today().year());
     if let Some(y) = args.year
         && !(FIRST_YEAR..=this_year).contains(&y)
     {

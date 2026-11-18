@@ -16,19 +16,19 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::NaiveDate;
 use phn_cdsi::{
     DoseInput, EngineResult, EvalStatus, Gender, Observation, PatientInput, SeriesStatus,
     VaccineGroupForecast,
 };
+use phn_core::time::Date;
 use serde_json::Value;
 
 const FIXTURE: &str = include_str!("fixtures/cdsi_test_cases.json");
 const EXCEPTIONS: &str = include_str!("fixtures/cdsi_known_exceptions.json");
 
-fn date(v: &Value) -> Option<NaiveDate> {
+fn date(v: &Value) -> Option<Date> {
     v.as_str()
-        .and_then(|s| NaiveDate::parse_from_str(s, "%Y-%m-%d").ok())
+        .and_then(|s| phn_core::time::parse_date(s, "%Y-%m-%d").ok())
 }
 
 /// Map the workbook's vaccine group labels to supporting-data names.

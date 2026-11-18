@@ -8,8 +8,8 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Datelike, NaiveDate};
 use phn_content::ContentMeta;
+use phn_core::time::Date;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::vectorborne::{self, PositiveCount, RiskLevel, TickCases, TickEdVisits, TownRisk};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
@@ -360,7 +360,7 @@ fn sheet_date(v: &str) -> Option<String> {
         return iso.get(..10).map(str::to_string);
     }
     let d = v.get(..10)?;
-    NaiveDate::parse_from_str(d, "%Y-%m-%d").ok()?;
+    phn_core::time::parse_date(d, "%Y-%m-%d").ok()?;
     Some(d.to_string())
 }
 
@@ -572,17 +572,17 @@ fn snapshot_seasons(ctx: &Context) -> Result<Vec<i32>> {
 
 // ---------------------------------------------------------------- helpers
 
-fn in_season(c: &VectorContent, d: NaiveDate) -> bool {
-    (c.season.first_month..=c.season.last_month).contains(&d.month())
+fn in_season(c: &VectorContent, d: Date) -> bool {
+    (c.season.first_month..=c.season.last_month).contains(&(d.month() as u32))
 }
 
 /// The season to show when none is asked for: this year's from June on,
 /// otherwise last year's.
-fn default_season(c: &VectorContent, d: NaiveDate) -> i32 {
-    if d.month() >= c.season.first_month {
-        d.year()
+fn default_season(c: &VectorContent, d: Date) -> i32 {
+    if (d.month() as u32) >= c.season.first_month {
+        i32::from(d.year())
     } else {
-        d.year() - 1
+        i32::from(d.year()) - 1
     }
 }
 
@@ -629,7 +629,7 @@ fn guidance(c: &VectorContent, virus: &str, level: RiskLevel) -> Option<LevelGui
 }
 
 /// DPH's cancellation window for the week containing `d`.
-fn cancellation_for(c: &VectorContent, d: NaiveDate) -> Option<CancellationWindow> {
+fn cancellation_for(c: &VectorContent, d: Date) -> Option<CancellationWindow> {
     let ct = &c.cancellation_times;
     let iso = d.to_string();
     let week = ct
@@ -881,7 +881,7 @@ pub async fn vector_borne_disease_risk(
     args: VectorRiskArgs,
 ) -> Result<Envelope<VectorRiskResult>> {
     let c: VectorContent = content::load(VECTOR_BORNE)?;
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     run(ctx, args, &c, today).await
 }
 
@@ -889,7 +889,7 @@ async fn run(
     ctx: &Context,
     args: VectorRiskArgs,
     c: &VectorContent,
-    today: NaiveDate,
+    today: Date,
 ) -> Result<Envelope<VectorRiskResult>> {
     let area = area::resolve(ctx, args.area.as_deref(), true)?;
     let audiences = audiences(&args.audiences)?;
@@ -903,7 +903,7 @@ async fn run(
         )));
     }
     if let Some(s) = args.season
-        && (s < first || s > today.year())
+        && (s < first || s > i32::from(today.year()))
     {
         return Err(PhnError::InvalidInput(format!(
             "season must be from {first} to {} (DPH's risk workbooks start in {first})",
@@ -959,9 +959,9 @@ async fn run(
     };
     sources.push(data.source.clone());
     let current = in_season_now
-        && data.season == today.year()
+        && data.season == i32::from(today.year())
         && matches!(data.mode, SourceMode::Live | SourceMode::Cache);
-    let season_status = if in_season_now && data.season == today.year() {
+    let season_status = if in_season_now && data.season == i32::from(today.year()) {
         if current {
             format!(
                 "The {} arbovirus season (June to October) is under way. DPH's levels below were last updated {} ({}).",
@@ -991,14 +991,16 @@ async fn run(
             data.season,
             data.as_of
         )
-    } else if data.season == today.year() {
+    } else if data.season == i32::from(today.year()) {
         format!(
             "The {} arbovirus season (June to October) is over. These are DPH's last {} levels, as \
              of {}; they are not current risk. Risk from mosquito-borne disease is virtually \
              eliminated by the first local hard frost. DPH posts new levels when testing starts in June.",
             data.season, data.season, data.as_of
         )
-    } else if data.season == today.year() - 1 && today.month() < c.season.first_month {
+    } else if data.season == i32::from(today.year()) - 1
+        && (today.month() as u32) < c.season.first_month
+    {
         format!(
             "The {} arbovirus season has not started (DPH begins testing and posting risk levels in \
              June). These are the final {} levels, as of {}; they are not current risk.",
@@ -1622,7 +1624,7 @@ fn notice_document(
     a: &ArbovirusSummary,
     t: &TickborneSummary,
     audience: &str,
-    today: NaiveDate,
+    today: Date,
 ) -> Document {
     let p = |x: &str| Block::Paragraph(vec![Inline::plain(x)]);
     let h = |x: &str| Block::Heading {
@@ -1742,8 +1744,8 @@ mod tests {
         content::load(VECTOR_BORNE).unwrap()
     }
 
-    fn date(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap()
+    fn date(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%Y-%m-%d").unwrap()
     }
 
     #[test]
@@ -1784,7 +1786,7 @@ mod tests {
         }
         // Weeks are contiguous and in order.
         for w in c.cancellation_times.weeks.windows(2) {
-            let next = date(&w[0].to) + chrono::Duration::days(1);
+            let next = date(&w[0].to) + phn_core::time::days(1);
             assert_eq!(next, date(&w[1].from));
         }
     }

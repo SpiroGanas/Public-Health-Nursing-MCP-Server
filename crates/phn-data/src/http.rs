@@ -10,6 +10,7 @@
 //! * never sends a `Referer` header, so a redirect cannot pass the previous
 //!   URL (which may carry an API key in its query string) to another host.
 
+use phn_core::time::TimestampExt;
 use std::time::{Duration, Instant};
 
 use phn_core::{Config, PhnError, Result};
@@ -179,7 +180,7 @@ impl HttpClient {
     /// server rejects `HEAD`. Never returns an error; failures are reported in
     /// the result.
     pub async fn probe(&self, url: &str) -> ProbeResult {
-        let checked_at = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
+        let checked_at = phn_core::time::Timestamp::now().to_rfc3339_secs();
         if self.offline {
             return ProbeResult {
                 reachable: false,

@@ -649,7 +649,7 @@ pub async fn fetch_town(
         dmap_url("lcr_sample_result", &prefixes),
         dmap_url("lcr_sample", &prefixes),
     ];
-    let since = (chrono::Local::now().date_naive() - chrono::Duration::days(PFAS_DAYS)).to_string();
+    let since = (phn_core::time::today() - phn_core::time::days(PFAS_DAYS)).to_string();
     let pfas_url = eea_pfas_url(town, &since);
     // The five requests run at the same time (each Envirofacts query takes a
     // few seconds).

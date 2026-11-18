@@ -13,7 +13,7 @@ schemars.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 serde-saphyr.workspace = true
-chrono.workspace = true
+jiff.workspace = true
 
 [dev-dependencies]
 jsonschema.workspace = true

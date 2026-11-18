@@ -125,7 +125,7 @@ pub fn run(
     let manifest_path = snap_dir.join("manifest.json");
     let old: Manifest = serde_json::from_str(&std::fs::read_to_string(&manifest_path)?)
         .context("parsing snapshots/manifest.json")?;
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let dl = Downloader::new(source_dir)?;
     let wanted = |id: &str| only.as_deref().is_none_or(|o| o == id);
 

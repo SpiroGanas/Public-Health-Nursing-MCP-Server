@@ -2,7 +2,7 @@
 
 use std::path::Path;
 
-use chrono::{Datelike as _, NaiveDate};
+use phn_core::time::Date;
 use phn_core::{PhnError, Result};
 use rust_xlsxwriter::{ExcelDateTime, Format, Formula, Workbook, XlsxError};
 
@@ -303,7 +303,7 @@ fn num_s(x: Option<f64>) -> String {
     x.map_or(String::new(), |v| format!("{}", round2(v)))
 }
 
-fn excel_date(d: NaiveDate) -> X<ExcelDateTime> {
+fn excel_date(d: Date) -> X<ExcelDateTime> {
     ExcelDateTime::from_ymd(d.year() as u16, d.month() as u8, d.day() as u8)
 }
 

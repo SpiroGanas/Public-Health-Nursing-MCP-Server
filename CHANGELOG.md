@@ -10,6 +10,30 @@ it was merged to `main` (Eastern time).
 
 ## [Unreleased]
 
+### Added
+
+- Documentation for running the server without Docker, started directly by Claude Desktop
+  (README "Running without Docker" and `docs/admin-guide.md` section 4.3). Docker remains the
+  recommended deployment.
+
+### Fixed
+
+- Running natively on Windows, file paths written as `/data/...` (as the tool descriptions say)
+  now resolve to the data folder instead of failing, and the data folder's own Windows path is
+  accepted. The sandbox checks are unchanged.
+- The "data folder does not exist" error now mentions `PHN_DATA_DIR` for native installs.
+
+### Changed
+
+- Dates and times now use `jiff` instead of `chrono`, which RUSTSEC-2026-0543 marks as
+  unmaintained. A new `phn_core::time` module holds the shared types and helpers. Date
+  arithmetic, month clamping, the text the HTTP cache stores, and the JSON written are
+  unchanged. Small parsing differences: a two-digit year `69` now reads as 1969 (was 2069),
+  which matches what the line-list parser already documented; `line_list` times like `9 AM`
+  (no minutes) now parse; a leap second (`23:59:60`) reads as `23:59:59`.
+- `deny.toml` ignores RUSTSEC-2026-0543 for the copy of `chrono` that `rmcp` still pulls in,
+  with a reason and a review date (2027-02-01).
+
 ## [1.0.0] — 2026-11-13 (not yet tagged) — Phase 19: policy and law; v1.0 hardening
 
 The last phase of [`project_plan.md`](project_plan.md): five policy tools and the v1.0 hardening

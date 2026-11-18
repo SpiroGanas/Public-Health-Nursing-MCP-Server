@@ -9,13 +9,13 @@
 use std::path::Path;
 
 use anyhow::{Result, bail};
-use chrono::NaiveDate;
 use phn_content::{ITEMS, ReviewStatus};
+use phn_core::time::{Date, DurationExt};
 
 use crate::download::sha256;
 use crate::snapshots::Manifest;
 
-pub fn run(root: &Path, today: NaiveDate) -> Result<()> {
+pub fn run(root: &Path, today: Date) -> Result<()> {
     let mut errors: Vec<String> = Vec::new();
     let mut warnings: Vec<String> = Vec::new();
 

@@ -1255,8 +1255,8 @@ pub async fn crisis_risk_communication_builder(
     let media_position = opt(&args.media_contact_position)
         .unwrap_or("Public Information Officer")
         .to_string();
-    let date = chrono::Local::now()
-        .format("%B %-d, %Y, %-I:%M %p")
+    let date = phn_core::time::ZonedDateTime::now()
+        .strftime("%B %-d, %Y, %-I:%M %p")
         .to_string();
     let org_text = organization
         .clone()

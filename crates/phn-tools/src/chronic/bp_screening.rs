@@ -1297,7 +1297,7 @@ fn write_letters(
         numeric(cols.age),
     );
     let (dir, shown) = templates::output_folder(ctx, "bp_followup_letters")?;
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let phone = boh_phone.clone().unwrap_or_default();
     let mut docs: Vec<Document> = Vec::new();
     let mut skipped = 0usize;

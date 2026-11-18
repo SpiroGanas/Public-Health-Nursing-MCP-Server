@@ -11,7 +11,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Duration, NaiveDate};
+use phn_core::time::{Date, DateExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_epi::suppression::{SuppressionOptions, suppress};
@@ -209,7 +209,7 @@ pub struct ConcussionResult {
 
 // ------------------------------------------------------------------ helpers
 
-fn date_arg(field: &str, v: &Option<String>) -> Result<Option<NaiveDate>> {
+fn date_arg(field: &str, v: &Option<String>) -> Result<Option<Date>> {
     match v.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
         Some(s) => crate::vax::dates::require_date(field, s).map(Some),
         None => Ok(None),
@@ -220,7 +220,7 @@ fn cite(key: &str, section: &str) -> String {
     content::citation(&CONCUSSION_INFO.sources, key, section)
 }
 
-fn status_for(done: Option<NaiveDate>, due: NaiveDate, as_of: NaiveDate) -> String {
+fn status_for(done: Option<Date>, due: Date, as_of: Date) -> String {
     match done {
         Some(d) if d <= due => "done".into(),
         Some(_) => "done late".into(),
@@ -444,7 +444,7 @@ type LogOut = (
     Vec<String>,
 );
 
-fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
+fn single(args: &ConcussionArgs, as_of: Date) -> Result<SingleOut> {
     let c = &*CONCUSSION_INFO;
     let injury = date_arg("injury_date", &args.injury_date)?;
     let diagnosis = date_arg("diagnosis_date", &args.diagnosis_date)?;
@@ -530,7 +530,7 @@ fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
                 citation: cite("cmr201", "201.008(B)"),
             });
         }
-        let four = i.checked_add_signed(Duration::days(28)).unwrap_or(i);
+        let four = i.checked_add_signed(phn_core::time::days(28)).unwrap_or(i);
         let not_back = full_acad.is_none_or(|d| d > four);
         t.push(TimelineItem {
             date: Some(four.to_string()),
@@ -625,7 +625,7 @@ fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
     if let Some(b) = back {
         for d in [0i64, 3, 7, 10, 14, 21, 28] {
             // Checks happen at school: a Saturday or Sunday moves to Monday.
-            let Some(day) = b.checked_add_signed(Duration::days(d)) else {
+            let Some(day) = b.checked_add_signed(phn_core::time::days(d)) else {
                 break;
             };
             let day = next_weekday(day).to_string();
@@ -794,7 +794,7 @@ const CHECKS: [&str; 7] = [
 ];
 
 #[allow(clippy::too_many_lines)]
-fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<LogOut> {
+fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: Date) -> Result<LogOut> {
     let path = args.tracker_path.as_deref().unwrap_or_default();
     let lt = localdata::load(ctx, path, args.sheet.as_deref())?;
     let h = lt.table.headers.clone();
@@ -949,7 +949,7 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
         line.push(
             if is_open
                 && inj
-                    .checked_add_signed(Duration::days(28))
+                    .checked_add_signed(phn_core::time::days(28))
                     .is_some_and(|four| as_of >= four)
             {
                 "over 4 weeks: assessment and 504/IEP review".into()
@@ -1232,7 +1232,7 @@ pub fn concussion_return_to_learn_tracker(
     let src = &c.sources;
     let as_of = match &args.as_of {
         Some(s) => crate::vax::dates::require_date("as_of", s)?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let guidance = args.rest_guidance.unwrap_or_default();
     let (timeline, mut flags, return_to_play, monitoring_schedule) = single(&args, as_of)?;

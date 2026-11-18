@@ -13,6 +13,7 @@
 //! heading checks) and `efetch` (PubMed records as XML), documented in
 //! *Entrez Programming Utilities Help* (NCBI Bookshelf NBK25501).
 
+use phn_core::time::TimestampExt;
 use std::time::{Duration, Instant};
 
 use phn_core::{PhnError, Result, SourceMode};
@@ -229,7 +230,7 @@ impl Eutils {
                 Vec::new(),
                 Provenance {
                     mode: SourceMode::Live,
-                    as_of: chrono::Utc::now().to_rfc3339(),
+                    as_of: phn_core::time::Timestamp::now().to_rfc3339(),
                 },
             ));
         }

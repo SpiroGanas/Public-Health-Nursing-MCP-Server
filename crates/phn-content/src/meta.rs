@@ -1,6 +1,6 @@
 //! Review metadata shared by every content item.
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -33,12 +33,12 @@ pub struct Review {
 
 impl Review {
     /// The review-due date, if it parses.
-    pub fn due_date(&self) -> Option<NaiveDate> {
-        NaiveDate::parse_from_str(&self.review_due, "%Y-%m-%d").ok()
+    pub fn due_date(&self) -> Option<Date> {
+        phn_core::time::parse_date(&self.review_due, "%Y-%m-%d").ok()
     }
 
     /// True when the review is overdue on `today`.
-    pub fn is_overdue(&self, today: NaiveDate) -> bool {
+    pub fn is_overdue(&self, today: Date) -> bool {
         self.due_date().is_none_or(|d| d < today)
     }
 }
