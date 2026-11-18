@@ -31,7 +31,7 @@ using AI tools comes first.
 
 | Item | Requirement | Verified |
 |---|---|---|
-| Computer | Windows or macOS with Docker Desktop, or Linux with Docker Engine. The release workflow builds **linux/amd64 and linux/arm64** images (`.github/workflows/release.yml`), so Apple silicon is supported. | From the workflow |
+| Computer | Windows or macOS with Docker Desktop, or Linux with Docker Engine. Without a container runtime, the server can also be built from source and run natively (section 4.3; Windows and macOS native builds not tested). The release workflow builds **linux/amd64 and linux/arm64** images (`.github/workflows/release.yml`), so Apple silicon is supported. | From the workflow |
 | Container runtime | Docker Desktop (a paid subscription may be needed in larger organizations), or the free Podman Desktop or Rancher Desktop (`README.md`). Ask your IT approval process which one is allowed. | Podman and Rancher have **not** been tested by this project (the plan lists them as alternatives) |
 | MCP client | Claude Desktop, configured through `claude_desktop_config.json` (`README.md`). Other MCP clients that start a stdio command should work: **not verified**. | README |
 | Disk | Image size is **not yet measured** (budget: to be decided by the product owner). Bundled data snapshots are about 12 MB (`STATUS.md`); fonts, name lists, and a search engine are embedded in the binary (ADR 0001). The optional full geocoder index is 35.5 MB (ADR 0011). | Not measured |
@@ -149,6 +149,99 @@ files or change settings.
 
 Why each flag is there is in section 9. Add `"-e", "PHN_OFFLINE=1"` and `"--network", "none"`
 for a no-internet deployment (section 6).
+
+### 4.3 Running without Docker
+
+The same server can run as an ordinary program that Claude Desktop starts directly. Use this
+when a container runtime is not approved or not available, or for development. **Docker remains
+the recommended deployment**: it adds a read-only file system, dropped capabilities, and memory
+and process limits (section 9) that a native program does not have. Both entries can sit in the
+same `claude_desktop_config.json`; keep only one turned on at a time, or every tool appears
+twice.
+
+**What changes and what does not**
+
+| Topic | Docker | Native |
+|---|---|---|
+| Program | Image `ghcr.io/...:X.Y.Z` | One executable, `phn-mcp-server` (`.exe` on Windows). Content, snapshots, fonts, and name lists are compiled in (ADR 0001), so nothing else is installed. |
+| Data folder | Bind mount at `/data` | `PHN_DATA_DIR` (must exist). `/data/...` in tool arguments still means this folder (`crates/phn-local/src/sandbox.rs`), on Windows too. |
+| Output folder | `/data/output` | `<PHN_DATA_DIR>/output`, or `PHN_OUTPUT_DIR` |
+| Settings and cache | `phn-cache` volume at `/cache` | `PHN_CACHE_DIR` (a folder of your choice). Settings are **not** shared with the Docker volume. |
+| Time zone | `TZ=America/New_York` in the image | The computer's own time zone; `check` prints it |
+| Sandbox in the code (no `..`, no paths outside the data folder, symbolic links checked, never overwrites) | Yes | Yes, the same code |
+| Read-only root, `--cap-drop`, `--memory`, `--pids-limit`, `--network none` | Yes | **No.** The program runs with the signed-in user's rights. For offline use set `PHN_OFFLINE=1`; there is no network-level block. |
+| Signed image, SBOM, Trivy scan (section 3) | Yes | No: you build from source. Build from a tagged release, not an arbitrary commit. |
+| Tested by CI | Yes (Linux) | Linux build and tests only. **Windows and macOS native builds are not tested by this project.** |
+
+**Build (all platforms)**
+
+1. Install Rust with rustup (<https://rustup.rs>), version 1.88 or newer. On Windows, rustup
+   offers to install the Visual Studio C++ Build Tools ("Desktop development with C++"); accept.
+   The TLS library (`aws-lc-rs`) compiles C code. On Windows it may also need CMake and NASM;
+   if the build stops with an error naming either, install them
+   (`winget install Kitware.CMake NASM.NASM`) and build again. **Not verified on Windows.**
+2. From a checkout of the release tag:
+
+   ```sh
+   cargo build --release --locked -p phn-server --bin phn-mcp-server
+   ```
+
+3. Copy `target/release/phn-mcp-server` (or `phn-mcp-server.exe`) to a stable folder, for example
+   `C:\Users\YOUR-NAME\PHN\bin`. Pointing Claude Desktop at the build folder works, but a
+   rebuild while Claude Desktop is running fails on Windows because the file is in use.
+4. Check it. PowerShell:
+
+   ```powershell
+   $env:PHN_DATA_DIR = "C:\Users\YOUR-NAME\PHN-Data"
+   $env:PHN_CACHE_DIR = "C:\Users\YOUR-NAME\PHN\cache"
+   C:\Users\YOUR-NAME\PHN\bin\phn-mcp-server.exe check
+   ```
+
+   macOS or Linux:
+
+   ```sh
+   PHN_DATA_DIR="$HOME/PHN-Data" PHN_CACHE_DIR="$HOME/.phn-cache" ~/PHN/bin/phn-mcp-server check
+   ```
+
+   It should end with `OK`. If it says the data folder does not exist, create it or fix the path.
+
+**Claude Desktop entry (Windows)**
+
+```json
+{
+  "mcpServers": {
+    "public-health-nursing-local": {
+      "command": "C:\\Users\\YOUR-NAME\\PHN\\bin\\phn-mcp-server.exe",
+      "args": [],
+      "env": {
+        "PHN_DATA_DIR": "C:\\Users\\YOUR-NAME\\PHN-Data",
+        "PHN_CACHE_DIR": "C:\\Users\\YOUR-NAME\\PHN\\cache",
+        "PHN_PROFILE": "school_nurse",
+        "PHN_SUPPRESSION_THRESHOLD": "5"
+      }
+    }
+  }
+}
+```
+
+Put it inside the existing `mcpServers` object, next to the Docker entry. Paths must be full
+paths with double backslashes; Claude Desktop does not expand `%USERPROFILE%`, `%APPDATA%`, or
+`~`. On macOS or Linux, use `/Users/YOUR-NAME/...` or `/home/YOUR-NAME/...` paths. Every
+variable in section 7 works the same way in `env` (for example `PHN_OFFLINE`, `PHN_CA_BUNDLE`,
+`HTTPS_PROXY`, API keys). Restart Claude Desktop after a change, and turn off the entry you are
+not using.
+
+**Folder advice.** The same rules as section 5 apply: choose one dedicated data folder, never a
+home folder or drive root, because tools can read anything inside it. Keep it on a local disk,
+not a synced OneDrive or SharePoint folder, unless your IT team has tested that. Files the server
+writes belong to the signed-in user, so there are no user-ID settings to make.
+
+**Updating.** Close Claude Desktop, check out the new release tag, rebuild, copy the new program
+over the old one, run `check`, and start Claude Desktop again. The settings and cache folder carry
+over.
+
+**Logs.** Claude Desktop saves each server's stderr in its MCP log files (section 12), the same
+as with Docker.
 
 ## 5. Folders, user IDs, and file ownership
 

@@ -7,6 +7,12 @@
 //! * `..` components are rejected outright;
 //! * the resolved path is canonicalized (following symbolic links) and must
 //!   still be inside the canonical data folder, so a symlink cannot escape.
+//!
+//! Tool descriptions and the model call the data folder `/data`, as it is in the
+//! container. When the server runs natively (no Docker), `/data/...` and
+//! `\data\...` are mapped to the real data folder on every platform, and on
+//! Windows the folder's ordinary path (`C:\Users\...`) is accepted as well as
+//! the `\\?\` form that canonicalization returns.
 
 use std::path::{Component, Path, PathBuf};
 
@@ -16,6 +22,8 @@ use phn_core::{PhnError, Result};
 #[derive(Debug, Clone)]
 pub struct Sandbox {
     data_root: PathBuf,
+    /// `data_root` without a Windows verbatim (`\\?\`) prefix; equal to it elsewhere.
+    data_root_plain: PathBuf,
     output_dir: PathBuf,
 }
 
@@ -24,13 +32,16 @@ impl Sandbox {
     pub fn new(data_dir: &Path, output_dir: &Path) -> Result<Self> {
         let data_root = data_dir.canonicalize().map_err(|_| {
             PhnError::Config(format!(
-                "the data folder {} does not exist. Mount a folder at /data \
-                 (docker run -v <your folder>:/data ...).",
+                "the data folder {} does not exist. With Docker, mount a folder at /data \
+                 (docker run -v <your folder>:/data ...); without Docker, set PHN_DATA_DIR \
+                 to a folder that exists.",
                 data_dir.display()
             ))
         })?;
+        let data_root_plain = strip_verbatim_prefix(&data_root);
         Ok(Self {
             data_root,
+            data_root_plain,
             output_dir: output_dir.to_path_buf(),
         })
     }
@@ -111,15 +122,27 @@ impl Sandbox {
                 "'{user_path}' contains '..'; paths must stay inside the data folder"
             )));
         }
-        if p.is_absolute() {
-            // Accept absolute paths only when they point inside the data folder,
-            // either the container path (/data/...) or the canonical root.
-            let logical_root = Path::new("/data");
-            if let Ok(rest) = p.strip_prefix(&self.data_root) {
-                return Ok(self.data_root.join(rest));
+        // The container path `/data` (either slash), checked as text so it works on Windows,
+        // where `/data/x` is not an absolute path and joining it would drop the data folder.
+        if let Some(rest) = strip_logical_root(trimmed) {
+            let rest_path = Path::new(rest);
+            if rest_path.has_root()
+                || rest_path
+                    .components()
+                    .any(|c| matches!(c, Component::Prefix(_)))
+            {
+                return Err(PhnError::Sandbox(format!(
+                    "'{user_path}' is outside the data folder; use a path relative to /data"
+                )));
             }
-            if let Ok(rest) = p.strip_prefix(logical_root) {
-                return Ok(self.data_root.join(rest));
+            return Ok(self.data_root.join(rest_path));
+        }
+        if p.is_absolute() || p.has_root() {
+            // Accept other absolute paths only when they point inside the real data folder.
+            for root in [&self.data_root, &self.data_root_plain] {
+                if let Ok(rest) = p.strip_prefix(root) {
+                    return Ok(self.data_root.join(rest));
+                }
             }
             return Err(PhnError::Sandbox(format!(
                 "'{user_path}' is outside the data folder; use a path relative to /data"
@@ -137,6 +160,37 @@ impl Sandbox {
             )))
         }
     }
+}
+
+/// If `path` starts with the container data folder (`/data` or `\data`, as a whole
+/// component), return the rest with leading separators removed (empty for the folder itself).
+fn strip_logical_root(path: &str) -> Option<&str> {
+    let rest = path
+        .strip_prefix("/data")
+        .or_else(|| path.strip_prefix("\\data"))?;
+    if rest.is_empty() {
+        return Some("");
+    }
+    if rest.starts_with(['/', '\\']) {
+        Some(rest.trim_start_matches(['/', '\\']))
+    } else {
+        None
+    }
+}
+
+/// Remove a Windows verbatim drive prefix (`\\?\C:\...` becomes `C:\...`), which
+/// `canonicalize` adds on Windows, so ordinary paths the nurse types can be compared with it.
+/// Verbatim UNC paths and paths without the prefix are returned unchanged.
+fn strip_verbatim_prefix(path: &Path) -> PathBuf {
+    let s = path.to_string_lossy();
+    if let Some(rest) = s.strip_prefix(r"\\?\")
+        && rest.len() >= 2
+        && rest.as_bytes()[1] == b':'
+        && rest.as_bytes()[0].is_ascii_alphabetic()
+    {
+        return PathBuf::from(rest);
+    }
+    path.to_path_buf()
 }
 
 /// Make a safe file name: keep letters, digits, `-`, `_`, `.`, and spaces
@@ -195,6 +249,53 @@ mod tests {
             sb.resolve_existing("missing.csv"),
             Err(PhnError::NotFound(_))
         ));
+    }
+
+    #[test]
+    fn container_root_is_matched_as_text_with_either_slash() {
+        assert_eq!(strip_logical_root("/data"), Some(""));
+        assert_eq!(strip_logical_root("/data/"), Some(""));
+        assert_eq!(strip_logical_root("/data/sub/a.csv"), Some("sub/a.csv"));
+        assert_eq!(strip_logical_root("\\data\\sub\\a.csv"), Some("sub\\a.csv"));
+        assert_eq!(strip_logical_root("/data//a.csv"), Some("a.csv"));
+        // Only the whole component `data` counts.
+        assert_eq!(strip_logical_root("/data2/a.csv"), None);
+        assert_eq!(strip_logical_root("/database.csv"), None);
+        assert_eq!(strip_logical_root("data/a.csv"), None);
+    }
+
+    #[test]
+    fn verbatim_drive_prefix_is_removed_and_nothing_else() {
+        assert_eq!(
+            strip_verbatim_prefix(Path::new(r"\\?\C:\Users\nurse\PHN-Data")),
+            PathBuf::from(r"C:\Users\nurse\PHN-Data")
+        );
+        assert_eq!(
+            strip_verbatim_prefix(Path::new(r"\\?\UNC\server\share")),
+            PathBuf::from(r"\\?\UNC\server\share")
+        );
+        assert_eq!(
+            strip_verbatim_prefix(Path::new("/home/nurse/PHN-Data")),
+            PathBuf::from("/home/nurse/PHN-Data")
+        );
+    }
+
+    #[test]
+    fn container_paths_resolve_and_cannot_escape() {
+        let (_d, sb) = setup();
+        assert!(sb.resolve_existing("/data").unwrap().is_dir());
+        assert!(sb.resolve_existing("/data/sub").unwrap().is_dir());
+        assert!(matches!(
+            sb.resolve_existing("/data/../secret.txt"),
+            Err(PhnError::Sandbox(_))
+        ));
+        assert!(matches!(
+            sb.resolve_existing("/data//etc/passwd"),
+            Err(PhnError::NotFound(_))
+        ));
+        // The real data folder's own absolute path also works.
+        let real = sb.root().join("sub").join("a.csv");
+        assert!(sb.resolve_existing(&real.to_string_lossy()).is_ok());
     }
 
     #[test]

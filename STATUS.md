@@ -3,7 +3,7 @@
 A handoff document for whoever picks up this project next, human or AI agent. Read it before
 starting work, and **update it before you finish** (see [Keeping this file current](#keeping-this-file-current)).
 
-- **Last updated:** 2026-11-13
+- **Last updated:** 2026-11-18
 - **Current version:** 1.0.0 (all of Phases 0–19 of [`project_plan.md`](project_plan.md), 148 of
   148 tools); not yet released. Phases 15–19 were built by fourteen helpers and merged on branch
   `claude/optimistic-fermat-rb2tmp` (PR: this branch; the number is not known yet). The
@@ -821,6 +821,14 @@ Measured on 2026-11-13 on the merged branch (version 1.0.0):
 
 ### Known limitations and technical debt
 
+- **Native (no Docker) builds are untested on Windows and macOS.** README and
+  `docs/admin-guide.md` section 4.3 document running the server natively from Claude Desktop.
+  CI builds and tests on Linux only; the Windows path handling added to
+  `crates/phn-local/src/sandbox.rs` (`/data/...` and `\\?\` prefixes) is unit-tested with
+  string inputs on Linux but has never run on Windows. A cross-compile check from Linux was not
+  possible (a C dependency needs a MinGW compiler). Whether `aws-lc-sys` needs CMake or NASM on
+  Windows is also unverified. A Windows CI job would close this.
+
 - **HMCC regions** come from the 2005 MassGIS layer with one override (Wilmington → Region 3, from
   DPH's 2019 map, in `xtask/src/snapshots.rs`); the current HMCC locator (arcgis.com) was blocked.
 - **School districts** come from a 2019 MassGIS layer; newer regionalizations are missing.
@@ -1326,6 +1334,7 @@ The plan is complete; nothing is scheduled. In rough order:
 | 2026-11-13 | Phase 18 workforce: `assess_workforce_competencies`, `board_of_health_meeting_assistant`, `draft_standing_orders` | PR: this branch |
 | 2026-11-13 | Phase 19 law: `search_public_health_law`, `draft_policy_brief`, `health_information_sharing_guide`; three law snapshots | PR: this branch |
 | 2026-11-13 | Phase 19 tracking: `track_ma_legislation`, `monitor_federal_rules`; `ma-legislation-194` snapshot | PR: this branch |
+| 2026-11-18 | Running without Docker: README and admin guide section 4.3 (Claude Desktop native entry, Windows first); sandbox maps `/data/...` and `\data\...` to the real data folder on every platform and accepts Windows paths without the `\\?\` prefix; clearer error when `PHN_DATA_DIR` is missing; two new clippy 1.97 lints fixed (`drop_non_drop` in `epr/aar.rs`, `manual_range_contains` in `mch/lead.rs`) | PR: this branch |
 | 2026-11-13 | Coordinator: prompt-list test asserts the exact list; fragments folded into `CHANGELOG.md` (0.16.0 to 1.0.0), `docs/acceptance/phase-15.md` to `phase-19.md`, this file, the data source registry (0.3.0), and `docs/content-review-sweep.md`; README, project plan, and user guide updated for 148 tools; version 1.0.0 (not yet released) | PR: this branch |
 
 ## Keeping this file current

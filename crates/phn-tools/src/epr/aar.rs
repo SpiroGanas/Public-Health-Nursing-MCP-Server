@@ -964,7 +964,6 @@ pub fn build_after_action_report(ctx: &Context, args: AarArgs) -> Result<Envelop
             linked[n] += 1;
         }
     }
-    drop(build_row);
     ip_rows.sort_by(|x, y| {
         let key = |r: &ImprovementRow| {
             r.number

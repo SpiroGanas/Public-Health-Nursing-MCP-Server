@@ -10,6 +10,19 @@ it was merged to `main` (Eastern time).
 
 ## [Unreleased]
 
+### Added
+
+- Documentation for running the server without Docker, started directly by Claude Desktop
+  (README "Running without Docker" and `docs/admin-guide.md` section 4.3). Docker remains the
+  recommended deployment.
+
+### Fixed
+
+- Running natively on Windows, file paths written as `/data/...` (as the tool descriptions say)
+  now resolve to the data folder instead of failing, and the data folder's own Windows path is
+  accepted. The sandbox checks are unchanged.
+- The "data folder does not exist" error now mentions `PHN_DATA_DIR` for native installs.
+
 ## [1.0.0] — 2026-11-13 (not yet tagged) — Phase 19: policy and law; v1.0 hardening
 
 The last phase of [`project_plan.md`](project_plan.md): five policy tools and the v1.0 hardening
