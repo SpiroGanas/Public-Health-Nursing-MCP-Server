@@ -12,7 +12,7 @@
 //! it can later be shared with isolation-date rules (Phase 3) and the CDSi
 //! engine (Phase 6).
 
-use chrono::{Datelike, Duration, Months, NaiveDate};
+use phn_core::time::{Date, DateExt, DurationExt, Months};
 use phn_core::{PhnError, Result};
 
 /// Days in the CDC grace period.
@@ -116,39 +116,39 @@ impl Span {
 /// (CALCDT-1, -2, -6); a date that does not exist moves forward to the first
 /// day of the next month (CALCDT-5: March 31 + 6 months = October 1); then
 /// weeks and days (CALCDT-3).
-pub fn add(date: NaiveDate, span: Span) -> NaiveDate {
+pub fn add(date: Date, span: Span) -> Date {
     let months = span.years * 12 + span.months;
     let first = date.with_day(1).expect("day 1 exists");
     let Some(target_month) = first.checked_add_months(Months::new(months)) else {
-        return NaiveDate::MAX;
+        return Date::MAX;
     };
-    let d = target_month.with_day(date.day()).unwrap_or_else(|| {
+    let d = target_month.with_day(date.day() as u32).unwrap_or_else(|| {
         target_month
             .checked_add_months(Months::new(1))
-            .unwrap_or(NaiveDate::MAX)
+            .unwrap_or(Date::MAX)
     });
-    d + Duration::days(i64::from(span.weeks) * 7 + i64::from(span.days))
+    d + phn_core::time::days(i64::from(span.weeks) * 7 + i64::from(span.days))
 }
 
 /// The date a person reaches an age.
-pub fn date_at_age(dob: NaiveDate, age: Span) -> NaiveDate {
+pub fn date_at_age(dob: Date, age: Span) -> Date {
     add(dob, age)
 }
 
 /// Whether `given` meets a minimum `due` date, with or without the grace period.
-pub fn meets(given: NaiveDate, due: NaiveDate, grace: bool) -> bool {
+pub fn meets(given: Date, due: Date, grace: bool) -> bool {
     let allowance = if grace { GRACE_DAYS } else { 0 };
-    given >= due - Duration::days(allowance)
+    given >= due - phn_core::time::days(allowance)
 }
 
 /// Days by which `given` falls short of `due` (0 when it is on time).
-pub fn days_early(given: NaiveDate, due: NaiveDate) -> i64 {
+pub fn days_early(given: Date, due: Date) -> i64 {
     (due - given).num_days().max(0)
 }
 
 /// Age in completed years on a date.
-pub fn age_years(dob: NaiveDate, on: NaiveDate) -> i32 {
-    let mut y = on.year() - dob.year();
+pub fn age_years(dob: Date, on: Date) -> i32 {
+    let mut y = i32::from(on.year()) - i32::from(dob.year());
     if (on.month(), on.day()) < (dob.month(), dob.day()) {
         y -= 1;
     }
@@ -156,8 +156,9 @@ pub fn age_years(dob: NaiveDate, on: NaiveDate) -> i32 {
 }
 
 /// Age in completed calendar months on a date.
-pub fn age_months(dob: NaiveDate, on: NaiveDate) -> i32 {
-    let mut m = (on.year() - dob.year()) * 12 + on.month() as i32 - dob.month() as i32;
+pub fn age_months(dob: Date, on: Date) -> i32 {
+    let mut m = (i32::from(on.year()) - i32::from(dob.year())) * 12 + i32::from(on.month())
+        - i32::from(dob.month());
     if on.day() < dob.day() {
         m -= 1;
     }
@@ -171,17 +172,19 @@ const MAX_YEAR: i32 = 2100;
 
 /// Keep a parsed date only when its year is plausible. `%Y` accepts one to
 /// four digits, so "3/4/15" would otherwise be read as the year 15.
-fn plausible(d: NaiveDate) -> Option<NaiveDate> {
-    (MIN_YEAR..=MAX_YEAR).contains(&d.year()).then_some(d)
+fn plausible(d: Date) -> Option<Date> {
+    (MIN_YEAR..=MAX_YEAR)
+        .contains(&i32::from(d.year()))
+        .then_some(d)
 }
 
 /// A two-digit year that would land more than a year in the future belongs
 /// to the previous century ("5/2/50" is a birth date in 1950, not 2050). The
 /// same rule is used by `phn_local::phi::parse_date`.
-fn two_digit_century(d: NaiveDate) -> NaiveDate {
-    let limit = chrono::Local::now().date_naive() + chrono::Duration::days(366);
+fn two_digit_century(d: Date) -> Date {
+    let limit = phn_core::time::today() + phn_core::time::days(366);
     if d > limit {
-        d.with_year(d.year() - 100).unwrap_or(d)
+        d.with_year(i32::from(d.year()) - 100).unwrap_or(d)
     } else {
         d
     }
@@ -192,21 +195,21 @@ fn two_digit_century(d: NaiveDate) -> NaiveDate {
 /// outside 1900-2100 are rejected. A two-digit year is read in the current
 /// century unless that would be more than a year in the future, in which case
 /// it is the previous century (3/4/15 is 2015; 5/2/50 is 1950).
-pub fn parse_date(s: &str) -> Option<NaiveDate> {
+pub fn parse_date(s: &str) -> Option<Date> {
     let t = s.trim();
     if t.is_empty() {
         return None;
     }
     // Four-digit years first, then two-digit years.
     for fmt in ["%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d"] {
-        if let Ok(d) = NaiveDate::parse_from_str(t, fmt)
+        if let Ok(d) = phn_core::time::parse_date(t, fmt)
             && let Some(d) = plausible(d)
         {
             return Some(d);
         }
     }
     for fmt in ["%m/%d/%y", "%m-%d-%y"] {
-        if let Ok(d) = NaiveDate::parse_from_str(t, fmt)
+        if let Ok(d) = phn_core::time::parse_date(t, fmt)
             && let Some(d) = plausible(two_digit_century(d))
         {
             return Some(d);
@@ -216,7 +219,7 @@ pub fn parse_date(s: &str) -> Option<NaiveDate> {
     // returns `None` when byte 10 is inside a multi-byte character.
     if t.len() > 10
         && let Some(head) = t.get(..10)
-        && let Ok(d) = NaiveDate::parse_from_str(head, "%Y-%m-%d")
+        && let Ok(d) = phn_core::time::parse_date(head, "%Y-%m-%d")
         && let Some(d) = plausible(d)
     {
         return Some(d);
@@ -224,7 +227,7 @@ pub fn parse_date(s: &str) -> Option<NaiveDate> {
     if let Ok(serial) = t.parse::<f64>()
         && (20_000.0..80_000.0).contains(&serial)
     {
-        return NaiveDate::parse_from_str(
+        return phn_core::time::parse_date(
             &phn_local::table::excel_serial_to_iso(serial),
             "%Y-%m-%d",
         )
@@ -235,7 +238,7 @@ pub fn parse_date(s: &str) -> Option<NaiveDate> {
 }
 
 /// Parse a required date argument, with a helpful error.
-pub fn require_date(field: &str, s: &str) -> Result<NaiveDate> {
+pub fn require_date(field: &str, s: &str) -> Result<Date> {
     parse_date(s).ok_or_else(|| {
         PhnError::InvalidInput(format!(
             "{field} '{s}' is not a date; use YYYY-MM-DD (for example 2019-04-15)"
@@ -247,8 +250,8 @@ pub fn require_date(field: &str, s: &str) -> Result<NaiveDate> {
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap()
+    fn d(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%Y-%m-%d").unwrap()
     }
 
     #[test]

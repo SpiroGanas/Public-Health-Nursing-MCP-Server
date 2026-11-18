@@ -7,6 +7,7 @@
 //! document language; the title shown in the window title bar; and the
 //! letterhead, table rules, and page numbers marked as artifacts.
 
+use phn_core::time::TimestampExt;
 use std::collections::BTreeMap;
 
 use lopdf::{Dictionary, Object, ObjectId, Stream, StringFormat, dictionary};
@@ -866,7 +867,9 @@ impl<'a> Writer<'a> {
             "Lang" => text_string(&self.doc.language),
             "ViewerPreferences" => dictionary! { "DisplayDocTitle" => true },
         });
-        let now = chrono::Utc::now().format("D:%Y%m%d%H%M%SZ").to_string();
+        let now = phn_core::time::Timestamp::now()
+            .format("D:%Y%m%d%H%M%SZ")
+            .to_string();
         let mut info = dictionary! {
             "Title" => text_string(&self.doc.title),
             "Producer" => text_string("Public Health Nursing MCP Server"),

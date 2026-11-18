@@ -88,7 +88,7 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
         .map(|s| serde_json::from_str(&s))
         .transpose()
         .context("parsing snapshots/manifest.json")?;
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
 
     let towns_zip = fetch(
         &format!("{MASSGIS_BASE}/{TOWNS_ZIP}"),

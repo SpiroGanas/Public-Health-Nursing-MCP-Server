@@ -5,7 +5,7 @@
 //! training plan sheet, the credential tracker with due-date and status formulas, and DPH's
 //! standards. Individual rows are in the workbook only; staff are identified by code.
 
-use chrono::{Datelike, NaiveDate};
+use phn_core::time::{Date, DateExt, DurationExt};
 use phn_core::{PhnError, Result};
 use rust_xlsxwriter::{
     Color, DataValidation, DataValidationRule, ExcelDateTime, Format, Formula, Workbook, XlsxError,
@@ -22,7 +22,7 @@ pub(crate) struct OutputInputs<'a> {
     pub result: &'a WorkforceResult,
     pub staff_domain: Option<&'a [StaffDomain]>,
     pub cred_rows: Option<&'a [CredRow]>,
-    pub as_of: NaiveDate,
+    pub as_of: Date,
 }
 
 type X<T> = std::result::Result<T, XlsxError>;
@@ -31,7 +31,7 @@ const TEMPLATE_STAFF: usize = 12;
 const SPARE_ROWS: u32 = 40;
 const FIRST: u32 = 5; // first data row (1-based) on the Ratings sheet
 
-fn xl_date(d: NaiveDate) -> X<ExcelDateTime> {
+fn xl_date(d: Date) -> X<ExcelDateTime> {
     ExcelDateTime::from_ymd(d.year() as u16, d.month() as u8, d.day() as u8)
 }
 
@@ -516,11 +516,11 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                 .set_result(
                     cr.and_then(|c| {
                         c.months
-                            .and_then(|m| c.hire.checked_add_months(chrono::Months::new(m)))
+                            .and_then(|m| c.hire.checked_add_months(phn_core::time::Months::new(m)))
                     })
                     .map_or(String::new(), |d| {
                         // Excel serial days since 1899-12-30.
-                        let base = NaiveDate::from_ymd_opt(1899, 12, 30).expect("base");
+                        let base = phn_core::time::ymd(1899, 12, 30).expect("base");
                         (d - base).num_days().to_string()
                     }),
                 ),

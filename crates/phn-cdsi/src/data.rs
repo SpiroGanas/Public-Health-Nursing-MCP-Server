@@ -6,7 +6,7 @@
 use std::collections::BTreeMap;
 use std::sync::OnceLock;
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use quick_xml::events::{BytesRef, Event};
 use quick_xml::reader::Reader;
 
@@ -122,7 +122,7 @@ pub struct CodeTitle {
 /// "Born before" evidence of immunity.
 #[derive(Debug, Clone)]
 pub struct BirthDateImmunity {
-    pub immunity_birth_date: NaiveDate,
+    pub immunity_birth_date: Date,
     /// Country of birth required ("U.S."), if any.
     pub birth_country: Option<String>,
     /// Observations that exclude the patient from this evidence.
@@ -215,13 +215,13 @@ pub struct Indication {
 /// Effective/cessation window of a logical component instance.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct Effective {
-    pub effective: Option<NaiveDate>,
-    pub cessation: Option<NaiveDate>,
+    pub effective: Option<Date>,
+    pub cessation: Option<Date>,
 }
 
 impl Effective {
     /// RELEVANT-1 / RELEVANT-2: does the instance apply on `date`?
-    pub fn applies(&self, date: NaiveDate) -> bool {
+    pub fn applies(&self, date: Date) -> bool {
         self.effective.is_none_or(|e| date >= e) && self.cessation.is_none_or(|c| date <= c)
     }
 }
@@ -341,8 +341,8 @@ pub enum CountLogic {
 pub struct SkipCondition {
     pub id: String,
     pub kind: ConditionType,
-    pub start_date: Option<NaiveDate>,
-    pub end_date: Option<NaiveDate>,
+    pub start_date: Option<Date>,
+    pub end_date: Option<Date>,
     pub begin_age: Option<Span>,
     pub end_age: Option<Span>,
     pub interval: Option<Span>,
@@ -357,8 +357,8 @@ pub struct SkipCondition {
 /// Seasonal recommendation window.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Seasonal {
-    pub start: Option<NaiveDate>,
-    pub end: Option<NaiveDate>,
+    pub start: Option<Date>,
+    pub end: Option<Date>,
 }
 
 /// A series dose.
@@ -497,7 +497,7 @@ impl Node {
     fn span_of(&self, name: &str) -> Option<Span> {
         self.child(name).and_then(|c| Span::parse(&c.text))
     }
-    fn date_of(&self, name: &str) -> Option<NaiveDate> {
+    fn date_of(&self, name: &str) -> Option<Date> {
         self.child(name).and_then(|c| parse_date(&c.text))
     }
     fn effective(&self) -> Effective {

@@ -1,7 +1,7 @@
 //! CD-10 `detect_aberrations`: EARS C1–C3, CUSUM, and Farrington-type
 //! aberration detection on a count series (engine: [`phn_epi::aberration`]).
 
-use chrono::{Days, Months, NaiveDate};
+use phn_core::time::{DateExt, Days, Months};
 use phn_core::{Envelope, PhnError, Result, Source};
 use phn_epi::aberration::{
     self, CusumParams, EarsMethod, EarsParams, FarringtonParams, ThresholdMethod,
@@ -188,7 +188,7 @@ fn labels(args: &AberrationArgs, freq: Frequency, n: usize) -> Result<Vec<String
         return Ok(l.iter().map(|s| s.trim().to_string()).collect());
     }
     if let Some(s) = &args.start_date {
-        let d0 = NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d").map_err(|_| {
+        let d0 = phn_core::time::parse_date(s.trim(), "%Y-%m-%d").map_err(|_| {
             PhnError::InvalidInput(format!("start_date '{s}' is not a date (YYYY-MM-DD)"))
         })?;
         return Ok((0..n)

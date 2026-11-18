@@ -62,8 +62,8 @@ fn main() -> Result<()> {
         }
         Some("validate-content") => {
             let today = match flag_value(&args, "--today") {
-                Some(d) => chrono::NaiveDate::parse_from_str(&d, "%Y-%m-%d")?,
-                None => chrono::Local::now().date_naive(),
+                Some(d) => phn_core::time::parse_date(&d, "%Y-%m-%d")?,
+                None => phn_core::time::today(),
             };
             content::run(&root, today)
         }

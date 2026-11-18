@@ -11,7 +11,7 @@
 use std::path::Path;
 use std::sync::Mutex;
 
-use chrono::{DateTime, Utc};
+use phn_core::time::{DurationExt, TimestampExt};
 use phn_core::{PhnError, Result};
 use rusqlite::{Connection, OptionalExtension, params};
 
@@ -21,7 +21,7 @@ use crate::http::ProbeResult;
 #[derive(Debug, Clone, PartialEq)]
 pub struct CachedBody {
     pub body: Vec<u8>,
-    pub fetched_at: DateTime<Utc>,
+    pub fetched_at: phn_core::time::Timestamp,
     /// True when the entry is younger than its time-to-live.
     pub fresh: bool,
 }
@@ -73,7 +73,7 @@ impl Cache {
         let cache = Self {
             conn: Mutex::new(conn),
         };
-        if let Err(e) = cache.prune(Utc::now()) {
+        if let Err(e) = cache.prune(phn_core::time::Timestamp::now()) {
             tracing::warn!(error = %e, "could not prune the HTTP cache");
         }
         Ok(cache)
@@ -81,10 +81,10 @@ impl Cache {
 
     /// Delete bodies fetched more than [`MAX_AGE_DAYS`] before `now`. Returns
     /// the number of bodies removed.
-    pub fn prune(&self, now: DateTime<Utc>) -> Result<usize> {
+    pub fn prune(&self, now: phn_core::time::Timestamp) -> Result<usize> {
         // `fetched_at` is always written as UTC RFC 3339 text, which sorts
         // in time order.
-        let cutoff = (now - chrono::Duration::days(MAX_AGE_DAYS)).to_rfc3339();
+        let cutoff = (now - phn_core::time::days(MAX_AGE_DAYS)).to_rfc3339();
         self.lock()
             .execute(
                 "DELETE FROM http_cache WHERE fetched_at < ?1",
@@ -99,11 +99,17 @@ impl Cache {
 
     /// Store a body with a time-to-live.
     pub fn put(&self, key: &str, body: &[u8], ttl_secs: u64) -> Result<()> {
-        self.put_at(key, body, ttl_secs, Utc::now())
+        self.put_at(key, body, ttl_secs, phn_core::time::Timestamp::now())
     }
 
     /// Store a body with an explicit fetch time (tests).
-    pub fn put_at(&self, key: &str, body: &[u8], ttl_secs: u64, at: DateTime<Utc>) -> Result<()> {
+    pub fn put_at(
+        &self,
+        key: &str,
+        body: &[u8],
+        ttl_secs: u64,
+        at: phn_core::time::Timestamp,
+    ) -> Result<()> {
         self.lock()
             .execute(
                 "INSERT INTO http_cache (key, body, fetched_at, ttl_secs) VALUES (?1, ?2, ?3, ?4)
@@ -127,8 +133,10 @@ impl Cache {
             .optional()
             .map_err(db_err)?;
         Ok(row.and_then(|(body, at, ttl)| {
-            let fetched_at = DateTime::parse_from_rfc3339(&at).ok()?.with_timezone(&Utc);
-            let age = Utc::now().signed_duration_since(fetched_at).num_seconds();
+            let fetched_at = phn_core::time::parse_rfc3339(&at).ok()?;
+            let age = phn_core::time::Timestamp::now()
+                .signed_duration_since(fetched_at)
+                .num_seconds();
             Some(CachedBody {
                 body,
                 fetched_at,
@@ -200,8 +208,13 @@ mod tests {
         let hit = c.get("k").unwrap().unwrap();
         assert_eq!(hit.body, b"hello");
         assert!(hit.fresh);
-        c.put_at("old", b"x", 60, Utc::now() - chrono::Duration::hours(2))
-            .unwrap();
+        c.put_at(
+            "old",
+            b"x",
+            60,
+            phn_core::time::Timestamp::now() - phn_core::time::hours(2),
+        )
+        .unwrap();
         assert!(!c.get("old").unwrap().unwrap().fresh);
     }
 
@@ -221,19 +234,19 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("cache.sqlite");
         let c = Cache::open(&path).unwrap();
-        let now = Utc::now();
+        let now = phn_core::time::Timestamp::now();
         c.put_at(
             "ancient",
             b"x",
             60,
-            now - chrono::Duration::days(MAX_AGE_DAYS + 10),
+            now - phn_core::time::days(MAX_AGE_DAYS + 10),
         )
         .unwrap();
         c.put_at(
             "stale",
             b"y",
             60,
-            now - chrono::Duration::days(MAX_AGE_DAYS - 10),
+            now - phn_core::time::days(MAX_AGE_DAYS - 10),
         )
         .unwrap();
         c.put("fresh", b"z", 60).unwrap();
@@ -244,7 +257,7 @@ mod tests {
         assert!(!c.get("stale").unwrap().unwrap().fresh);
         assert!(c.get("fresh").unwrap().unwrap().fresh);
         assert_eq!(
-            c.prune(now + chrono::Duration::days(MAX_AGE_DAYS + 1))
+            c.prune(now + phn_core::time::days(MAX_AGE_DAYS + 1))
                 .unwrap(),
             2
         );

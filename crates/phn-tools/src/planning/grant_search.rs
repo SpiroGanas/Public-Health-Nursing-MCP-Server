@@ -10,7 +10,7 @@
 use std::collections::BTreeMap;
 use std::sync::LazyLock;
 
-use chrono::NaiveDate;
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::grants::{
     self, CommbuysBid, CommbuysList, FederalOpportunity, FederalOutcome, FederalQuery,
@@ -297,11 +297,11 @@ fn commbuys_kind(title_padded: &str, c: &SourcesContent) -> &'static str {
     }
 }
 
-fn parse_day(label: &str, s: &str) -> Result<NaiveDate> {
-    let d = NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d").map_err(|_| {
+fn parse_day(label: &str, s: &str) -> Result<Date> {
+    let d = phn_core::time::parse_date(s.trim(), "%Y-%m-%d").map_err(|_| {
         PhnError::InvalidInput(format!("{label} must be a date like 2027-01-31, not '{s}'"))
     })?;
-    if !(1900..=2100).contains(&chrono::Datelike::year(&d)) {
+    if !(1900..=2100).contains(&i32::from(d.year())) {
         return Err(PhnError::InvalidInput(format!(
             "{label} '{s}' is outside the years 1900 to 2100"
         )));
@@ -352,7 +352,7 @@ fn iso_date(month: &str, day: &str, year: &str) -> Option<String> {
     if !(1900..=2100).contains(&y) {
         return None;
     }
-    NaiveDate::from_ymd_opt(y, m, d).map(|x| x.to_string())
+    phn_core::time::ymd(y, m, d).map(|x| x.to_string())
 }
 
 static ROW_START: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{3,5}(?:\s+\S.*)?$").unwrap());
@@ -529,7 +529,7 @@ struct CommbuysRead {
     source: Source,
 }
 
-async fn read_commbuys(ctx: &Context, today: NaiveDate) -> Result<CommbuysRead> {
+async fn read_commbuys(ctx: &Context, today: Date) -> Result<CommbuysRead> {
     let (snap, snap_source) = grants::commbuys_snapshot(&ctx.snapshots)?;
     let snap_date = snap.list_date.clone();
     let validate = |bytes: &[u8]| -> Result<()> {
@@ -600,8 +600,8 @@ fn mode_word(m: SourceMode) -> &'static str {
     }
 }
 
-fn days_between(today: NaiveDate, iso: &str) -> Option<i64> {
-    NaiveDate::parse_from_str(iso, "%Y-%m-%d")
+fn days_between(today: Date, iso: &str) -> Option<i64> {
+    phn_core::time::parse_date(iso, "%Y-%m-%d")
         .ok()
         .map(|d| (d - today).num_days())
 }
@@ -621,7 +621,7 @@ fn free_topic_matches(text_padded: &str, topic: &str) -> bool {
 
 fn federal_row(
     o: &FederalOpportunity,
-    today: NaiveDate,
+    today: Date,
     stated: bool,
     topics: Vec<String>,
 ) -> GrantOpportunity {
@@ -665,7 +665,7 @@ fn federal_row(
 
 fn commbuys_row(
     b: &CommbuysBid,
-    today: NaiveDate,
+    today: Date,
     kind: &str,
     topics: Vec<String>,
     health_agency: bool,
@@ -707,14 +707,14 @@ pub async fn search_grant_opportunities(
     ctx: &Context,
     args: GrantSearchArgs,
 ) -> Result<Envelope<GrantSearchResult>> {
-    search_at(ctx, args, chrono::Local::now().date_naive()).await
+    search_at(ctx, args, phn_core::time::today()).await
 }
 
 /// [`search_grant_opportunities`] with the date to count days from (for tests).
 pub async fn search_at(
     ctx: &Context,
     args: GrantSearchArgs,
-    today: NaiveDate,
+    today: Date,
 ) -> Result<Envelope<GrantSearchResult>> {
     let c: SourcesContent = content::load(GRANT_SOURCES)?;
     let topic = args
@@ -752,7 +752,7 @@ pub async fn search_at(
         None => None,
     };
     if let Some(n) = args.within_days {
-        let b = today + chrono::Duration::days(i64::from(n.min(3660)));
+        let b = today + phn_core::time::days(i64::from(n.min(3660)));
         before = Some(before.map_or(b, |x| x.min(b)));
     }
     if let Some(b) = before
@@ -870,7 +870,7 @@ pub async fn search_at(
                     if let Some(d) = o
                         .close_date
                         .as_deref()
-                        .and_then(|d| NaiveDate::parse_from_str(d, "%Y-%m-%d").ok())
+                        .and_then(|d| phn_core::time::parse_date(d, "%Y-%m-%d").ok())
                     {
                         if d < after || before.is_some_and(|b| d > b) {
                             continue;
@@ -964,7 +964,7 @@ pub async fn search_at(
             let Some(d) = b
                 .bid_date
                 .as_deref()
-                .and_then(|d| NaiveDate::parse_from_str(d, "%Y-%m-%d").ok())
+                .and_then(|d| phn_core::time::parse_date(d, "%Y-%m-%d").ok())
             else {
                 continue;
             };
@@ -990,7 +990,7 @@ pub async fn search_at(
             }
             rows.push(commbuys_row(b, today, kind, topic_ids, health_agency));
         }
-        let age = NaiveDate::parse_from_str(&read.list.list_date, "%Y-%m-%d")
+        let age = phn_core::time::parse_date(&read.list.list_date, "%Y-%m-%d")
             .ok()
             .map(|d| (today - d).num_days());
         if read.mode == SourceMode::Snapshot {
@@ -1195,8 +1195,8 @@ mod tests {
 
     const TODAY: (i32, u32, u32) = (2026, 11, 12);
 
-    fn day() -> NaiveDate {
-        NaiveDate::from_ymd_opt(TODAY.0, TODAY.1, TODAY.2).unwrap()
+    fn day() -> Date {
+        phn_core::time::ymd(TODAY.0, TODAY.1, TODAY.2).unwrap()
     }
 
     fn offline_ctx() -> (tempfile::TempDir, Context) {

@@ -410,17 +410,17 @@ const RELATION_CUES: [&str; 24] = [
 /// year 21; such values fall through to the two-digit-year formats instead.
 /// Two-digit years that would land more than a year in the future are read as
 /// the previous century ("3/7/45" is 1945).
-pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
-    use chrono::{Datelike, NaiveDate};
+pub fn parse_date(s: &str) -> Option<phn_core::time::Date> {
+    use phn_core::time::{Date, DateExt};
     let s = s.trim();
     if s.len() < 6 || s.len() > 30 {
         return None;
     }
-    let plausible = |d: NaiveDate| (1900..=2100).contains(&d.year()).then_some(d);
+    let plausible = |d: Date| (1900..=2100).contains(&d.year()).then_some(d);
     let head = s.split(['T', ' ']).next().unwrap_or(s);
     if head.len() == 8
         && head.bytes().all(|b| b.is_ascii_digit())
-        && let Some(d) = NaiveDate::parse_from_str(head, "%Y%m%d")
+        && let Some(d) = phn_core::time::parse_date(head, "%Y%m%d")
             .ok()
             .and_then(plausible)
     {
@@ -429,7 +429,7 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
     for fmt in [
         "%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%d-%b-%Y", "%m.%d.%Y",
     ] {
-        if let Some(d) = NaiveDate::parse_from_str(head, fmt)
+        if let Some(d) = phn_core::time::parse_date(head, fmt)
             .ok()
             .and_then(plausible)
         {
@@ -437,10 +437,10 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
         }
     }
     for fmt in ["%m/%d/%y", "%m-%d-%y", "%d-%b-%y", "%m.%d.%y"] {
-        if let Ok(d) = NaiveDate::parse_from_str(head, fmt) {
-            let limit = chrono::Local::now().date_naive() + chrono::Duration::days(366);
+        if let Ok(d) = phn_core::time::parse_date(head, fmt) {
+            let limit = phn_core::time::today() + phn_core::time::days(366);
             let d = if d > limit {
-                d.with_year(d.year() - 100).unwrap_or(d)
+                d.with_year(i32::from(d.year()) - 100).unwrap_or(d)
             } else {
                 d
             };
@@ -452,7 +452,7 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
     // Day-first dates are tried last, so they only apply when the first
     // number cannot be a month ("13/03/2015").
     for fmt in ["%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y"] {
-        if let Some(d) = NaiveDate::parse_from_str(head, fmt)
+        if let Some(d) = phn_core::time::parse_date(head, fmt)
             .ok()
             .and_then(plausible)
         {
@@ -467,13 +467,13 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
         "%d %B %Y",
         "%d %b %Y",
     ] {
-        if let Some(d) = NaiveDate::parse_from_str(s, fmt).ok().and_then(plausible) {
+        if let Some(d) = phn_core::time::parse_date(s, fmt).ok().and_then(plausible) {
             return Some(d);
         }
     }
     // Month and year only ("March 2015"): the first of that month.
     if s.starts_with(|c: char| c.is_ascii_alphabetic())
-        && let Some(d) = NaiveDate::parse_from_str(&format!("1 {s}"), "%d %B %Y")
+        && let Some(d) = phn_core::time::parse_date(&format!("1 {s}"), "%d %B %Y")
             .ok()
             .and_then(plausible)
     {
@@ -1697,7 +1697,7 @@ mod tests {
 
     #[test]
     fn two_digit_years_and_other_formats_parse() {
-        let d = |y, m, day| chrono::NaiveDate::from_ymd_opt(y, m, day);
+        let d = |y, m, day| phn_core::time::ymd(y, m, day);
         assert_eq!(parse_date("3/5/21"), d(2021, 3, 5));
         assert_eq!(parse_date("3/7/45"), d(1945, 3, 7));
         assert_eq!(parse_date("20150307"), d(2015, 3, 7));

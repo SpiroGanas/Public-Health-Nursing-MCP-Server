@@ -2,6 +2,7 @@
 //! for Massachusetts and FEMA disaster declarations, with likely health
 //! effects and suggested public health actions for each hazard.
 
+use phn_core::time::DateExt;
 use std::collections::{BTreeMap, BTreeSet};
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
@@ -144,7 +145,7 @@ fn truncate(s: &str, n: usize) -> String {
 /// True when an alert is a real ("Actual"), not cancelled, alert that has not
 /// ended: its `ends` time (or `expires` when there is no `ends`) is not before
 /// `now`. An alert with no readable end time is kept.
-pub(crate) fn alert_is_current(a: &NwsAlert, now: chrono::DateTime<chrono::Utc>) -> bool {
+pub(crate) fn alert_is_current(a: &NwsAlert, now: phn_core::time::Timestamp) -> bool {
     if a.message_type.eq_ignore_ascii_case("cancel") || !a.status.eq_ignore_ascii_case("actual") {
         return false;
     }
@@ -152,8 +153,8 @@ pub(crate) fn alert_is_current(a: &NwsAlert, now: chrono::DateTime<chrono::Utc>)
         .ends
         .as_deref()
         .or(a.expires.as_deref())
-        .and_then(|t| chrono::DateTime::parse_from_rfc3339(t.trim()).ok());
-    end.is_none_or(|e| e.with_timezone(&chrono::Utc) >= now)
+        .and_then(|t| phn_core::time::parse_rfc3339(t.trim()).ok());
+    end.is_none_or(|e| e >= now)
 }
 
 /// Group declaration rows for the area into one entry per declaration,
@@ -366,7 +367,7 @@ pub async fn get_active_hazard_alerts(
                 retrieved: Some(f.as_of.chars().take(19).collect()),
                 mode: f.mode,
             });
-            let now = chrono::Utc::now();
+            let now = phn_core::time::Timestamp::now();
             let mut ended = 0usize;
             for a in feed.alerts {
                 if a.message_type.eq_ignore_ascii_case("cancel")
@@ -475,10 +476,10 @@ pub async fn get_active_hazard_alerts(
         match openfema::fetch_massachusetts(&ctx.http, ctx.cache.as_ref(), &ctx.snapshots).await {
             Ok(f) => {
                 let all = declarations_for(&f.declarations, &area);
-                let today = chrono::Local::now().date_naive();
+                let today = phn_core::time::today();
                 let since = format!(
                     "{}{}",
-                    chrono::Datelike::year(&today) - years as i32,
+                    i32::from(today.year()) - years as i32,
                     today.format("-%m-%d")
                 );
                 counts = incident_counts(&all, &since);
@@ -868,9 +869,7 @@ mod tests {
                 "messageType": "Update"}}
         ]});
         let feed = nws::parse_alerts(body.to_string().as_bytes()).unwrap();
-        let now = chrono::DateTime::parse_from_rfc3339("2026-07-15T18:00:00-04:00")
-            .unwrap()
-            .with_timezone(&chrono::Utc);
+        let now = phn_core::time::parse_rfc3339("2026-07-15T18:00:00-04:00").unwrap();
         let current: Vec<&str> = feed
             .alerts
             .iter()

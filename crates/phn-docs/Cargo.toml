@@ -21,7 +21,7 @@ pulldown-cmark.workspace = true
 skrifa.workspace = true
 subsetter.workspace = true
 resvg.workspace = true
-chrono.workspace = true
+jiff.workspace = true
 regex.workspace = true
 
 [dev-dependencies]

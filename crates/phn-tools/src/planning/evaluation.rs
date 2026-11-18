@@ -13,7 +13,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::{Duration, NaiveDate};
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -728,7 +728,7 @@ fn default_types(c: &EvalContent, stage: Option<Stage>) -> (Vec<EvalType>, Strin
     }
 }
 
-fn dated_phases(c: &EvalContent, start: NaiveDate, end: NaiveDate) -> Vec<PhaseOut> {
+fn dated_phases(c: &EvalContent, start: Date, end: Date) -> Vec<PhaseOut> {
     let total = (end - start).num_days().max(1) as f64;
     let mut cursor = 0.0_f64;
     let n = c.timeline_defaults.phases.len();
@@ -737,12 +737,12 @@ fn dated_phases(c: &EvalContent, start: NaiveDate, end: NaiveDate) -> Vec<PhaseO
         .iter()
         .enumerate()
         .map(|(i, p)| {
-            let a = start + Duration::days(cursor.round() as i64);
+            let a = start + phn_core::time::days(cursor.round() as i64);
             cursor += total * p.share;
             let b = if i + 1 == n {
                 end
             } else {
-                start + Duration::days(cursor.round() as i64)
+                start + phn_core::time::days(cursor.round() as i64)
             };
             PhaseOut {
                 step: p.step,
@@ -894,7 +894,7 @@ pub fn build_evaluation_plan(
             ),
         ),
         (Some(s), None) => {
-            let e = s + Duration::weeks(c.timeline_defaults.default_weeks);
+            let e = s + phn_core::time::weeks(c.timeline_defaults.default_weeks);
             (
                 dated_phases(&c, s, e),
                 format!(

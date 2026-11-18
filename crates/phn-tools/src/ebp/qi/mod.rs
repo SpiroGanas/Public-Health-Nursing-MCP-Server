@@ -17,6 +17,7 @@ pub mod rules;
 pub mod tracker;
 pub mod types;
 
+use phn_core::time::DateExt;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::Document;
 use phn_local::Sandbox;
@@ -85,7 +86,6 @@ fn check(id: &str, label: &str, status: CheckStatus, note: impl Into<String>) ->
 // ---------------------------------------------------------------- aim
 
 fn by_text(by: &str) -> Result<String> {
-    use chrono::Datelike;
     if let Some(d) = phn_local::phi::parse_date(by) {
         if !(1900..=2100).contains(&d.year()) {
             return Err(PhnError::InvalidInput(

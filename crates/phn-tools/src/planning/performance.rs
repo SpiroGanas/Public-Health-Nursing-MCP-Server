@@ -16,7 +16,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Datelike as _, NaiveDate};
+use phn_core::time::{Date, DateExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::chart::{ChartKind, ChartSpec, Flag, RefLine, Series};
 use phn_epi::spc::{self, ChartType, Input};
@@ -272,14 +272,14 @@ struct Loaded {
     local: LocalTable,
 }
 
-fn date_key(d: NaiveDate, p: Period) -> (i32, u32) {
+fn date_key(d: Date, p: Period) -> (i32, u32) {
     match p {
         Period::Week => {
             let w = d.iso_week();
             (w.year(), w.week())
         }
-        Period::Month => (d.year(), d.month()),
-        Period::Quarter => (d.year(), (d.month() - 1) / 3 + 1),
+        Period::Month => (i32::from(d.year()), (d.month() as u32)),
+        Period::Quarter => (i32::from(d.year()), ((d.month() as u32) - 1) / 3 + 1),
     }
 }
 
@@ -293,7 +293,7 @@ fn date_label(k: (i32, u32), p: Period) -> String {
 
 fn next_key(k: (i32, u32), p: Period) -> (i32, u32) {
     let max = match p {
-        Period::Week => NaiveDate::from_ymd_opt(k.0, 12, 28).map_or(52, |d| d.iso_week().week()),
+        Period::Week => phn_core::time::ymd(k.0, 12, 28).map_or(52, |d| d.iso_week().week()),
         Period::Month => 12,
         Period::Quarter => 4,
     };
@@ -403,7 +403,7 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
         )));
     }
     // Dates are rolled up; other labels are used as written.
-    let dates: Vec<Option<NaiveDate>> = lt
+    let dates: Vec<Option<Date>> = lt
         .table
         .column(pi)
         .map(phn_local::phi::parse_date)

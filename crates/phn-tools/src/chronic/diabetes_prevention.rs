@@ -1085,10 +1085,7 @@ fn summarize_responses(
 
 fn handout_values(score: Option<i64>, phone: &Option<String>) -> BTreeMap<String, String> {
     let mut v = BTreeMap::new();
-    v.insert(
-        "date".to_string(),
-        chrono::Local::now().date_naive().to_string(),
-    );
+    v.insert("date".to_string(), phn_core::time::today().to_string());
     v.insert(
         "score".to_string(),
         score.map(|s| s.to_string()).unwrap_or_default(),

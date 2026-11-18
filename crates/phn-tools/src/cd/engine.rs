@@ -8,11 +8,11 @@
 //! "H hours after" with dates only gives the earliest calendar date on which
 //! the hours could have passed (anchor + ⌊H/24⌋ days).
 
-use chrono::{Datelike, Days, NaiveDate};
 use phn_content::disease_rules::{
     self, Action, Anchor, DayRef, Disease, DiseaseRules, Role, Rule, Setting, StoolSpecimens, When,
 };
 use phn_content::reportable::Confidence;
+use phn_core::time::{Date, DateExt, Days};
 use phn_core::{PhnError, Result, Source, SourceMode};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -20,22 +20,22 @@ use serde::{Deserialize, Serialize};
 /// Dates known about the person and the exposure (ISO strings parsed).
 #[derive(Debug, Clone, Default)]
 pub struct DateFacts {
-    pub onset: Option<NaiveDate>,
-    pub positive_specimen: Option<NaiveDate>,
-    pub first_exposure: Option<NaiveDate>,
-    pub last_exposure: Option<NaiveDate>,
-    pub case_onset: Option<NaiveDate>,
-    pub last_case_onset: Option<NaiveDate>,
-    pub treatment_start: Option<NaiveDate>,
-    pub symptom_resolution: Option<NaiveDate>,
+    pub onset: Option<Date>,
+    pub positive_specimen: Option<Date>,
+    pub first_exposure: Option<Date>,
+    pub last_exposure: Option<Date>,
+    pub case_onset: Option<Date>,
+    pub last_case_onset: Option<Date>,
+    pub treatment_start: Option<Date>,
+    pub symptom_resolution: Option<Date>,
 }
 
 /// Parse an optional ISO date argument.
-pub fn parse_date_arg(name: &str, v: &Option<String>) -> Result<Option<NaiveDate>> {
+pub fn parse_date_arg(name: &str, v: &Option<String>) -> Result<Option<Date>> {
     match v.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
         None => Ok(None),
         Some(s) => {
-            let d = NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| {
+            let d = phn_core::time::parse_date(s, "%Y-%m-%d").map_err(|_| {
                 PhnError::InvalidInput(format!("{name} '{s}' is not a date (YYYY-MM-DD)"))
             })?;
             // "%Y" also reads "26" as the year 26 and signed years far outside
@@ -51,17 +51,17 @@ pub fn parse_date_arg(name: &str, v: &Option<String>) -> Result<Option<NaiveDate
 }
 
 /// Format a date for output.
-pub fn fmt(d: NaiveDate) -> String {
+pub fn fmt(d: Date) -> String {
     d.format("%Y-%m-%d").to_string()
 }
 
 /// Weekday and date, e.g. "Tue 2026-11-10".
-pub fn fmt_long(d: NaiveDate) -> String {
+pub fn fmt_long(d: Date) -> String {
     d.format("%a %Y-%m-%d").to_string()
 }
 
 /// Add (or subtract) days.
-pub fn add(d: NaiveDate, days: i64) -> NaiveDate {
+pub fn add(d: Date, days: i64) -> Date {
     if days >= 0 {
         d.checked_add_days(Days::new(days as u64)).unwrap_or(d)
     } else {
@@ -72,7 +72,7 @@ pub fn add(d: NaiveDate, days: i64) -> NaiveDate {
 impl DateFacts {
     /// The date of an anchor, if known. A single exposure date serves as both
     /// first and last exposure (a discrete exposure).
-    pub fn anchor(&self, a: Anchor) -> Option<NaiveDate> {
+    pub fn anchor(&self, a: Anchor) -> Option<Date> {
         match a {
             Anchor::Onset => self.onset,
             Anchor::PositiveSpecimen => self.positive_specimen,
@@ -224,7 +224,7 @@ pub struct RuleResult {
     pub note: Option<String>,
 }
 
-fn day_ref(d: &DayRef, facts: &DateFacts, missing: &mut Vec<String>) -> Option<NaiveDate> {
+fn day_ref(d: &DayRef, facts: &DateFacts, missing: &mut Vec<String>) -> Option<Date> {
     match facts.anchor(d.anchor) {
         Some(a) => Some(add(a, i64::from(d.day))),
         None => {
@@ -302,8 +302,8 @@ pub fn evaluate(
         d
     });
     let end = &rule.end;
-    let mut last_excluded: Option<NaiveDate> = None;
-    let mut earliest_return: Option<NaiveDate> = None;
+    let mut last_excluded: Option<Date> = None;
+    let mut earliest_return: Option<Date> = None;
     if let Some(t) = &end.through
         && let Some(d) = day_ref(t, dates, &mut missing)
     {
@@ -460,7 +460,7 @@ pub fn evaluate(
     }
 }
 
-fn facts_anchor(dates: &DateFacts, a: Anchor) -> NaiveDate {
+fn facts_anchor(dates: &DateFacts, a: Anchor) -> Date {
     dates.anchor(a).unwrap_or_default()
 }
 
@@ -577,7 +577,7 @@ pub fn find_disease(query: &str) -> Result<&'static Disease> {
 }
 
 /// The infectious period in dates, if computable.
-pub fn infectious_dates(d: &Disease, dates: &DateFacts) -> Option<(NaiveDate, NaiveDate, String)> {
+pub fn infectious_dates(d: &Disease, dates: &DateFacts) -> Option<(Date, Date, String)> {
     let ip = d.infectious_period.as_ref()?;
     let anchor = ip.anchor?;
     let a = dates.anchor(anchor)?;
@@ -632,8 +632,8 @@ pub fn pending_caveat(content: &DiseaseRules) -> String {
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> Option<NaiveDate> {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").ok()
+    fn d(s: &str) -> Option<Date> {
+        phn_core::time::parse_date(s, "%Y-%m-%d").ok()
     }
 
     #[test]

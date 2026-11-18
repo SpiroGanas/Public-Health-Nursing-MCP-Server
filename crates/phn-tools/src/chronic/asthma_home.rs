@@ -1006,7 +1006,7 @@ pub fn asthma_home_assessment(
                 )));
             }
             let (dir, shown) = templates::output_folder(ctx, "asthma_action_plans")?;
-            let today = chrono::Local::now().date_naive().to_string();
+            let today = phn_core::time::today().to_string();
             let mut docs = Vec::new();
             let mut blank_fields = 0usize;
             let mut unknown: std::collections::BTreeSet<String> = Default::default();

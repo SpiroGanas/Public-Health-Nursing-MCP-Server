@@ -15,7 +15,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::NaiveDate;
+use phn_core::time::DurationExt;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::socrata::{self, SocrataQuery, SocrataRows};
 use schemars::JsonSchema;
@@ -462,10 +462,10 @@ pub async fn get_respiratory_and_wastewater_surveillance(
     if !(2..=12).contains(&weeks) {
         return Err(PhnError::InvalidInput("weeks must be 2-12".into()));
     }
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let since = format!(
         "{}T00:00:00",
-        today - chrono::Duration::weeks(weeks as i64 + 3)
+        today - phn_core::time::weeks(weeks as i64 + 3)
     );
 
     let (nhsn, nssp, covid_pos, rsv_pos, nat_pos, ari, wval) = tokio::join!(
@@ -831,7 +831,7 @@ pub async fn get_respiratory_and_wastewater_surveillance(
         let latest = latest_week(&f.rows.rows, f.date_field);
         let lag = latest
             .as_deref()
-            .and_then(|d| NaiveDate::parse_from_str(d, "%Y-%m-%d").ok())
+            .and_then(|d| phn_core::time::parse_date(d, "%Y-%m-%d").ok())
             .map(|d| (today - d).num_days());
         freshness.push(Freshness {
             source: f.label.into(),

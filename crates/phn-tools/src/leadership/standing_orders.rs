@@ -12,7 +12,7 @@
 
 use std::collections::BTreeSet;
 
-use chrono::{Datelike, Months, NaiveDate};
+use phn_core::time::{Date, DateExt, Months};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_local::phi;
 use schemars::JsonSchema;
@@ -326,7 +326,7 @@ pub fn draft_standing_orders(
             "review_interval_months needs effective_date".into(),
         ));
     }
-    let next_review: Option<NaiveDate> = match (effective, args.review_interval_months) {
+    let next_review: Option<Date> = match (effective, args.review_interval_months) {
         (Some(e), Some(m)) => e.checked_add_months(Months::new(m)),
         _ => None,
     };

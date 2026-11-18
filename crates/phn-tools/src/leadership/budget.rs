@@ -17,7 +17,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Datelike as _, Months, NaiveDate};
+use phn_core::time::{Date, DateExt, DurationExt, Months};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_local::phi;
 use schemars::JsonSchema;
@@ -403,7 +403,7 @@ fn parse_month(s: &str) -> Option<(i32, u32)> {
         return ok(y, m);
     }
     if let Some(d) = phi::parse_date(t) {
-        return ok(d.year(), d.month());
+        return ok(i32::from(d.year()), d.month() as u32);
     }
     let words: Vec<String> = padded(t).split_whitespace().map(str::to_string).collect();
     let year = words
@@ -525,8 +525,8 @@ fn load(
     ctx: &Context,
     args: &BudgetArgs,
     c: &FinanceContent,
-    fy_start: NaiveDate,
-    as_of: NaiveDate,
+    fy_start: Date,
+    as_of: Date,
 ) -> Result<Loaded> {
     let lt = localdata::load(ctx, &args.path, args.sheet.as_deref())?;
     if lt.table.truncated {
@@ -692,8 +692,8 @@ fn load(
         None => None,
     };
 
-    let fy_first = (fy_start.year(), fy_start.month());
-    let as_of_key = (as_of.year(), as_of.month());
+    let fy_first = (i32::from(fy_start.year()), fy_start.month() as u32);
+    let as_of_key = (i32::from(as_of.year()), as_of.month() as u32);
     let mut outside = 0usize;
     let mut lines: Vec<Line> = Vec::new();
     let mut by_key: BTreeMap<(Kind, String, String, String), usize> = BTreeMap::new();
@@ -815,8 +815,9 @@ fn usable_headers(lt: &LocalTable, blocked: &[String]) -> String {
 // ---------------------------------------------------------------- calculation
 
 /// Fiscal year start, end (exclusive), days, and elapsed share for a date.
-pub(crate) fn fiscal_year(as_of: NaiveDate, start_month: u32) -> (NaiveDate, NaiveDate) {
-    let mut start = NaiveDate::from_ymd_opt(as_of.year(), start_month, 1).expect("valid month");
+pub(crate) fn fiscal_year(as_of: Date, start_month: u32) -> (Date, Date) {
+    let mut start =
+        phn_core::time::ymd(i32::from(as_of.year()), start_month, 1).expect("valid month");
     if start > as_of {
         start = start
             .checked_sub_months(Months::new(12))
@@ -1058,9 +1059,9 @@ fn compute(
     c: &FinanceContent,
     args: &BudgetArgs,
     loaded: &Loaded,
-    fy_start: NaiveDate,
-    fy_next: NaiveDate,
-    as_of: NaiveDate,
+    fy_start: Date,
+    fy_next: Date,
+    as_of: Date,
     start_month_is_default: bool,
 ) -> Result<Computed> {
     let days = (fy_next - fy_start).num_days();
@@ -1091,9 +1092,9 @@ fn compute(
         present.extend(l.months.keys().copied());
     }
     let complete = |m: &(i32, u32)| {
-        NaiveDate::from_ymd_opt(m.0, m.1, 1)
+        phn_core::time::ymd(m.0, m.1, 1)
             .and_then(|d| d.checked_add_months(Months::new(1)))
-            .is_some_and(|next| next - chrono::Days::new(1) <= as_of)
+            .is_some_and(|next| next - phn_core::time::days(1) <= as_of)
     };
     let mut recent: Vec<(i32, u32)> = present.iter().copied().filter(complete).collect();
     if recent.len() > run_months {
@@ -1116,7 +1117,7 @@ fn compute(
             }
         ),
         start: fy_start.to_string(),
-        end: (fy_next - chrono::Days::new(1)).to_string(),
+        end: (fy_next - phn_core::time::days(1)).to_string(),
         as_of: as_of.to_string(),
         days_in_year: days,
         days_elapsed: elapsed_days,
@@ -1587,8 +1588,8 @@ pub(crate) const PERSONNEL_LABEL: &str = "Personnel (all salary and wage categor
 /// What the workbook and report writers use besides the result.
 pub(crate) struct OutputInputs<'a> {
     pub result: &'a BudgetResult,
-    pub fy_start: NaiveDate,
-    pub as_of: NaiveDate,
+    pub fy_start: Date,
+    pub as_of: Date,
     pub tolerance: f64,
     pub indirect_rate: f64,
     pub expense_aggs: &'a [Option<AggView>],
@@ -1610,8 +1611,8 @@ pub(crate) struct AggView {
 
 // ---------------------------------------------------------------- the tool
 
-fn parse_date(s: &str) -> Result<NaiveDate> {
-    NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d")
+fn parse_date(s: &str) -> Result<Date> {
+    phn_core::time::parse_date(s.trim(), "%Y-%m-%d")
         .ok()
         .filter(|d| (1900..=2100).contains(&d.year()))
         .ok_or_else(|| {
@@ -1638,7 +1639,7 @@ pub fn analyze_health_department_budget(
     };
     let as_of = match &args.as_of_date {
         Some(d) if !d.trim().is_empty() => parse_date(d)?,
-        _ => chrono::Local::now().date_naive(),
+        _ => phn_core::time::today(),
     };
     let start_month = args
         .fiscal_year_start_month
@@ -1909,7 +1910,7 @@ mod tests {
 
     #[test]
     fn the_fiscal_year_starts_in_july_and_is_named_for_the_year_it_ends() {
-        let d = |y, m, day| NaiveDate::from_ymd_opt(y, m, day).unwrap();
+        let d = |y, m, day| phn_core::time::ymd(y, m, day).unwrap();
         let (s, n) = fiscal_year(d(2026, 10, 31), 7);
         assert_eq!((s, n), (d(2026, 7, 1), d(2027, 7, 1)));
         let (s, n) = fiscal_year(d(2027, 3, 1), 7);

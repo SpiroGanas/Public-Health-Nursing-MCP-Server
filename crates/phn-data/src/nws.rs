@@ -415,13 +415,13 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
         let cache = Cache::in_memory().unwrap();
-        let now = chrono::Utc::now();
+        let now = phn_core::time::Timestamp::now();
         cache
             .put_at(
                 ALERTS_ACTIVE_MA,
                 ALERTS.as_bytes(),
                 ALERTS_TTL_SECS,
-                now - chrono::Duration::days(7),
+                now - phn_core::time::days(7),
             )
             .unwrap();
         let err = fetch_active_alerts(&http, Some(&cache))
@@ -436,7 +436,7 @@ mod tests {
                 ALERTS_ACTIVE_MA,
                 ALERTS.as_bytes(),
                 ALERTS_TTL_SECS,
-                now - chrono::Duration::minutes(20),
+                now - phn_core::time::minutes(20),
             )
             .unwrap();
         let f = fetch_active_alerts(&http, Some(&cache)).await.unwrap();

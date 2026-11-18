@@ -1,8 +1,8 @@
 //! CD-07 `assess_measles_exposure`.
 
-use chrono::NaiveDate;
 use phn_content::disease_rules::{self, Role, Setting};
 use phn_content::measles::{self, ImmunityCriteria};
+use phn_core::time::Date;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -278,8 +278,7 @@ pub fn assess_measles_exposure(
     }
     let case_onset = parse_date_arg("case_rash_onset_date", &args.case_rash_onset_date)?;
     let last_case = parse_date_arg("last_case_onset_date", &args.last_case_onset_date)?;
-    let as_of =
-        parse_date_arg("as_of", &args.as_of)?.unwrap_or_else(|| chrono::Local::now().date_naive());
+    let as_of = parse_date_arg("as_of", &args.as_of)?.unwrap_or_else(phn_core::time::today);
     if let Some(w) = args.weight_kg
         && !(0.5..=400.0).contains(&w)
     {
@@ -298,8 +297,8 @@ pub fn assess_measles_exposure(
         ..DateFacts::default()
     };
     dates.validate()?;
-    let raw_first: NaiveDate = first.or(last).expect("checked above");
-    let raw_last: NaiveDate = last.or(first).expect("checked above");
+    let raw_first: Date = first.or(last).expect("checked above");
+    let raw_last: Date = last.or(first).expect("checked above");
     // Only exposure during the case's infectious period (4 days before through
     // 4 days after rash onset) counts: PEP windows, exclusion, and monitoring
     // are counted from the exposure dates clamped to that period.

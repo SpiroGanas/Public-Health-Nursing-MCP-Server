@@ -12,7 +12,7 @@
 
 use std::collections::BTreeSet;
 
-use chrono::{Datelike, Duration, NaiveDate, NaiveTime};
+use phn_core::time::{Time, TimeExt};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use phn_docs::model::{Block, Document};
 use schemars::JsonSchema;
@@ -379,7 +379,7 @@ fn type_label(t: &ExerciseType) -> String {
     }
 }
 
-fn clock(t: NaiveTime) -> String {
+fn clock(t: Time) -> String {
     let s = t.format("%-I:%M %p").to_string();
     s.replace("AM", "a.m.").replace("PM", "p.m.")
 }
@@ -508,13 +508,13 @@ fn push_objective(
     });
 }
 
-fn push_item(label: String, mins: i64, schedule: &mut Vec<ScheduleItem>, t: &mut NaiveTime) {
+fn push_item(label: String, mins: i64, schedule: &mut Vec<ScheduleItem>, t: &mut Time) {
     schedule.push(ScheduleItem {
         time: clock(*t),
         activity: label,
         minutes: mins.max(0) as u32,
     });
-    *t += Duration::minutes(mins.max(0));
+    *t += phn_core::time::minutes(mins.max(0));
 }
 
 /// MSEL event numbers for injects listed module by module, counting within each
@@ -986,10 +986,10 @@ pub fn design_hseep_exercise(
         ));
     }
     let start = match opt(&args.start_time) {
-        Some(t) => NaiveTime::parse_from_str(t, "%H:%M").map_err(|_| {
+        Some(t) => phn_core::time::parse_time(t, "%H:%M").map_err(|_| {
             PhnError::InvalidInput(format!("start_time '{t}' is not HH:MM (24-hour)"))
         })?,
-        None => NaiveTime::from_hms_opt(9, 0, 0).expect("valid time"),
+        None => phn_core::time::hms(9, 0, 0).expect("valid time"),
     };
     let total = (hours * 60.0).round() as i64;
     let mut schedule = Vec::new();
@@ -1023,7 +1023,7 @@ pub fn design_hseep_exercise(
         );
     } else {
         schedule.push(ScheduleItem {
-            time: clock(start - Duration::minutes(30)),
+            time: clock(start - phn_core::time::minutes(30)),
             activity: "Registration and sign-in".into(),
             minutes: 30,
         });
@@ -1083,11 +1083,11 @@ pub fn design_hseep_exercise(
     }
 
     // Planning timeline.
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let date = match opt(&args.date) {
         // Years outside 1900-2200 are typing errors (and would overflow the date arithmetic).
         Some(d) => Some(
-            NaiveDate::parse_from_str(d, "%Y-%m-%d")
+            phn_core::time::parse_date(d, "%Y-%m-%d")
                 .ok()
                 .filter(|x| (1900..=2200).contains(&x.year()))
                 .ok_or_else(|| {
@@ -1108,7 +1108,7 @@ pub fn design_hseep_exercise(
         if pm.operations_only && !operations {
             continue;
         }
-        let d = date.map(|d| d - Duration::weeks(w as i64));
+        let d = date.map(|d| d - phn_core::time::weeks(w as i64));
         if let Some(d) = d
             && d < today
         {
@@ -1138,7 +1138,7 @@ pub fn design_hseep_exercise(
             milestone: s.step.clone(),
             when: s.when.clone(),
             date: match (date, days) {
-                (Some(d), Some(n)) => Some((d + Duration::days(n)).to_string()),
+                (Some(d), Some(n)) => Some((d + phn_core::time::days(n)).to_string()),
                 (Some(d), None) => Some(d.to_string()),
                 _ => None,
             },
@@ -1511,13 +1511,13 @@ pub fn design_hseep_exercise(
                 } else {
                     play / injects.len() as i64
                 };
-                let play_start = start + Duration::minutes(20);
+                let play_start = start + phn_core::time::minutes(20);
                 let event_ids = msel_event_ids(injects.iter().map(|(mn, _, _)| *mn));
                 let rows: Vec<Vec<String>> = injects
                     .iter()
                     .enumerate()
                     .map(|(k, (_, i, m))| {
-                        let at = play_start + Duration::minutes(step * k as i64);
+                        let at = play_start + phn_core::time::minutes(step * k as i64);
                         let synopsis: String = i
                             .text
                             .split_whitespace()

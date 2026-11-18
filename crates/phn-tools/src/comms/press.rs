@@ -6,6 +6,7 @@
 //! messaging for suicide topics, and an optional Word document in
 //! /data/output.
 
+use phn_core::time::DateExt;
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use phn_docs::model::{Document, from_markdown};
 use schemars::JsonSchema;
@@ -280,16 +281,13 @@ pub fn draft_press_materials(ctx: &Context, args: PressArgs) -> Result<Envelope<
         },
     };
     let date = match opt(&args.release_date) {
-        Some(d) => chrono::NaiveDate::parse_from_str(d, "%Y-%m-%d")
+        Some(d) => phn_core::time::parse_date(d, "%Y-%m-%d")
             .map_err(|_| {
                 PhnError::InvalidInput(format!("release_date '{d}' is not a date (YYYY-MM-DD)"))
             })?
             .format("%B %-d, %Y")
             .to_string(),
-        None => chrono::Local::now()
-            .date_naive()
-            .format("%B %-d, %Y")
-            .to_string(),
+        None => phn_core::time::today().format("%B %-d, %Y").to_string(),
     };
     let target = args.target_grade.unwrap_or_else(default_target_grade);
     let (built, missing) = build(&kind, &args, &date);

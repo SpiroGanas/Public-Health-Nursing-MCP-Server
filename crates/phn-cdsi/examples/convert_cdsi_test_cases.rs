@@ -224,8 +224,8 @@ fn row_date(header: &[String], row: &[Data], name: &str) -> Option<String> {
         Data::DateTimeIso(s) => Some(s.chars().take(10).collect()),
         Data::String(s) => {
             let s = s.trim();
-            chrono::NaiveDate::parse_from_str(s, "%m/%d/%Y")
-                .or_else(|_| chrono::NaiveDate::parse_from_str(s, "%Y-%m-%d"))
+            phn_core::time::parse_date(s, "%m/%d/%Y")
+                .or_else(|_| phn_core::time::parse_date(s, "%Y-%m-%d"))
                 .ok()
                 .map(|d| d.to_string())
         }
@@ -234,6 +234,6 @@ fn row_date(header: &[String], row: &[Data], name: &str) -> Option<String> {
 }
 
 fn serial_to_iso(serial: f64) -> String {
-    let base = chrono::NaiveDate::from_ymd_opt(1899, 12, 30).expect("valid date");
-    (base + chrono::Duration::days(serial.floor() as i64)).to_string()
+    let base = phn_core::time::ymd(1899, 12, 30).expect("valid date");
+    (base + phn_core::time::days(serial.floor() as i64)).to_string()
 }

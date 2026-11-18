@@ -14,7 +14,7 @@
 
 use std::collections::{BTreeMap, HashMap};
 
-use chrono::{Datelike, NaiveDate};
+use phn_core::time::Date;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -56,7 +56,7 @@ pub enum BirthDateHandling {
 pub struct DeidOptions {
     pub mode: DeidMode,
     /// Date used to compute ages (normally today).
-    pub reference_date: NaiveDate,
+    pub reference_date: Date,
     pub birth_date: BirthDateHandling,
     /// Columns to keep unchanged even if flagged (makes output non-compliant).
     pub keep_columns: Vec<String>,
@@ -146,8 +146,8 @@ pub fn zip3(raw: &str) -> Option<String> {
 }
 
 /// Age in whole years on a date.
-pub fn age_on(dob: NaiveDate, at: NaiveDate) -> i32 {
-    let mut age = at.year() - dob.year();
+pub fn age_on(dob: Date, at: Date) -> i32 {
+    let mut age = i32::from(at.year()) - i32::from(dob.year());
     if (at.month(), at.day()) < (dob.month(), dob.day()) {
         age -= 1;
     }
@@ -604,7 +604,7 @@ mod tests {
     fn opts(mode: DeidMode) -> DeidOptions {
         DeidOptions {
             mode,
-            reference_date: NaiveDate::from_ymd_opt(2025, 1, 1).unwrap(),
+            reference_date: phn_core::time::ymd(2025, 1, 1).unwrap(),
             birth_date: BirthDateHandling::Age,
             keep_columns: vec![],
             drop_columns: vec![],

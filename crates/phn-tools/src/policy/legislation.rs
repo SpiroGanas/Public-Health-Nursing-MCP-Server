@@ -16,8 +16,8 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Datelike, NaiveDate};
 use phn_content::ContentMeta;
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::malegislature::{self, BillListing, HistoryAction};
 use regex::Regex;
@@ -332,11 +332,11 @@ pub fn omit_member(mut a: HistoryAction) -> HistoryAction {
 }
 
 /// A date from `MM/DD/YYYY` text, between 1900 and 2100.
-pub fn us_date(text: &str) -> Option<NaiveDate> {
+pub fn us_date(text: &str) -> Option<Date> {
     let re = Regex::new(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b").ok()?;
     let c = re.captures(text)?;
     let (m, d, y): (u32, u32, i32) = (c[1].parse().ok()?, c[2].parse().ok()?, c[3].parse().ok()?);
-    let date = NaiveDate::from_ymd_opt(y, m, d)?;
+    let date = phn_core::time::ymd(y, m, d)?;
     (1900..=2100).contains(&date.year()).then_some(date)
 }
 
@@ -368,11 +368,11 @@ pub fn hearings(history: &[HistoryAction]) -> Vec<HearingOut> {
 }
 
 /// The latest hearing that is not cancelled: its date and whether it is today or later.
-pub fn latest_hearing(hs: &[HearingOut], today: NaiveDate) -> (Option<String>, bool, Option<i64>) {
+pub fn latest_hearing(hs: &[HearingOut], today: Date) -> (Option<String>, bool, Option<i64>) {
     match hs.last() {
         Some(h) if h.kind != "cancelled" => match h.hearing_date.as_deref() {
             Some(d) => {
-                let date = NaiveDate::parse_from_str(d, "%Y-%m-%d").ok();
+                let date = phn_core::time::parse_date(d, "%Y-%m-%d").ok();
                 let days = date.map(|x| (x - today).num_days());
                 (Some(d.to_string()), days.is_some_and(|n| n >= 0), days)
             }
@@ -414,7 +414,7 @@ pub fn reporting_deadline(history: &[HistoryAction]) -> Option<String> {
             let rest = re.captures(&a.action)?.get(1)?.as_str().to_string();
             let rest = rest.trim_end_matches('.').replace(',', "");
             for f in ["%A %B %d %Y", "%B %d %Y"] {
-                if let Ok(d) = NaiveDate::parse_from_str(&rest, f) {
+                if let Ok(d) = phn_core::time::parse_date(&rest, f) {
                     return (1900..=2100).contains(&d.year()).then(|| d.to_string());
                 }
             }
@@ -465,8 +465,8 @@ pub fn excerpt_words(s: &str) -> usize {
 }
 
 /// Whole days from `today` to `date` (negative when `date` has passed).
-pub fn days_from(today: NaiveDate, date: &str) -> Option<i64> {
-    NaiveDate::parse_from_str(date, "%Y-%m-%d")
+pub fn days_from(today: Date, date: &str) -> Option<i64> {
+    phn_core::time::parse_date(date, "%Y-%m-%d")
         .ok()
         .map(|d| (d - today).num_days())
 }
@@ -520,7 +520,7 @@ fn build_bill(
     rec: &Record,
     c: &LegContent,
     engine: &StageEngine,
-    today: NaiveDate,
+    today: Date,
     general_court: u32,
     with_excerpt: bool,
 ) -> BillOut {
@@ -595,10 +595,10 @@ fn resolve_topic(c: &LegContent, raw: &str) -> Option<String> {
         .map(|t| t.id.clone())
 }
 
-fn today_from(arg: &Option<String>) -> Result<NaiveDate> {
+fn today_from(arg: &Option<String>) -> Result<Date> {
     match arg {
         Some(s) => {
-            let d = NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d").map_err(|_| {
+            let d = phn_core::time::parse_date(s.trim(), "%Y-%m-%d").map_err(|_| {
                 PhnError::InvalidInput(format!("as_of '{s}' is not a date (YYYY-MM-DD)"))
             })?;
             if !(1900..=2100).contains(&d.year()) {
@@ -608,7 +608,7 @@ fn today_from(arg: &Option<String>) -> Result<NaiveDate> {
             }
             Ok(d)
         }
-        None => Ok(chrono::Local::now().date_naive()),
+        None => Ok(phn_core::time::today()),
     }
 }
 
@@ -1285,7 +1285,7 @@ fn topic_index(
     c: &LegContent,
     wanted: &Wanted,
     gc: u32,
-    today: NaiveDate,
+    today: Date,
     watchlist: Option<WatchlistOut>,
 ) -> Result<Envelope<TrackResult>> {
     let (sf, entry) = load_snapshot(ctx)?;
@@ -1373,7 +1373,7 @@ fn save_watchlist(
     ctx: &Context,
     wanted: &Wanted,
     bills: &[BillOut],
-    today: NaiveDate,
+    today: Date,
 ) -> Result<String> {
     let sandbox = ctx.sandbox()?;
     let path = sandbox.new_output_file("ma_legislation_watchlist.csv")?;
@@ -1706,7 +1706,7 @@ mod tests {
         assert_eq!(hs[1].kind, "rescheduled");
         assert_eq!(hs[1].hearing_date.as_deref(), Some("2025-05-20"));
         assert_eq!(hs[2].hearing_date, None, "an impossible date is not read");
-        let today = NaiveDate::from_ymd_opt(2025, 5, 10).unwrap();
+        let today = phn_core::time::ymd(2025, 5, 10).unwrap();
         let (d, up, days) = latest_hearing(&hs[..2], today);
         assert_eq!(
             (d.as_deref(), up, days),

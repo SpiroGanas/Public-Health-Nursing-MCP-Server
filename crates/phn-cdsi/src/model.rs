@@ -1,6 +1,6 @@
 //! Engine inputs and results.
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use serde::Serialize;
 
 /// Patient sex as used by the supporting data's "required gender".
@@ -30,13 +30,13 @@ pub struct Observation {
     pub code: String,
     /// Date of the observation, when known (used by intervals measured from
     /// an observation, such as Tdap in pregnancy).
-    pub date: Option<NaiveDate>,
+    pub date: Option<Date>,
 }
 
 /// A vaccine dose administered.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct DoseInput {
-    pub date: NaiveDate,
+    pub date: Date,
     /// CVX code.
     pub cvx: String,
     /// MVX (manufacturer) code, when known.
@@ -48,12 +48,12 @@ pub struct DoseInput {
     /// Dose condition flag (expired, sub-potent, recalled, cold-chain break).
     pub sub_standard: bool,
     /// Lot expiration date, when known.
-    pub lot_expiration: Option<NaiveDate>,
+    pub lot_expiration: Option<Date>,
 }
 
 impl DoseInput {
     /// A dose with only a date and CVX code.
-    pub fn new(date: NaiveDate, cvx: impl Into<String>) -> Self {
+    pub fn new(date: Date, cvx: impl Into<String>) -> Self {
         Self {
             date,
             cvx: crate::data::normalize_cvx(&cvx.into()),
@@ -69,14 +69,14 @@ impl DoseInput {
 /// Everything the engine needs about one patient.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct PatientInput {
-    pub dob: NaiveDate,
+    pub dob: Date,
     pub gender: Gender,
     /// Born in the United States (`None` = unknown). Some birth-date
     /// evidence of immunity applies only to U.S.-born patients.
     pub born_in_us: Option<bool>,
     pub observations: Vec<Observation>,
     pub doses: Vec<DoseInput>,
-    pub assessment_date: NaiveDate,
+    pub assessment_date: Date,
 }
 
 /// Evaluation status of a dose (Table 3-1).
@@ -138,7 +138,7 @@ impl SeriesStatus {
 pub struct DoseEvaluation {
     /// Index of the dose in [`PatientInput::doses`].
     pub dose_index: usize,
-    pub date: NaiveDate,
+    pub date: Date,
     pub cvx: String,
     pub antigen: String,
     pub status: EvalStatus,
@@ -151,14 +151,14 @@ pub struct DoseEvaluation {
 /// Forecast dates for the next target dose.
 #[derive(Debug, Clone, Default, PartialEq, Serialize)]
 pub struct ForecastDates {
-    pub earliest: Option<NaiveDate>,
+    pub earliest: Option<Date>,
     /// Adjusted recommended date.
-    pub recommended: Option<NaiveDate>,
+    pub recommended: Option<Date>,
     /// Adjusted past-due date.
-    pub past_due: Option<NaiveDate>,
-    pub latest: Option<NaiveDate>,
-    pub unadjusted_recommended: Option<NaiveDate>,
-    pub unadjusted_past_due: Option<NaiveDate>,
+    pub past_due: Option<Date>,
+    pub latest: Option<Date>,
+    pub unadjusted_recommended: Option<Date>,
+    pub unadjusted_past_due: Option<Date>,
 }
 
 /// A recommended vaccine type for the next dose.
@@ -242,7 +242,7 @@ pub struct ClinicalNote {
 /// Full engine output.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct EngineResult {
-    pub assessment_date: NaiveDate,
+    pub assessment_date: Date,
     pub patient_series: Vec<PatientSeriesResult>,
     pub vaccine_groups: Vec<VaccineGroupForecast>,
     /// CVX codes that are not in the supporting data's CVX map.

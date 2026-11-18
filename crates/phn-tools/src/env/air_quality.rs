@@ -382,7 +382,7 @@ pub async fn air_quality_protective_guidance(
                     set.into_iter().map(|n| (n, None)).collect()
                 }
             };
-            let today = chrono::Local::now().date_naive().to_string();
+            let today = phn_core::time::today().to_string();
             for (name, dist) in wanted {
                 let recs: Vec<&AqiRecord> = f
                     .records
@@ -449,8 +449,8 @@ pub async fn air_quality_protective_guidance(
     }
 
     // Which category to give guidance for.
-    let today = chrono::Local::now().date_naive();
-    let horizon = (today + chrono::Duration::days(1)).to_string();
+    let today = phn_core::time::today();
+    let horizon = (today + phn_core::time::days(1)).to_string();
     let mut worst: Option<(usize, String)> = None;
     let mut pollutants: BTreeSet<String> = BTreeSet::new();
     let mut consider = |rank: Option<usize>, pollutant: &str, why: String| {

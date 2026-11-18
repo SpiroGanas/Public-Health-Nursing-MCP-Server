@@ -5,8 +5,8 @@
 //! exposures; every choice can be overridden. Identifier columns (names,
 //! phone numbers, IDs) are never used, and no cell values are returned.
 
-use chrono::{Datelike, NaiveDate, NaiveDateTime, NaiveTime};
 use phn_core::text::normalize;
+use phn_core::time::{Date, DateExt, DateTime, Time};
 use phn_core::{PhnError, Result};
 use phn_local::phi;
 use schemars::JsonSchema;
@@ -90,7 +90,7 @@ pub struct ColumnMap {
 pub struct Rec {
     /// `Some(true)` case, `Some(false)` non-case, `None` excluded by the case definition.
     pub case: Option<bool>,
-    pub onset: Option<NaiveDateTime>,
+    pub onset: Option<DateTime>,
     pub age: Option<f64>,
     pub sex: Option<String>,
     pub town: Option<String>,
@@ -186,7 +186,7 @@ fn plausible_year(y: i32) -> bool {
 /// Parse a date or date-time cell. Dates are read as month/day/year (U.S.
 /// order); two-digit years are read as 1969-2068; years outside 1900-2100
 /// are not accepted.
-pub fn parse_datetime(s: &str) -> Option<(NaiveDateTime, bool)> {
+pub fn parse_datetime(s: &str) -> Option<(DateTime, bool)> {
     let s = s.trim();
     for fmt in [
         "%Y-%m-%d %H:%M",
@@ -198,34 +198,34 @@ pub fn parse_datetime(s: &str) -> Option<(NaiveDateTime, bool)> {
         "%m/%d/%y %H:%M",
         "%m/%d/%y %I:%M %p",
     ] {
-        if let Ok(d) = NaiveDateTime::parse_from_str(s, fmt)
-            && plausible_year(d.date().year())
+        if let Ok(d) = phn_core::time::parse_datetime(s, fmt)
+            && plausible_year(i32::from(d.date().year()))
         {
             // Midnight with seconds from spreadsheets means "date only".
-            let date_only = d.time() == NaiveTime::MIN && s.ends_with("00:00:00");
+            let date_only = d.time() == Time::MIN && s.ends_with("00:00:00");
             return Some((d, !date_only));
         }
     }
-    if let Some(d) = phi::parse_date(s).filter(|d| plausible_year(d.year())) {
-        return Some((d.and_time(NaiveTime::MIN), false));
+    if let Some(d) = phi::parse_date(s).filter(|d| plausible_year(i32::from(d.year()))) {
+        return Some((d.and_time(Time::MIN), false));
     }
     // Two-digit years ("5/3/26"), which the four-digit formats misread.
     let head = s.split(['T', ' ']).next().unwrap_or(s);
     for fmt in ["%m/%d/%y", "%m-%d-%y"] {
-        if let Ok(d) = NaiveDate::parse_from_str(head, fmt)
-            && plausible_year(d.year())
+        if let Ok(d) = phn_core::time::parse_date(head, fmt)
+            && plausible_year(i32::from(d.year()))
         {
-            return Some((d.and_time(NaiveTime::MIN), false));
+            return Some((d.and_time(Time::MIN), false));
         }
     }
     None
 }
 
 /// Parse a time cell (HH:MM, H:MM AM, H AM).
-pub fn parse_time(s: &str) -> Option<NaiveTime> {
+pub fn parse_time(s: &str) -> Option<Time> {
     let s = s.trim();
     for fmt in ["%H:%M", "%H:%M:%S", "%I:%M %p", "%I:%M%p", "%I %p", "%I%p"] {
-        if let Ok(t) = NaiveTime::parse_from_str(&s.to_uppercase(), fmt) {
+        if let Ok(t) = phn_core::time::parse_time(&s.to_uppercase(), fmt) {
             return Some(t);
         }
     }
@@ -290,7 +290,7 @@ fn yes_no(lt: &LocalTable, idx: usize) -> Vec<Option<bool>> {
         .collect()
 }
 
-fn date_arg(name: &str, v: &Option<String>) -> Result<Option<NaiveDate>> {
+fn date_arg(name: &str, v: &Option<String>) -> Result<Option<Date>> {
     super::engine::parse_date_arg(name, v)
 }
 
@@ -505,11 +505,11 @@ pub fn load(ctx: &Context, path: &str, sheet: Option<&str>, o: &ColumnOptions) -
     // Records.
     let from = date_arg("onset_from", &o.onset_from)?;
     let to = date_arg("onset_to", &o.onset_to)?;
-    let onset_vals: Vec<Option<(NaiveDateTime, bool)>> = match onset_idx {
+    let onset_vals: Vec<Option<(DateTime, bool)>> = match onset_idx {
         Some(i) => lt.table.column(i).map(parse_datetime).collect(),
         None => vec![None; n],
     };
-    let time_vals: Vec<Option<NaiveTime>> = match time_idx {
+    let time_vals: Vec<Option<Time>> = match time_idx {
         Some(i) => lt.table.column(i).map(parse_time).collect(),
         None => vec![None; n],
     };
@@ -617,6 +617,7 @@ pub fn usable_columns(lt: &LocalTable) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use phn_core::time::{DateTimeExt, TimeExt};
 
     #[test]
     fn parses_dates_and_times() {

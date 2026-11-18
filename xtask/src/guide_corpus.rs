@@ -11,6 +11,7 @@
 //! `Last-Modified` date from `DIR/<doc id>.date` when present) instead of the
 //! network, for offline rebuilds.
 
+use phn_core::time::TimestampExt;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
@@ -173,7 +174,7 @@ fn client() -> Result<reqwest::blocking::Client> {
 }
 
 fn http_date_to_iso(s: &str) -> Option<String> {
-    chrono::DateTime::parse_from_rfc2822(s.trim())
+    phn_core::time::parse_rfc2822(s.trim())
         .ok()
         .map(|d| d.date_naive().to_string())
 }
@@ -476,7 +477,7 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
     let manifest_path = snap_dir.join("manifest.json");
     let mut manifest: Manifest =
         serde_json::from_str(&std::fs::read_to_string(&manifest_path)?).context("manifest")?;
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let client = if source_dir.is_none() {
         Some(client()?)
     } else {

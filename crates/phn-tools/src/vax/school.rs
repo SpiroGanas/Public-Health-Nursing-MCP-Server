@@ -14,7 +14,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::NaiveDate;
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_epi::suppression::{SuppressionOptions, suppress};
 use schemars::JsonSchema;
@@ -236,20 +236,16 @@ fn antigens_for_key(key: &str) -> Option<&'static [&'static str]> {
 #[derive(Debug, Clone, Default)]
 struct History {
     /// antigen -> sorted dates
-    by_antigen: BTreeMap<&'static str, Vec<NaiveDate>>,
+    by_antigen: BTreeMap<&'static str, Vec<Date>>,
     /// Live-vaccine events: (date, includes MMR, includes varicella).
-    live: Vec<(NaiveDate, bool, bool)>,
+    live: Vec<(Date, bool, bool)>,
     unknown_keys: Vec<String>,
     menb_given: bool,
 }
 
-fn build_history(
-    doses: &BTreeMap<String, Vec<String>>,
-    dob: NaiveDate,
-    as_of: NaiveDate,
-) -> Result<History> {
+fn build_history(doses: &BTreeMap<String, Vec<String>>, dob: Date, as_of: Date) -> Result<History> {
     let mut h = History::default();
-    let mut live: BTreeMap<NaiveDate, (bool, bool)> = BTreeMap::new();
+    let mut live: BTreeMap<Date, (bool, bool)> = BTreeMap::new();
     for (key, dates_in) in doses {
         let Some(antigens) = antigens_for_key(key) else {
             h.unknown_keys.push(key.clone());
@@ -291,11 +287,11 @@ fn build_history(
 // ------------------------------------------------------------------ validation
 
 struct Validated {
-    valid: Vec<NaiveDate>,
+    valid: Vec<Date>,
     invalid: Vec<InvalidDose>,
     /// Most recent invalid dose (not counting same-day duplicates); a repeat
     /// dose is spaced from it by the minimum interval (CDC).
-    last_invalid: Option<NaiveDate>,
+    last_invalid: Option<Date>,
     /// Doses counted as valid that follow a dose that did not count by less
     /// than the minimum interval. CDC spaces a repeat dose from the invalid
     /// dose, so a requirement that relies on such a dose needs review.
@@ -308,16 +304,16 @@ fn span(s: &str) -> Span {
 
 /// Validate doses against a series' minimum ages and intervals.
 fn validate(
-    dob: NaiveDate,
-    doses: &[NaiveDate],
+    dob: Date,
+    doses: &[Date],
     series: &Series,
     grace: bool,
-    live_conflict: impl Fn(NaiveDate) -> Option<NaiveDate>,
+    live_conflict: impl Fn(Date) -> Option<Date>,
 ) -> Validated {
-    let mut valid: Vec<NaiveDate> = Vec::new();
+    let mut valid: Vec<Date> = Vec::new();
     let mut invalid = Vec::new();
     let mut spacing_flags: Vec<String> = Vec::new();
-    let mut last_seen: Option<NaiveDate> = None;
+    let mut last_seen: Option<Date> = None;
     for &d in doses {
         if valid.last() == Some(&d) {
             invalid.push(InvalidDose {
@@ -411,12 +407,7 @@ fn validate(
 /// Earliest date for dose number `n + 1` of a series (planning values, no
 /// grace). A dose that did not count pushes the repeat out by the minimum
 /// interval from that invalid dose (CDC General Best Practice Guidelines).
-fn next_dose_date(
-    dob: NaiveDate,
-    valid: &[NaiveDate],
-    last_invalid: Option<NaiveDate>,
-    series: &Series,
-) -> NaiveDate {
+fn next_dose_date(dob: Date, valid: &[Date], last_invalid: Option<Date>, series: &Series) -> Date {
     let n = valid.len();
     let rule = &series.doses[n.min(series.doses.len() - 1)];
     let mut earliest = dates::date_at_age(
@@ -452,7 +443,7 @@ fn next_dose_date(
 #[derive(Debug, Clone)]
 pub struct Student {
     pub grade: String,
-    pub dob: NaiveDate,
+    pub dob: Date,
     pub doses: BTreeMap<String, Vec<String>>,
     pub lab_immunity: BTreeSet<String>,
     pub varicella_history: bool,
@@ -500,7 +491,7 @@ pub fn setting_for(grade: &str, age_years: i32) -> Result<(&'static str, String)
 struct Eval<'a> {
     st: &'a Student,
     hist: History,
-    as_of: NaiveDate,
+    as_of: Date,
     grace: bool,
 }
 
@@ -509,10 +500,10 @@ impl Eval<'_> {
         dates::age_years(self.st.dob, self.as_of)
     }
 
-    fn live_conflict_for(&self, antigen: &str) -> impl Fn(NaiveDate) -> Option<NaiveDate> + '_ {
+    fn live_conflict_for(&self, antigen: &str) -> impl Fn(Date) -> Option<Date> + '_ {
         let want_mmr = antigen == "mmr";
         let want_var = antigen == "varicella";
-        move |d: NaiveDate| {
+        move |d: Date| {
             if !(want_mmr || want_var) {
                 return None;
             }
@@ -560,7 +551,7 @@ impl Eval<'_> {
         }
     }
 
-    fn with_next(&self, mut r: RequirementResult, next: NaiveDate) -> RequirementResult {
+    fn with_next(&self, mut r: RequirementResult, next: Date) -> RequirementResult {
         let next = next.max(self.st.dob);
         r.eligible_now = next <= self.as_of;
         r.earliest_next_dose = Some(next.to_string());
@@ -619,17 +610,18 @@ impl Eval<'_> {
             r.eligible_now = false;
             return r;
         }
-        if let (Some(year), Some(c)) = (rule.us_born_before_year, &self.st.college) {
-            use chrono::Datelike;
-            if !c.health_science && c.born_in_us == Some(true) && self.st.dob.year() < year {
-                r.status = ReqStatus::Met;
-                r.reason = format!(
-                    "born in the U.S. before {year} (acceptable for non-health-science students)"
-                );
-                r.earliest_next_dose = None;
-                r.eligible_now = false;
-                return r;
-            }
+        if let (Some(year), Some(c)) = (rule.us_born_before_year, &self.st.college)
+            && !c.health_science
+            && c.born_in_us == Some(true)
+            && i32::from(self.st.dob.year()) < year
+        {
+            r.status = ReqStatus::Met;
+            r.reason = format!(
+                "born in the U.S. before {year} (acceptable for non-health-science students)"
+            );
+            r.earliest_next_dose = None;
+            r.eligible_now = false;
+            return r;
         }
         if let Some(ex) = self.exemption(&req.vaccine) {
             r.status = ex;
@@ -812,7 +804,7 @@ impl Eval<'_> {
                     return self.result(req, ReqStatus::NeedsReview, "rule not available".into());
                 };
                 let tenth = dates::date_at_age(dob, Span::years(10));
-                let ok: Vec<&NaiveDate> = v
+                let ok: Vec<&Date> = v
                     .valid
                     .iter()
                     .filter(|d| dates::meets(**d, tenth, self.grace))
@@ -978,7 +970,7 @@ impl Eval<'_> {
         };
         let at = |m: u32| dates::date_at_age(dob, Span::months(m));
         let after_15m = v.valid.iter().any(|d| dates::meets(*d, at(15), self.grace));
-        let after_12m: Vec<&NaiveDate> = v
+        let after_12m: Vec<&Date> = v
             .valid
             .iter()
             .filter(|d| dates::meets(**d, at(12), self.grace))
@@ -1077,7 +1069,7 @@ impl Eval<'_> {
 /// Evaluate one student; returns the setting id and the results.
 pub fn evaluate_student(
     st: &Student,
-    as_of: NaiveDate,
+    as_of: Date,
     grace: bool,
 ) -> Result<(&'static str, String, Vec<RequirementResult>, Vec<String>)> {
     let age = dates::age_years(st.dob, as_of);
@@ -1216,7 +1208,7 @@ pub fn check_ma_school_immunization_requirements(
 ) -> Result<Envelope<SchoolCheckResult>> {
     let as_of = match &args.as_of {
         Some(s) => dates::require_date("as_of", s)?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let grace = args
         .apply_grace_period
@@ -1448,7 +1440,7 @@ fn batch(
     ctx: &Context,
     path: &str,
     sheet: Option<&str>,
-    as_of: NaiveDate,
+    as_of: Date,
     grace: bool,
 ) -> Result<Envelope<SchoolCheckResult>> {
     let lt = crate::localdata::load(ctx, path, sheet)?;
@@ -1899,8 +1891,8 @@ fn grade_rank(g: &str) -> (u32, String) {
 mod tests {
     use super::*;
 
-    fn d(s: &str) -> NaiveDate {
-        NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap()
+    fn d(s: &str) -> Date {
+        phn_core::time::parse_date(s, "%Y-%m-%d").unwrap()
     }
 
     fn student(grade: &str, dob: &str, doses: &[(&str, &[&str])]) -> Student {

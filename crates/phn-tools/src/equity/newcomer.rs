@@ -8,8 +8,8 @@
 use std::collections::BTreeMap;
 use std::sync::LazyLock;
 
-use chrono::NaiveDate;
 use phn_content::ContentMeta;
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -344,8 +344,7 @@ pub fn newcomer_health_navigator(
     args: NewcomerArgs,
 ) -> Result<Envelope<NewcomerResult>> {
     let c = content();
-    let today = practice::date_arg("as_of", &args.as_of)?
-        .unwrap_or_else(|| chrono::Local::now().date_naive());
+    let today = practice::date_arg("as_of", &args.as_of)?.unwrap_or_else(phn_core::time::today);
     let arrival = practice::date_arg("arrival_date", &args.arrival_date)?;
     if arrival.is_some_and(|a| a > today) {
         return Err(PhnError::InvalidInput(
@@ -380,7 +379,7 @@ pub fn newcomer_health_navigator(
     let mut caveats: Vec<String> = practice::review_caveat(&c.meta).into_iter().collect();
     let mut keys: Vec<String> = vec!["cdc-domestic".into()];
 
-    let due: Option<NaiveDate> = arrival.map(|a| a + chrono::Duration::days(90));
+    let due: Option<Date> = arrival.map(|a| a + phn_core::time::days(90));
     let days_since = arrival.map(|a| (today - a).num_days());
     let screening: Vec<ScreeningComponent> = if want(NewcomerTopic::Screening) {
         c.screening

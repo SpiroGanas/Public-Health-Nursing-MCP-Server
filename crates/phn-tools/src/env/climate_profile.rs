@@ -348,9 +348,9 @@ fn plan_town(
 }
 
 /// Whole months from `today` to `date` (YYYY-MM-DD); negative when past.
-fn months_until(today: chrono::NaiveDate, date: &str) -> Option<i64> {
-    let d = chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d").ok()?;
-    use chrono::Datelike;
+fn months_until(today: phn_core::time::Date, date: &str) -> Option<i64> {
+    let d = phn_core::time::parse_date(date, "%Y-%m-%d").ok()?;
+
     if !(1900..=2100).contains(&d.year()) {
         return None;
     }
@@ -396,7 +396,7 @@ pub async fn climate_health_vulnerability_profile(
     let mut caveats: Vec<String> = Vec::new();
     let mut sources: Vec<Source> = Vec::new();
     let geos = MaGeographies::shared(&ctx.snapshots)?;
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
 
     // Population, health, SVI, emPOWER.
     let (population, psrc, pcav) = population::profile(ctx, &area, true).await?;
@@ -1280,7 +1280,7 @@ fn profile_document(
     let mut blocks = vec![p(&format!(
         "Prepared {} for {} for Municipal Vulnerability Preparedness (MVP) and hazard mitigation \
          planning. Decision support only: confirm figures with the cited sources.",
-        chrono::Local::now().date_naive(),
+        phn_core::time::today(),
         town
     ))];
     blocks.push(h("1. Most important vulnerabilities"));
@@ -1516,7 +1516,7 @@ mod tests {
 
     #[test]
     fn months_until_counts_whole_months() {
-        let d = chrono::NaiveDate::from_ymd_opt(2026, 11, 11).unwrap();
+        let d = phn_core::time::ymd(2026, 11, 11).unwrap();
         assert_eq!(months_until(d, "2027-11-11"), Some(12));
         assert_eq!(months_until(d, "2027-11-10"), Some(11));
         assert_eq!(months_until(d, "2026-12-01"), Some(0));

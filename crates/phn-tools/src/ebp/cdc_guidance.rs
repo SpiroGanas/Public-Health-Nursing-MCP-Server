@@ -72,7 +72,7 @@ pub async fn search_cdc_guidance(
     }
     let since = match &args.since {
         Some(s) => Some(
-            chrono::NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d")
+            phn_core::time::parse_date(s.trim(), "%Y-%m-%d")
                 .map_err(|_| PhnError::InvalidInput("since must be a date like 2025-01-31".into()))?
                 .to_string(),
         ),

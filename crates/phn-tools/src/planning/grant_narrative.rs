@@ -845,7 +845,7 @@ fn narrative_document(
     let mut blocks = vec![
         p(&format!(
             "Draft prepared {} for {}{}. Community: {}. Replace every [NURSE: ...] placeholder with your own text (or delete the paragraph) and delete the italic prompts before you submit. Nothing in this draft was invented: the statistics and program facts are the ones you supplied.",
-            chrono::Local::now().date_naive(),
+            phn_core::time::today(),
             applicant
                 .clone()
                 .unwrap_or_else(|| "[NURSE: applicant agency]".into()),

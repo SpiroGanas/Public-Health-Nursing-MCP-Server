@@ -739,7 +739,7 @@ fn write_map(
              updated November 2022, corrected June 2024); town boundaries: U.S. Census Bureau \
              cartographic boundary files. Polygons are simplified. Created {} with the Public \
              Health Nursing MCP Server.",
-            chrono::Local::now().date_naive()
+            phn_core::time::today()
         ),
         desc,
         features,

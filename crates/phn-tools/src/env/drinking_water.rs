@@ -5,7 +5,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::census::AcsSnapshot;
 use phn_data::water::{
@@ -379,14 +379,14 @@ pub fn latest_lead_copper(
 }
 
 fn quarter(date: &str) -> Option<String> {
-    let d = NaiveDate::parse_from_str(date, "%Y-%m-%d").ok()?;
-    use chrono::Datelike;
+    let d = phn_core::time::parse_date(date, "%Y-%m-%d").ok()?;
+
     Some(format!("{}-Q{}", d.year(), (d.month() - 1) / 3 + 1))
 }
 
 /// Summarize finished-water PFAS6 results for one system. `as_of` is the data
 /// date (today for live data, the snapshot date otherwise).
-pub fn pfas_summary(results: &[&Pfas6Result], as_of: NaiveDate, mcl: f64) -> Option<PfasSummary> {
+pub fn pfas_summary(results: &[&Pfas6Result], as_of: Date, mcl: f64) -> Option<PfasSummary> {
     if results.is_empty() {
         return None;
     }
@@ -395,7 +395,7 @@ pub fn pfas_summary(results: &[&Pfas6Result], as_of: NaiveDate, mcl: f64) -> Opt
         it.filter_map(|r| r.result_ng_l).reduce(f64::max)
     };
     let latest_highest_ng_l = max_of(&mut results.iter().filter(|r| r.date == latest_date));
-    let from = (as_of - chrono::Duration::days(365)).to_string();
+    let from = (as_of - phn_core::time::days(365)).to_string();
     let recent: Vec<&&Pfas6Result> = results
         .iter()
         .filter(|r| r.date.as_str() >= from.as_str())
@@ -586,16 +586,19 @@ pub async fn drinking_water_quality_lookup(
     )
     .await?;
     let codes = &snap.codes;
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let window_start = {
-        use chrono::Datelike;
-        NaiveDate::from_ymd_opt(today.year() - years as i32, today.month(), 1)
-            .unwrap_or(today)
-            .to_string()
+        phn_core::time::ymd(
+            i32::from(today.year()) - years as i32,
+            today.month() as u32,
+            1,
+        )
+        .unwrap_or(today)
+        .to_string()
     };
     let pfas_as_of = match tw.pfas_status.mode {
         SourceMode::Snapshot => {
-            NaiveDate::parse_from_str(&tw.pfas_status.as_of, "%Y-%m-%d").unwrap_or(today)
+            phn_core::time::parse_date(&tw.pfas_status.as_of, "%Y-%m-%d").unwrap_or(today)
         }
         _ => today,
     };
@@ -1135,7 +1138,7 @@ mod tests {
             r("2025-01-15", "A", Some(50.0)),
         ];
         let refs: Vec<&Pfas6Result> = a.iter().collect();
-        let as_of = NaiveDate::from_ymd_opt(2026, 11, 11).unwrap();
+        let as_of = phn_core::time::ymd(2026, 11, 11).unwrap();
         let p = pfas_summary(&refs, as_of, 20.0).unwrap();
         assert_eq!(p.latest_date, "2026-09-10");
         assert_eq!(p.latest_quarter, "2026-Q3");

@@ -11,9 +11,9 @@ pub mod lms;
 use std::collections::BTreeMap;
 use std::sync::LazyLock;
 
-use chrono::NaiveDate;
 use phn_content::ContentMeta;
 use phn_content::reportable::Confidence;
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_epi::suppression::{SuppressionOptions, suppress};
@@ -662,7 +662,7 @@ fn score_visit(
 }
 
 /// Resolve the chronological age in days for one visit.
-fn chrono_days(m: &GrowthMeasurement, birth: Option<NaiveDate>) -> Result<f64> {
+fn chrono_days(m: &GrowthMeasurement, birth: Option<Date>) -> Result<f64> {
     let given = [
         m.age_days.is_some(),
         m.age_months.is_some(),
@@ -718,7 +718,7 @@ fn positive(v: Option<f64>, what: &str) -> Result<Option<f64>> {
     }
 }
 
-fn inputs(m: &GrowthMeasurement, birth: Option<NaiveDate>) -> Result<Inputs> {
+fn inputs(m: &GrowthMeasurement, birth: Option<Date>) -> Result<Inputs> {
     let chrono = chrono_days(m, birth)?;
     let weight = match (
         positive(m.weight_kg, "weight_kg")?,

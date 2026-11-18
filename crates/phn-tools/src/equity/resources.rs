@@ -10,7 +10,7 @@
 //! Files that look like client lists (names, dates of birth, record numbers)
 //! are refused.
 
-use chrono::{Datelike, NaiveDate, NaiveTime, Timelike, Weekday};
+use phn_core::time::{Date, DurationExt, Weekday, WeekdayExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_local::phi::Identifier;
 use schemars::JsonSchema;
@@ -258,13 +258,13 @@ fn categories_for(q: &str) -> Vec<&'static str> {
 fn parse_day(s: &str) -> Option<Weekday> {
     let k: String = s.trim().to_ascii_lowercase().chars().take(3).collect();
     Some(match k.as_str() {
-        "mon" => Weekday::Mon,
-        "tue" => Weekday::Tue,
-        "wed" => Weekday::Wed,
-        "thu" => Weekday::Thu,
-        "fri" => Weekday::Fri,
-        "sat" => Weekday::Sat,
-        "sun" => Weekday::Sun,
+        "mon" => Weekday::Monday,
+        "tue" => Weekday::Tuesday,
+        "wed" => Weekday::Wednesday,
+        "thu" => Weekday::Thursday,
+        "fri" => Weekday::Friday,
+        "sat" => Weekday::Saturday,
+        "sun" => Weekday::Sunday,
         _ => return None,
     })
 }
@@ -302,13 +302,13 @@ type Spans = Vec<(Vec<Weekday>, u32, u32)>;
 
 fn parse_hours(s: &str) -> Option<Spans> {
     let all = [
-        Weekday::Mon,
-        Weekday::Tue,
-        Weekday::Wed,
-        Weekday::Thu,
-        Weekday::Fri,
-        Weekday::Sat,
-        Weekday::Sun,
+        Weekday::Monday,
+        Weekday::Tuesday,
+        Weekday::Wednesday,
+        Weekday::Thursday,
+        Weekday::Friday,
+        Weekday::Saturday,
+        Weekday::Sunday,
     ];
     let t = s.trim().to_ascii_lowercase();
     if t.contains("24/7") || t.contains("24 hours") {
@@ -458,7 +458,7 @@ pub async fn find_community_resources(
     ctx: &Context,
     args: ResourceSearchArgs,
 ) -> Result<Envelope<ResourceSearchResult>> {
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let max = args.max_results.unwrap_or(15).clamp(1, 50);
     let town_q = args
         .town
@@ -508,8 +508,8 @@ pub async fn find_community_resources(
     let minute = match args.open_at.as_deref().map(str::trim) {
         None | Some("") => None,
         Some(t) => Some(
-            NaiveTime::parse_from_str(t, "%H:%M")
-                .map(|x| x.hour() * 60 + x.minute())
+            phn_core::time::parse_time(t, "%H:%M")
+                .map(|x| u32::from(x.hour() as u8) * 60 + u32::from(x.minute() as u8))
                 .map_err(|_| PhnError::InvalidInput("open_at must be HH:MM (24-hour)".into()))?,
         ),
     };
@@ -641,7 +641,7 @@ pub async fn find_community_resources(
             let stale = verified
                 .as_deref()
                 .and_then(phn_local::phi::parse_date)
-                .is_none_or(|d: NaiveDate| (today - d).num_days() > 365);
+                .is_none_or(|d: Date| (today - d).num_days() > 365);
             results.push((
                 score,
                 ResourceHit {
@@ -925,18 +925,18 @@ mod tests {
     #[test]
     fn hours_parse() {
         let sp = parse_hours("Mon-Fri 8am-4pm").unwrap();
-        assert!(is_open(&sp, Weekday::Wed, Some(9 * 60)));
-        assert!(!is_open(&sp, Weekday::Sat, None));
-        assert!(!is_open(&sp, Weekday::Mon, Some(16 * 60 + 30)));
+        assert!(is_open(&sp, Weekday::Wednesday, Some(9 * 60)));
+        assert!(!is_open(&sp, Weekday::Saturday, None));
+        assert!(!is_open(&sp, Weekday::Monday, Some(16 * 60 + 30)));
         let sp = parse_hours("Tue 15:00-18:00; Sat 9:00-12:00").unwrap();
-        assert!(is_open(&sp, Weekday::Sat, Some(10 * 60)));
+        assert!(is_open(&sp, Weekday::Saturday, Some(10 * 60)));
         assert!(is_open(
             &parse_hours("24/7").unwrap(),
-            Weekday::Sun,
+            Weekday::Sunday,
             Some(3 * 60)
         ));
         let sp = parse_hours("Mon, Wed 9-5").unwrap();
-        assert!(is_open(&sp, Weekday::Wed, Some(16 * 60)));
+        assert!(is_open(&sp, Weekday::Wednesday, Some(16 * 60)));
         assert!(parse_hours("by appointment").is_none());
     }
 

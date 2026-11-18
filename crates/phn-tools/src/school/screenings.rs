@@ -11,7 +11,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::NaiveDate;
+use phn_core::time::Date;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_epi::suppression::{SuppressionOptions, suppress};
@@ -496,7 +496,7 @@ pub(crate) fn identifier_columns(lt: &LocalTable, skip: &BTreeSet<usize>) -> Vec
 pub(crate) struct Evaluated {
     pub screening: &'static str,
     pub status: ScreenStatus,
-    pub date: Option<NaiveDate>,
+    pub date: Option<Date>,
     pub detail: String,
     pub bmi: Option<bmi::BmiResult>,
     pub bmi_category: Option<BmiCategory>,
@@ -522,7 +522,7 @@ pub(crate) struct RosterAnalysis {
     pub students: Vec<StudentEval>,
     pub problems: Vec<(usize, String)>,
     pub year: SchoolYear,
-    pub as_of: NaiveDate,
+    pub as_of: Date,
     pub undated_assumed_current: usize,
     pub tracked: Vec<&'static Screening>,
 }
@@ -532,7 +532,7 @@ fn window_start(
     grade: Grade,
     age: Option<i32>,
     year: SchoolYear,
-) -> Option<(NaiveDate, Frequency)> {
+) -> Option<(Date, Frequency)> {
     let band = band_for(sc, grade, age)?;
     let start = match band.frequency {
         Frequency::Annual => year.start(),
@@ -552,7 +552,7 @@ fn window_start(
             };
             year.minus(grade.ordinal() - first).start()
         }
-        Frequency::SchoolEntry => NaiveDate::from_ymd_opt(1900, 1, 1).expect("date"),
+        Frequency::SchoolEntry => phn_core::time::ymd(1900, 1, 1).expect("date"),
         _ => return None,
     };
     Some((start, band.frequency))
@@ -592,10 +592,10 @@ fn evaluate_one(
     grade: Grade,
     age: Option<i32>,
     new_student: bool,
-    dob: Option<NaiveDate>,
+    dob: Option<Date>,
     sex: Option<Sex>,
     year: SchoolYear,
-    as_of: NaiveDate,
+    as_of: Date,
     undated: &mut usize,
 ) -> Evaluated {
     let mut e = Evaluated {
@@ -697,7 +697,7 @@ pub(crate) fn analyze(
     ctx: &Context,
     path: &str,
     sheet: Option<&str>,
-    as_of: NaiveDate,
+    as_of: Date,
     wanted: Option<&[String]>,
 ) -> Result<RosterAnalysis> {
     let lt = localdata::load(ctx, path, sheet)?;
@@ -1554,7 +1554,7 @@ pub fn track_school_screenings(
     }
     let as_of = match &args.as_of {
         Some(s) => crate::vax::dates::require_date("as_of", s)?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let a = analyze(
         ctx,
@@ -1792,7 +1792,7 @@ mod tests {
             &c,
             "r.csv",
             None,
-            NaiveDate::from_ymd_opt(2026, 11, 1).unwrap(),
+            phn_core::time::ymd(2026, 11, 1).unwrap(),
             None,
         )
         .unwrap();
@@ -1975,7 +1975,7 @@ Juno Wexley,4,2017-01-01,M,137.16,70\n";
             &c,
             "m.csv",
             None,
-            NaiveDate::from_ymd_opt(2026, 11, 1).unwrap(),
+            phn_core::time::ymd(2026, 11, 1).unwrap(),
             None,
         )
         .unwrap();

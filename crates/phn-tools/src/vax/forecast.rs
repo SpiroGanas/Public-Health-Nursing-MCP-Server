@@ -10,7 +10,6 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Datelike, NaiveDate};
 use phn_cdsi::data::{
     LOGIC_SPEC_DATE, LOGIC_SPEC_URL, LOGIC_SPEC_VERSION, SUPPORTING_DATA_PUBLISHED,
     SUPPORTING_DATA_URL, SUPPORTING_DATA_VERSION, SupportingData,
@@ -20,6 +19,7 @@ use phn_cdsi::{
     DoseInput, EngineResult, EvalStatus, Gender, Observation, PatientInput, SeriesStatus,
     VaccineGroupForecast,
 };
+use phn_core::time::{Date, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_epi::suppression::{SuppressionOptions, suppress};
 use schemars::JsonSchema;
@@ -257,7 +257,7 @@ fn project_catch_up(
         let date = earliest.max(last_date);
         // Stop at routine doses more than two years away (e.g. adolescent
         // boosters): the projection is for catching up.
-        if !steps.is_empty() && date > input.assessment_date + chrono::Duration::days(730) {
+        if !steps.is_empty() && date > input.assessment_date + phn_core::time::days(730) {
             break;
         }
         // A preferable vaccine for the dose: the one that is a candidate
@@ -391,7 +391,7 @@ pub struct ForecastImmunizationsResult {
 
 /// Parse a date with the shared parser (ISO, US with four- or two-digit
 /// years, ISO date-time, Excel serial; years outside 1900-2100 are rejected).
-fn parse_date(field: &str, s: &str) -> Result<NaiveDate> {
+fn parse_date(field: &str, s: &str) -> Result<Date> {
     crate::vax::dates::parse_date(s).ok_or_else(|| {
         PhnError::InvalidInput(format!("{field} must be a date (YYYY-MM-DD), got '{s}'"))
     })
@@ -410,11 +410,12 @@ fn parse_sex(s: Option<&str>) -> Gender {
 }
 
 /// Age between two dates as "2 years 3 months" / "4 months 2 weeks" / "10 days".
-pub fn age_text(dob: NaiveDate, on: NaiveDate) -> String {
+pub fn age_text(dob: Date, on: Date) -> String {
     if on < dob {
         return "before birth".into();
     }
-    let mut months = (on.year() - dob.year()) * 12 + on.month() as i32 - dob.month() as i32;
+    let mut months = (i32::from(on.year()) - i32::from(dob.year())) * 12 + i32::from(on.month())
+        - i32::from(dob.month());
     if on.day() < dob.day() {
         months -= 1;
     }
@@ -561,7 +562,7 @@ fn resolve_vaccine(text: &str) -> Result<(String, String)> {
     }
 }
 
-fn due_status(f: &VaccineGroupForecast, assess: NaiveDate) -> DueStatus {
+fn due_status(f: &VaccineGroupForecast, assess: Date) -> DueStatus {
     match f.status {
         SeriesStatus::Complete => DueStatus::Complete,
         SeriesStatus::Immune => DueStatus::Immune,
@@ -584,7 +585,7 @@ fn due_status(f: &VaccineGroupForecast, assess: NaiveDate) -> DueStatus {
 
 /// True when the patient is younger than the minimum age to start every
 /// series behind a forecast (e.g. the 50+ pneumococcal series for a child).
-fn too_young_to_start(r: &EngineResult, f: &VaccineGroupForecast, dob: NaiveDate) -> bool {
+fn too_young_to_start(r: &EngineResult, f: &VaccineGroupForecast, dob: Date) -> bool {
     let sd = SupportingData::get();
     !f.patient_series.is_empty()
         && f.patient_series.iter().all(|&s| {
@@ -607,11 +608,7 @@ fn valid_doses(r: &EngineResult, f: &VaccineGroupForecast) -> usize {
 /// The forecast that best describes a vaccine group for this patient: the
 /// one whose series counted the most valid doses, that the patient is old
 /// enough to start, that still needs a dose, with the lowest series group.
-fn primary<'a>(
-    r: &'a EngineResult,
-    group: &str,
-    dob: NaiveDate,
-) -> Option<&'a VaccineGroupForecast> {
+fn primary<'a>(r: &'a EngineResult, group: &str, dob: Date) -> Option<&'a VaccineGroupForecast> {
     r.group_forecasts(group).into_iter().min_by_key(|f| {
         (
             std::cmp::Reverse(valid_doses(r, f)),
@@ -623,7 +620,7 @@ fn primary<'a>(
 }
 
 fn group_forecast(r: &EngineResult, f: &VaccineGroupForecast) -> GroupForecast {
-    let d = |x: Option<NaiveDate>| x.map(|d| d.to_string());
+    let d = |x: Option<Date>| x.map(|d| d.to_string());
     GroupForecast {
         vaccine_group: f.vaccine_group.clone(),
         series_group: f.series_group.clone(),
@@ -757,7 +754,7 @@ pub fn forecast_immunizations_due(
 ) -> Result<Envelope<ForecastImmunizationsResult>> {
     let assess = match &args.assessment_date {
         Some(d) => parse_date("assessment_date", d)?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let groups_filter: Vec<String> = args
         .vaccine_groups
@@ -806,7 +803,7 @@ pub fn forecast_immunizations_due(
 
 fn patient_mode(
     args: &ForecastImmunizationsArgs,
-    assess: NaiveDate,
+    assess: Date,
     groups_filter: &[String],
     observations: Vec<Observation>,
     condition_labels: Vec<String>,
@@ -1050,12 +1047,12 @@ fn patient_mode(
         }
     );
     // Doses first due more than a year from now go on one line.
-    let horizon = assess + chrono::Duration::days(365);
+    let horizon = assess + phn_core::time::days(365);
     let far = |f: &GroupForecast| {
         f.due_status == DueStatus::DueLater
             && f.earliest
                 .as_deref()
-                .and_then(|e| NaiveDate::parse_from_str(e, "%Y-%m-%d").ok())
+                .and_then(|e| phn_core::time::parse_date(e, "%Y-%m-%d").ok())
                 .is_some_and(|e| e > horizon)
     };
     let later: Vec<String> = forecasts
@@ -1194,7 +1191,7 @@ fn patient_mode(
             r.unrecognized_cvx.join(", ")
         ));
     }
-    if args.born_in_us.is_none() && dob < NaiveDate::from_ymd_opt(1980, 1, 1).unwrap_or(dob) {
+    if args.born_in_us.is_none() && dob < phn_core::time::ymd(1980, 1, 1).unwrap_or(dob) {
         caveats.push(
             "Country of birth was not given, so birth in the U.S. before 1980 (evidence of \
              varicella immunity for most adults) was not applied. Set born_in_us if known."
@@ -1372,7 +1369,7 @@ fn file_mode(
     ctx: &Context,
     args: &ForecastImmunizationsArgs,
     file: &str,
-    assess: NaiveDate,
+    assess: Date,
     groups_filter: &[String],
     observations: Vec<Observation>,
 ) -> Result<Envelope<ForecastImmunizationsResult>> {
@@ -1437,9 +1434,9 @@ fn file_mode(
         |r: &Vec<String>, c: usize| r.get(c).map(|s| s.trim().to_string()).unwrap_or_default();
 
     struct Person {
-        dob: Option<NaiveDate>,
+        dob: Option<Date>,
         sex: Gender,
-        doses: Vec<(NaiveDate, String, String)>,
+        doses: Vec<(Date, String, String)>,
         /// Another row for this person gives a different date of birth.
         dob_conflict: bool,
     }
@@ -1552,7 +1549,7 @@ fn file_mode(
                 .collect(),
             assessment_date: assess,
         };
-        let kept: Vec<&(NaiveDate, String, String)> = p
+        let kept: Vec<&(Date, String, String)> = p
             .doses
             .iter()
             .filter(|(d, _, _)| *d <= assess && *d >= dob)
@@ -1569,7 +1566,7 @@ fn file_mode(
                 .any(|x| x.contains("seasonal recommendation end"));
             let ds = due_status(f, assess);
             counts.entry(g.clone()).or_insert([0; 6])[status_column(ds)] += 1;
-            let d = |x: Option<NaiveDate>| x.map(|d| d.to_string()).unwrap_or_default();
+            let d = |x: Option<Date>| x.map(|d| d.to_string()).unwrap_or_default();
             forecast_rows.push(vec![
                 id.clone(),
                 g.clone(),
@@ -1821,7 +1818,7 @@ mod tests {
 
     #[test]
     fn ages_and_aliases() {
-        let d = |s: &str| NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap();
+        let d = |s: &str| phn_core::time::parse_date(s, "%Y-%m-%d").unwrap();
         assert_eq!(age_text(d("2026-01-15"), d("2026-01-25")), "10 days");
         assert_eq!(
             age_text(d("2026-01-15"), d("2026-03-29")),
@@ -1849,7 +1846,7 @@ mod tests {
 
     #[test]
     fn dates_with_two_digit_years_and_implausible_dates() {
-        let d = |s: &str| NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap();
+        let d = |s: &str| phn_core::time::parse_date(s, "%Y-%m-%d").unwrap();
         assert_eq!(parse_date("dob", "10/15/26").unwrap(), d("2026-10-15"));
         assert_eq!(parse_date("dob", "3/4/15").unwrap(), d("2015-03-04"));
         assert_eq!(parse_date("dob", "2015-03-04").unwrap(), d("2015-03-04"));

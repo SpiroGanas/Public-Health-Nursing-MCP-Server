@@ -1,6 +1,7 @@
 //! VAX-07 `lookup_vaccine_product`.
 
 use phn_core::text;
+use phn_core::time::TimestampExt;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::fetch::fetch_with_fallback;
 use phn_data::medication::{self, SplSummary};
@@ -140,7 +141,7 @@ fn build_match(
         .collect();
     let all_ndc = codes.ndcs_for_cvx(&cvx.cvx);
     // NDCs with a future end date are still marketed.
-    let today = chrono::Local::now().date_naive().to_string();
+    let today = phn_core::time::today().to_string();
     let active: Vec<&&phn_data::vaccine_codes::VaccineNdc> = all_ndc
         .iter()
         .filter(|n| {
@@ -387,7 +388,7 @@ pub async fn lookup_vaccine_product(
                 publisher: "National Library of Medicine".into(),
                 url: Some("https://dailymed.nlm.nih.gov/dailymed/".into()),
                 effective_date: None,
-                retrieved: Some(chrono::Utc::now().date_naive().to_string()),
+                retrieved: Some(phn_core::time::Timestamp::now().date_naive().to_string()),
                 mode,
             });
         }

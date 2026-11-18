@@ -768,7 +768,7 @@ pub fn create_choropleth_map(
         .clone()
         .filter(|s| !s.trim().is_empty())
         .unwrap_or_else(|| "Value".into());
-    let today = chrono::Local::now().date_naive();
+    let today = phn_core::time::today();
     let note = format!(
         "Source: {}. Boundaries: U.S. Census Bureau cartographic boundary files (simplified){}. \
          Classes: {}, {} class{}. Hatched areas are suppressed (count below {threshold}) or have \

@@ -1,5 +1,6 @@
 //! Tabular files: CSV/TSV (any common delimiter and encoding) and XLSX/XLS/ODS.
 
+use phn_core::time::DateExt;
 use std::path::Path;
 
 use calamine::{Data, Reader};
@@ -251,12 +252,11 @@ fn cell_to_string(d: &Data) -> String {
 
 /// Excel serial date (1900 system) to `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM`.
 pub fn excel_serial_to_iso(serial: f64) -> String {
-    let base = chrono::NaiveDate::from_ymd_opt(1899, 12, 30).expect("valid date");
+    let base = phn_core::time::ymd(1899, 12, 30).expect("valid date");
     let days = serial.floor() as i64;
     // A number far outside the date range (for example a phone number typed
     // into a date-formatted cell) is returned as the number, not a panic.
-    let Some(date) = chrono::Duration::try_days(days).and_then(|d| base.checked_add_signed(d))
-    else {
+    let Some(date) = phn_core::time::add_days(base, days) else {
         return format!("{serial}");
     };
     let secs = ((serial - serial.floor()) * 86_400.0).round() as i64;

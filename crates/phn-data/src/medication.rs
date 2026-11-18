@@ -271,7 +271,7 @@ pub fn iso_date(s: &str) -> Option<String> {
     {
         return Some(format!("{y}-{m:0>2}-{d:0>2}"));
     }
-    chrono::NaiveDate::parse_from_str(t, "%b %d, %Y")
+    phn_core::time::parse_date(t, "%b %d, %Y")
         .ok()
         .map(|d| d.to_string())
         .or_else(|| (!t.is_empty()).then(|| t.to_string()))

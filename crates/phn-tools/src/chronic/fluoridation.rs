@@ -748,7 +748,7 @@ fn brief(
         "Prepared {} for {}. Decision support only: positions are shown side by side with their \
          dates and are not ranked. Content review status: pending subject matter expert review. \
          Re-check each source before a board of health vote.",
-        chrono::Local::now().date_naive(),
+        phn_core::time::today(),
         area.name
     ))];
     blocks.push(h("1. Status"));

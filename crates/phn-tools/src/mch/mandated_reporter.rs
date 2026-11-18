@@ -10,8 +10,8 @@
 use std::collections::BTreeMap;
 use std::sync::LazyLock;
 
-use chrono::{Duration, NaiveDateTime};
 use phn_content::ContentMeta;
+use phn_core::time::DateTimeExt;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline};
 use schemars::JsonSchema;
@@ -565,12 +565,12 @@ pub fn mandated_reporter_51a_guide(
                 "%m/%d/%Y %H:%M",
             ]
             .iter()
-            .find_map(|f| NaiveDateTime::parse_from_str(t.trim(), f).ok())
+            .find_map(|f| phn_core::time::parse_datetime(t.trim(), f).ok())
             .ok_or_else(|| {
                 PhnError::InvalidInput("oral_report_time should look like 2026-11-08 14:30".into())
             })?;
             let due = parsed
-                .checked_add_signed(Duration::hours(48))
+                .checked_add_signed(phn_core::time::hours(48))
                 .ok_or_else(|| PhnError::InvalidInput("oral_report_time is out of range".into()))?;
             Some(due.format("%Y-%m-%d %H:%M").to_string())
         }

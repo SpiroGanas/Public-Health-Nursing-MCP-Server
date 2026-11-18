@@ -821,6 +821,17 @@ Measured on 2026-11-13 on the merged branch (version 1.0.0):
 
 ### Known limitations and technical debt
 
+- **chrono advisory exception (review by 2027-02-01).** RUSTSEC-2026-0543 marks `chrono`
+  unmaintained. Our crates now use `jiff` through `phn_core::time`; `chrono` is still in
+  `Cargo.lock` only because `rmcp` 3.9 depends on it and enables `schemars`' `chrono04`
+  feature. `deny.toml` ignores the advisory with that reason. Remove the entry when `rmcp`
+  drops `chrono` (check `cargo tree -i chrono`).
+- **`phn_core::time` keeps chrono-style names** (`checked_add_months`, `succ_opt`,
+  `num_days`, `format`, `to_rfc3339`) as extension traits on `jiff` types, so the migration
+  did not change any date logic. New code can use `jiff` methods directly. Watch the integer
+  widths: `jiff` returns `year()` as `i16` and `month()`, `day()`, `hour()`, `minute()` as
+  `i8`, so widen before multiplying (`hour() * 60` overflows `i8`).
+
 - **Native (no Docker) builds are untested on Windows and macOS.** README and
   `docs/admin-guide.md` section 4.3 document running the server natively from Claude Desktop.
   CI builds and tests on Linux only; the Windows path handling added to
@@ -912,7 +923,7 @@ Measured on 2026-11-13 on the merged branch (version 1.0.0):
     immunization, and growth tools, but not `core/practice.rs` `date_arg` (LTBI, newcomer, TB
     arguments) or the COOP, after-action, ICS, press, and social media date arguments
     (`design_hseep_exercise` allows 1900–2200); an outbreak cell with a date and a time reads
-    two-digit years with chrono's 69/68 pivot. The nursing home tool does not show the CMS
+    two-digit years with the POSIX 69/68 pivot (69 is 1969; chrono read it as 2069). The nursing home tool does not show the CMS
     adapter's fallback reason.
   - Template folders: tools resolve `/data/templates/<language>/` with three different rules
     (school/CERC, maternal-child health, and `core/practice.rs` used by shelter intake, LTBI, and
@@ -1334,7 +1345,7 @@ The plan is complete; nothing is scheduled. In rough order:
 | 2026-11-13 | Phase 18 workforce: `assess_workforce_competencies`, `board_of_health_meeting_assistant`, `draft_standing_orders` | PR: this branch |
 | 2026-11-13 | Phase 19 law: `search_public_health_law`, `draft_policy_brief`, `health_information_sharing_guide`; three law snapshots | PR: this branch |
 | 2026-11-13 | Phase 19 tracking: `track_ma_legislation`, `monitor_federal_rules`; `ma-legislation-194` snapshot | PR: this branch |
-| 2026-11-18 | Running without Docker: README and admin guide section 4.3 (Claude Desktop native entry, Windows first); sandbox maps `/data/...` and `\data\...` to the real data folder on every platform and accepts Windows paths without the `\\?\` prefix; clearer error when `PHN_DATA_DIR` is missing; two new clippy 1.97 lints fixed (`drop_non_drop` in `epr/aar.rs`, `manual_range_contains` in `mch/lead.rs`) | PR: this branch |
+| 2026-11-18 | Running without Docker: README and admin guide section 4.3 (Claude Desktop native entry, Windows first); sandbox maps `/data/...` and `\data\...` to the real data folder on every platform and accepts Windows paths without the `\\?\` prefix; clearer error when `PHN_DATA_DIR` is missing; two new clippy 1.97 lints fixed (`drop_non_drop` in `epr/aar.rs`, `manual_range_contains` in `mch/lead.rs`); dates and times moved from `chrono` (unmaintained, RUSTSEC-2026-0543) to `jiff` 1.0 via `phn_core::time`, with a `deny.toml` exception for the copy `rmcp` still pulls in | PR #13 |
 | 2026-11-13 | Coordinator: prompt-list test asserts the exact list; fragments folded into `CHANGELOG.md` (0.16.0 to 1.0.0), `docs/acceptance/phase-15.md` to `phase-19.md`, this file, the data source registry (0.3.0), and `docs/content-review-sweep.md`; README, project plan, and user guide updated for 148 tools; version 1.0.0 (not yet released) | PR: this branch |
 
 ## Keeping this file current

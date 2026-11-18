@@ -671,7 +671,7 @@ mod tests {
                 &query_url(PROVIDER_INFO, &conds, &props, PAGE),
                 &page(3, None),
                 TTL_SECS,
-                chrono::Utc::now() - chrono::Duration::days(3),
+                phn_core::time::Timestamp::now() - phn_core::time::days(3),
             )
             .unwrap();
         let (rows, mode, reason) = fetch_all(&http, Some(&cache), PROVIDER_INFO, &conds, &props)

@@ -2,7 +2,7 @@
 //! inline onset counts, with an interval of about 1/4–1/3 of the incubation
 //! period, optional strata, incubation markers, and a described pattern.
 
-use chrono::{Datelike, Duration, NaiveDateTime, NaiveTime};
+use phn_core::time::{DateExt, DateTime, DateTimeExt, DurationExt, Time, WeekdayExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::chart::{Band, ChartKind, ChartSpec, Series, VMarker};
 use phn_epi::suppression::{SuppressionOptions, suppress};
@@ -193,21 +193,21 @@ fn describe_interval(h: f64) -> String {
     }
 }
 
-fn floor_to(d: NaiveDateTime, h: f64) -> NaiveDateTime {
-    let midnight = d.date().and_time(NaiveTime::MIN);
+fn floor_to(d: DateTime, h: f64) -> DateTime {
+    let midnight = d.date().and_time(Time::MIN);
     if h < 24.0 {
         let step = (h * 60.0) as i64;
         let mins = (d - midnight).num_minutes();
-        midnight + Duration::minutes(mins / step * step)
+        midnight + phn_core::time::minutes(mins / step * step)
     } else if h == 168.0 || h == 336.0 {
         // MMWR-style weeks start on Sunday.
-        midnight - Duration::days(i64::from(d.weekday().num_days_from_sunday()))
+        midnight - phn_core::time::days(i64::from(d.weekday().num_days_from_sunday()))
     } else {
         midnight
     }
 }
 
-fn label(d: NaiveDateTime, h: f64) -> String {
+fn label(d: DateTime, h: f64) -> String {
     if h < 24.0 {
         d.format("%m-%d %H:%M").to_string()
     } else if h >= 168.0 {
@@ -360,14 +360,14 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
             ))
         })?),
     };
-    if known.is_some_and(|k| !PLOT_YEARS.contains(&k.year())) {
+    if known.is_some_and(|k| !PLOT_YEARS.contains(&i32::from(k.year()))) {
         return Err(PhnError::InvalidInput(
             "exposure_datetime must be between the years 1900 and 2100".into(),
         ));
     }
 
     // Collect (onset, stratum, count).
-    let mut points: Vec<(NaiveDateTime, String, u64)> = Vec::new();
+    let mut points: Vec<(DateTime, String, u64)> = Vec::new();
     let mut has_times = false;
     let mut without_onset = 0u64;
     let mut sources: Vec<Source> = Vec::new();
@@ -394,7 +394,7 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
                 let (d, timed) = line_list::parse_datetime(&oc.onset).ok_or_else(|| {
                     PhnError::InvalidInput(format!("onset '{}' is not a date", oc.onset))
                 })?;
-                if !PLOT_YEARS.contains(&d.year()) {
+                if !PLOT_YEARS.contains(&i32::from(d.year())) {
                     return Err(PhnError::InvalidInput(
                         "onset dates must be between the years 1900 and 2100".into(),
                     ));
@@ -438,7 +438,7 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
                 match rec.onset {
                     // A date far outside the plausible range is a data-entry
                     // error; it is counted with the unreadable onsets.
-                    Some(d) if PLOT_YEARS.contains(&d.year()) => {
+                    Some(d) if PLOT_YEARS.contains(&i32::from(d.year())) => {
                         let s = strat
                             .as_ref()
                             .map(|v| v[r].clone().unwrap_or_else(|| "Unknown".into()))
@@ -476,7 +476,7 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
         Some(h) => (h, format!("{} (given)", describe_interval(h))),
         None => choose_interval(inc.as_ref().and_then(|i| i.typical_h), has_times),
     };
-    let step = Duration::minutes((interval_h * 60.0).round() as i64);
+    let step = phn_core::time::minutes((interval_h * 60.0).round() as i64);
     let first = points.iter().map(|p| p.0).min().expect("non-empty");
     let last = points.iter().map(|p| p.0).max().expect("non-empty");
     let mut start = floor_to(first, interval_h) - step;
@@ -484,7 +484,7 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
     if let Some(k) = known {
         start = start.min(floor_to(k, interval_h));
         if let Some(i) = &inc {
-            let band_end = k + Duration::minutes((i.max_h * 60.0) as i64);
+            let band_end = k + phn_core::time::minutes((i.max_h * 60.0) as i64);
             end = end.max(band_end.min(last + step * 4));
         }
     }
@@ -543,15 +543,15 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
     ));
     spec.y_label = Some("Cases".into());
     spec.decimals = Some(0);
-    let pos = |d: NaiveDateTime| (d - start).num_minutes() as f64 / step.num_minutes() as f64;
+    let pos = |d: DateTime| (d - start).num_minutes() as f64 / step.num_minutes() as f64;
     if let Some(k) = known {
         spec.markers.push(VMarker {
             at: pos(k),
             label: "Exposure".into(),
         });
         if let Some(i) = &inc {
-            let a = k + Duration::minutes((i.min_h * 60.0) as i64);
-            let b = k + Duration::minutes((i.max_h * 60.0) as i64);
+            let a = k + phn_core::time::minutes((i.min_h * 60.0) as i64);
+            let b = k + phn_core::time::minutes((i.max_h * 60.0) as i64);
             spec.bands.push(Band {
                 from: pos(a).max(0.0),
                 to: pos(b).min(nbins as f64),
@@ -559,7 +559,7 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
             });
             if let Some(tp) = i.typical_h {
                 spec.markers.push(VMarker {
-                    at: pos(k + Duration::minutes((tp * 60.0) as i64)),
+                    at: pos(k + phn_core::time::minutes((tp * 60.0) as i64)),
                     label: "Typical incubation".into(),
                 });
             }

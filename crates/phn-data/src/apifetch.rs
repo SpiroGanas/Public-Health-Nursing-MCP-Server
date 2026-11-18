@@ -17,6 +17,7 @@
 //! alerts must never come from an old copy) and reports the HTTP status of a
 //! failed live request.
 
+use phn_core::time::{DurationExt, TimestampExt};
 use phn_core::{PhnError, Result, SourceMode};
 
 use crate::cache::Cache;
@@ -52,7 +53,7 @@ pub struct FetchOptions<'a> {
     pub max_stale_secs: Option<u64>,
     /// Cached copies fetched before this time are not used, fresh or stale
     /// (the publisher has updated the data since then).
-    pub not_before: Option<chrono::DateTime<chrono::Utc>>,
+    pub not_before: Option<phn_core::time::Timestamp>,
 }
 
 /// A fetch that produced no usable body.
@@ -132,7 +133,7 @@ pub async fn fetch_with_options(
                 return Ok(Fetched {
                     body,
                     mode: SourceMode::Live,
-                    as_of: chrono::Utc::now().to_rfc3339(),
+                    as_of: phn_core::time::Timestamp::now().to_rfc3339(),
                     fallback_reason: None,
                 });
             }
@@ -149,7 +150,7 @@ pub async fn fetch_with_options(
     if let Some(hit) = cached
         && validate(&hit.body).is_ok()
     {
-        let age = chrono::Utc::now()
+        let age = phn_core::time::Timestamp::now()
             .signed_duration_since(hit.fetched_at)
             .num_seconds();
         if options
@@ -341,7 +342,7 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let http = HttpClient::new(&Config::for_root(dir.path())).unwrap();
         let cache = Cache::in_memory().unwrap();
-        let fetched = chrono::Utc::now() - chrono::Duration::hours(2);
+        let fetched = phn_core::time::Timestamp::now() - phn_core::time::hours(2);
         cache
             .put_at("https://x/alerts", b"[]", 300, fetched)
             .unwrap();
@@ -385,7 +386,7 @@ mod tests {
 
         // The publisher updated the data after the copy was fetched: ignored.
         let outdated = FetchOptions {
-            not_before: Some(fetched + chrono::Duration::minutes(30)),
+            not_before: Some(fetched + phn_core::time::minutes(30)),
             ..FetchOptions::default()
         };
         let failure = fetch_with_options(

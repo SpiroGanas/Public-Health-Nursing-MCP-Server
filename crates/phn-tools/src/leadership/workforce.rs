@@ -12,7 +12,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Months, NaiveDate};
+use phn_core::time::{Date, DateExt, DurationExt, Months, TimestampExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_data::strategy::{self, PerformanceStandards, WorkforcePosition};
 use phn_local::phi::{self, Identifier};
@@ -242,11 +242,11 @@ pub(crate) struct StaffDomain {
 pub(crate) struct CredRow {
     pub staff: String,
     pub position: String,
-    pub hire: NaiveDate,
+    pub hire: Date,
     pub requirement: String,
     pub kind: String,
     pub months: Option<u32>,
-    pub completed: Option<NaiveDate>,
+    pub completed: Option<Date>,
     pub status: String,
 }
 
@@ -894,10 +894,10 @@ fn position_of(c: &CompetencyContent, text: &str) -> Option<String> {
 
 fn status_for(
     kind: &str,
-    hire: NaiveDate,
+    hire: Date,
     months: Option<u32>,
-    completed: Option<NaiveDate>,
-    as_of: NaiveDate,
+    completed: Option<Date>,
+    as_of: Date,
     soon: u32,
 ) -> String {
     if let Some(done) = completed {
@@ -954,7 +954,7 @@ fn read_credentials(
     perf: &PerformanceStandards,
     args: &WorkforceArgs,
     path: &str,
-    as_of: NaiveDate,
+    as_of: Date,
     soon: u32,
     min_group: u32,
 ) -> Result<Creds> {
@@ -1003,8 +1003,8 @@ fn read_credentials(
         Err(e) => return Err(e),
     };
     // Staff: first position and hire date seen.
-    let mut staff: BTreeMap<String, (String, Option<NaiveDate>)> = BTreeMap::new();
-    let mut entries: Vec<(String, String, Option<NaiveDate>)> = Vec::new();
+    let mut staff: BTreeMap<String, (String, Option<Date>)> = BTreeMap::new();
+    let mut entries: Vec<(String, String, Option<Date>)> = Vec::new();
     let mut bad_dates = 0usize;
     for r in &lt.table.rows {
         let code = r.get(si).map_or("", |s| s.trim()).to_string();
@@ -1093,7 +1093,7 @@ fn read_credentials(
             .or_insert_with(|| requirements_of(p, &c.credentials.universal_items))
             .clone();
         for (ri, rq) in reqs.iter().enumerate() {
-            let mut completed: Option<NaiveDate> = None;
+            let mut completed: Option<Date> = None;
             if rq.kind != "required at hire" {
                 for (k, (ecode, etext, edone)) in entries.iter().enumerate() {
                     if ecode == code && entry_matches(etext, &rq.label) {
@@ -1218,7 +1218,7 @@ pub fn assess_workforce_competencies(
     }
     let as_of = match args.as_of_date.as_deref().filter(|s| !s.trim().is_empty()) {
         Some(s) => super::oml::parse_date("as_of_date", s)?,
-        None => chrono::Utc::now().date_naive(),
+        None => phn_core::time::Timestamp::now().date_naive(),
     };
     let (perf, perf_entry) = strategy::load_performance(&ctx.snapshots)?;
     let mut sources: Vec<Source> = Vec::new();
@@ -1689,8 +1689,8 @@ mod tests {
 
     #[test]
     fn status_follows_the_deadline() {
-        let hire = NaiveDate::from_ymd_opt(2026, 1, 15).unwrap();
-        let d = |m, day| NaiveDate::from_ymd_opt(2026, m, day).unwrap();
+        let hire = phn_core::time::ymd(2026, 1, 15).unwrap();
+        let d = |m, day| phn_core::time::ymd(2026, m, day).unwrap();
         // MAVEN within 6 months: due 2026-07-15.
         assert_eq!(
             status_for("required after hire", hire, Some(6), None, d(11, 12), 90),

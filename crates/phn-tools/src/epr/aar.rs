@@ -13,7 +13,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::NaiveDate;
+use phn_core::time::{Date, DateExt};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use phn_docs::model::{Block, Document};
 use phn_local::phi::{self, Identifier};
@@ -313,9 +313,9 @@ fn opt(s: &Option<String>) -> Option<&str> {
     s.as_deref().map(str::trim).filter(|v| !v.is_empty())
 }
 
-fn date(label: &str, s: Option<&str>) -> Result<Option<NaiveDate>> {
+fn date(label: &str, s: Option<&str>) -> Result<Option<Date>> {
     match s {
-        Some(d) => NaiveDate::parse_from_str(d, "%Y-%m-%d")
+        Some(d) => phn_core::time::parse_date(d, "%Y-%m-%d")
             .map(Some)
             .map_err(|_| {
                 PhnError::InvalidInput(format!("{label} '{d}' is not a date (YYYY-MM-DD)"))
@@ -1217,7 +1217,7 @@ pub fn build_after_action_report(ctx: &Context, args: AarArgs) -> Result<Envelop
                 milestone: s.step.clone(),
                 when: s.when.clone(),
                 date: match (end_or_start, n) {
-                    (Some(d), Some(n)) => Some((d + chrono::Duration::days(n)).to_string()),
+                    (Some(d), Some(n)) => Some((d + phn_core::time::days(n)).to_string()),
                     _ => None,
                 },
                 purpose: String::new(),

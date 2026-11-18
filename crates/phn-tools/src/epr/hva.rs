@@ -4,6 +4,7 @@
 //! statewide ratings, FEMA disaster declarations for the county, and — when
 //! the nurse provides a FEMA National Risk Index table — NRI risk scores.
 
+use phn_core::time::DateExt;
 use std::collections::BTreeMap;
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
@@ -332,12 +333,8 @@ pub async fn hazard_vulnerability_assessment(
     match openfema::fetch_massachusetts(&ctx.http, ctx.cache.as_ref(), &ctx.snapshots).await {
         Ok(f) => {
             let all = declarations_for(&f.declarations, &area);
-            let today = chrono::Local::now().date_naive();
-            let since = format!(
-                "{}{}",
-                chrono::Datelike::year(&today) - 10,
-                today.format("-%m-%d")
-            );
+            let today = phn_core::time::today();
+            let since = format!("{}{}", i32::from(today.year()) - 10, today.format("-%m-%d"));
             for h in &c.hazards {
                 if h.fema_incident_types.is_empty() {
                     continue;

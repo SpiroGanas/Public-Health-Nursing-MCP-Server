@@ -12,8 +12,8 @@
 
 use std::collections::BTreeMap;
 
-use chrono::{Datelike, NaiveDate};
 use phn_content::ContentMeta;
+use phn_core::time::{Date, DateExt, DurationExt};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::fedreg::{self, Document, Query, RegsDocument};
 use schemars::JsonSchema;
@@ -282,8 +282,8 @@ pub struct FederalResult {
 // ---------------------------------------------------------------- logic (pure)
 
 /// A comment period counted against `today`. The close date itself is still open.
-pub fn countdown(close: Option<&str>, today: NaiveDate) -> Countdown {
-    let Some(date) = close.and_then(|c| NaiveDate::parse_from_str(c, "%Y-%m-%d").ok()) else {
+pub fn countdown(close: Option<&str>, today: Date) -> Countdown {
+    let Some(date) = close.and_then(|c| phn_core::time::parse_date(c, "%Y-%m-%d").ok()) else {
         return Countdown {
             status: "no_comment_period".into(),
             days_remaining: None,
@@ -314,8 +314,8 @@ pub fn countdown(close: Option<&str>, today: NaiveDate) -> Countdown {
     }
 }
 
-fn parse_date(label: &str, s: &str) -> Result<NaiveDate> {
-    let d = NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d")
+fn parse_date(label: &str, s: &str) -> Result<Date> {
+    let d = phn_core::time::parse_date(s.trim(), "%Y-%m-%d")
         .map_err(|_| PhnError::InvalidInput(format!("{label} '{s}' is not a date (YYYY-MM-DD)")))?;
     if !(1900..=2100).contains(&d.year()) {
         return Err(PhnError::InvalidInput(format!(
@@ -334,7 +334,7 @@ fn truncate_chars(s: &str, max: usize) -> String {
     }
 }
 
-fn doc_out(d: &Document, today: NaiveDate, regs: Option<&RegsDocument>) -> DocOut {
+fn doc_out(d: &Document, today: Date, regs: Option<&RegsDocument>) -> DocOut {
     DocOut {
         document_number: d.document_number.clone(),
         title: d.title.clone(),
@@ -588,7 +588,7 @@ pub async fn monitor_federal_rules_at(
     let c: FedContent = content::load(CONTENT)?;
     let today = match &args.as_of {
         Some(s) => parse_date("as_of", s)?,
-        None => chrono::Local::now().date_naive(),
+        None => phn_core::time::today(),
     };
     let open_only = args.open_for_comment_only.unwrap_or(true);
     let max = args
@@ -667,7 +667,7 @@ pub async fn monitor_federal_rules_at(
     };
     let since = match &args.published_since {
         Some(s) => Some(parse_date("published_since", s)?),
-        None if !open_only => Some(today - chrono::Duration::days(30)),
+        None if !open_only => Some(today - phn_core::time::days(30)),
         None => None,
     };
     let until = match &args.published_until {
@@ -770,7 +770,7 @@ pub async fn monitor_federal_rules_at(
         let key = |d: &Document| {
             d.comments_close_on
                 .as_deref()
-                .and_then(|c| NaiveDate::parse_from_str(c, "%Y-%m-%d").ok())
+                .and_then(|c| phn_core::time::parse_date(c, "%Y-%m-%d").ok())
                 .filter(|c| *c >= today)
         };
         match (key(a), key(b)) {
@@ -806,7 +806,7 @@ pub async fn monitor_federal_rules_at(
             .filter(|d| {
                 d.comments_close_on
                     .as_deref()
-                    .and_then(|c| NaiveDate::parse_from_str(c, "%Y-%m-%d").ok())
+                    .and_then(|c| phn_core::time::parse_date(c, "%Y-%m-%d").ok())
                     .is_some_and(|c| c >= today)
             })
             .take(MAX_REGS_LOOKUPS)
@@ -1160,8 +1160,8 @@ fn summary_text(d: &FederalResult) -> String {
 mod tests {
     use super::*;
 
-    fn d(y: i32, m: u32, day: u32) -> NaiveDate {
-        NaiveDate::from_ymd_opt(y, m, day).unwrap()
+    fn d(y: i32, m: u32, day: u32) -> Date {
+        phn_core::time::ymd(y, m, day).unwrap()
     }
 
     #[test]
@@ -1227,7 +1227,7 @@ mod tests {
                 .unwrap();
         assert!(cases.len() >= 30);
         for c in cases {
-            let today = NaiveDate::parse_from_str(&c.today, "%Y-%m-%d").unwrap();
+            let today = phn_core::time::parse_date(&c.today, "%Y-%m-%d").unwrap();
             let r = countdown(Some(&c.close), today);
             assert_eq!(r.days_remaining, Some(c.days), "{} -> {}", c.today, c.close);
             assert!(r.label.contains(&c.weekday), "{}: {}", c.close, r.label);

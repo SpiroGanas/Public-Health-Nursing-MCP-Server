@@ -742,7 +742,7 @@ fn draw_map(
             "Source: USDA Economic Research Service, Food Access Research Atlas, \
              SNAP-authorized Retailer Access Map ({vintage}). Boundaries: U.S. Census Bureau \
              2020 tracts (simplified). Created {} with the Public Health Nursing MCP Server.",
-            chrono::Local::now().date_naive()
+            phn_core::time::today()
         ),
         desc: alt.clone(),
         features,
@@ -899,7 +899,7 @@ fn report_document(
     let mut blocks = vec![p(&format!(
         "Prepared {} for {} from the USDA ERS Food Access Research Atlas ({}) and your \
          files. Site lists come from your files; verify hours before sharing.",
-        chrono::Local::now().date_naive(),
+        phn_core::time::today(),
         area.name,
         vintage
     ))];

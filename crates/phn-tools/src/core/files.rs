@@ -1,5 +1,6 @@
 //! CORE-04 `read_local_file`.
 
+use phn_core::time::DateExt;
 use std::collections::BTreeMap;
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
@@ -108,7 +109,7 @@ pub fn mask_row(row: &[String], findings: &[ColumnFinding]) -> Vec<String> {
                 // A birth year that shows an age of 90 or more is itself withheld.
                 Some(Identifier::BirthDate) => match phi::parse_date(v) {
                     Some(d) => {
-                        let today = chrono::Local::now().date_naive();
+                        let today = phn_core::time::today();
                         if phn_local::deid::age_on(d, today) >= 90 {
                             "90+".into()
                         } else {
